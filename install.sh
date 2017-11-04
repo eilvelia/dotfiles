@@ -6,9 +6,11 @@ BAKDIR=~/.dotfiles.bak
 rm -rf $BAKDIR
 mkdir "$BAKDIR"
 mv ~/.bash_profile "$BAKDIR/bash_profile"
+mv ~/.gitconfig "$BAKDIR/gitconfig"
 [ "$(ls -A $BAKDIR)" ] || rm -r $BAKDIR
 # ---
 
 ln -s ~/dotfiles/bash_profile ~/.bash_profile
+ln -s ~/dotfiles/gitconfig ~/.gitconfig
 
 defaults import com.googlecode.iterm2 - < ./com.googlecode.iterm2.plist

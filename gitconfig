@@ -1,0 +1,16 @@
+[user]
+	name = Bannerets
+	email = comonoid@protonmail.com
+	signingkey = 088BD0F0C1F5DE2C2C47DB5A81A35974521CCBE4
+[core]
+	excludesfile = ~/dotfiles/gitignore_global
+[alias]
+	uncommit = reset HEAD^
+	plog = log --color --graph --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit
+	assume = update-index --assume-unchanged
+	unassume = update-index --no-assume-unchanged
+	assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+[commit]
+	gpgSign = true
+[tag]
+	forceSignAnnotated = true
