@@ -11,7 +11,7 @@ export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 export GPG_TTY=$(tty)
 
 function parse_git_branch {
-  git branch 2> /dev/null | grep \* | sed -e "s/* \(.*\)/ (\1)/"
+  git branch 2> /dev/null | grep ^* | sed -e "s/* \(.*\)/ (\1)/"
 }
 
 function prompt {
