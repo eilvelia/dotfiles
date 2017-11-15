@@ -1,8 +1,9 @@
 [[ -s ~/.bashrc ]] && source ~/.bashrc
 
-alias ls="ls -F -A"
-alias gpg="LANG=en gpg"
+alias ls="ls -FA"
 alias dirsize="du -hs"
+alias gpg="LANG=en gpg"
+alias git="LANG=en git"
 
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
