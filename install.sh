@@ -13,4 +13,4 @@ mv ~/.gitconfig "$BAKDIR/gitconfig"
 ln -s ~/dotfiles/bash_profile ~/.bash_profile
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 
-defaults import com.googlecode.iterm2 - < ./com.googlecode.iterm2.plist
+source ./macos.sh
