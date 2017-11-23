@@ -34,7 +34,7 @@ function prompt {
   local WHITEBOLD="\[\033[1;37m\]"
   local RESETCOLOR="\[\e[00m\]"
 
-  export PS1="$GREEN\u $YELLOW\w$CYAN\$(parse_git_branch)$RESETCOLOR $ "
+  export PS1="$GREEN\u $YELLOW\w$CYAN\$(parse_git_branch)$RESETCOLOR \\$ "
 }
 
 prompt
