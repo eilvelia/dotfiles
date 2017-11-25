@@ -11,10 +11,6 @@ export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 
 export GPG_TTY=$(tty)
 
-function parse_git_branch {
-  git branch 2> /dev/null | grep ^* | sed -e "s/* \(.*\)/ (\1)/"
-}
-
 function prompt {
   local BLACK="\[\033[0;30m\]"
   local BLACKBOLD="\[\033[1;30m\]"
@@ -34,7 +30,9 @@ function prompt {
   local WHITEBOLD="\[\033[1;37m\]"
   local RESETCOLOR="\[\e[00m\]"
 
-  export PS1="$GREEN\u $YELLOW\w$CYAN\$(parse_git_branch)$RESETCOLOR \\$ "
+  local git_branch='`git branch 2> /dev/null | grep ^* | sed -e "s/* \(.*\)/ (\1)/"`'
+
+  export PS1="$GREEN\u $YELLOW\w$CYAN$git_branch$RESETCOLOR \\$ "
 }
 
 prompt
