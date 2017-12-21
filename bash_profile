@@ -2,6 +2,7 @@
 
 alias ls="ls -FA"
 alias dirsize="du -hs"
+alias npmplease="rm -rf node_modules/ package-lock.json && npm install"
 alias gpg="LANG=en gpg"
 alias git="LANG=en git"
 
