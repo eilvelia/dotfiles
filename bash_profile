@@ -11,6 +11,7 @@ export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 #export LSCOLORS=GxFxCxDxBxegedabagaced
 
 export GPG_TTY=$(tty)
+export LESSCHARSET=utf-8
 
 function prompt {
   local BLACK="\[\033[0;30m\]"
