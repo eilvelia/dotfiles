@@ -12,6 +12,7 @@ export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 
 export GPG_TTY=$(tty)
 export LESSCHARSET=utf-8
+export HISTCONTROL=ignoreboth
 
 function prompt {
   local BLACK="\[\033[0;30m\]"
