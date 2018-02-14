@@ -22,6 +22,8 @@ brew install luajit
 # bfg - Remove large files or passwords from Git history
 brew install bfg
 
+brew install bash-completion
+
 brew install screenfetch
 brew install neofetch
 

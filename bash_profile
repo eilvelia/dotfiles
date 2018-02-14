@@ -42,5 +42,7 @@ prompt
 
 source ~/dotfiles/git-completion.bash
 
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
 # added by Anaconda2 4.3.1 installer
 export PATH="/Users/`whoami`/anaconda2/bin:$PATH"
