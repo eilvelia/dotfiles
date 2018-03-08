@@ -3,8 +3,12 @@
 alias ls="ls -FA"
 alias dirsize="du -hs"
 alias npmplease="rm -rf node_modules/ package-lock.json && npm install"
+
 alias gpg="LANG=en gpg"
 alias git="LANG=en git"
+
+alias start_postgres="pg_ctl -D /usr/local/var/postgres start"
+alias stop_postgres="pg_ctl -D /usr/local/var/postgres stop"
 
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
