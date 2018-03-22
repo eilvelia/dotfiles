@@ -3,7 +3,7 @@
 defaults import com.googlecode.iterm2 - < ./com.googlecode.iterm2.plist
 
 if ! which brew &> /dev/null; then
-  # Install Homebrew
+  echo "Installing Homebrew..."
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 

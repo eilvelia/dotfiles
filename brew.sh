@@ -19,6 +19,8 @@ brew install gnupg
 brew install lua
 brew install luajit
 
+brew install python
+
 # bfg - Remove large files or passwords from Git history
 brew install bfg
 
