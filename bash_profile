@@ -10,6 +10,8 @@ alias git="LANG=en git"
 alias start_postgres="pg_ctl -D /usr/local/var/postgres start"
 alias stop_postgres="pg_ctl -D /usr/local/var/postgres stop"
 
+alias start_redis="redis-server /usr/local/etc/redis.conf"
+
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 #export LSCOLORS=GxFxCxDxBxegedabagaced
@@ -49,4 +51,4 @@ source ~/dotfiles/git-completion.bash
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 # added by Anaconda2 4.3.1 installer
-export PATH="/Users/`whoami`/anaconda2/bin:$PATH"
+#export PATH="/Users/`whoami`/anaconda2/bin:$PATH"
