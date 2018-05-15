@@ -3,6 +3,7 @@
 alias ls="ls -FA"
 alias dirsize="du -hs"
 alias npmplease="rm -rf node_modules/ package-lock.json && npm install"
+alias killflow="killall -9 flow"
 alias sha256sum="shasum -a 256"
 
 alias gpg="LANG=en gpg"
