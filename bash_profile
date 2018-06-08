@@ -6,6 +6,9 @@ alias npmplease="rm -rf node_modules/ package-lock.json && npm install"
 alias killflow="killall -9 flow"
 alias sha256sum="shasum -a 256"
 
+alias totarbz2="tar cjvf"
+alias fromtarbz2="tar xjvf"
+
 alias gpg="LANG=en gpg"
 alias git="LANG=en git"
 
