@@ -9,6 +9,7 @@ brew install less
 brew install emojify
 
 brew install tree
+brew install jq
 brew install pwgen
 brew install unrar
 
