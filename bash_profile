@@ -3,6 +3,7 @@
 alias ls="ls -FA"
 alias dirsize="du -hs"
 alias npmplease="rm -rf node_modules/ package-lock.json && npm install"
+alias pnpmflat="pnpm install --shamefully-flatten"
 alias killflow="killall -9 flow"
 alias sha256sum="shasum -a 256"
 
@@ -55,5 +56,8 @@ source ~/dotfiles/git-completion.bash
 
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
-# added by Anaconda2 4.3.1 installer
-#export PATH="/Users/`whoami`/anaconda2/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+# OPAM configuration
+. ~/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
