@@ -18,3 +18,5 @@ mkdir -p ~/.local
 if [[ "$OSTYPE" == "darwin"* ]]; then
   source ./macos.sh
 fi
+
+source ./node.sh
