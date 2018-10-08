@@ -13,6 +13,8 @@ mv ~/.gitconfig "$BAKDIR/gitconfig"
 ln -s ~/dotfiles/bash_profile ~/.bash_profile
 ln -s ~/dotfiles/gitconfig ~/.gitconfig
 
+mkdir -p ~/.local
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
   source ./macos.sh
 fi
