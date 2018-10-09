@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "Upgrading Homebrew packages..."
+
 brew update
 brew upgrade
 

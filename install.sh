@@ -1,27 +1,32 @@
 #!/usr/bin/env bash
 
-cd ~ || exit 1
-echo "Home: $(pwd)"
-
 BAKDIR=~/.dotfiles.bak
 
-# backup old dotfiles
-echo "Backup directory: $BAKDIR"
-rm -rf $BAKDIR
-mkdir -p "$BAKDIR"
-mv ~/.bash_profile "$BAKDIR/bash_profile"
-mv ~/.gitconfig "$BAKDIR/gitconfig"
-[ "$(ls -A $BAKDIR)" ] || rm -r $BAKDIR
-# ---
+echo "Home: $(echo ~)"
 
-ln -s ~/dotfiles/bash_profile ~/.bash_profile
-ln -s ~/dotfiles/gitconfig ~/.gitconfig
+source ./utils.sh
+
+if confirm "Link dotfiles?"; then
+  if confirm "Backup old dotfiles?"; then
+    echo "Backup directory: $BAKDIR"
+    rm -rf $BAKDIR
+    mkdir -p "$BAKDIR"
+    mv ~/.bash_profile "$BAKDIR/bash_profile"
+    mv ~/.gitconfig "$BAKDIR/gitconfig"
+    [ "$(ls -A $BAKDIR)" ] || rm -r $BAKDIR
+  fi
+
+  ln -s ~/dotfiles/bash_profile ~/.bash_profile
+  ln -s ~/dotfiles/gitconfig ~/.gitconfig
+fi
 
 mkdir -p ~/.local
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  echo "macOS detected"
+  echo "macOS detected."
   source ./macos.sh
 fi
 
-source ./node.sh
+if confirm "Install Node.js?"; then
+  ./node.sh
+fi
