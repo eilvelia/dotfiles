@@ -13,18 +13,20 @@ brew install less
 brew install emojify
 
 brew install tree
+brew install wget
 brew install jq
 brew install pwgen
-brew install unrar
-
-brew install wget
 brew install gnupg
+brew install unrar
+brew install cmake
 
 # lua
 brew install lua
 brew install luajit
 
+# python
 brew install python
+brew install python3
 
 # bfg - Remove large files or passwords from Git history
 brew install bfg
