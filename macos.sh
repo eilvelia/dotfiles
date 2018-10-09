@@ -11,7 +11,7 @@ fi
 
 if which brew &> /dev/null; then
   if confirm "Install Homebrew packages?"; then
-    source ./brew.sh
+    source ./packages/brew.sh
   fi
 else
   echo "Homebrew not found."
