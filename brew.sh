@@ -3,6 +3,8 @@
 brew update
 brew upgrade
 
+echo "Installing Homebrew packages..."
+
 # Upgrade less
 brew install less
 
