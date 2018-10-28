@@ -61,3 +61,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # OPAM configuration
 . ~/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+test -e "${HOME}/dotfiles/iterm2_shell_integration.bash" \
+  && source "${HOME}/dotfiles/iterm2_shell_integration.bash"
