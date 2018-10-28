@@ -1,10 +1,10 @@
 [[ -s ~/.bashrc ]] && source ~/.bashrc
 
 alias ls="ls -FA"
-alias dirsize="du -hs"
 alias npmplease="rm -rf node_modules/ package-lock.json && npm install"
 alias pnpmflat="pnpm install --shamefully-flatten"
 alias killflow="killall -9 flow"
+alias npmr="npm run"
 alias sha256sum="shasum -a 256"
 
 alias totarbz2="tar cjvf"
@@ -21,6 +21,7 @@ alias start_redis="redis-server /usr/local/etc/redis.conf"
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 #export LSCOLORS=GxFxCxDxBxegedabagaced
+export LS_COLORS=$LSCOLORS
 
 export GPG_TTY=$(tty)
 export LESSCHARSET=utf-8
@@ -45,9 +46,9 @@ function prompt {
   local WHITEBOLD="\[\033[1;37m\]"
   local RESETCOLOR="\[\e[00m\]"
 
-  local git_branch='`git branch 2> /dev/null | grep ^* | sed -e "s/* \(.*\)/ (\1)/"`'
+  local _git_branch='`git branch 2> /dev/null | grep ^* | sed -e "s/* \(.*\)/ (\1)/"`'
 
-  export PS1="$GREEN\u $YELLOW\w$CYAN$git_branch$RESETCOLOR \\$ "
+  export PS1="$GREEN\u $YELLOW\w$CYAN$_git_branch$RESETCOLOR \\$ "
 }
 
 prompt
@@ -60,7 +61,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # OPAM configuration
-. ~/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+. ~/.opam/opam-init/init.sh &> /dev/null || true
 
 test -e "${HOME}/dotfiles/iterm2_shell_integration.bash" \
   && source "${HOME}/dotfiles/iterm2_shell_integration.bash"
