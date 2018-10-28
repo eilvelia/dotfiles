@@ -8,4 +8,6 @@ opam install -y \
   ocamlbuild \
   dune \
   base \
-  ppx_let
+  ppx_let \
+  ppx_deriving \
+  cstruct
