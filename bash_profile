@@ -18,6 +18,9 @@ alias stop_postgres="pg_ctl -D /usr/local/var/postgres stop"
 
 alias start_redis="redis-server /usr/local/etc/redis.conf"
 
+# gpg symmetric encrypt
+alias gpgenc="gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
+
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 #export LSCOLORS=GxFxCxDxBxegedabagaced
