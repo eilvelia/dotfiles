@@ -12,6 +12,9 @@ brew install less
 
 brew install emojify
 
+brew install autoconf
+brew install automake
+
 brew install tree
 brew install wget
 brew install jq
