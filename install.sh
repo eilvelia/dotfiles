@@ -13,11 +13,13 @@ if confirm "Link dotfiles?"; then
     mkdir -p "$BAKDIR"
     mv ~/.bash_profile "$BAKDIR/bash_profile"
     mv ~/.gitconfig "$BAKDIR/gitconfig"
+    mv ~/.radare2rc "$BAKDIR/radare2rc"
     [ "$(ls -A $BAKDIR)" ] || rm -r $BAKDIR
   fi
 
   ln -s ~/dotfiles/bash_profile ~/.bash_profile
   ln -s ~/dotfiles/gitconfig ~/.gitconfig
+  ln -s ~/dotfiles/radare2rc ~/.radare2rc
 fi
 
 mkdir -p ~/.local
