@@ -1,7 +1,7 @@
 [user]
 	name = Bannerets
 	email = comonoid@protonmail.com
-	signingkey = 088BD0F0C1F5DE2C2C47DB5A81A35974521CCBE4
+	signingkey = 8C383C26D7A884B9098E0D5338C7564724AB8709
 [core]
 	excludesfile = ~/dotfiles/gitignore_global
 [alias]
