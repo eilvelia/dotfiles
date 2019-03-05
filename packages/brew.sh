@@ -41,5 +41,8 @@ brew install bash-completion
 brew install screenfetch
 brew install neofetch
 
+brew install tcpreplay
+brew install upx
+
 # Remove outdated versions
 brew cleanup
