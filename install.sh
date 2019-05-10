@@ -7,6 +7,8 @@ echo "Home: $(echo ~)"
 source ./utils.sh
 
 if confirm "Link dotfiles?"; then
+  mkdir -p ~/.emacs.d
+
   if confirm "Backup old dotfiles?"; then
     echo "Backup directory: $BAKDIR"
     rm -rf $BAKDIR
@@ -14,12 +16,14 @@ if confirm "Link dotfiles?"; then
     mv ~/.bash_profile "$BAKDIR/bash_profile"
     mv ~/.gitconfig "$BAKDIR/gitconfig"
     mv ~/.radare2rc "$BAKDIR/radare2rc"
+    mv ~/.emacs.d/init.el "$BAKDIR/init.el"
     [ "$(ls -A $BAKDIR)" ] || rm -r $BAKDIR
   fi
 
   ln -s ~/dotfiles/bash_profile ~/.bash_profile
   ln -s ~/dotfiles/gitconfig ~/.gitconfig
   ln -s ~/dotfiles/radare2rc ~/.radare2rc
+  ln -s ~/dotfiles/emacs/init.el ~/.emacs.d/init.el
 fi
 
 mkdir -p ~/.local
