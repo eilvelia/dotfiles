@@ -44,5 +44,7 @@ brew install neofetch
 brew install tcpreplay
 brew install upx
 
+brew install diff-so-fancy
+
 # Remove outdated versions
 brew cleanup

@@ -1,14 +1,19 @@
 [[ -s ~/.bashrc ]] && source ~/.bashrc
 
 alias ls="ls -FA"
+alias getdate="date \"+%Y_%m_%d\""
+alias qfind="find . -name "
+
+alias totarbz2="tar cjvf"
+alias fromtarbz2="tar xjvf"
+alias totargz="tar czvf"
+alias fromtargz="tar xzvf"
+
 alias npmplease="rm -rf node_modules/ package-lock.json && npm install"
 alias pnpmflat="pnpm install --shamefully-flatten"
 alias killflow="killall -9 flow"
 alias npmr="npm run"
 alias sha256sum="shasum -a 256"
-
-alias totarbz2="tar cjvf"
-alias fromtarbz2="tar xjvf"
 
 alias gpg="LANG=en gpg"
 alias git="LANG=en git"
@@ -37,6 +42,27 @@ export HISTCONTROL=ignoreboth
 
 __default_user=$(test -r "$__default_user_file" && \
   cat "$__default_user_file" || echo "")
+
+extract () {
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjvf $1     ;;
+      *.tar.gz)    tar xzvf $1     ;;
+      *.bz2)       bunzip2 $1     ;;
+      *.rar)       unrar e $1     ;;
+      *.gz)        gunzip $1      ;;
+      *.tar)       tar xvf $1      ;;
+      *.tbz2)      tar xjvf $1     ;;
+      *.tgz)       tar xzvf $1     ;;
+      *.zip)       unzip $1       ;;
+      *.Z)         uncompress $1  ;;
+      *.7z)        7z x $1        ;;
+      *)     echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
 
 function __prompt {
   local BLACK="\[\033[0;30m\]"

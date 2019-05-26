@@ -4,6 +4,7 @@
 	signingkey = 8C383C26D7A884B9098E0D5338C7564724AB8709
 [core]
 	excludesfile = ~/dotfiles/gitignore_global
+	pager = "LC_ALL=C diff-so-fancy | less --tabs=4 -RFX"
 [alias]
 	uncommit = reset HEAD^
 	plog = log --color --graph --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit
