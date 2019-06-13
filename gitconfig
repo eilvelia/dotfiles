@@ -12,6 +12,8 @@
 	unassume = update-index --no-assume-unchanged
 	assumed = "!git ls-files -v | grep ^h | cut -c 3-"
 	destroy = "!git reflog expire --expire=now --all && git gc --prune=now --aggressive"
+	showfull = show --pretty=fuller
+	showraw = show --pretty=raw
 [commit]
 	gpgSign = true
 [tag]

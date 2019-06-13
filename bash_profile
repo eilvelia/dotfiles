@@ -13,6 +13,7 @@ alias npmplease="rm -rf node_modules/ package-lock.json && npm install"
 alias pnpmflat="pnpm install --shamefully-flatten"
 alias killflow="killall -9 flow"
 alias npmr="npm run"
+
 alias sha256sum="shasum -a 256"
 
 alias gpg="LANG=en gpg"
@@ -62,6 +63,11 @@ extract () {
   else
     echo "'$1' is not a valid file"
   fi
+}
+
+commitutc () {
+  local __date="`date +%s` +0000"
+  GIT_COMMITTER_DATE=$__date GIT_AUTHOR_DATE=$__date git commit "$@"
 }
 
 function __prompt {
