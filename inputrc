@@ -1,0 +1,5 @@
+set show-all-if-unmodified On
+set colored-stats On
+set visible-stats On
+"\e[1;9C": forward-word
+"\e[1;9D": backward-word

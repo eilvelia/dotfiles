@@ -22,6 +22,9 @@ brew install ninja
 brew install gnu-sed
 brew install emojify
 brew install aspell
+brew install ripgrep
+brew install fzf
+brew install neovim
 
 brew install autoconf
 brew install automake
@@ -31,7 +34,7 @@ brew install ruby
 brew install lua
 brew install luajit
 brew install python
-brew install python3
+brew install python@2
 brew install swi-prolog
 brew install v8
 
@@ -55,6 +58,8 @@ brew install tcpreplay
 brew install aircrack-ng
 brew install upx
 brew install hashcat
+
+brew install speedtest-cli
 
 brew install xz
 

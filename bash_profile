@@ -16,21 +16,22 @@ alias npmr="npm run"
 
 alias sha256sum="shasum -a 256"
 
-alias gpg="LANG=en gpg"
-alias git="LANG=en git"
+# gpg symmetric encrypt
+alias gpgenc="gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
+
+alias read_text_replacement="defaults read -g NSUserDictionaryReplacementItems"
 
 alias start_postgres="pg_ctl -D /usr/local/var/postgres start"
 alias stop_postgres="pg_ctl -D /usr/local/var/postgres stop"
 
 alias start_redis="redis-server /usr/local/etc/redis.conf"
 
-# gpg symmetric encrypt
-alias gpgenc="gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
-
 __lambda="λ"
 __dotfiles="$HOME/dotfiles"
 __system_ocaml_file="$__dotfiles/system_ocaml_path"
 __default_user_file="$__dotfiles/default_user"
+
+export LANG=en_US.UTF-8
 
 export CLICOLOR=1
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
@@ -40,6 +41,7 @@ export LS_COLORS=$LSCOLORS
 export GPG_TTY=$(tty)
 export LESSCHARSET=utf-8
 export HISTCONTROL=ignoreboth
+export INPUTRC=~/.inputrc
 
 __default_user=$(test -r "$__default_user_file" && \
   cat "$__default_user_file" || echo "")

@@ -6,7 +6,7 @@ if ! which n &> /dev/null; then
   echo "Intalling n..." \
     && git clone https://github.com/tj/n n-git \
     && cd n-git \
-    && git checkout v2.1.11 \
+    && git checkout v4.1.0 \
     && sudo PREFIX=/usr/local make install \
     && cd ~
 else
