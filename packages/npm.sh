@@ -6,4 +6,5 @@ npm install -g \
   http-server \
   sao \
   typescript \
-  commitizen
+  commitizen \
+  neovim

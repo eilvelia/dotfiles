@@ -20,11 +20,14 @@ brew install unrar
 brew install cmake
 brew install ninja
 brew install gnu-sed
-brew install emojify
-brew install aspell
-brew install ripgrep
+brew install fd
+brew install ripgrep # rg
+brew install ag
 brew install fzf
 brew install neovim
+brew install xz
+brew install emojify
+brew install aspell
 
 brew install autoconf
 brew install automake
@@ -61,7 +64,7 @@ brew install hashcat
 
 brew install speedtest-cli
 
-brew install xz
+brew install tesseract
 
 brew install tor
 
@@ -96,8 +99,14 @@ brew cask install xrg
 brew cask install wire
 brew cask install tor-browser
 brew cask install love
+brew cask install vimr
 brew cask install osxfuse
 brew cask install docker
+
+echo "Installing fuse filesystems..."
+
+brew install encfs
+brew install cryfs
 
 # Remove outdated versions
 brew cleanup

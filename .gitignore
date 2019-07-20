@@ -1,3 +1,6 @@
 .DS_Store
 system_ocaml_path
 default_user
+/nvim/autoload
+/nvim/plugged
+/nvim/.netrwhist

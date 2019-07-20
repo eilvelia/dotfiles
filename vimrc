@@ -21,6 +21,7 @@ set expandtab
 set autoindent
 
 set ruler
+set whichwrap+=<,>,[,]
 set backspace=indent,eol,start
 
 " ---

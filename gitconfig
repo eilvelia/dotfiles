@@ -7,11 +7,14 @@
 	pager = "LC_ALL=C diff-so-fancy | less --tabs=4 -RFX"
 [alias]
 	uncommit = reset HEAD^
-	plog = log --color --graph --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit
+	plog-nograph = log --color --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)(%an)%Creset' --abbrev-commit
+	plog = plog-nograph --graph
+	lg = plog
 	assume = update-index --assume-unchanged
 	unassume = update-index --no-assume-unchanged
 	assumed = "!git ls-files -v | grep ^h | cut -c 3-"
 	destroy = "!git reflog expire --expire=now --all && git gc --prune=now --aggressive"
+	history = plog-nograph --follow -p --
 	showfull = show --pretty=fuller
 	showraw = show --pretty=raw
 [commit]
