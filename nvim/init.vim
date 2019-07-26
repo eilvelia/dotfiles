@@ -5,52 +5,47 @@ let g:is_mac = has('macunix') || has('mac')
 
 let mapleader = ","
 
-call plug#begin('~/.config/nvim/Plugged')
-
 if is_mac
-  Plug '/usr/local/opt/fzf'
-else
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+ let g:python_host_prog = '/usr/local/bin/python2'
+ let g:python3_host_prog = '/usr/local/bin/python3'
 endif
-Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'jreybert/vimagit'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-unimpaired'
-Plug 'Yggdroot/indentLine'
-Plug 'tpope/vim-commentary'
-Plug 'junegunn/vim-easy-align'
-Plug 'easymotion/vim-easymotion'
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-Plug 'itchyny/vim-parenmatch'
-Plug 'junegunn/vim-peekaboo'
-Plug 'itchyny/vim-cursorword'
-Plug 'brooth/far.vim'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-Plug 'dhruvasagar/vim-open-url', {
-      \'commit': '595f964eca353f6cc158f953d879dda55e45370b' }
-" Plug 'vim-syntastic/syntastic'
-Plug 'w0rp/ale'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'copy/deoplete-ocaml'
-" Plug 'carlosrocha/vim-flow-plus', { 'for': 'javascript',
-"       \'commit': 'a7c940b15b008afdcea096d3fc4d25e3e431eb49' }
-Plug 'rgrinberg/vim-ocaml'
-Plug 'joshdick/onedark.vim'
 
-call plug#end()
+" OCaml stuff
+runtime! opam.vim
+let s:ocp_indent_dir = g:opam_share_dir . "/ocp-indent/vim"
+let s:ocp_index_dir = g:opam_share_dir . "/ocp-index/vim"
+let s:merlin_dir = g:opam_share_dir . "/merlin/vim"
 
-runtime! ocaml.vim
+let s:dein_cache_path = expand('~/.cache/dein')
+let s:dein_dir = s:dein_cache_path . '/repos/github.com/Shougo/dein.vim'
 
-" remove newline from register
-nnoremap <silent> <Leader>n :call setreg(v:register,
-      \substitute(getreg(v:register), '\n$', '', 'g'))<CR>
+if &runtimepath !~ '/dein.vim'
+  if !isdirectory(s:dein_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
+  endif
+  execute 'set runtimepath+=' . fnamemodify(s:dein_dir, ':p')
+endif
+
+if dein#load_state(s:dein_cache_path)
+  call dein#begin(s:dein_cache_path)
+
+  call dein#add(s:dein_dir)
+
+  call dein#load_toml('~/.config/nvim/dein.toml')
+
+  if isdirectory(s:ocp_indent_dir)
+    call dein#add(s:ocp_indent_dir, { 'on_ft': 'ocaml', 'name': 'ocp_indent', 'depends': 'vim-ocaml' })
+  endif
+  if isdirectory(s:ocp_index_dir)
+    call dein#add(s:ocp_index_dir, { 'on_ft': 'ocaml', 'name': 'ocp_index', 'depends': 'ocp_indent' })
+    call dein#add(s:merlin_dir, { 'on_ft': 'ocaml', 'depends': 'ocp_index' })
+  else
+    call dein#add(s:merlin_dir, { 'on_ft': 'ocaml' })
+  endif
+
+  call dein#end()
+  call dein#save_state()
+endif
 
 " fzf - Fuzzy find
 " let $FZF_DEFAULT_OPTS .= ' --inline-info'
@@ -81,14 +76,15 @@ imap <C-x><C-l> <Plug>(fzf-complete-line)
 
 " airline
 if is_gui
-  let g:airline_theme = 'onedark'
+  let g:airline_theme = 'onedark_modified'
 else
   let g:airline_theme = 'powerlineish'
 endif
+" let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#syntastic#enabled = 1
+" let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 " let g:airline#extensions#tagbar#enabled = 1
 " let g:airline_skip_empty_sections = 1
@@ -99,14 +95,11 @@ highlight link GitGutterChange DiffChange
 highlight link GitGutterDelete DiffDelete
 
 " commentary
-" if is_mac
-"   " cmd+/
-"   nnoremap <D-/> gcc inoremap <D-/> <C-o>gcc
-"   vnoremap <D-/> gc
-"   nnoremap <D-_> gcc
-"   inoremap <D-_> <C-o>gcc
-"   vnoremap <D-_> gc
-" endif
+if is_mac && is_gui
+  nmap <D-/> gcc
+  imap <D-/> <C-o>gcc
+  vmap <D-/> gc
+endif
 
 " vim-easy-align
 nmap ga <Plug>(EasyAlign)
@@ -118,6 +111,7 @@ nmap s <Plug>(easymotion-s)
 vmap s <Plug>(easymotion-s)
 nmap t <Plug>(easymotion-t)
 vmap t <Plug>(easymotion-t)
+imap <C-s> <C-o><Plug>(easymotion-s)
 
 " vim-open-url
 " (default is gB)
@@ -147,16 +141,22 @@ let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '!'
 let g:ale_sign_info = 'i'
 let g:ale_set_balloons = 0
-let g:ale_linters = {
-      \'javascript': ['flow-language-server'],
-      \'ocaml': ['merlin'],
-      \}
-let g:ale_fixers = {
-      \'ocaml': ['ocp-indent'],
-      \}
 
 " deoplete
-" let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+
+" echodoc
+" let g:echodoc#enable_at_startup = 1
+" let g:echodoc#type = 'floating'
+
+set completeopt-=preview
+
+set noshowmode
+
+" remove trailing newlines from a register
+nnoremap <silent> <Leader>n :call setreg(v:register,
+      \substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
 
 " insert char
 nnoremap <Leader>i i_<Esc>r
@@ -171,11 +171,14 @@ vnoremap <silent> // y/<C-R>"<CR>
 
 inoremap <silent> <C-.> <Esc>
 
+" disable command history
+nnoremap q: <nop>
+
 " remove trailing whitespace
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
-" C-;
 nnoremap <silent> <C-;> :let @/=''<CR>
+inoremap <silent> <C-;> <C-o>:let @/=''<CR>
 
 nnoremap <silent> <C-\> :b#<CR>
 
@@ -190,12 +193,19 @@ nnoremap <silent> <Leader>d mmyyp`mj
 nnoremap <silent> <Leader>q :lopen<CR>
 nnoremap <silent> <Leader>Q :lclose<CR>
 
-nnoremap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
+nnoremap <silent> <A-Left> <C-w><Left>
+nnoremap <silent> <A-Right> <C-w><Right>
+nnoremap <silent> <A-Up> <C-w><Up>
+nnoremap <silent> <A-Down> <C-w><Down>
 
-nnoremap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
-nnoremap \M :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
-nnoremap \t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
-nnoremap \T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+" nnoremap <silent> <A-o> <C-w>o
+
+nnoremap \\w :setlocal wrap!<CR>:setlocal wrap?<CR>
+
+nnoremap \\m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+nnoremap \\M :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nnoremap \\t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+nnoremap \\T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 
 if is_mac && is_gui
   nnoremap <silent> <D-A-Left> :tabp<CR>
@@ -205,12 +215,10 @@ if is_mac && is_gui
   inoremap <silent> <D-A-Right> <C-o>:tabn<CR>
   vnoremap <silent> <D-A-Right> <ESC>:tabn<CR>
 
-  let n = 1
-  while n <= 9
-    execute "nnoremap <silent> <D-" . n . "> :tabn " . n . "<CR>"
-    execute "inoremap <silent> <D-" . n  . "> <C-o>:tabn " . n . "<CR>"
-    let n += 1
-  endwhile
+  for i in range(1, 9)
+    execute "nnoremap <silent> <D-" . i . "> :tabn " . i . "<CR>"
+    execute "inoremap <silent> <D-" . i  . "> <C-o>:tabn " . i . "<CR>"
+  endfor
 
   nnoremap <silent> <D-Left> ^
   inoremap <silent> <D-Left> <C-o>^
@@ -224,6 +232,9 @@ if is_mac && is_gui
   nnoremap <silent> <D-Down> G
   inoremap <silent> <D-Down> <C-o>G
   vnoremap <silent> <D-Down> G
+
+  nnoremap <silent> <D-BS> v0d
+  inoremap <silent> <D-BS> <C-o>v0d
 
   nnoremap <silent> <D-]> >>
   inoremap <silent> <D-]> <C-t>
@@ -245,7 +256,8 @@ if is_mac && is_gui
 
   " select word
   nnoremap <silent> <D-d> viw
-  vnoremap <silent> <D-d> iw
+
+  vmap <silent> <D-d> <C-n>
 endif
 
 " disable automatic comment insertion
@@ -302,6 +314,7 @@ set updatetime=300
 syntax on
 
 if is_gui
+  let g:onedark_terminal_italics = 1
   colorscheme onedark
 endif
 

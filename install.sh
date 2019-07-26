@@ -43,7 +43,3 @@ fi
 if confirm "Install Node.js?"; then
   ./node.sh
 fi
-
-if confirm "Install vim-plug for neovim?"; then
-  ./neovim.sh
-fi

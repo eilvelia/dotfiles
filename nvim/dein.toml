@@ -1,0 +1,113 @@
+[[plugins]]
+repo = '/usr/local/opt/fzf'
+if = 'g:is_mac && isdirectory("/usr/local/opt/fzf")'
+[[plugins]]
+repo = 'junegunn/fzf'
+if = '!g:is_mac'
+build = './install --bin'
+merged = 0
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+on_cmd = 'NERDTreeToggle'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'jreybert/vimagit'
+on_cmd = 'Magit'
+
+[[plugins]]
+repo = 'terryma/vim-multiple-cursors'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+[[plugins]]
+repo = 'tpope/vim-unimpaired'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+
+[[plugins]]
+repo = 'tpope/vim-commentary'
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+
+[[plugins]]
+repo = 'majutsushi/tagbar'
+on_cmd = 'TagbarToggle'
+
+[[plugins]]
+repo = 'itchyny/vim-parenmatch'
+
+[[plugins]]
+repo = 'junegunn/vim-peekaboo'
+
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
+
+[[plugins]]
+repo = 'brooth/far.vim'
+on_cmd = [ 'Far', 'Farp', 'F' ]
+
+[[plugins]]
+repo = 'mbbill/undotree'
+on_cmd = 'UndotreeToggle'
+
+[[plugins]]
+repo = 'dhruvasagar/vim-open-url'
+rev = '595f964eca353f6cc158f953d879dda55e45370b'
+
+# [[plugins]]
+# repo = 'vim-syntastic/syntastic'
+
+[[plugins]]
+repo = 'w0rp/ale'
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+# on_event = 'InsertEnter'
+hook_post_update = ':UpdateRemotePlugins'
+# hook_source = 'call deoplete#enable()'
+
+# [[plugins]]
+# repo = 'Shougo/echodoc.vim'
+
+[[plugins]]
+repo = 'copy/deoplete-ocaml'
+
+[[plugins]]
+repo = 'carlosrocha/vim-flow-plus'
+rev = 'a7c940b15b008afdcea096d3fc4d25e3e431eb49'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'rgrinberg/vim-ocaml'
+on_ft = [ 'ocaml', 'dune', 'opam', 'oasis', 'ocamlbuild_tags', 'sexplib' ]
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'joshdick/onedark.vim'
