@@ -110,4 +110,8 @@ repo = 'cespare/vim-toml'
 on_ft = 'toml'
 
 [[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = [ 'javascript', 'jsx', 'javascript.jsx' ]
+
+[[plugins]]
 repo = 'joshdick/onedark.vim'

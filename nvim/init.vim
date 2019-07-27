@@ -5,6 +5,8 @@ let g:is_mac = has('macunix') || has('mac')
 
 let mapleader = ","
 
+let $VIMDIR = expand('~/.config/nvim')
+
 if is_mac
  let g:python_host_prog = '/usr/local/bin/python2'
  let g:python3_host_prog = '/usr/local/bin/python3'
@@ -65,7 +67,7 @@ nnoremap <Leader>L :BLines<CR>
 nnoremap <Leader>rg :Rg <C-r><C-w><CR>
 nnoremap <Leader>RG :Rg <C-r><C-r><CR>
 vnoremap <Leader>rg y:Rg <C-r>"<CR>
-nnoremap <Leader>ag :Ag <C-r><C-w><CR>
+" nnoremap <Leader>ag :Ag <C-r><C-w><CR>
 vmap <Leader>f <Leader>rg
 nnoremap <Leader>` :Marks<CR>
 nnoremap <Leader>§ :Marks<CR>
@@ -141,14 +143,35 @@ let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '!'
 let g:ale_sign_info = 'i'
 let g:ale_set_balloons = 0
+nmap <Leader>af <Plug>(ale_fix)
+nmap <Leader>al <Plug>(ale_lint)
+nmap <Leader>ad <Plug>(ale_detail)
+nmap <Leader>ah <Plug>(ale_hover)
+nmap <Leader>ar <Plug>(ale_find_references)
+nmap <Leader>agd <Plug>(ale_go_to_definition_in_split)
+nmap <Leader>agD <Plug>(ale_go_to_definition)
+nmap gd <Plug>(ale_go_to_definition_in_split)
+nmap gD <Plug>(ale_go_to_definition)
+nmap <LocalLeader>t <Plug>(ale_hover)
+imap <C-t> <Plug>(ale_hover)
+nmap <LocalLeader>f <Plug>(ale_find_references)
+nmap <Leader>a, <Plug>(ale_next_wrap)
+nmap <Leader>a. <Plug>(ale_previous_wrap)
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
-inoremap <expr><TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " echodoc
 " let g:echodoc#enable_at_startup = 1
 " let g:echodoc#type = 'floating'
+
+" vim-javascript
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+
+nnoremap <C-g>d gd
+nnoremap <C-g>D gD
 
 set completeopt-=preview
 
@@ -171,8 +194,13 @@ vnoremap <silent> // y/<C-R>"<CR>
 
 inoremap <silent> <C-.> <Esc>
 
-" disable command history
+" command history
 nnoremap q: <nop>
+nnoremap <Leader><Leader>q: q:
+
+" ex mode
+nnoremap Q <nop>
+nnoremap <Leader><Leader><C-q>Q Q
 
 " remove trailing whitespace
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
@@ -198,7 +226,22 @@ nnoremap <silent> <A-Right> <C-w><Right>
 nnoremap <silent> <A-Up> <C-w><Up>
 nnoremap <silent> <A-Down> <C-w><Down>
 
-" nnoremap <silent> <A-o> <C-w>o
+nnoremap <silent> <A-o> <C-w>o
+nnoremap <silent> <A-t> <C-w>T
+
+nnoremap <silent> <A--> <C-w>-
+nnoremap <silent> <A-=> <C-w>+
+nnoremap <silent> <C-A-=> <C-w>=
+nnoremap <silent> <C-A--> <C-w>_
+nnoremap <silent> <A-.> <C-w>>
+nnoremap <silent> <A-,> <C-w><
+
+" insert newline without automatic comment insertion
+inoremap <silent> <A-]>
+      \ <C-o>:let save_fmt=&formatoptions<CR>
+      \<C-o>:setlocal formatoptions-=cro<CR>
+      \<CR>
+      \<C-o>:execute "setlocal formatoptions=" . save_fmt<CR>
 
 nnoremap \\w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
@@ -217,7 +260,7 @@ if is_mac && is_gui
 
   for i in range(1, 9)
     execute "nnoremap <silent> <D-" . i . "> :tabn " . i . "<CR>"
-    execute "inoremap <silent> <D-" . i  . "> <C-o>:tabn " . i . "<CR>"
+    execute "inoremap <silent> <D-" . i . "> <C-o>:tabn " . i . "<CR>"
   endfor
 
   nnoremap <silent> <D-Left> ^
@@ -260,7 +303,7 @@ if is_mac && is_gui
   vmap <silent> <D-d> <C-n>
 endif
 
-" disable automatic comment insertion
+" disable automatic comment insertion by default
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 runtime! vault.vim
@@ -278,7 +321,7 @@ set hidden
 set number
 set relativenumber
 set wrap
-set showbreak=+++
+set showbreak=↳
 set showmatch
 set visualbell
 
