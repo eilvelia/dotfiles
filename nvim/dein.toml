@@ -114,4 +114,8 @@ repo = 'pangloss/vim-javascript'
 on_ft = [ 'javascript', 'jsx', 'javascript.jsx' ]
 
 [[plugins]]
+repo = 'neovimhaskell/haskell-vim'
+on_ft = 'haskell'
+
+[[plugins]]
 repo = 'joshdick/onedark.vim'
