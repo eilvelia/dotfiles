@@ -226,8 +226,17 @@ nnoremap <silent> <A-Right> <C-w><Right>
 nnoremap <silent> <A-Up> <C-w><Up>
 nnoremap <silent> <A-Down> <C-w><Down>
 
+nnoremap <silent> <A-S-Left> <C-w>H
+nnoremap <silent> <A-S-Right> <C-w>L
+nnoremap <silent> <A-S-Up> <C-w>K
+nnoremap <silent> <A-S-Down> <C-w>J
+
+" close other windows
 nnoremap <silent> <A-o> <C-w>o
+" to tab
 nnoremap <silent> <A-t> <C-w>T
+" close
+nnoremap <silent> <A-c> <C-w>c
 
 nnoremap <silent> <A--> <C-w>-
 nnoremap <silent> <A-=> <C-w>+
