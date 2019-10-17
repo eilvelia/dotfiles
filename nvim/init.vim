@@ -8,8 +8,8 @@ let mapleader = ","
 let $VIMDIR = expand('~/.config/nvim')
 
 if is_mac
- let g:python_host_prog = '/usr/local/bin/python2'
- let g:python3_host_prog = '/usr/local/bin/python3'
+  let g:python_host_prog = '/usr/local/bin/python2'
+  let g:python3_host_prog = '/usr/local/bin/python3'
 endif
 
 " OCaml stuff
@@ -91,11 +91,6 @@ let g:airline#extensions#ale#enabled = 1
 " let g:airline#extensions#tagbar#enabled = 1
 " let g:airline_skip_empty_sections = 1
 
-" gitgutter
-highlight link GitGutterAdd DiffAdd
-highlight link GitGutterChange DiffChange
-highlight link GitGutterDelete DiffDelete
-
 " commentary
 if is_mac && is_gui
   nmap <D-/> gcc
@@ -109,10 +104,14 @@ vmap ga <Plug>(EasyAlign)
 
 " vim-easymotion
 let g:EasyMotion_smartcase = 1
-nmap s <Plug>(easymotion-s)
-vmap s <Plug>(easymotion-s)
+nmap s <Plug>(easymotion-s2)
+nmap S <Plug>(easymotion-s)
+vmap <Leader>s <Plug>(easymotion-s2)
+vmap <Leader>S <Plug>(easymotion-s)
 nmap t <Plug>(easymotion-t)
 vmap t <Plug>(easymotion-t)
+nmap T <Plug>(easymotion-T)
+vmap T <Plug>(easymotion-T)
 imap <C-s> <C-o><Plug>(easymotion-s)
 
 " vim-open-url
@@ -139,6 +138,7 @@ vnoremap <Leader>gh y:OpenURL https://github.com/<C-r>"<CR>
 " " let g:syntastic_ocaml_checkers = ['merlin']
 
 " ale
+let g:ale_virtualtext_cursor = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '!'
 let g:ale_sign_info = 'i'
@@ -252,12 +252,18 @@ inoremap <silent> <A-]>
       \<CR>
       \<C-o>:execute "setlocal formatoptions=" . save_fmt<CR>
 
+nnoremap <silent> <A-]>
+      \:let save_fmt=&formatoptions<CR>
+      \:setlocal formatoptions-=cro<CR>
+      \o
+      \:execute "setlocal formatoptions=" . save_fmt<CR>
+
 nnoremap \\w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
-nnoremap \\m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
-nnoremap \\M :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
-nnoremap \\t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
-nnoremap \\T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nnoremap <Leader><Leader><Leader>m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+nnoremap <Leader><Leader><Leader>M :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nnoremap <Leader><Leader><Leader>t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 
 if is_mac && is_gui
   nnoremap <silent> <D-A-Left> :tabp<CR>
@@ -365,9 +371,32 @@ set updatetime=300
 
 syntax on
 
+" SpellBad       xxx cterm=underline ctermfg=204 gui=underline guifg=#E06C75
+" SpellCap       xxx ctermfg=173 guifg=#D19A66
+
+highlight link ALEError SpellBad
+highlight link ALEWarning SpellCap
+
 if is_gui
   let g:onedark_terminal_italics = 1
+  augroup colorextend
+    autocmd!
+    autocmd ColorScheme * call onedark#extend_highlight("SpellBad", {
+          \"gui": "undercurl",
+          \"fg": { "gui": "NONE" },
+          \"bg": { "gui": "NONE" },
+          \"sp": { "gui": "#e06c75" }
+          \})
+    autocmd ColorScheme * highlight! ALEVirtualTextError
+          \ gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
+    autocmd ColorScheme * highlight! ALEVirtualTextWarning
+          \ gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
+  augroup END
   colorscheme onedark
+else
+  highlight link GitGutterAdd DiffAdd
+  highlight link GitGutterChange DiffChange
+  highlight link GitGutterDelete DiffDelete
 endif
 
 set exrc

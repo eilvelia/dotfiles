@@ -17,9 +17,15 @@ nmap <buffer> <LocalLeader>S <Plug>OCamlSwitchNewWin
 
 let g:merlin_disable_default_keybindings = 1
 
-map  <silent><buffer> <LocalLeader>t :MerlinTypeOf<return>
-map  <silent><buffer> <LocalLeader>n :MerlinGrowEnclosing<return>
-map  <silent><buffer> <LocalLeader>p :MerlinShrinkEnclosing<return>
-vmap <silent><buffer> <LocalLeader>t :MerlinTypeOfSel<return>
+map  <silent><buffer> <LocalLeader>t :MerlinTypeOf<CR>
+map  <silent><buffer> <LocalLeader>n :MerlinGrowEnclosing<CR>
+map  <silent><buffer> <LocalLeader>p :MerlinShrinkEnclosing<CR>
+vmap <silent><buffer> <LocalLeader>t :MerlinTypeOfSel<CR>
 
-nmap <silent><buffer> gd  :MerlinLocate<return>
+nmap <silent><buffer> gd :MerlinLocate<CR>
+
+map <buffer> <LocalLeader>T :MerlinTypeOf<space>
+nmap <buffer> <LocalLeader>gd :MerlinLocate<space>
+
+map <silent><buffer> <A-;> :MerlinClearEnclosing<CR>
+

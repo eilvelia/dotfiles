@@ -7,6 +7,7 @@ opam install -y \
   merlin \
   ocp-indent \
   ocp-index \
+  ocamlformat \
   ocamlbuild \
   dune \
   base \
