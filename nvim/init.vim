@@ -170,6 +170,23 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
 
+" vim-move
+let g:move_map_keys = 0
+vmap <Leader><A-j> <Plug>MoveBlockDown
+vmap <Leader><A-k> <Plug>MoveBlockUp
+vmap <Leader><A-h> <Plug>MoveBlockLeft
+vmap <Leader><A-l> <Plug>MoveBlockRight
+nmap <Leader><A-j> <Plug>MoveLineDown
+nmap <Leader><A-k> <Plug>MoveLineUp
+if is_mac && is_gui
+  nmap <D-A-Down> <Plug>MoveLineDown
+  nmap <D-A-Up> <Plug>MoveLineUp
+  vmap <D-A-Down> <Plug>MoveBlockDown
+  vmap <D-A-Up> <Plug>MoveBlockUp
+  vmap <D-A-Left> <Plug>MoveBlockLeft
+  vmap <D-A-Right> <Plug>MoveBlockRight
+endif
+
 nnoremap <C-g>d gd
 nnoremap <C-g>D gD
 
@@ -210,16 +227,20 @@ inoremap <silent> <C-;> <C-o>:let @/=''<CR>
 
 nnoremap <silent> <C-\> :b#<CR>
 
-noremap ' `
-noremap ` '
+nnoremap ' `
+nnoremap ` '
 
 " duplicate line
 nnoremap <silent> <Leader>d mmyyp`mj
 " inoremap <silent> <Leader>d <Esc>mmyyp`mja
 " vnoremap <silent> <Leader>d y'>p`
 
-nnoremap <silent> <Leader>q :lopen<CR>
-nnoremap <silent> <Leader>Q :lclose<CR>
+nnoremap <silent> <A-l> :lopen<CR>
+nnoremap <silent> <A-L> :lclose<CR>
+nnoremap <silent> l :ll<CR>
+nnoremap <silent> <A-q> :copen<CR>
+nnoremap <silent> <A-Q> :cclose<CR>
+nnoremap <silent> Q :cc<CR>
 
 nnoremap <silent> <A-Left> <C-w><Left>
 nnoremap <silent> <A-Right> <C-w><Right>
@@ -258,7 +279,7 @@ nnoremap <silent> <A-]>
       \o
       \:execute "setlocal formatoptions=" . save_fmt<CR>
 
-nnoremap \\w :setlocal wrap!<CR>:setlocal wrap?<CR>
+nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
 nnoremap <Leader><Leader><Leader>m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
 nnoremap <Leader><Leader><Leader>M :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
@@ -301,13 +322,6 @@ if is_mac && is_gui
   inoremap <silent> <D-[> <C-d>
   vnoremap <silent> <D-[> <
 
-  nnoremap <silent> <D-A-Down> mm:m +1<CR>`m
-  nnoremap <silent> <D-A-Up> mm:m -2<CR>`m
-  inoremap <silent> <D-A-Down> <Esc>mm:m +1<CR>`ma
-  inoremap <silent> <D-A-Up> <Esc>mm:m -2<CR>`ma
-  vnoremap <silent> <D-A-Down> :m '>+1<CR>
-  vnoremap <silent> <D-A-Up> :m '<-2<CR>
-
   nmap <D-S-d> <Leader>d
   inoremap <D-S-d> <Esc>mmyyp`mja
   " vmap <D-S-d> <Leader>d
@@ -323,7 +337,8 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 runtime! vault.vim
 
-set foldmethod=syntax
+set foldmethod=indent
+set foldlevelstart=6
 
 set ssop-=options
 

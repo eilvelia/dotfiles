@@ -118,4 +118,7 @@ repo = 'neovimhaskell/haskell-vim'
 on_ft = 'haskell'
 
 [[plugins]]
+repo = 'matze/vim-move'
+
+[[plugins]]
 repo = 'joshdick/onedark.vim'

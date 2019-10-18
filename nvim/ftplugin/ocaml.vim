@@ -29,3 +29,7 @@ nmap <buffer> <LocalLeader>gd :MerlinLocate<space>
 
 map <silent><buffer> <A-;> :MerlinClearEnclosing<CR>
 
+" doesn't work well
+" let g:ocaml_folding = 1
+
+setlocal foldmethod=indent
