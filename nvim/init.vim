@@ -108,11 +108,18 @@ nmap s <Plug>(easymotion-s2)
 nmap S <Plug>(easymotion-s)
 vmap <Leader>s <Plug>(easymotion-s2)
 vmap <Leader>S <Plug>(easymotion-s)
-nmap t <Plug>(easymotion-t)
-vmap t <Plug>(easymotion-t)
-nmap T <Plug>(easymotion-T)
-vmap T <Plug>(easymotion-T)
 imap <C-s> <C-o><Plug>(easymotion-s)
+nmap f <Plug>(easymotion-fl)
+nmap F <Plug>(easymotion-Fl)
+vmap f <Plug>(easymotion-fl)
+vmap F <Plug>(easymotion-Fl)
+nmap <A-f> <Plug>(easymotion-f)
+nmap <A-F> <Plug>(easymotion-F)
+vmap <A-f> <Plug>(easymotion-f)
+vmap <A-F> <Plug>(easymotion-F)
+
+nnoremap <Leader><A-f> f
+nnoremap <Leader><A-F> F
 
 " vim-open-url
 " (default is gB)

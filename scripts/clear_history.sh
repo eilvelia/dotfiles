@@ -19,6 +19,8 @@ __files=(
   ~/.mysql_history
   ~/.psql_history
   ~/.rediscli_history
+
+  ~/.local/share/fish/fish_history
 )
 
 for file in ${__files[@]}; do

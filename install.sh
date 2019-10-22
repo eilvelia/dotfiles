@@ -21,6 +21,8 @@ if confirm "Link dotfiles?"; then
     mv ~/.emacs.d/init.el "$BAKDIR/init.el"
     mv ~/.vimrc "$BAKDIR/vimrc"
     mv ~/.config/nvim "$BAKDIR/nvim"
+    mv ~/.config/fish "$BAKDIR/fish"
+    mv ~/.config/omf "$BAKDIR/omf"
     [ "$(ls -A $BAKDIR)" ] || rm -r $BAKDIR
   fi
 
@@ -31,6 +33,8 @@ if confirm "Link dotfiles?"; then
   ln -s ~/dotfiles/emacs/init.el ~/.emacs.d/init.el
   ln -s ~/dotfiles/vimrc ~/.vimrc
   ln -s ~/dotfiles/nvim ~/.config/nvim
+  ln -s ~/dotfiles/fish ~/.config/fish
+  ln -s ~/dotfiles/omf ~/.config/omf
 fi
 
 mkdir -p ~/.local
@@ -42,4 +46,8 @@ fi
 
 if confirm "Install Node.js?"; then
   ./node.sh
+fi
+
+if confirm "Setup fish as the default shell?"; then
+  ./setup_fish.#!/bin/sh
 fi

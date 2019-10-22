@@ -67,11 +67,6 @@ extract () {
   fi
 }
 
-commitutc () {
-  local __date="`date +%s` +0000"
-  GIT_COMMITTER_DATE=$__date GIT_AUTHOR_DATE=$__date git commit "$@"
-}
-
 function __prompt {
   local BLACK="\[\033[0;30m\]"
   local BLACKBOLD="\[\033[1;30m\]"
@@ -117,6 +112,6 @@ fi
 # OPAM configuration
 . ~/.opam/opam-init/init.sh &> /dev/null || true
 
-if test -r "$__dotfiles/iterm2_shell_integration.bash"; then
-  source "$__dotfiles/iterm2_shell_integration.bash"
+if test -r "$__dotfiles/.iterm2_shell_integration.bash"; then
+  source "$__dotfiles/.iterm2_shell_integration.bash"
 fi

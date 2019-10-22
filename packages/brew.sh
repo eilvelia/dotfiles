@@ -20,6 +20,7 @@ brew install unrar
 brew install cmake
 brew install ninja
 brew install gnu-sed
+brew install fortune
 brew install fd
 brew install ripgrep # rg
 brew install ag
