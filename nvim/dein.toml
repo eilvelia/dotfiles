@@ -30,9 +30,6 @@ repo = 'jreybert/vimagit'
 on_cmd = 'Magit'
 
 [[plugins]]
-repo = 'terryma/vim-multiple-cursors'
-
-[[plugins]]
 repo = 'tpope/vim-surround'
 
 [[plugins]]

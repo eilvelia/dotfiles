@@ -108,7 +108,8 @@ nmap s <Plug>(easymotion-s2)
 nmap S <Plug>(easymotion-s)
 vmap <Leader>s <Plug>(easymotion-s2)
 vmap <Leader>S <Plug>(easymotion-s)
-imap <C-s> <C-o><Plug>(easymotion-s)
+vmap s <Plug>(easymotion-s2)
+imap <C-s> <C-o><Plug>(easymotion-s2)
 nmap f <Plug>(easymotion-fl)
 nmap F <Plug>(easymotion-Fl)
 vmap f <Plug>(easymotion-fl)
@@ -227,7 +228,12 @@ nnoremap Q <nop>
 nnoremap <Leader><Leader><C-q>Q Q
 
 " remove trailing whitespace
-nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+nnoremap <silent> <Leader><C-w>
+      \ :let _s=@/ <Bar>
+      \ :%s/\s\+$//e <Bar>
+      \ :let @/=_s <Bar>
+      \ :nohl <Bar>
+      \ :unlet _s<CR>
 
 nnoremap <silent> <C-;> :let @/=''<CR>
 inoremap <silent> <C-;> <C-o>:let @/=''<CR>
@@ -238,13 +244,11 @@ nnoremap ' `
 nnoremap ` '
 
 " duplicate line
-nnoremap <silent> <Leader>d mmyyp`mj
-" inoremap <silent> <Leader>d <Esc>mmyyp`mja
-" vnoremap <silent> <Leader>d y'>p`
+nnoremap <silent> <Leader>d :t.<CR>
 
 nnoremap <silent> <A-l> :lopen<CR>
 nnoremap <silent> <A-L> :lclose<CR>
-nnoremap <silent> l :ll<CR>
+nnoremap <silent> <C-l> :ll<CR>
 nnoremap <silent> <A-q> :copen<CR>
 nnoremap <silent> <A-Q> :cclose<CR>
 nnoremap <silent> Q :cc<CR>
@@ -274,17 +278,14 @@ nnoremap <silent> <A-.> <C-w>>
 nnoremap <silent> <A-,> <C-w><
 
 " insert newline without automatic comment insertion
-inoremap <silent> <A-]>
-      \ <C-o>:let save_fmt=&formatoptions<CR>
-      \<C-o>:setlocal formatoptions-=cro<CR>
-      \<CR>
-      \<C-o>:execute "setlocal formatoptions=" . save_fmt<CR>
-
 nnoremap <silent> <A-]>
-      \:let save_fmt=&formatoptions<CR>
+      \ :let save_fmt=&formatoptions<CR>
       \:setlocal formatoptions-=cro<CR>
       \o
       \:execute "setlocal formatoptions=" . save_fmt<CR>
+      \:unlet save_fmt<CR>
+
+imap <silent> <Esc><A-]>i
 
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
@@ -295,28 +296,28 @@ nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softt
 
 if is_mac && is_gui
   nnoremap <silent> <D-A-Left> :tabp<CR>
-  inoremap <silent> <D-A-Left> <C-o>:tabp<CR>
-  vnoremap <silent> <D-A-Left> <ESC>:tabp<CR>
+  inoremap <silent> <D-A-Left> <Esc>:tabp<CR>
+  vnoremap <silent> <D-A-Left> <Esc>:tabp<CR>
   nnoremap <silent> <D-A-Right> :tabn<CR>
-  inoremap <silent> <D-A-Right> <C-o>:tabn<CR>
-  vnoremap <silent> <D-A-Right> <ESC>:tabn<CR>
+  inoremap <silent> <D-A-Right> <Esc>:tabn<CR>
+  vnoremap <silent> <D-A-Right> <Esc>:tabn<CR>
 
   for i in range(1, 9)
     execute "nnoremap <silent> <D-" . i . "> :tabn " . i . "<CR>"
-    execute "inoremap <silent> <D-" . i . "> <C-o>:tabn " . i . "<CR>"
+    execute "inoremap <silent> <D-" . i . "> <Esc>:tabn " . i . "<CR>"
   endfor
 
   nnoremap <silent> <D-Left> ^
-  inoremap <silent> <D-Left> <C-o>^
+  inoremap <silent> <D-Left> <C-c>I
   vnoremap <silent> <D-Left> ^
   nnoremap <silent> <D-Right> g_
-  inoremap <silent> <D-Right> <C-o>$
+  inoremap <silent> <D-Right> <End>
   vnoremap <silent> <D-Right> g_
   nnoremap <silent> <D-Up> gg
-  inoremap <silent> <D-Up> <C-o>gg
+  inoremap <silent> <D-Up> <C-Home>
   vnoremap <silent> <D-Up> gg
   nnoremap <silent> <D-Down> G
-  inoremap <silent> <D-Down> <C-o>G
+  inoremap <silent> <D-Down> <C-End>
   vnoremap <silent> <D-Down> G
 
   nnoremap <silent> <D-BS> v0d
@@ -329,20 +330,18 @@ if is_mac && is_gui
   inoremap <silent> <D-[> <C-d>
   vnoremap <silent> <D-[> <
 
-  nmap <D-S-d> <Leader>d
-  inoremap <D-S-d> <Esc>mmyyp`mja
-  " vmap <D-S-d> <Leader>d
+  nnoremap <silent> <D-S-d> :t.<CR>
+  inoremap <silent> <D-S-d> <C-o>:t.<CR>
 
   " select word
   nnoremap <silent> <D-d> viw
-
-  vmap <silent> <D-d> <C-n>
 endif
 
-" disable automatic comment insertion by default
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
 runtime! vault.vim
+
+set nostartofline
+
+set scrolloff=1
 
 set foldmethod=indent
 set foldlevelstart=6

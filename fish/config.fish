@@ -6,25 +6,29 @@ set fish_greeting
 source $__fish_config_dir/colors.fish
 
 alias ls "ls -FA"
-alias getdate "date \"+%Y_%m_%d\""
+alias exa "exa --all -l --git"
+
+# gpg symmetric encrypt
+alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
+
+abbr -ag getdate "date \"+%Y_%m_%d\""
 
 abbr -ag qfind "find . -name "
+
+abbr -ag e "echo"
 
 abbr -ag totarbz2 "tar cjvf"
 abbr -ag fromtarbz2 "tar xjvf"
 abbr -ag totargz "tar czvf"
 abbr -ag fromtargz "tar xzvf"
 
-alias npmplease "rm -rf node_modules/ package-lock.json && npm install"
+abbr -ag npmplease "rm -rf node_modules/ package-lock.json && npm install"
 abbr -ag pnpmflat "pnpm install --shamefully-flatten"
 abbr -ag npmr "npm run"
 
 abbr -ag sha256sum "shasum -a 256"
 
-# gpg symmetric encrypt
-alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
-
-alias read_text_replacement "defaults read -g NSUserDictionaryReplacementItems"
+abbr -ag read_text_replacement "defaults read -g NSUserDictionaryReplacementItems"
 
 abbr -ag start_postgres "pg_ctl -D /usr/local/var/postgres start"
 abbr -ag stop_postgres "pg_ctl -D /usr/local/var/postgres stop"
@@ -56,6 +60,6 @@ set -xp PATH $dotfiles/scripts
 
 source ~/.opam/opam-init/init.fish > /dev/null 2>&1 || true
 
-if test -r $dotfiles/.iterm2_shell_integration.fish
-  source $dotfiles/.iterm2_shell_integration.fish
+if test -r $dotfiles/vendor/.iterm2_shell_integration.fish
+  source $dotfiles/vendor/.iterm2_shell_integration.fish
 end

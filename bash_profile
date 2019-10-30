@@ -95,7 +95,7 @@ function __prompt {
 
 __prompt
 
-source "$__dotfiles/git-completion.bash"
+source "$__dotfiles/vendor/git-completion.bash"
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -112,6 +112,6 @@ fi
 # OPAM configuration
 . ~/.opam/opam-init/init.sh &> /dev/null || true
 
-if test -r "$__dotfiles/.iterm2_shell_integration.bash"; then
-  source "$__dotfiles/.iterm2_shell_integration.bash"
+if test -r "$__dotfiles/vendor/.iterm2_shell_integration.bash"; then
+  source "$__dotfiles/vendor/.iterm2_shell_integration.bash"
 fi

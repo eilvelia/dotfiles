@@ -2,7 +2,7 @@
   "title": "personal",
   "rules": [
     {
-      "description": "caps -> escape; shift-caps -> caps",
+      "description": "caps",
       "manipulators": [
         {
           "type": "basic",
@@ -26,8 +26,80 @@
           "from": {
             "key_code": "caps_lock",
             "modifiers": {
+              "mandatory": [
+                "left_alt"
+              ],
               "optional": [
                 "caps_lock"
+              ]
+            }
+          }
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "mandatory": [
+                "left_gui"
+              ],
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": {
+            "select_input_source": {
+              "language": "en"
+            }
+          },
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [
+                {
+                  "language": "ru"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "mandatory": [
+                "left_gui"
+              ],
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": {
+            "select_input_source": {
+              "language": "ru"
+            }
+          },
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [
+                {
+                  "language": "en"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
               ]
             }
           },
@@ -76,71 +148,6 @@
             "select_input_source": {
               "language": "ru"
             }
-          }
-        }
-      ]
-    },
-    {
-      "description": "alt+shift -> ctrl+space to switch languages",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "left_shift",
-            "modifiers": {
-              "mandatory": [
-                "left_alt"
-              ],
-              "optional": [
-                "caps_lock"
-              ]
-            }
-          },
-          "to": {
-            "key_code": "left_alt",
-            "modifiers": [
-              "left_shift"
-            ]
-          },
-          "to_if_alone": {
-            "key_code": "spacebar",
-            "modifiers": [
-              "left_control"
-            ],
-            "halt": true
-          },
-          "parameters": {
-            "basic.to_if_alone_timeout_milliseconds": 3000
-          }
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "left_alt",
-            "modifiers": {
-              "mandatory": [
-                "left_shift"
-              ],
-              "optional": [
-                "caps_lock"
-              ]
-            }
-          },
-          "to": {
-            "key_code": "left_alt",
-            "modifiers": [
-              "left_shift"
-            ]
-          },
-          "to_if_alone": {
-            "key_code": "spacebar",
-            "modifiers": [
-              "left_control"
-            ],
-            "halt": true
-          },
-          "parameters": {
-            "basic.to_if_alone_timeout_milliseconds": 3000
           }
         }
       ]

@@ -7,8 +7,7 @@ brew upgrade
 
 echo "Installing Homebrew packages..."
 
-# Upgrade less
-brew install less
+brew install less # Upgrade less
 
 brew install tree
 brew install wget
@@ -25,9 +24,13 @@ brew install fd
 brew install ripgrep # rg
 brew install ag
 brew install fzf
+brew install exa
+brew install sd
 brew install neovim
+brew install micro
 brew install xz
 brew install emojify
+brew install ranger
 brew install aspell
 
 brew install autoconf
@@ -71,6 +74,8 @@ brew install tor
 
 brew install ipfs
 
+brew install qemu
+
 brew install diff-so-fancy
 
 brew install graphviz
@@ -81,6 +86,7 @@ brew install weechat
 
 echo "Installing cask packages..."
 
+brew cask install rq
 brew cask install iterm2
 brew cask install emacs
 brew cask install qbittorrent
@@ -101,6 +107,7 @@ brew cask install wire
 brew cask install tor-browser
 brew cask install love
 brew cask install vimr
+brew cask install keepassxc
 brew cask install osxfuse
 brew cask install docker
 
