@@ -40,6 +40,7 @@ repo = 'tpope/vim-unimpaired'
 
 [[plugins]]
 repo = 'Yggdroot/indentLine'
+rev = 'bb548a975ebe4576073ca025eeb2743b4465ce1d'
 
 [[plugins]]
 repo = 'tpope/vim-commentary'
@@ -47,12 +48,11 @@ repo = 'tpope/vim-commentary'
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 
-[[plugins]]
-repo = 'easymotion/vim-easymotion'
+# [[plugins]]
+# repo = 'easymotion/vim-easymotion'
 
 [[plugins]]
-repo = 'majutsushi/tagbar'
-on_cmd = 'TagbarToggle'
+repo = 'justinmk/vim-sneak'
 
 [[plugins]]
 repo = 'itchyny/vim-parenmatch'
@@ -72,6 +72,9 @@ repo = 'mbbill/undotree'
 on_cmd = 'UndotreeToggle'
 
 [[plugins]]
+repo = 'matze/vim-move'
+
+[[plugins]]
 repo = 'dhruvasagar/vim-open-url'
 rev = '595f964eca353f6cc158f953d879dda55e45370b'
 
@@ -81,26 +84,33 @@ rev = '595f964eca353f6cc158f953d879dda55e45370b'
 [[plugins]]
 repo = 'w0rp/ale'
 
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-# on_event = 'InsertEnter'
-hook_post_update = ':UpdateRemotePlugins'
-# hook_source = 'call deoplete#enable()'
+# [[plugins]]
+# repo = 'Shougo/deoplete.nvim'
+# # on_event = 'InsertEnter'
+# hook_post_update = ':UpdateRemotePlugins'
+# # hook_source = 'call deoplete#enable()'
 
 # [[plugins]]
 # repo = 'Shougo/echodoc.vim'
 
 [[plugins]]
-repo = 'copy/deoplete-ocaml'
+repo = 'neoclide/coc.nvim'
+rev = 'release'
+
+[[plugins]]
+repo = 'liuchengxu/vista.vim'
 
 [[plugins]]
 repo = 'carlosrocha/vim-flow-plus'
-rev = 'a7c940b15b008afdcea096d3fc4d25e3e431eb49'
+rev = '458cc22cc4adb9106f23839df97e13557ec7444c'
 on_ft = 'javascript'
 
 [[plugins]]
 repo = 'rgrinberg/vim-ocaml'
 on_ft = [ 'ocaml', 'dune', 'opam', 'oasis', 'ocamlbuild_tags', 'sexplib' ]
+
+[[plugins]]
+repo = 'copy/deoplete-ocaml'
 
 [[plugins]]
 repo = 'cespare/vim-toml'
@@ -113,9 +123,6 @@ on_ft = [ 'javascript', 'jsx', 'javascript.jsx' ]
 [[plugins]]
 repo = 'neovimhaskell/haskell-vim'
 on_ft = 'haskell'
-
-[[plugins]]
-repo = 'matze/vim-move'
 
 [[plugins]]
 repo = 'joshdick/onedark.vim'

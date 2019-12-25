@@ -59,14 +59,14 @@ brew install bash-completion
 brew install screenfetch
 brew install neofetch
 
+brew install sshuttle
 brew install httpie
 brew install nmap
 brew install tcpreplay
+brew install speedtest-cli
 brew install aircrack-ng
 brew install upx
 brew install hashcat
-
-brew install speedtest-cli
 
 brew install tesseract
 

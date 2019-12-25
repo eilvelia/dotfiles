@@ -88,6 +88,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#branch#enabled = 1
 " let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#coc#enabled = 1
 " let g:airline#extensions#tagbar#enabled = 1
 " let g:airline_skip_empty_sections = 1
 
@@ -103,30 +104,39 @@ nmap ga <Plug>(EasyAlign)
 vmap ga <Plug>(EasyAlign)
 
 " vim-easymotion
-let g:EasyMotion_smartcase = 1
-nmap s <Plug>(easymotion-s2)
-nmap S <Plug>(easymotion-s)
-vmap <Leader>s <Plug>(easymotion-s2)
-vmap <Leader>S <Plug>(easymotion-s)
-vmap s <Plug>(easymotion-s2)
-imap <C-s> <C-o><Plug>(easymotion-s2)
-nmap f <Plug>(easymotion-fl)
-nmap F <Plug>(easymotion-Fl)
-vmap f <Plug>(easymotion-fl)
-vmap F <Plug>(easymotion-Fl)
-nmap <A-f> <Plug>(easymotion-f)
-nmap <A-F> <Plug>(easymotion-F)
-vmap <A-f> <Plug>(easymotion-f)
-vmap <A-F> <Plug>(easymotion-F)
+" let g:EasyMotion_smartcase = 1
+" nmap s <Plug>(easymotion-s2)
+" nmap S <Plug>(easymotion-s)
+" vmap <Leader>s <Plug>(easymotion-s2)
+" vmap <Leader>S <Plug>(easymotion-s)
+" vmap s <Plug>(easymotion-s2)
+" imap <C-s> <C-o><Plug>(easymotion-s2)
+" nmap f <Plug>(easymotion-fl)
+" nmap F <Plug>(easymotion-Fl)
+" vmap f <Plug>(easymotion-fl)
+" vmap F <Plug>(easymotion-Fl)
+" nmap <A-f> <Plug>(easymotion-f)
+" nmap <A-F> <Plug>(easymotion-F)
+" vmap <A-f> <Plug>(easymotion-f)
+" vmap <A-F> <Plug>(easymotion-F)
 
-nnoremap <Leader><A-f> f
-nnoremap <Leader><A-F> F
+" nnoremap <Leader><A-f> f
+" nnoremap <Leader><A-F> F
+
+" vim-sneak
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
 
 " vim-open-url
 " (default is gB)
 nmap <Leader>o <Plug>(open-url-browser)
 " open on GitHub
 vnoremap <Leader>gh y:OpenURL https://github.com/<C-r>"<CR>
+
+" indentLine
+let g:indentLine_concealcursor = "nc"
+let g:indentLine_conceallevel = 1
+let g:indentLine_char = '▏'
 
 " syntastic
 " set statusline+=%#warningmsg#
@@ -152,23 +162,42 @@ let g:ale_sign_warning = '!'
 let g:ale_sign_info = 'i'
 let g:ale_set_balloons = 0
 nmap <Leader>af <Plug>(ale_fix)
-nmap <Leader>al <Plug>(ale_lint)
-nmap <Leader>ad <Plug>(ale_detail)
-nmap <Leader>ah <Plug>(ale_hover)
-nmap <Leader>ar <Plug>(ale_find_references)
-nmap <Leader>agd <Plug>(ale_go_to_definition_in_split)
-nmap <Leader>agD <Plug>(ale_go_to_definition)
-nmap gd <Plug>(ale_go_to_definition_in_split)
-nmap gD <Plug>(ale_go_to_definition)
-nmap <LocalLeader>t <Plug>(ale_hover)
-imap <C-t> <Plug>(ale_hover)
-nmap <LocalLeader>f <Plug>(ale_find_references)
-nmap <Leader>a, <Plug>(ale_next_wrap)
-nmap <Leader>a. <Plug>(ale_previous_wrap)
+" nmap <Leader>al <Plug>(ale_lint)
+" nmap <Leader>ad <Plug>(ale_detail)
+" nmap <Leader>ah <Plug>(ale_hover)
+" nmap <Leader>ar <Plug>(ale_find_references)
+" nmap <Leader>agd <Plug>(ale_go_to_definition_in_split)
+" nmap <Leader>agD <Plug>(ale_go_to_definition)
+" nmap gd <Plug>(ale_go_to_definition_in_split)
+" nmap gD <Plug>(ale_go_to_definition)
+" nmap <LocalLeader>t <Plug>(ale_hover)
+" imap <C-t> <Plug>(ale_hover)
+" nmap <LocalLeader>f <Plug>(ale_find_references)
+" nmap <Leader>a, <Plug>(ale_next_wrap)
+" nmap <Leader>a. <Plug>(ale_previous_wrap)
+let g:ale_linters = {}
+let g:ale_linters_explicit = 1
+let g:ale_disable_lsp = 1
 
-" deoplete
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" " deoplete
+" let g:deoplete#enable_at_startup = 1
+
+" coc.nvim
+nnoremap <silent> <LocalLeader>t :call CocAction('doHover')<CR>
+nnoremap <silent> <LocalLeader>ct :call CocAction('doHover')<CR>
+nmap <silent> <LocalLeader>f <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gD :call CocAction('jumpDefinition', 'split')<CR>
+nmap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gY :call CocAction('jumpTypeDefinition', 'split')<CR>
+nmap <silent> <LocalLeader>r <Plug>(coc-rename)
+nnoremap <silent> <Space>c :<C-u>CocList commands<CR>
+nnoremap <silent> <Space>o :<C-u>CocList outline<CR>
+nnoremap <silent> <Space>s :<C-u>CocList -I symbols<CR>
+nmap <silent> <Space>v <Plug>(coc-range-select)
+vmap <silent> <Space>v <Plug>(coc-range-select)
+nmap <LocalLeader>ca <Plug>(coc-codeaction)
+nmap <LocalLeader>qf <Plug>(coc-fix-current)
 
 " echodoc
 " let g:echodoc#enable_at_startup = 1
@@ -195,12 +224,16 @@ if is_mac && is_gui
   vmap <D-A-Right> <Plug>MoveBlockRight
 endif
 
+nnoremap <space> <NOP>
+
 nnoremap <C-g>d gd
 nnoremap <C-g>D gD
 
 set completeopt-=preview
 
 set noshowmode
+
+inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " remove trailing newlines from a register
 nnoremap <silent> <Leader>n :call setreg(v:register,
@@ -215,16 +248,16 @@ nnoremap <silent> <S-BS> "_x
 
 vnoremap <silent> // y/<C-R>"<CR>
 
-" nnoremap Y y$
+nnoremap Y y$
 
 inoremap <silent> <C-.> <Esc>
 
 " command history
-nnoremap q: <nop>
+nnoremap q: <NOP>
 nnoremap <Leader><Leader>q: q:
 
 " ex mode
-nnoremap Q <nop>
+nnoremap Q <NOP>
 nnoremap <Leader><Leader><C-q>Q Q
 
 " remove trailing whitespace
@@ -272,20 +305,22 @@ nnoremap <silent> <A-c> <C-w>c
 
 nnoremap <silent> <A--> <C-w>-
 nnoremap <silent> <A-=> <C-w>+
-nnoremap <silent> <C-A-=> <C-w>=
-nnoremap <silent> <C-A--> <C-w>_
 nnoremap <silent> <A-.> <C-w>>
 nnoremap <silent> <A-,> <C-w><
+nnoremap <silent> <C-A-=> <C-w>=
+" nnoremap <silent> <C-A--> <C-w>_
+" nnoremap <silent> <C-A-\> <C-w>|
 
 " insert newline without automatic comment insertion
 nnoremap <silent> <A-]>
       \ :let save_fmt=&formatoptions<CR>
       \:setlocal formatoptions-=cro<CR>
-      \o
+      \o<C-c>
       \:execute "setlocal formatoptions=" . save_fmt<CR>
       \:unlet save_fmt<CR>
+      \i
 
-imap <silent> <Esc><A-]>i
+imap <silent> <A-]> <Esc><A-]>
 
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
@@ -338,6 +373,10 @@ if is_mac && is_gui
 endif
 
 runtime! vault.vim
+
+set concealcursor="nc"
+set conceallevel=1
+set listchars+=conceal:∘
 
 set nostartofline
 
@@ -402,16 +441,32 @@ if is_gui
   let g:onedark_terminal_italics = 1
   augroup colorextend
     autocmd!
-    autocmd ColorScheme * call onedark#extend_highlight("SpellBad", {
-          \"gui": "undercurl",
-          \"fg": { "gui": "NONE" },
-          \"bg": { "gui": "NONE" },
-          \"sp": { "gui": "#e06c75" }
-          \})
-    autocmd ColorScheme * highlight! ALEVirtualTextError
-          \ gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
-    autocmd ColorScheme * highlight! ALEVirtualTextWarning
-          \ gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
+    function Highlighting()
+      call onedark#extend_highlight("SpellBad", {
+            \"gui": "undercurl",
+            \"fg": { "gui": "NONE" },
+            \"bg": { "gui": "NONE" },
+            \"sp": { "gui": "#e06c75" }
+            \})
+
+      highlight! ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
+      highlight! ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
+
+      highlight! CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
+      highlight! CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
+      highlight! CocErrorFloat guifg=#ff5d64
+      highlight! link CocErrorHighlight SpellBad
+      highlight! link CocWarningHighlight SpellCap
+
+      highlight! Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
+      highlight clear SneakLabel
+
+      " highlight Pmenu ctermbg=237 ctermfg=white
+      " highlight PmenuSel ctermbg=220 ctermfg=black
+      " highlight PmenuSbar ctermbg=233
+      " highlight PmenuThumb ctermbg=7
+    endfunction
+    autocmd ColorScheme * call Highlighting()
   augroup END
   colorscheme onedark
 else

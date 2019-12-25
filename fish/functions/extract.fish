@@ -4,25 +4,25 @@ function extract --description "Expand or extract bundled & compressed files"
     if test -f $file
       echo -s "Extracting " (set_color --bold blue) $file (set_color normal)
       switch $file
-        case *.tar
+        case '*.tar'
           tar -xvf $file
-        case *.tar.bz2 *.tbz2
+        case '*.tar.bz2' '*.tbz2'
           tar -jxvf $file
-        case *.tar.gz *.tgz
+        case '*.tar.gz' '*.tgz'
           tar -zxvf $file
-        case *.bz2
+        case '*.bz2'
           bunzip2 $file
-        case *.gz
+        case '*.gz'
           gunzip $file
-        case *.rar
+        case '*.rar'
           unrar x $file
-        case *.zip *.ZIP
+        case '*.zip' '*.ZIP'
           unzip $file
-        case *.pax
+        case '*.pax'
           pax -r < $file
-        case *.Z
+        case '*.Z'
           uncompress $file
-        case *.7z
+        case '*.7z'
           7z x $file
         case '*'
           echo "Extension not recognized, cannot extract $file"

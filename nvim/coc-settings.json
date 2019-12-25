@@ -1,0 +1,21 @@
+{
+  "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.enableFloatHighlight": true,
+  "suggest.enablePreview": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextPrefix": "⟩ ",
+  "diagnostic.errorSign": "✗",
+  "codeLens.enable": true,
+  "javascript.validate.enable": false,
+  "list.insertMappings": {
+    "<C-c>": "do:exit"
+  },
+  "list.autoResize": false,
+  "list.maxHeight": 15,
+  "languageserver": {
+    "ocaml": {
+      "command": "ocamlmerlin-lsp",
+      "filetypes": ["ocaml"]
+    }
+  }
+}

@@ -16,6 +16,7 @@ abbr -ag getdate "date \"+%Y_%m_%d\""
 abbr -ag qfind "find . -name "
 
 abbr -ag e "echo"
+abbr -ag l "ls"
 
 abbr -ag totarbz2 "tar cjvf"
 abbr -ag fromtarbz2 "tar xjvf"
@@ -41,6 +42,8 @@ set -x CLICOLOR 1
 set -x LSCOLORS gxBxhxDxfxhxhxhxhxcxcx
 # set -x LSCOLORS GxFxCxDxBxegedabagaced
 set -x LS_COLORS $LSCOLORS
+
+set -x VISUAL vim
 
 set -x GPG_TTY (tty)
 set -x LESSCHARSET utf-8
