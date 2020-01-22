@@ -29,9 +29,11 @@ brew install sd
 brew install neovim
 brew install micro
 brew install xz
+brew install tldr
 brew install emojify
 brew install ranger
 brew install aspell
+brew install diff-so-fancy
 
 brew install autoconf
 brew install automake
@@ -76,13 +78,13 @@ brew install ipfs
 
 brew install qemu
 
-brew install diff-so-fancy
-
 brew install graphviz
 
 brew install asciinema
 
 brew install weechat
+
+brew install youtube-dl
 
 echo "Installing cask packages..."
 
@@ -108,6 +110,7 @@ brew cask install tor-browser
 brew cask install love
 brew cask install vimr
 brew cask install keepassxc
+brew cask install netnewswire
 brew cask install osxfuse
 brew cask install docker
 
@@ -115,6 +118,8 @@ echo "Installing fuse filesystems..."
 
 brew install encfs
 brew install cryfs
+
+echo "Executing 'brew cleanup'..."
 
 # Remove outdated versions
 brew cleanup
