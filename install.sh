@@ -49,5 +49,5 @@ if confirm "Install Node.js?"; then
 fi
 
 if confirm "Setup fish as the default shell?"; then
-  ./setup_fish.#!/bin/sh
+  ./setup_fish.sh
 fi
