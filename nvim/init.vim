@@ -4,6 +4,7 @@ let g:is_gui = has('gui_running') || has('gui_vimr')
 let g:is_mac = has('macunix') || has('mac')
 
 let mapleader = ","
+let maplocalleader = "\\"
 
 let $VIMDIR = expand('~/.config/nvim')
 
@@ -20,6 +21,7 @@ let s:merlin_dir = g:opam_share_dir . "/merlin/vim"
 
 let s:dein_cache_path = expand('~/.cache/dein')
 let s:dein_dir = s:dein_cache_path . '/repos/github.com/Shougo/dein.vim'
+let s:dein_toml = '~/.config/nvim/dein.toml'
 
 if &runtimepath !~ '/dein.vim'
   if !isdirectory(s:dein_dir)
@@ -29,11 +31,11 @@ if &runtimepath !~ '/dein.vim'
 endif
 
 if dein#load_state(s:dein_cache_path)
-  call dein#begin(s:dein_cache_path)
+  call dein#begin(s:dein_cache_path, [$MYVIMRC, s:dein_toml])
 
   call dein#add(s:dein_dir)
 
-  call dein#load_toml('~/.config/nvim/dein.toml')
+  call dein#load_toml(s:dein_toml)
 
   if isdirectory(s:ocp_indent_dir)
     call dein#add(s:ocp_indent_dir, { 'on_ft': 'ocaml', 'name': 'ocp_indent', 'depends': 'vim-ocaml' })
@@ -68,7 +70,7 @@ nnoremap <Leader>rg :Rg <C-r><C-w><CR>
 nnoremap <Leader>RG :Rg <C-r><C-r><CR>
 vnoremap <Leader>rg y:Rg <C-r>"<CR>
 " nnoremap <Leader>ag :Ag <C-r><C-w><CR>
-vmap <Leader>f <Leader>rg
+" vmap <Leader>f <Leader>rg
 nnoremap <Leader>` :Marks<CR>
 nnoremap <Leader>§ :Marks<CR>
 " imap <C-x><C-k> <Plug>(fzf-complete-word)
@@ -76,20 +78,27 @@ imap <C-x><C-f> <Plug>(fzf-complete-path)
 imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <Plug>(fzf-complete-line)
 
+" nerdtree
+nnoremap <Leader>f :NERDTreeToggle<CR>
+nnoremap <Leader>F :NERDTreeToggleVCS<CR>
+
 " airline
 if is_gui
-  let g:airline_theme = 'onedark_modified'
+  " let g:airline_theme = 'onedark_modified'
+  " let g:airline_theme = 'gruvbox'
+  " let g:airline_theme = 'violet'
+  let g:airline_theme = 'srcery'
 else
   let g:airline_theme = 'powerlineish'
 endif
-" let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
+let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#branch#enabled = 1
-" let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#coc#enabled = 1
-" let g:airline#extensions#tagbar#enabled = 1
+" let g:airline#extensions#vista#enabled = 1
 " let g:airline_skip_empty_sections = 1
 
 " commentary
@@ -132,11 +141,6 @@ let g:sneak#use_ic_scs = 1
 nmap <Leader>o <Plug>(open-url-browser)
 " open on GitHub
 vnoremap <Leader>gh y:OpenURL https://github.com/<C-r>"<CR>
-
-" indentLine
-let g:indentLine_concealcursor = "nc"
-let g:indentLine_conceallevel = 1
-let g:indentLine_char = '▏'
 
 " syntastic
 " set statusline+=%#warningmsg#
@@ -202,6 +206,15 @@ nmap <LocalLeader>qf <Plug>(coc-fix-current)
 " echodoc
 " let g:echodoc#enable_at_startup = 1
 " let g:echodoc#type = 'floating'
+
+" vista.vim
+let g:vista#renderer#enable_icon = 1
+let g:vista_default_executive = 'coc'
+let g:vista_finder_alternative_executives = []
+nnoremap <LocalLeader>v :Vista finder<CR>
+
+" vim-indent-guides
+let g:indent_guides_enable_on_vim_startup = 1
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
@@ -429,46 +442,61 @@ set tagcase=smart
 
 set updatetime=300
 
+set termguicolors
+
 syntax on
 
 " SpellBad       xxx cterm=underline ctermfg=204 gui=underline guifg=#E06C75
 " SpellCap       xxx ctermfg=173 guifg=#D19A66
 
-highlight link ALEError SpellBad
-highlight link ALEWarning SpellCap
-
 if is_gui
-  let g:onedark_terminal_italics = 1
   augroup colorextend
     autocmd!
     function Highlighting()
-      call onedark#extend_highlight("SpellBad", {
-            \"gui": "undercurl",
-            \"fg": { "gui": "NONE" },
-            \"bg": { "gui": "NONE" },
-            \"sp": { "gui": "#e06c75" }
-            \})
+      " call onedark#extend_highlight("SpellBad", {
+      "       \"gui": "undercurl",
+      "       \"fg": { "gui": "NONE" },
+      "       \"bg": { "gui": "NONE" },
+      "       \"sp": { "gui": "#e06c75" }
+      "       \})
+      hi! SpellBad gui=undercurl guifg=NONE guibg=NONE guisp=#e06c75
 
-      highlight! ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
-      highlight! ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
+      hi link ALEError SpellBad
+      hi link ALEWarning SpellCap
 
-      highlight! CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
-      highlight! CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
-      highlight! CocErrorFloat guifg=#ff5d64
-      highlight! link CocErrorHighlight SpellBad
-      highlight! link CocWarningHighlight SpellCap
+      hi! ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
+      hi! ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
 
-      highlight! Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
-      highlight clear SneakLabel
+      hi! CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
+      hi! CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
+      hi! CocErrorFloat guifg=#ff5d64
+      hi! link CocErrorHighlight SpellBad
+      hi! link CocWarningHighlight SpellCap
 
-      " highlight Pmenu ctermbg=237 ctermfg=white
-      " highlight PmenuSel ctermbg=220 ctermfg=black
-      " highlight PmenuSbar ctermbg=233
-      " highlight PmenuThumb ctermbg=7
+      hi! Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
+      hi clear SneakLabel
+
+      " hi Pmenu ctermbg=237 ctermfg=white
+      " hi PmenuSel ctermbg=220 ctermfg=black
+      " hi PmenuSbar ctermbg=233
+      " hi PmenuThumb ctermbg=7
+
+      hi IndentGuidesEven guibg=#23272d
+
+      hi! VertSplit guifg=#121212 guibg=#121212
+      " Default value: #ef2f27
+      hi! SrceryRed ctermfg=1 guifg=#ef453e
     endfunction
     autocmd ColorScheme * call Highlighting()
   augroup END
-  colorscheme onedark
+  " let g:onedark_terminal_italics = 1
+  " colorscheme onedark
+  " let g:gruvbox_contrast_dark = 'hard'
+  " let g:gruvbox_hls_cursor = 'red'
+  " colorscheme gruvbox
+  " colorscheme space-vim-dark
+  let g:srcery_italic = 1
+  colorscheme srcery
 else
   highlight link GitGutterAdd DiffAdd
   highlight link GitGutterChange DiffChange

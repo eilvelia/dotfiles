@@ -88,6 +88,19 @@ brew install youtube-dl
 
 echo "Installing cask packages..."
 
+brew tap homebrew/cask-fonts
+
+brew cask install font-menlo-for-powerline
+
+brew cask install font-dejavusansmono-nerd-font
+brew cask install font-fantasque-sans-mono
+brew cask install font-fira-code
+brew cask install font-firacode-nerd-font
+brew cask install font-firacode-nerd-font-mono
+brew cask install font-iosevka
+brew cask install font-iosevka-nerd-font
+brew cask install font-sourcecodepro-nerd-font
+
 brew cask install rq
 brew cask install iterm2
 brew cask install emacs

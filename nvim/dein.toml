@@ -1,11 +1,13 @@
 [[plugins]]
 repo = '/usr/local/opt/fzf'
 if = 'g:is_mac && isdirectory("/usr/local/opt/fzf")'
+
 [[plugins]]
 repo = 'junegunn/fzf'
 if = '!g:is_mac'
 build = './install --bin'
 merged = 0
+
 [[plugins]]
 repo = 'junegunn/fzf.vim'
 
@@ -39,8 +41,8 @@ repo = 'tpope/vim-repeat'
 repo = 'tpope/vim-unimpaired'
 
 [[plugins]]
-repo = 'Yggdroot/indentLine'
-rev = 'bb548a975ebe4576073ca025eeb2743b4465ce1d'
+repo = 'nathanaelkane/vim-indent-guides'
+rev = '54d889a63716ee2f1818aa2ec5082db47147147b'
 
 [[plugins]]
 repo = 'tpope/vim-commentary'
@@ -101,6 +103,9 @@ rev = 'release'
 repo = 'liuchengxu/vista.vim'
 
 [[plugins]]
+repo = 'ryanoasis/vim-devicons'
+
+[[plugins]]
 repo = 'carlosrocha/vim-flow-plus'
 rev = '458cc22cc4adb9106f23839df97e13557ec7444c'
 on_ft = 'javascript'
@@ -108,9 +113,6 @@ on_ft = 'javascript'
 [[plugins]]
 repo = 'rgrinberg/vim-ocaml'
 on_ft = [ 'ocaml', 'dune', 'opam', 'oasis', 'ocamlbuild_tags', 'sexplib' ]
-
-[[plugins]]
-repo = 'copy/deoplete-ocaml'
 
 [[plugins]]
 repo = 'cespare/vim-toml'
@@ -125,4 +127,9 @@ repo = 'neovimhaskell/haskell-vim'
 on_ft = 'haskell'
 
 [[plugins]]
-repo = 'joshdick/onedark.vim'
+repo = 'derekelkins/agda-vim'
+on_ft = 'agda'
+
+[[plugins]]
+repo = 'srcery-colors/srcery-vim'
+rev = '2aaba124461dacd1089dda0c622197f849a685f2'
