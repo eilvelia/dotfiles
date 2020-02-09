@@ -34,6 +34,7 @@ brew install emojify
 brew install ranger
 brew install aspell
 brew install diff-so-fancy
+brew install bat
 
 brew install autoconf
 brew install automake
