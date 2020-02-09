@@ -80,6 +80,10 @@ repo = 'matze/vim-move'
 repo = 'dhruvasagar/vim-open-url'
 rev = '595f964eca353f6cc158f953d879dda55e45370b'
 
+[[plugins]]
+repo = 'jpalardy/vim-slime'
+rev = 'cf896c1f4f37a9feb15d657dfd120aeeb6215ad8'
+
 # [[plugins]]
 # repo = 'vim-syntastic/syntastic'
 

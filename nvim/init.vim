@@ -88,10 +88,10 @@ if is_gui
   " let g:airline_theme = 'gruvbox'
   " let g:airline_theme = 'violet'
   let g:airline_theme = 'srcery'
+  let g:airline_powerline_fonts = 1
 else
   let g:airline_theme = 'powerlineish'
 endif
-let g:airline_powerline_fonts = 1
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -141,6 +141,15 @@ let g:sneak#use_ic_scs = 1
 nmap <Leader>o <Plug>(open-url-browser)
 " open on GitHub
 vnoremap <Leader>gh y:OpenURL https://github.com/<C-r>"<CR>
+
+" vim-slime
+let g:slime_target = 'neovim'
+function SlimeSetJobId()
+  let g:slime_default_config = { "jobid": b:terminal_job_id }
+  let g:slime_dont_ask_default = 1
+endfunction
+" a - activate
+nnoremap <C-c>a :call SlimeSetJobId()<CR>
 
 " syntastic
 " set statusline+=%#warningmsg#
@@ -208,7 +217,9 @@ nmap <LocalLeader>qf <Plug>(coc-fix-current)
 " let g:echodoc#type = 'floating'
 
 " vista.vim
-let g:vista#renderer#enable_icon = 1
+if g:is_gui
+  let g:vista#renderer#enable_icon = 1
+endif
 let g:vista_default_executive = 'coc'
 let g:vista_finder_alternative_executives = []
 nnoremap <LocalLeader>v :Vista finder<CR>
@@ -323,6 +334,12 @@ nnoremap <silent> <A-,> <C-w><
 nnoremap <silent> <C-A-=> <C-w>=
 " nnoremap <silent> <C-A--> <C-w>_
 " nnoremap <silent> <C-A-\> <C-w>|
+
+tnoremap <Esc> <C-\><C-n>
+" tnoremap <A-Left> <C-\><C-N><C-w>h
+" tnoremap <A-Right> <C-\><C-N><C-w>l
+" tnoremap <A-Up> <C-\><C-N><C-w>k
+" tnoremap <A-Down> <C-\><C-N><C-w>j
 
 " insert newline without automatic comment insertion
 nnoremap <silent> <A-]>
@@ -484,6 +501,7 @@ if is_gui
       hi IndentGuidesEven guibg=#23272d
 
       hi! VertSplit guifg=#121212 guibg=#121212
+
       " Default value: #ef2f27
       hi! SrceryRed ctermfg=1 guifg=#ef453e
     endfunction
