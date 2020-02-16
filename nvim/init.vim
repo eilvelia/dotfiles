@@ -1,12 +1,14 @@
-set nocompatible
+if has('vim_starting')
+  set nocompatible
+
+  let mapleader = ","
+  let maplocalleader = "\\"
+endif
+
+let $VIMDIR = expand('~/.config/nvim')
 
 let g:is_gui = has('gui_running') || has('gui_vimr')
 let g:is_mac = has('macunix') || has('mac')
-
-let mapleader = ","
-let maplocalleader = "\\"
-
-let $VIMDIR = expand('~/.config/nvim')
 
 if is_mac
   let g:python_host_prog = '/usr/local/bin/python2'
@@ -14,17 +16,18 @@ if is_mac
 endif
 
 " OCaml stuff
-runtime! opam.vim
-let s:ocp_indent_dir = g:opam_share_dir . "/ocp-indent/vim"
-let s:ocp_index_dir = g:opam_share_dir . "/ocp-index/vim"
-let s:merlin_dir = g:opam_share_dir . "/merlin/vim"
+source $VIMDIR/opam.vim
+let s:ocp_indent_dir = g:opam_share_dir . '/ocp-indent/vim'
+let s:ocp_index_dir = g:opam_share_dir . '/ocp-index/vim'
+let s:merlin_dir = g:opam_share_dir . '/merlin/vim'
 
 let s:dein_cache_path = expand('~/.cache/dein')
 let s:dein_dir = s:dein_cache_path . '/repos/github.com/Shougo/dein.vim'
-let s:dein_toml = '~/.config/nvim/dein.toml'
+let s:dein_toml = expand('~/.config/nvim/dein.toml')
 
 if &runtimepath !~ '/dein.vim'
-  if !isdirectory(s:dein_dir)
+  if !isdirectory(s:dein_dir) && has('vim_starting')
+    echo 'Installing dein.vim...'
     execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
   endif
   execute 'set runtimepath+=' . fnamemodify(s:dein_dir, ':p')
@@ -50,6 +53,16 @@ if dein#load_state(s:dein_cache_path)
   call dein#end()
   call dein#save_state()
 endif
+
+if !has('vim_starting')
+  call dein#call_hook('source')
+  call dein#call_hook('post_source')
+end
+
+function! RemoveDisabledDeinPlugins()
+  call map(dein#check_clean(), "delete(v:val, 'rf')")
+  call dein#recache_runtimepath()
+endfunction
 
 " fzf - Fuzzy find
 " let $FZF_DEFAULT_OPTS .= ' --inline-info'
@@ -81,6 +94,28 @@ imap <C-x><C-l> <Plug>(fzf-complete-line)
 " nerdtree
 nnoremap <Leader>f :NERDTreeToggle<CR>
 nnoremap <Leader>F :NERDTreeToggleVCS<CR>
+let NERDTreeMinimalUI = 1
+let NERDTreeShowHidden = 1
+let NERDTreeAutoDeleteBuffer = 1
+
+" nerdtree-git-pliugin
+"let g:NERDTreeShowGitStatus = 0
+" (Changed the 'Dirty' character from ✗ to ✹)
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✹",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+" Vim-devicons and nerdtree-git-plugin are conflicting here a bit.
+" Highlighting of the indicators doesn't work properly with devicons' conceal.
+let g:webdevicons_conceal_nerdtree_brackets = 0
 
 " airline
 if is_gui
@@ -402,7 +437,9 @@ if is_mac && is_gui
   nnoremap <silent> <D-d> viw
 endif
 
-runtime! vault.vim
+source $VIMDIR/vault.vim
+
+source $VIMDIR/syntax-attr.vim
 
 set concealcursor="nc"
 set conceallevel=1
@@ -415,7 +452,7 @@ set scrolloff=1
 set foldmethod=indent
 set foldlevelstart=6
 
-set ssop-=options
+set sessionoptions-=options
 
 set signcolumn=yes
 
@@ -448,7 +485,7 @@ set backspace=indent,eol,start
 
 set wildmode=longest,list
 
-set cc=80
+set colorcolumn=80
 
 " set cursorline
 
@@ -469,44 +506,38 @@ syntax on
 if is_gui
   augroup colorextend
     autocmd!
-    function Highlighting()
-      " call onedark#extend_highlight("SpellBad", {
-      "       \"gui": "undercurl",
-      "       \"fg": { "gui": "NONE" },
-      "       \"bg": { "gui": "NONE" },
-      "       \"sp": { "gui": "#e06c75" }
-      "       \})
-      hi! SpellBad gui=undercurl guifg=NONE guibg=NONE guisp=#e06c75
-
-      hi link ALEError SpellBad
-      hi link ALEWarning SpellCap
-
-      hi! ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
-      hi! ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
-
-      hi! CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
-      hi! CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
-      hi! CocErrorFloat guifg=#ff5d64
-      hi! link CocErrorHighlight SpellBad
-      hi! link CocWarningHighlight SpellCap
-
-      hi! Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
-      hi clear SneakLabel
-
-      " hi Pmenu ctermbg=237 ctermfg=white
-      " hi PmenuSel ctermbg=220 ctermfg=black
-      " hi PmenuSbar ctermbg=233
-      " hi PmenuThumb ctermbg=7
-
-      hi IndentGuidesEven guibg=#23272d
-
-      hi! VertSplit guifg=#121212 guibg=#121212
-
-      " Default value: #ef2f27
-      hi! SrceryRed ctermfg=1 guifg=#ef453e
-    endfunction
-    autocmd ColorScheme * call Highlighting()
   augroup END
+  function! s:Highlighting()
+    hi SpellBad gui=undercurl guifg=NONE guibg=NONE guisp=#e06c75
+
+    hi! link ALEError SpellBad
+    hi! link ALEWarning SpellCap
+
+    hi ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
+    hi ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
+
+    hi CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
+    hi CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
+    hi CocErrorFloat guifg=#ff5d64
+    hi! link CocErrorHighlight SpellBad
+    hi! link CocWarningHighlight SpellCap
+
+    hi Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
+    hi clear SneakLabel
+
+    " hi Pmenu ctermbg=237 ctermfg=white
+    " hi PmenuSel ctermbg=220 ctermfg=black
+    " hi PmenuSbar ctermbg=233
+    " hi PmenuThumb ctermbg=7
+
+    hi IndentGuidesEven guibg=#23272d
+
+    hi VertSplit guifg=#121212 guibg=#121212
+
+    " Default value: #ef2f27
+    hi SrceryRed ctermfg=1 guifg=#ef453e
+  endfunction
+  autocmd colorextend ColorScheme * call s:Highlighting()
   " let g:onedark_terminal_italics = 1
   " colorscheme onedark
   " let g:gruvbox_contrast_dark = 'hard'
@@ -516,9 +547,9 @@ if is_gui
   let g:srcery_italic = 1
   colorscheme srcery
 else
-  highlight link GitGutterAdd DiffAdd
-  highlight link GitGutterChange DiffChange
-  highlight link GitGutterDelete DiffDelete
+  hi link GitGutterAdd DiffAdd
+  hi link GitGutterChange DiffChange
+  hi link GitGutterDelete DiffDelete
 endif
 
 set exrc

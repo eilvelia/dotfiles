@@ -1,4 +1,3 @@
-
 " Protect sensitive information
 
 " From https://github.com/rafi/vim-config/blob/b4bfc5306467c4/plugin/vault.vim

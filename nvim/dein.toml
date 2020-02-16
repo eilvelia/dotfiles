@@ -13,7 +13,9 @@ repo = 'junegunn/fzf.vim'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
-on_cmd = 'NERDTreeToggle'
+
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline'
