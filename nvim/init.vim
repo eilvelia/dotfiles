@@ -335,7 +335,7 @@ nnoremap <silent> <C-A-=> <C-w>=
 " nnoremap <silent> <C-A--> <C-w>_
 " nnoremap <silent> <C-A-\> <C-w>|
 
-tnoremap <Esc> <C-\><C-n>
+tnoremap <expr> <Esc> &filetype == 'fzf' ? "\<Esc>" : "\<C-\>\<C-n>"
 " tnoremap <A-Left> <C-\><C-N><C-w>h
 " tnoremap <A-Right> <C-\><C-N><C-w>l
 " tnoremap <A-Up> <C-\><C-N><C-w>k
