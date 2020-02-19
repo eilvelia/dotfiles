@@ -1,3 +1,5 @@
+" vim: foldmethod=marker
+
 if has('vim_starting')
   set nocompatible
 
@@ -43,13 +45,20 @@ if !has('vim_starting')
   call dein#call_hook('post_source')
 end
 
-function! RemoveDisabledDeinPlugins()
+command! ShowDisabledDeinPlugins echo dein#check_clean()
+
+function! s:RemoveDisabledDeinPlugins()
   call map(dein#check_clean(), "delete(v:val, 'rf')")
   call dein#recache_runtimepath()
 endfunction
+command! RemoveDisabledDeinPlugins call <SID>RemoveDisabledDeinPlugins()
 
-" fzf - Fuzzy find
-" let $FZF_DEFAULT_OPTS .= ' --inline-info'
+command! -nargs=1 SaveDeinRollback call dein#save_rollback('<args>')
+
+" Plugin settings {{{
+
+" fzf {{{
+"let $FZF_DEFAULT_OPTS .= ' --inline-info'
 let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git'
 if is_mac && is_gui
   nnoremap <D-p> :FZF<CR>
@@ -74,16 +83,20 @@ nnoremap <Leader>§ :Marks<CR>
 imap <C-x><C-f> <Plug>(fzf-complete-path)
 imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <Plug>(fzf-complete-line)
+" }}}
 
-" nerdtree
+" nerdtree {{{
 nnoremap <Leader>f :NERDTreeToggle<CR>
 nnoremap <Leader>F :NERDTreeToggleVCS<CR>
 let NERDTreeMinimalUI = 1
 let NERDTreeShowHidden = 1
 let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeIgnore = ['^\.git$[[dir]]', '^\.DS_Store$', '\~$']
+" }}}
 
-" nerdtree-git-pliugin
+" nerdtree-git-plugin {{{
 "let g:NERDTreeShowGitStatus = 0
+let g:NERDTreeShowIgnoredStatus = 1
 " (Changed the 'Dirty' character from ✗ to ✹)
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
@@ -100,8 +113,9 @@ let g:NERDTreeIndicatorMapCustom = {
 " Vim-devicons and nerdtree-git-plugin are conflicting here a bit.
 " Highlighting of the indicators doesn't work properly with devicons' conceal.
 let g:webdevicons_conceal_nerdtree_brackets = 0
+" }}}
 
-" airline
+" airline {{{
 if is_gui
   " let g:airline_theme = 'onedark_modified'
   " let g:airline_theme = 'gruvbox'
@@ -119,19 +133,22 @@ let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#coc#enabled = 1
 " let g:airline#extensions#vista#enabled = 1
 " let g:airline_skip_empty_sections = 1
+" }}}
 
-" commentary
+" commentary {{{
 if is_mac && is_gui
   nmap <D-/> gcc
   imap <D-/> <C-o>gcc
   vmap <D-/> gc
 endif
+" }}}
 
-" vim-easy-align
+" vim-easy-align {{{
 nmap ga <Plug>(EasyAlign)
 vmap ga <Plug>(EasyAlign)
+" }}}
 
-" vim-easymotion
+" " vim-easymotion {{{
 " let g:EasyMotion_smartcase = 1
 " nmap s <Plug>(easymotion-s2)
 " nmap S <Plug>(easymotion-s)
@@ -147,30 +164,34 @@ vmap ga <Plug>(EasyAlign)
 " nmap <A-F> <Plug>(easymotion-F)
 " vmap <A-f> <Plug>(easymotion-f)
 " vmap <A-F> <Plug>(easymotion-F)
-
 " nnoremap <Leader><A-f> f
 " nnoremap <Leader><A-F> F
+" " }}}
 
-" vim-sneak
+" vim-sneak {{{
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
+" }}}
 
-" vim-open-url
+" vim-open-url {{{
 " (default is gB)
 nmap <Leader>o <Plug>(open-url-browser)
 " open on GitHub
 vnoremap <Leader>gh y:OpenURL https://github.com/<C-r>"<CR>
+" }}}
 
-" vim-slime
+" vim-slime {{{
 let g:slime_target = 'neovim'
-function SlimeSetJobId()
+function! s:SlimeSetJobId()
   let g:slime_default_config = { "jobid": b:terminal_job_id }
   let g:slime_dont_ask_default = 1
 endfunction
+command! SlimeSetJobId call <SID>SlimeSetJobId()
 " a - activate
-nnoremap <C-c>a :call SlimeSetJobId()<CR>
+nnoremap <C-c>a :SlimeSetJobId<CR>
+" }}}
 
-" syntastic
+" " syntastic {{{
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
@@ -186,8 +207,9 @@ nnoremap <C-c>a :call SlimeSetJobId()<CR>
 "   let g:syntastic_full_redraws = 0
 " endif
 " " let g:syntastic_ocaml_checkers = ['merlin']
+" " }}}
 
-" ale
+" ale {{{
 let g:ale_virtualtext_cursor = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '!'
@@ -210,11 +232,13 @@ nmap <Leader>af <Plug>(ale_fix)
 let g:ale_linters = {}
 let g:ale_linters_explicit = 1
 let g:ale_disable_lsp = 1
+" }}}
 
-" " deoplete
+" " deoplete {{{
 " let g:deoplete#enable_at_startup = 1
+" " }}}
 
-" coc.nvim
+" coc.nvim {{{
 nnoremap <silent> <LocalLeader>t :call CocAction('doHover')<CR>
 nnoremap <silent> <LocalLeader>ct :call CocAction('doHover')<CR>
 nmap <silent> <LocalLeader>f <Plug>(coc-references)
@@ -230,27 +254,33 @@ nmap <silent> <Space>v <Plug>(coc-range-select)
 vmap <silent> <Space>v <Plug>(coc-range-select)
 nmap <LocalLeader>ca <Plug>(coc-codeaction)
 nmap <LocalLeader>qf <Plug>(coc-fix-current)
+" }}}
 
-" echodoc
+" " echodoc {{{
 " let g:echodoc#enable_at_startup = 1
 " let g:echodoc#type = 'floating'
+" " }}}
 
-" vista.vim
+" vista.vim {{{
 if g:is_gui
   let g:vista#renderer#enable_icon = 1
 endif
 let g:vista_default_executive = 'coc'
 let g:vista_finder_alternative_executives = []
 nnoremap <LocalLeader>v :Vista finder<CR>
+" }}}
 
-" vim-indent-guides
+" vim-indent-guides {{{
 let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+" }}}
 
-" vim-javascript
+" vim-javascript {{{
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
+" }}}
 
-" vim-move
+" vim-move {{{
 let g:move_map_keys = 0
 vmap <Leader><A-j> <Plug>MoveBlockDown
 vmap <Leader><A-k> <Plug>MoveBlockUp
@@ -266,6 +296,9 @@ if is_mac && is_gui
   vmap <D-A-Left> <Plug>MoveBlockLeft
   vmap <D-A-Right> <Plug>MoveBlockRight
 endif
+" }}}
+
+" }}}
 
 nnoremap <space> <NOP>
 
@@ -329,6 +362,8 @@ nnoremap <silent> <A-q> :copen<CR>
 nnoremap <silent> <A-Q> :cclose<CR>
 nnoremap <silent> Q :cc<CR>
 
+" Window mappings {{{
+
 nnoremap <silent> <A-Left> <C-w><Left>
 nnoremap <silent> <A-Right> <C-w><Right>
 nnoremap <silent> <A-Up> <C-w><Up>
@@ -354,22 +389,21 @@ nnoremap <silent> <C-A-=> <C-w>=
 " nnoremap <silent> <C-A--> <C-w>_
 " nnoremap <silent> <C-A-\> <C-w>|
 
+" }}}
+
+" Terminal mappings {{{
+
 tnoremap <expr> <Esc> &filetype == 'fzf' ? "\<Esc>" : "\<C-\>\<C-n>"
 " tnoremap <A-Left> <C-\><C-N><C-w>h
 " tnoremap <A-Right> <C-\><C-N><C-w>l
 " tnoremap <A-Up> <C-\><C-N><C-w>k
 " tnoremap <A-Down> <C-\><C-N><C-w>j
 
-" insert newline without automatic comment insertion
-nnoremap <silent> <A-]>
-      \ :let save_fmt=&formatoptions<CR>
-      \:setlocal formatoptions-=cro<CR>
-      \o<C-c>
-      \:execute "setlocal formatoptions=" . save_fmt<CR>
-      \:unlet save_fmt<CR>
-      \i
+" }}}
 
-imap <silent> <A-]> <Esc><A-]>
+" insert newline without automatic comment insertion
+nnoremap <silent> <A-]> :put =nr2char(10)<CR>
+inoremap <silent> <A-]> <Esc>:put =nr2char(10)<CR>
 
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
@@ -422,10 +456,11 @@ if is_mac && is_gui
 endif
 
 source $VIMDIR/vault.vim
-
 source $VIMDIR/syntax-attr.vim
 
-set concealcursor="nc"
+" Vim options {{{
+
+set concealcursor=nc
 set conceallevel=1
 set listchars+=conceal:∘
 
@@ -484,6 +519,10 @@ set termguicolors
 
 syntax on
 
+" }}}
+
+" Colors {{{
+
 " SpellBad       xxx cterm=underline ctermfg=204 gui=underline guifg=#E06C75
 " SpellCap       xxx ctermfg=173 guifg=#D19A66
 
@@ -514,7 +553,8 @@ if is_gui
     " hi PmenuSbar ctermbg=233
     " hi PmenuThumb ctermbg=7
 
-    hi IndentGuidesEven guibg=#23272d
+    hi IndentGuidesOdd guibg=#2d2b28
+    hi IndentGuidesEven guibg=#272522
 
     hi VertSplit guifg=#121212 guibg=#121212
 
@@ -535,6 +575,8 @@ else
   hi link GitGutterChange DiffChange
   hi link GitGutterDelete DiffDelete
 endif
+
+" }}}
 
 set exrc
 set secure

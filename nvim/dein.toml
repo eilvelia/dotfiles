@@ -112,6 +112,26 @@ repo = 'liuchengxu/vista.vim'
 repo = 'ryanoasis/vim-devicons'
 
 [[plugins]]
+repo = 'junegunn/goyo.vim'
+on_cmd = 'Goyo'
+
+# Languages {{{
+
+[[plugins]]
+repo = 'sheerun/vim-polyglot'
+hook_add = '''
+let g:polyglot_disabled = [
+  \ 'javascript',
+  \ 'ocaml',
+  \ 'haskell'
+  \ ]
+'''
+
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = [ 'javascript', 'jsx', 'javascript.jsx' ]
+
+[[plugins]]
 repo = 'carlosrocha/vim-flow-plus'
 rev = '458cc22cc4adb9106f23839df97e13557ec7444c'
 on_ft = 'javascript'
@@ -121,14 +141,6 @@ repo = 'rgrinberg/vim-ocaml'
 on_ft = [ 'ocaml', 'dune', 'opam', 'oasis', 'ocamlbuild_tags', 'sexplib' ]
 
 [[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = 'toml'
-
-[[plugins]]
-repo = 'pangloss/vim-javascript'
-on_ft = [ 'javascript', 'jsx', 'javascript.jsx' ]
-
-[[plugins]]
 repo = 'neovimhaskell/haskell-vim'
 on_ft = 'haskell'
 
@@ -136,6 +148,12 @@ on_ft = 'haskell'
 repo = 'derekelkins/agda-vim'
 on_ft = 'agda'
 
+# }}}
+
+# Themes {{{
+
 [[plugins]]
 repo = 'srcery-colors/srcery-vim'
 rev = '2aaba124461dacd1089dda0c622197f849a685f2'
+
+# }}}
