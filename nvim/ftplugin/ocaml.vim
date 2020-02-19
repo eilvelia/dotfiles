@@ -1,3 +1,28 @@
+if !exists('g:ocaml_loaded') && executable('opam')
+  let g:ocaml_loaded = 1
+
+  let s:opam_share_dir =
+        \ substitute(system('opam config var share'), '[\r\n]*$', '', '')
+
+  let s:ocp_indent_dir = s:opam_share_dir . '/ocp-indent/vim'
+  let s:ocp_index_dir = s:opam_share_dir . '/ocp-index/vim'
+  let s:merlin_dir = s:opam_share_dir . '/merlin/vim'
+
+  if executable('ocp-indent')
+    execute 'set rtp^=' . s:ocp_indent_dir
+  endif
+
+  if executable('ocp-index')
+    execute 'set rtp+=' . s:ocp_index_dir
+  endif
+
+  if executable('ocamlmerlin')
+    execute 'set rtp+=' . s:merlin_dir
+    execute 'helptags ' . s:merlin_dir . '/doc'
+    execute 'source ' . s:merlin_dir . '/plugin/*.vim'
+  endif
+endif
+
 let g:ale_ocaml_ols_executable = 'ocamlmerlin-lsp'
 " let b:ale_linters = ['merlin']
 " let b:ale_linters = ['ols']

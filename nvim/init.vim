@@ -15,12 +15,6 @@ if is_mac
   let g:python3_host_prog = '/usr/local/bin/python3'
 endif
 
-" OCaml stuff
-source $VIMDIR/opam.vim
-let s:ocp_indent_dir = g:opam_share_dir . '/ocp-indent/vim'
-let s:ocp_index_dir = g:opam_share_dir . '/ocp-index/vim'
-let s:merlin_dir = g:opam_share_dir . '/merlin/vim'
-
 let s:dein_cache_path = expand('~/.cache/dein')
 let s:dein_dir = s:dein_cache_path . '/repos/github.com/Shougo/dein.vim'
 let s:dein_toml = expand('~/.config/nvim/dein.toml')
@@ -39,16 +33,6 @@ if dein#load_state(s:dein_cache_path)
   call dein#add(s:dein_dir)
 
   call dein#load_toml(s:dein_toml)
-
-  if isdirectory(s:ocp_indent_dir)
-    call dein#add(s:ocp_indent_dir, { 'on_ft': 'ocaml', 'name': 'ocp_indent', 'depends': 'vim-ocaml' })
-  endif
-  if isdirectory(s:ocp_index_dir)
-    call dein#add(s:ocp_index_dir, { 'on_ft': 'ocaml', 'name': 'ocp_index', 'depends': 'ocp_indent' })
-    call dein#add(s:merlin_dir, { 'on_ft': 'ocaml', 'depends': 'ocp_index' })
-  else
-    call dein#add(s:merlin_dir, { 'on_ft': 'ocaml' })
-  endif
 
   call dein#end()
   call dein#save_state()
