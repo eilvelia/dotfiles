@@ -36,6 +36,8 @@ abbr -ag stop_postgres "pg_ctl -D /usr/local/var/postgres stop"
 
 abbr -ag start_redis "redis-server /usr/local/etc/redis.conf"
 
+abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
+
 set -x LANG en_US.UTF-8
 
 set -x CLICOLOR 1
