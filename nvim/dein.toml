@@ -1,3 +1,5 @@
+# vim: foldmethod=marker
+
 [[plugins]]
 repo = '/usr/local/opt/fzf'
 if = 'g:is_mac && isdirectory("/usr/local/opt/fzf")'
@@ -10,6 +12,10 @@ merged = 0
 
 [[plugins]]
 repo = 'junegunn/fzf.vim'
+
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+# if = 'g:is_gui'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
@@ -109,11 +115,11 @@ rev = 'release'
 repo = 'liuchengxu/vista.vim'
 
 [[plugins]]
-repo = 'ryanoasis/vim-devicons'
-
-[[plugins]]
 repo = 'junegunn/goyo.vim'
 on_cmd = 'Goyo'
+
+[[plugins]]
+repo = 't9md/vim-choosewin'
 
 # Languages {{{
 
@@ -157,3 +163,5 @@ repo = 'srcery-colors/srcery-vim'
 rev = '2aaba124461dacd1089dda0c622197f849a685f2'
 
 # }}}
+
+# ^\s*#\@!.*[[plugins\]\]

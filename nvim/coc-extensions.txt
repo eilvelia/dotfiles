@@ -1,0 +1,3 @@
+coc-json
+coc-tsserver
+coc-flow

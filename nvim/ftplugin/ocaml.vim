@@ -45,6 +45,7 @@ nmap <buffer> <LocalLeader>y :MerlinYankLatestType<CR>
 
 imap <silent><buffer> <C-t> <C-o>:MerlinTypeOf<CR>
 
+map <silent><buffer> <LocalLeader>mt :MerlinTypeOf<CR>
 map  <silent><buffer> <LocalLeader>t :MerlinTypeOf<CR>
 map  <silent><buffer> <LocalLeader>n :MerlinGrowEnclosing<CR>
 map  <silent><buffer> <LocalLeader>p :MerlinShrinkEnclosing<CR>

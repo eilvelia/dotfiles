@@ -1,7 +1,9 @@
+command! SyntaxAttr call <SID>SyntaxAttr()
+
 " From https://github.com/vim-scripts/SyntaxAttr.vim/blob/8debed4/plugin/SyntaxAttr.vim (mirror)
 " Created by Gary Holloway, 2002.
 
-function! SyntaxAttr()
+function! s:SyntaxAttr()
      let synid = ""
      let guifg = ""
      let guibg = ""

@@ -4,7 +4,7 @@ if has('vim_starting')
   set nocompatible
 
   let mapleader = ","
-  let maplocalleader = "\\"
+  let maplocalleader = "\<Space>"
 endif
 
 let $VIMDIR = expand('~/.config/nvim')
@@ -23,7 +23,7 @@ let s:dein_toml = expand('~/.config/nvim/dein.toml')
 
 if &runtimepath !~ '/dein.vim'
   if !isdirectory(s:dein_dir) && has('vim_starting')
-    echo 'Installing dein.vim...'
+    echomsg 'Installing dein.vim...'
     execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
   endif
   execute 'set runtimepath+=' . fnamemodify(s:dein_dir, ':p')
@@ -45,15 +45,19 @@ if !has('vim_starting')
   call dein#call_hook('post_source')
 end
 
-command! ShowDisabledDeinPlugins echo dein#check_clean()
+command! DeinInstall call dein#install()
+command! DeinUpdate call dein#update()
+command! DeinRecache call dein#recache_runtimepath()
 
-function! s:RemoveDisabledDeinPlugins()
+command! DeinShowDisabledPlugins echo dein#check_clean()
+
+function! s:DeinRemoveDisabledPlugins()
   call map(dein#check_clean(), "delete(v:val, 'rf')")
   call dein#recache_runtimepath()
 endfunction
-command! RemoveDisabledDeinPlugins call <SID>RemoveDisabledDeinPlugins()
+command! DeinRemoveDisabledPlugins call <SID>RemoveDisabledDeinPlugins()
 
-command! -nargs=1 SaveDeinRollback call dein#save_rollback('<args>')
+command! -nargs=1 DeinSaveRollback call dein#save_rollback('<args>')
 
 " Plugin settings {{{
 
@@ -83,6 +87,12 @@ nnoremap <Leader>§ :Marks<CR>
 imap <C-x><C-f> <Plug>(fzf-complete-path)
 imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <Plug>(fzf-complete-line)
+" }}}
+
+" vim-devicons {{{
+if !is_gui
+  let g:loaded_webdevicons = 1
+endif
 " }}}
 
 " nerdtree {{{
@@ -239,21 +249,52 @@ let g:ale_disable_lsp = 1
 " " }}}
 
 " coc.nvim {{{
-nnoremap <silent> <LocalLeader>t :call CocAction('doHover')<CR>
 nnoremap <silent> <LocalLeader>ct :call CocAction('doHover')<CR>
-nmap <silent> <LocalLeader>f <Plug>(coc-references)
+nnoremap <silent> <LocalLeader>t :call CocAction('doHover')<CR>
+nmap <silent> cgd <Plug>(coc-definition)
 nmap <silent> gd <Plug>(coc-definition)
 nnoremap <silent> gD :call CocAction('jumpDefinition', 'split')<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
 nnoremap <silent> gY :call CocAction('jumpTypeDefinition', 'split')<CR>
+nmap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gI :call CocAction('jumpImplementation', 'split')<CR>
+nmap <silent> <LocalLeader>cf <Plug>(coc-references)
+nmap <silent> <LocalLeader>f <Plug>(coc-references)
+nmap <silent> <LocalLeader>cr <Plug>(coc-rename)
 nmap <silent> <LocalLeader>r <Plug>(coc-rename)
-nnoremap <silent> <Space>c :<C-u>CocList commands<CR>
-nnoremap <silent> <Space>o :<C-u>CocList outline<CR>
-nnoremap <silent> <Space>s :<C-u>CocList -I symbols<CR>
-nmap <silent> <Space>v <Plug>(coc-range-select)
-vmap <silent> <Space>v <Plug>(coc-range-select)
 nmap <LocalLeader>ca <Plug>(coc-codeaction)
+vmap <LocalLeader>ca <Plug>(coc-codeaction-selected)
 nmap <LocalLeader>qf <Plug>(coc-fix-current)
+nnoremap <silent> <LocalLeader>chi :call CocActionAsync('highlight')<CR>
+nnoremap <silent> <LocalLeader>hi :call CocActionAsync('highlight')<CR>
+vmap <LocalLeader>cxf <Plug>(coc-format-selected)
+nmap <LocalLeader>cxf <Plug>(coc-format-selected)
+
+" > Requires 'textDocument/selectionRange' support from the language server
+nmap <silent> <LocalLeader>cv <Plug>(coc-range-select)
+nmap <silent> <LocalLeader>v <Plug>(coc-range-select)
+vmap <silent> <LocalLeader>cv <Plug>(coc-range-select)
+vmap <silent> <LocalLeader>v <Plug>(coc-range-select)
+
+nnoremap <silent> <LocalLeader>cc :CocList commands<CR>
+nnoremap <silent> <LocalLeader>co :CocList outline<CR>
+nnoremap <silent> <LocalLeader>o :CocList outline<CR>
+nnoremap <silent> <LocalLeader>cs :CocList -I symbols<CR>
+nnoremap <silent> <LocalLeader>s :CocList -I symbols<CR>
+nnoremap <silent> <LocalLeader>cp :CocListResume<CR>
+nnoremap <silent> <LocalLeader>cj :CocNext<CR>
+nnoremap <silent> <LocalLeader>ck :CocPrev<CR>
+
+" > Introduce function text object
+" > Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+command! Format call CocAction('format')
+command! Fold call CocAction('fold', <f-args>)
+command! OrganizeImports call CocAction('runCommand', 'editor.action.organizeImport')
 " }}}
 
 " " echodoc {{{
@@ -298,33 +339,39 @@ if is_mac && is_gui
 endif
 " }}}
 
+" vim-choosewin {{{
+nmap - <Plug>(choosewin)
 " }}}
 
-nnoremap <space> <NOP>
+" }}}
 
+nnoremap <Space> <NOP>
+
+nnoremap ' `
+nnoremap ` '
+
+nnoremap Y y$
+
+" builtin 'goto local declaration' and 'goto global declaration'
 nnoremap <C-g>d gd
 nnoremap <C-g>D gD
 
-set completeopt-=preview
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
-set noshowmode
-
-inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" remove trailing newlines from a register
+" remove trailing newlines from the register
 nnoremap <silent> <Leader>n :call setreg(v:register,
-      \substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
+      \ substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
 
-" insert char
+" insert a new character
 nnoremap <Leader>i i_<Esc>r
 nnoremap <Leader>I a_<Esc>r
 
+" delete a character on Backspace without changing registers
 nnoremap <silent> <BS> "_X
 nnoremap <silent> <S-BS> "_x
 
+" search the selected text
 vnoremap <silent> // y/<C-R>"<CR>
-
-nnoremap Y y$
 
 inoremap <silent> <C-.> <Esc>
 
@@ -336,58 +383,79 @@ nnoremap <Leader><Leader>q: q:
 nnoremap Q <NOP>
 nnoremap <Leader><Leader><C-q>Q Q
 
-" remove trailing whitespace
-nnoremap <silent> <Leader><C-w>
-      \ :let _s=@/ <Bar>
-      \ :%s/\s\+$//e <Bar>
-      \ :let @/=_s <Bar>
-      \ :nohl <Bar>
-      \ :unlet _s<CR>
+" strip trailing whitespace
+function! s:StripTrailingWhitespace()
+  if &binary
+    echoerr 'Cannot strip whitespace in a binary file.'
+    return
+  endif
+  let old_pattern = @/
+  %s/\s\+$//e
+  let @/ = old_pattern
+endfunction
+command! StripTrailingWhitespace call <SID>StripTrailingWhitespace()
+nnoremap <silent> <Leader><C-w> :StripTrailingWhitespace<CR>
 
-nnoremap <silent> <C-;> :let @/=''<CR>
-inoremap <silent> <C-;> <C-o>:let @/=''<CR>
+nnoremap <silent> <C-;> :let @/ = ''<CR>
+inoremap <silent> <C-;> <C-o>:let @/ = ''<CR>
 
+" previous buffer
 nnoremap <silent> <C-\> :b#<CR>
 
-nnoremap ' `
-nnoremap ` '
-
-" duplicate line
+" duplicate the line
 nnoremap <silent> <Leader>d :t.<CR>
 
+" location list
 nnoremap <silent> <A-l> :lopen<CR>
 nnoremap <silent> <A-L> :lclose<CR>
 nnoremap <silent> <C-l> :ll<CR>
+
+" quickfix list
 nnoremap <silent> <A-q> :copen<CR>
 nnoremap <silent> <A-Q> :cclose<CR>
 nnoremap <silent> Q :cc<CR>
 
 " Window mappings {{{
 
-nnoremap <silent> <A-Left> <C-w><Left>
-nnoremap <silent> <A-Right> <C-w><Right>
-nnoremap <silent> <A-Up> <C-w><Up>
-nnoremap <silent> <A-Down> <C-w><Down>
+nnoremap <A-Left> <C-w><Left>
+nnoremap <A-Right> <C-w><Right>
+nnoremap <A-Up> <C-w><Up>
+nnoremap <A-Down> <C-w><Down>
 
-nnoremap <silent> <A-S-Left> <C-w>H
-nnoremap <silent> <A-S-Right> <C-w>L
-nnoremap <silent> <A-S-Up> <C-w>K
-nnoremap <silent> <A-S-Down> <C-w>J
+nnoremap <A-S-Left> <C-w>H
+nnoremap <A-S-Right> <C-w>L
+nnoremap <A-S-Up> <C-w>K
+nnoremap <A-S-Down> <C-w>J
 
-" close other windows
-nnoremap <silent> <A-o> <C-w>o
+" close the other windows
+nnoremap <A-o> <C-w>o
+
 " to tab
-nnoremap <silent> <A-t> <C-w>T
-" close
-nnoremap <silent> <A-c> <C-w>c
+nnoremap <A-t> <C-w>T
 
-nnoremap <silent> <A--> <C-w>-
-nnoremap <silent> <A-=> <C-w>+
-nnoremap <silent> <A-.> <C-w>>
-nnoremap <silent> <A-,> <C-w><
-nnoremap <silent> <C-A-=> <C-w>=
-" nnoremap <silent> <C-A--> <C-w>_
-" nnoremap <silent> <C-A-\> <C-w>|
+" close
+nnoremap <A-c> <C-w>c
+
+" previous window
+nnoremap <A-p> <C-w>p
+
+" preview window
+nnoremap <A-S-p> <C-w>P
+
+" height
+nnoremap <A--> <C-w>-
+nnoremap <A-=> <C-w>+
+" width
+nnoremap <A-.> <C-w>>
+nnoremap <A-,> <C-w><
+
+" equal height and width
+nnoremap <C-A-=> <C-w>=
+
+" " height: maximize
+" nnoremap <C-A--> <C-w>_
+" " width: maximize
+" nnoremap <C-A-\> <C-w>|
 
 " }}}
 
@@ -403,7 +471,7 @@ tnoremap <expr> <Esc> &filetype == 'fzf' ? "\<Esc>" : "\<C-\>\<C-n>"
 
 " insert newline without automatic comment insertion
 nnoremap <silent> <A-]> :put =nr2char(10)<CR>
-inoremap <silent> <A-]> <Esc>:put =nr2char(10)<CR>
+inoremap <silent> <A-]> <C-o>:put =nr2char(10)<CR>
 
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
@@ -420,6 +488,7 @@ if is_mac && is_gui
   inoremap <silent> <D-A-Right> <Esc>:tabn<CR>
   vnoremap <silent> <D-A-Right> <Esc>:tabn<CR>
 
+  " select tabs by cmd+1..cmd+9
   for i in range(1, 9)
     execute "nnoremap <silent> <D-" . i . "> :tabn " . i . "<CR>"
     execute "inoremap <silent> <D-" . i . "> <Esc>:tabn " . i . "<CR>"
@@ -448,17 +517,19 @@ if is_mac && is_gui
   inoremap <silent> <D-[> <C-d>
   vnoremap <silent> <D-[> <
 
+  " duplicate the line
   nnoremap <silent> <D-S-d> :t.<CR>
   inoremap <silent> <D-S-d> <C-o>:t.<CR>
-
-  " select word
-  nnoremap <silent> <D-d> viw
 endif
 
 source $VIMDIR/vault.vim
 source $VIMDIR/syntax-attr.vim
 
 " Vim options {{{
+
+set completeopt-=preview
+
+set noshowmode
 
 set concealcursor=nc
 set conceallevel=1
