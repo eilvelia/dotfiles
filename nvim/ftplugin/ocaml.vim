@@ -62,3 +62,7 @@ nmap <silent><buffer> <A-;> :MerlinClearEnclosing<CR>
 " let g:ocaml_folding = 1
 
 setlocal foldmethod=indent
+
+setlocal tabstop=2
+setlocal softtabstop=2
+setlocal shiftwidth=2
