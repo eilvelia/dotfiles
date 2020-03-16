@@ -2,7 +2,17 @@
 
 source ./utils.sh
 
-defaults import com.googlecode.iterm2 - < ./com.googlecode.iterm2.plist
+if confirm "Set the options?"; then
+  ./macos-options.sh
+fi
+
+if confirm "Import the iTerm2 settings?"; then
+  defaults import com.googlecode.iterm2 - < ./com.googlecode.iterm2.plist
+fi
+
+if confirm "Import the text replacement settings?"; then
+  ./manage-text-replacements.sh import
+fi
 
 if ! which brew &> /dev/null && confirm "Download and install Homebrew?"; then
   echo "Installing Homebrew..."
