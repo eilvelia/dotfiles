@@ -11,33 +11,45 @@ brew install less # Upgrade less
 
 brew install tree
 brew install wget
-brew install jq
+brew install htop
 brew install pwgen
+brew install jq
 brew install gnupg
 brew install pgpdump
 brew install unrar
-brew install cmake
-brew install ninja
 brew install gnu-sed
 brew install fortune
-brew install fd
-brew install ripgrep # rg
-brew install ag
 brew install fzf
-brew install exa
-brew install sd
-brew install neovim
-brew install micro
+brew install ripgrep # aka rg. 'grep' alternative
+brew install ag # 'grep' alternative
+brew install fd # 'find' alternative
+brew install exa # 'ls' alternative
+brew install sd # 'sed' alternative
+brew install bat # 'cat' / 'less' alternative
+brew install procs # 'ps' alternative
+brew install dust # 'du' alternative
+brew install bingrep
+brew install hyperfine
+brew install bandwhich # 'iftop' alternative
+brew install tokei
+brew install miniserve
 brew install xz
 brew install tldr
+brew install neovim
+brew install micro
 brew install emojify
 brew install ranger
-brew install aspell
 brew install diff-so-fancy
-brew install bat
+brew install bash-completion
+brew install aspell
+
+brew install screenfetch
+brew install neofetch
 
 brew install autoconf
 brew install automake
+brew install cmake
+brew install ninja
 
 brew install perl
 brew install ruby
@@ -52,16 +64,6 @@ brew install redis
 brew install postgresql
 brew install mysql
 
-# bfg - Remove large files or passwords from Git history
-brew install bfg
-
-brew install htop
-
-brew install bash-completion
-
-brew install screenfetch
-brew install neofetch
-
 brew install sshuttle
 brew install httpie
 brew install nmap
@@ -71,11 +73,13 @@ brew install aircrack-ng
 brew install upx
 brew install hashcat
 
-brew install tesseract
-
 brew install tor
-
 brew install ipfs
+
+# bfg - Remove large files or passwords from Git history
+brew install bfg
+
+brew install tesseract
 
 brew install qemu
 
@@ -102,7 +106,7 @@ brew cask install font-iosevka
 brew cask install font-iosevka-nerd-font
 brew cask install font-sourcecodepro-nerd-font
 
-brew cask install rq
+brew cask install rq # "Record Query"
 brew cask install iterm2
 brew cask install emacs
 brew cask install qbittorrent
