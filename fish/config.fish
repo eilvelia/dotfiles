@@ -29,14 +29,14 @@ abbr -ag npmr "npm run"
 
 abbr -ag sha256sum "shasum -a 256"
 
-abbr -ag read_text_replacement "defaults read -g NSUserDictionaryReplacementItems"
+abbr -ag start-postgres "pg_ctl -D /usr/local/var/postgres start"
+abbr -ag stop-postgres "pg_ctl -D /usr/local/var/postgres stop"
 
-abbr -ag start_postgres "pg_ctl -D /usr/local/var/postgres start"
-abbr -ag stop_postgres "pg_ctl -D /usr/local/var/postgres stop"
-
-abbr -ag start_redis "redis-server /usr/local/etc/redis.conf"
+abbr -ag start-redis "redis-server /usr/local/etc/redis.conf"
 
 abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
+
+abbr -ag mac-read-text-replacement "defaults read -g NSUserDictionaryReplacementItems"
 
 set -x LANG en_US.UTF-8
 

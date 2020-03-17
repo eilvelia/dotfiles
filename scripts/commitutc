@@ -1,3 +1,4 @@
 #!/bin/bash
-__date="`date +%s` +0000"
-GIT_COMMITTER_DATE=$__date GIT_AUTHOR_DATE=$__date git commit "$@"
+
+_date="`date +%s` +0000"
+GIT_COMMITTER_DATE=$_date GIT_AUTHOR_DATE=$_date git commit "$@"

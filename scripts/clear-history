@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+read -p "Are you sure? (Ctrl-c to exit)"
+
 rm -rf ~/.bash_sessions/*
 
-__files=(
+_files=(
   ~/.bash_history
   ~/.sh_history
   ~/.zsh_history
@@ -23,7 +25,7 @@ __files=(
   ~/.local/share/fish/fish_history
 )
 
-for file in ${__files[@]}; do
+for file in ${_files[@]}; do
   if [ -s $file ]; then
     echo "> $file"
     cp /dev/null $file

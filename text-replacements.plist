@@ -6,7 +6,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$q</string>
+		<string>§q</string>
 		<key>with</key>
 		<string>ℚ</string>
 	</dict>
@@ -14,7 +14,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$opt</string>
+		<string>§opt</string>
 		<key>with</key>
 		<string>⌥</string>
 	</dict>
@@ -22,7 +22,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$cmd</string>
+		<string>§cmd</string>
 		<key>with</key>
 		<string>⌘</string>
 	</dict>
@@ -30,7 +30,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$circ</string>
+		<string>§circ</string>
 		<key>with</key>
 		<string>∘</string>
 	</dict>
@@ -38,7 +38,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$alpha</string>
+		<string>§alpha</string>
 		<key>with</key>
 		<string>α</string>
 	</dict>
@@ -126,7 +126,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$z</string>
+		<string>§z</string>
 		<key>with</key>
 		<string>ℤ</string>
 	</dict>
@@ -134,7 +134,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$vscode</string>
+		<string>§vscode</string>
 		<key>with</key>
 		<string>⋊</string>
 	</dict>
@@ -142,7 +142,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$up</string>
+		<string>§up</string>
 		<key>with</key>
 		<string>↑</string>
 	</dict>
@@ -150,7 +150,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$union</string>
+		<string>§union</string>
 		<key>with</key>
 		<string>∪</string>
 	</dict>
@@ -158,7 +158,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$u</string>
+		<string>§u</string>
 		<key>with</key>
 		<string>μ</string>
 	</dict>
@@ -166,7 +166,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$turnstile</string>
+		<string>§turnstile</string>
 		<key>with</key>
 		<string>⊢</string>
 	</dict>
@@ -174,7 +174,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$top</string>
+		<string>§top</string>
 		<key>with</key>
 		<string>⊤</string>
 	</dict>
@@ -182,7 +182,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$to</string>
+		<string>§to</string>
 		<key>with</key>
 		<string>→</string>
 	</dict>
@@ -190,7 +190,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$tm</string>
+		<string>§tm</string>
 		<key>with</key>
 		<string>™</string>
 	</dict>
@@ -198,7 +198,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$thetasm</string>
+		<string>§thetal</string>
 		<key>with</key>
 		<string>θ</string>
 	</dict>
@@ -206,7 +206,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$theta</string>
+		<string>§theta</string>
 		<key>with</key>
 		<string>Θ</string>
 	</dict>
@@ -214,7 +214,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$supseteq</string>
+		<string>§supseteq</string>
 		<key>with</key>
 		<string>⊇</string>
 	</dict>
@@ -222,7 +222,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$supset</string>
+		<string>§supset</string>
 		<key>with</key>
 		<string>⊃</string>
 	</dict>
@@ -230,7 +230,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$sum2</string>
+		<string>§sum2</string>
 		<key>with</key>
 		<string>∑</string>
 	</dict>
@@ -238,7 +238,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$sum</string>
+		<string>§sum</string>
 		<key>with</key>
 		<string>Σ</string>
 	</dict>
@@ -246,7 +246,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$subseteq</string>
+		<string>§subseteq</string>
 		<key>with</key>
 		<string>⊆</string>
 	</dict>
@@ -254,7 +254,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$subset</string>
+		<string>§subset</string>
 		<key>with</key>
 		<string>⊂</string>
 	</dict>
@@ -262,7 +262,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$sqrt</string>
+		<string>§sqrt</string>
 		<key>with</key>
 		<string>√</string>
 	</dict>
@@ -270,7 +270,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$specialization</string>
+		<string>§specialization</string>
 		<key>with</key>
 		<string>⊑</string>
 	</dict>
@@ -278,7 +278,23 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$sigma</string>
+		<string>§specialize</string>
+		<key>with</key>
+		<string>⊑</string>
+	</dict>
+	<dict>
+		<key>on</key>
+		<integer>1</integer>
+		<key>replace</key>
+		<string>§sigma</string>
+		<key>with</key>
+		<string>Σ</string>
+	</dict>
+	<dict>
+		<key>on</key>
+		<integer>1</integer>
+		<key>replace</key>
+		<string>§sigmal</string>
 		<key>with</key>
 		<string>σ</string>
 	</dict>
@@ -286,7 +302,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$shrug</string>
+		<string>§shrug</string>
 		<key>with</key>
 		<string>¯\_(ツ)_/¯</string>
 	</dict>
@@ -294,7 +310,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$real</string>
+		<string>§real</string>
 		<key>with</key>
 		<string>ℝ</string>
 	</dict>
@@ -302,7 +318,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$rational</string>
+		<string>§rational</string>
 		<key>with</key>
 		<string>ℚ</string>
 	</dict>
@@ -310,7 +326,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$r</string>
+		<string>§r</string>
 		<key>with</key>
 		<string>ℝ</string>
 	</dict>
@@ -318,7 +334,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$proves</string>
+		<string>§proves</string>
 		<key>with</key>
 		<string>⊢</string>
 	</dict>
@@ -326,7 +342,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$prod</string>
+		<string>§prod</string>
 		<key>with</key>
 		<string>∏</string>
 	</dict>
@@ -334,7 +350,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$primes</string>
+		<string>§primes</string>
 		<key>with</key>
 		<string>ℙ</string>
 	</dict>
@@ -342,7 +358,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$porder</string>
+		<string>§porder</string>
 		<key>with</key>
 		<string>⊑</string>
 	</dict>
@@ -350,7 +366,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$pi</string>
+		<string>§pi</string>
 		<key>with</key>
 		<string>π</string>
 	</dict>
@@ -358,7 +374,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$parallel</string>
+		<string>§parallel</string>
 		<key>with</key>
 		<string>∥</string>
 	</dict>
@@ -366,7 +382,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$p</string>
+		<string>§p</string>
 		<key>with</key>
 		<string>ℙ</string>
 	</dict>
@@ -374,7 +390,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$otimes</string>
+		<string>§otimes</string>
 		<key>with</key>
 		<string>⊗</string>
 	</dict>
@@ -382,7 +398,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$oplus</string>
+		<string>§oplus</string>
 		<key>with</key>
 		<string>⊕</string>
 	</dict>
@@ -390,7 +406,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$ominus</string>
+		<string>§ominus</string>
 		<key>with</key>
 		<string>⊖</string>
 	</dict>
@@ -398,7 +414,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$notin</string>
+		<string>§notin</string>
 		<key>with</key>
 		<string>∉</string>
 	</dict>
@@ -406,7 +422,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$not</string>
+		<string>§not</string>
 		<key>with</key>
 		<string>¬</string>
 	</dict>
@@ -414,7 +430,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$neg</string>
+		<string>§neg</string>
 		<key>with</key>
 		<string>¬</string>
 	</dict>
@@ -422,7 +438,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$ne</string>
+		<string>§ne</string>
 		<key>with</key>
 		<string>≠</string>
 	</dict>
@@ -430,7 +446,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$nat</string>
+		<string>§nat</string>
 		<key>with</key>
 		<string>ℕ</string>
 	</dict>
@@ -438,7 +454,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$n</string>
+		<string>§n</string>
 		<key>with</key>
 		<string>ℕ</string>
 	</dict>
@@ -446,7 +462,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$micro</string>
+		<string>§micro</string>
 		<key>with</key>
 		<string>μ</string>
 	</dict>
@@ -454,7 +470,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$lte</string>
+		<string>§lte</string>
 		<key>with</key>
 		<string>≤</string>
 	</dict>
@@ -462,7 +478,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$leftarrow</string>
+		<string>§leftarrow</string>
 		<key>with</key>
 		<string>←</string>
 	</dict>
@@ -470,7 +486,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$left</string>
+		<string>§left</string>
 		<key>with</key>
 		<string>←</string>
 	</dict>
@@ -478,7 +494,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$lamda</string>
+		<string>§lamda</string>
 		<key>with</key>
 		<string>λ</string>
 	</dict>
@@ -486,7 +502,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$lambda</string>
+		<string>§lambda</string>
 		<key>with</key>
 		<string>λ</string>
 	</dict>
@@ -494,7 +510,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$l</string>
+		<string>§l</string>
 		<key>with</key>
 		<string>λ</string>
 	</dict>
@@ -502,7 +518,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$isomorphism</string>
+		<string>§isomorphism</string>
 		<key>with</key>
 		<string>≅</string>
 	</dict>
@@ -510,7 +526,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$intersection</string>
+		<string>§intersection</string>
 		<key>with</key>
 		<string>∩</string>
 	</dict>
@@ -518,7 +534,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$int</string>
+		<string>§int</string>
 		<key>with</key>
 		<string>ℤ</string>
 	</dict>
@@ -526,7 +542,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$infty</string>
+		<string>§infty</string>
 		<key>with</key>
 		<string>∞</string>
 	</dict>
@@ -534,7 +550,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$infinity</string>
+		<string>§infinity</string>
 		<key>with</key>
 		<string>∞</string>
 	</dict>
@@ -542,7 +558,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$inf</string>
+		<string>§inf</string>
 		<key>with</key>
 		<string>∞</string>
 	</dict>
@@ -550,7 +566,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$inequality</string>
+		<string>§inequality</string>
 		<key>with</key>
 		<string>≠</string>
 	</dict>
@@ -558,7 +574,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$in</string>
+		<string>§in</string>
 		<key>with</key>
 		<string>∈</string>
 	</dict>
@@ -566,7 +582,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$iff</string>
+		<string>§iff</string>
 		<key>with</key>
 		<string>⇔</string>
 	</dict>
@@ -574,7 +590,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$gte</string>
+		<string>§gte</string>
 		<key>with</key>
 		<string>≥</string>
 	</dict>
@@ -582,7 +598,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$gamma</string>
+		<string>§gamma</string>
 		<key>with</key>
 		<string>γ</string>
 	</dict>
@@ -590,7 +606,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$forall</string>
+		<string>§forall</string>
 		<key>with</key>
 		<string>∀</string>
 	</dict>
@@ -598,7 +614,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$fatarrow</string>
+		<string>§fatarrow</string>
 		<key>with</key>
 		<string>⇒</string>
 	</dict>
@@ -606,7 +622,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$falsum</string>
+		<string>§falsum</string>
 		<key>with</key>
 		<string>⊥</string>
 	</dict>
@@ -614,7 +630,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$exists</string>
+		<string>§exists</string>
 		<key>with</key>
 		<string>∃</string>
 	</dict>
@@ -622,7 +638,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$eq</string>
+		<string>§eq</string>
 		<key>with</key>
 		<string>≡</string>
 	</dict>
@@ -630,7 +646,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$epsilon</string>
+		<string>§epsilon</string>
 		<key>with</key>
 		<string>ε</string>
 	</dict>
@@ -638,7 +654,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$empty</string>
+		<string>§empty</string>
 		<key>with</key>
 		<string>∅</string>
 	</dict>
@@ -646,7 +662,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$down</string>
+		<string>§down</string>
 		<key>with</key>
 		<string>↓</string>
 	</dict>
@@ -654,7 +670,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$delta</string>
+		<string>§delta</string>
 		<key>with</key>
 		<string>Δ</string>
 	</dict>
@@ -662,7 +678,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$def</string>
+		<string>§def</string>
 		<key>with</key>
 		<string>≔</string>
 	</dict>
@@ -670,7 +686,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$coprod</string>
+		<string>§coprod</string>
 		<key>with</key>
 		<string>∐</string>
 	</dict>
@@ -678,7 +694,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$congruence</string>
+		<string>§congruence</string>
 		<key>with</key>
 		<string>≅</string>
 	</dict>
@@ -686,7 +702,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$cong</string>
+		<string>§cong</string>
 		<key>with</key>
 		<string>≅</string>
 	</dict>
@@ -694,7 +710,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$complex</string>
+		<string>§complex</string>
 		<key>with</key>
 		<string>ℂ</string>
 	</dict>
@@ -702,7 +718,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$c</string>
+		<string>§c</string>
 		<key>with</key>
 		<string>ℂ</string>
 	</dict>
@@ -710,7 +726,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$bot</string>
+		<string>§bot</string>
 		<key>with</key>
 		<string>⊥</string>
 	</dict>
@@ -718,7 +734,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$beta</string>
+		<string>§beta</string>
 		<key>with</key>
 		<string>β</string>
 	</dict>
@@ -726,7 +742,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$arrow</string>
+		<string>§arrow</string>
 		<key>with</key>
 		<string>→</string>
 	</dict>
@@ -734,7 +750,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$approx</string>
+		<string>§approx</string>
 		<key>with</key>
 		<string>≈</string>
 	</dict>
@@ -742,7 +758,7 @@
 		<key>on</key>
 		<integer>1</integer>
 		<key>replace</key>
-		<string>$.</string>
+		<string>§.</string>
 		<key>with</key>
 		<string>∘</string>
 	</dict>

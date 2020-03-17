@@ -1,3 +1,5 @@
+#!/bin/bash
+
 [[ -s ~/.bashrc ]] && source ~/.bashrc
 
 alias ls="ls -FA"
