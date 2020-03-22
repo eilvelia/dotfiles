@@ -4,6 +4,8 @@
 <dict>
 	<key>AppleAntiAliasingThreshold</key>
 	<integer>1</integer>
+	<key>ApplePressAndHoldEnabled</key>
+	<false/>
 	<key>AppleScrollAnimationEnabled</key>
 	<integer>0</integer>
 	<key>AppleSmoothFixedFontsSizeThreshold</key>
@@ -94,11 +96,11 @@
 	<key>NSWindow Frame SharedPreferences</key>
 	<string>246 223 918 512 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>409 209 605 439 0 0 1440 877 </string>
+	<string>376 240 668 473 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>31 54 605 367 0 0 1440 877 </string>
+	<string>402 292 605 439 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>425 280 605 367 0 0 1440 877 </string>
+	<string>425 246 605 395 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>325 232 605 367 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 5</key>
@@ -301,7 +303,7 @@
 			<key>Close Sessions On End</key>
 			<false/>
 			<key>Columns</key>
-			<integer>85</integer>
+			<integer>94</integer>
 			<key>Command</key>
 			<string></string>
 			<key>Cursor Color</key>
@@ -640,7 +642,7 @@
 			<key>Right Option Key Sends</key>
 			<integer>0</integer>
 			<key>Rows</key>
-			<integer>23</integer>
+			<integer>25</integer>
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
@@ -832,8 +834,14 @@
 	</array>
 	<key>NoSyncAllAppVersions</key>
 	<array>
+		<string>3.3.9</string>
 		<string>3.2.9</string>
+		<string>3.3.7</string>
 		<string>3.3.6</string>
+	</array>
+	<key>NoSyncBFPRecents</key>
+	<array>
+		<string>Monaco</string>
 	</array>
 	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
 	<true/>
@@ -844,14 +852,14 @@
 		<key>screenFrame</key>
 		<string>{{0, 0}, {1440, 900}}</string>
 		<key>topLeft</key>
-		<string>{438, 741}</string>
+		<string>{286, 687}</string>
 	</dict>
 	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
 	<true/>
 	<key>NoSyncInstallationId</key>
 	<string>661B42ED-689A-490A-B793-3DC789746485</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>18</integer>
+	<integer>205</integer>
 	<key>NoSyncNeverAskAboutSettingAlternateMouseScroll</key>
 	<true/>
 	<key>NoSyncNextAnnoyanceTime</key>
@@ -1582,15 +1590,6 @@
 			</dict>
 		</array>
 	</dict>
-	<key>NoSyncSearchHistory2</key>
-	<array>
-		<string>eof</string>
-		<string>color</string>
-		<string>fish</string>
-		<string>adad</string>
-		<string>asda</string>
-		<string>asdfsdf</string>
-	</array>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
 	<real>505864627.88416499</real>
 	<key>OpenArrangementAtStartup</key>
@@ -1653,8 +1652,10 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-10-21T20:31:13Z</date>
+	<date>2020-03-22T03:16:56Z</date>
 	<key>SUSendProfileInfo</key>
+	<false/>
+	<key>SUUpdateRelaunchingMarker</key>
 	<false/>
 	<key>Secure Input</key>
 	<false/>
@@ -1703,7 +1704,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.3.6</string>
+	<string>3.3.9</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
