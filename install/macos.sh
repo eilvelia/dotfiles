@@ -11,6 +11,7 @@ if confirm "Import the iTerm2 settings?"; then
 fi
 
 if confirm "Import the text replacement settings?"; then
+  ./convert-text-replacements.js
   ./manage-text-replacements.sh import
 fi
 

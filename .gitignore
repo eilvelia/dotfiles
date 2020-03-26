@@ -1,7 +1,9 @@
 .DS_Store
+*.bak
 system_ocaml_path
 default_user
 /nvim/.netrwhist
 *.copy
 fish/fish_variables
 fish/conf.d/
+/text-replacements.plist
