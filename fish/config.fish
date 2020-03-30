@@ -13,10 +13,14 @@ alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 
 
 abbr -ag getdate "date \"+%Y_%m_%d\""
 
-abbr -ag qfind "find . -name "
+abbr -ag qfind "find . -name"
 
 abbr -ag e "echo"
 abbr -ag l "ls"
+
+abbr -ag f "ls | grep -i"
+
+abbr -ag r "ranger"
 
 abbr -ag totarbz2 "tar cjvf"
 abbr -ag fromtarbz2 "tar xjvf"

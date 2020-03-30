@@ -107,7 +107,6 @@ let NERDTreeIgnore = ['^\.git$[[dir]]', '^\.DS_Store$', '\~$']
 " nerdtree-git-plugin {{{
 "let g:NERDTreeShowGitStatus = 0
 let g:NERDTreeShowIgnoredStatus = 1
-" (Changed the 'Dirty' character from ✗ to ✹)
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
@@ -117,24 +116,22 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Deleted"   : "✖",
     \ "Dirty"     : "✹",
     \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
+    \ 'Ignored'   : '·',
     \ "Unknown"   : "?"
     \ }
+hi! link NERDTreeGitStatusIgnored Comment
+hi! link NERDTreeGitStatusUntracked Title
 " Vim-devicons and nerdtree-git-plugin are conflicting here a bit.
 " Highlighting of the indicators doesn't work properly with devicons' conceal.
 let g:webdevicons_conceal_nerdtree_brackets = 0
 " }}}
 
 " airline {{{
-if is_gui
-  " let g:airline_theme = 'onedark_modified'
-  " let g:airline_theme = 'gruvbox'
-  " let g:airline_theme = 'violet'
-  let g:airline_theme = 'srcery'
-  let g:airline_powerline_fonts = 1
-else
-  let g:airline_theme = 'powerlineish'
-endif
+" let g:airline_theme = 'onedark_modified'
+" let g:airline_theme = 'gruvbox'
+" let g:airline_theme = 'violet'
+let g:airline_theme = 'srcery'
+let g:airline_powerline_fonts = 1
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -473,6 +470,8 @@ tnoremap <expr> <Esc> &filetype == 'fzf' ? "\<Esc>" : "\<C-\>\<C-n>"
 nnoremap <silent> <A-]> :put =nr2char(10)<CR>
 inoremap <silent> <A-]> <C-o>:put =nr2char(10)<CR>
 
+inoremap <A-BS> <C-w>
+
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
 nnoremap <Leader><Leader><Leader>m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
@@ -508,7 +507,6 @@ if is_mac && is_gui
   vnoremap <silent> <D-Down> G
 
   nnoremap <silent> <D-BS> v0d
-  inoremap <silent> <D-BS> <C-o>v0d
 
   nnoremap <silent> <D-]> >>
   inoremap <silent> <D-]> <C-t>
@@ -597,55 +595,56 @@ syntax on
 " SpellBad       xxx cterm=underline ctermfg=204 gui=underline guifg=#E06C75
 " SpellCap       xxx ctermfg=173 guifg=#D19A66
 
-if is_gui
-  augroup colorextend
-    autocmd!
-  augroup END
-  function! s:Highlighting()
-    hi SpellBad gui=undercurl guifg=NONE guibg=NONE guisp=#e06c75
+function! s:Highlighting()
+  hi SpellBad gui=undercurl guifg=NONE guibg=NONE guisp=#e06c75
 
-    hi! link ALEError SpellBad
-    hi! link ALEWarning SpellCap
+  hi! link ALEError SpellBad
+  hi! link ALEWarning SpellCap
 
-    hi ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
-    hi ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
+  hi ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
+  hi ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
 
-    hi CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
-    hi CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
-    hi CocErrorFloat guifg=#ff5d64
-    hi! link CocErrorHighlight SpellBad
-    hi! link CocWarningHighlight SpellCap
+  hi CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
+  hi CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
+  hi CocErrorFloat guifg=#ff5d64
+  hi! link CocErrorHighlight SpellBad
+  hi! link CocWarningHighlight SpellCap
 
-    hi Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
-    hi clear SneakLabel
+  hi Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
+  hi clear SneakLabel
 
-    " hi Pmenu ctermbg=237 ctermfg=white
-    " hi PmenuSel ctermbg=220 ctermfg=black
-    " hi PmenuSbar ctermbg=233
-    " hi PmenuThumb ctermbg=7
+  " hi Pmenu ctermbg=237 ctermfg=white
+  " hi PmenuSel ctermbg=220 ctermfg=black
+  " hi PmenuSbar ctermbg=233
+  " hi PmenuThumb ctermbg=7
 
-    hi IndentGuidesOdd guibg=#2d2b28
-    hi IndentGuidesEven guibg=#272522
+  hi IndentGuidesOdd guibg=#2d2b28
+  hi IndentGuidesEven guibg=#272522
 
-    hi VertSplit guifg=#121212 guibg=#121212
+  hi VertSplit guifg=#121212 guibg=#121212
 
-    " Default value: #ef2f27
-    hi SrceryRed ctermfg=1 guifg=#ef453e
-  endfunction
-  autocmd colorextend ColorScheme * call s:Highlighting()
-  " let g:onedark_terminal_italics = 1
-  " colorscheme onedark
-  " let g:gruvbox_contrast_dark = 'hard'
-  " let g:gruvbox_hls_cursor = 'red'
-  " colorscheme gruvbox
-  " colorscheme space-vim-dark
-  let g:srcery_italic = 1
-  colorscheme srcery
-else
-  hi link GitGutterAdd DiffAdd
-  hi link GitGutterChange DiffChange
-  hi link GitGutterDelete DiffDelete
-endif
+  " Default value: #ef2f27
+  hi SrceryRed ctermfg=1 guifg=#ef453e
+  hi Title gui=bold guifg=#b8bb26
+endfunction
+
+augroup colorextend
+  autocmd!
+  autocmd ColorScheme * call s:Highlighting()
+augroup END
+
+" let g:onedark_terminal_italics = 1
+" colorscheme onedark
+
+" let g:gruvbox_contrast_dark = 'hard'
+" let g:gruvbox_hls_cursor = 'red'
+" colorscheme gruvbox
+
+" colorscheme space-vim-dark
+
+let g:srcery_italic = 1
+if !is_gui | let g:srcery_transparent_background = 1 | endif
+colorscheme srcery
 
 " }}}
 
