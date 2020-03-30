@@ -102,7 +102,7 @@ source "$__dotfiles/vendor/git-completion.bash"
 
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$__dotfiles/scripts:$PATH"
+export PATH="$__dotfiles/global-scripts:$PATH"
 
 __system_ocaml_path=$(test -r "$__system_ocaml_file" && \
   cat "$__system_ocaml_file" || echo "")

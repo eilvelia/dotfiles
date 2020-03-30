@@ -65,7 +65,7 @@ if test -r $system_ocaml_path_file
   end
 end
 
-set -xp PATH $dotfiles/scripts
+set -xp PATH $dotfiles/global-scripts
 
 source ~/.opam/opam-init/init.fish > /dev/null 2>&1 || true
 

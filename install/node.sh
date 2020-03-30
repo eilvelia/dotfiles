@@ -2,7 +2,7 @@
 
 cd ~ || exit 1
 
-if ! which n &> /dev/null; then
+if ! command -v n &> /dev/null; then
   echo "Intalling n..." \
     && git clone https://github.com/tj/n n-git \
     && cd n-git \
@@ -13,14 +13,14 @@ else
   echo "n is already installed."
 fi
 
-if ! which node &> /dev/null; then
+if ! command -v node &> /dev/null; then
   echo "Intalling Node.js..."
   sudo n latest
 else
   echo "Node.js is already installed."
 fi
 
-if which npm &> /dev/null; then
+if command -v npm &> /dev/null; then
   echo "Previous npm prefix: $(npm config get prefix)"
   npm config set prefix ~/.local
   echo "New npm prefix: $(npm config get prefix)"

@@ -6,11 +6,11 @@ echo "Home: $(echo ~)"
 
 cd ~/dotfiles/
 
-source ./utils.sh
+source ./install/utils.sh
 
 if confirm "Link dotfiles?"; then
-  mkdir -p ~/.emacs.d/
-  mkdir -p ~/.config/
+  mkdir -p ~/.emacs.d
+  mkdir -p ~/.config
 
   if confirm "Backup old dotfiles?"; then
     echo "Backup directory: $_bakdir"
@@ -44,17 +44,29 @@ fi
 mkdir -p ~/.local
 
 if [[ "$OSTYPE" == "darwin"* ]] && confirm "macOS detected. Run macos.sh?"; then
-  source ./install/macos.sh
+  ./install/macos.sh
 fi
 
-if confirm "Install Node.js?"; then
-  ./install/node.sh
-fi
-
-if confirm "Setup fish as the default shell?"; then
+if ! grep fish /etc/shells &> /dev/null && confirm "Setup fish as the default shell?"; then
   ./install/setup-fish.sh
 fi
 
-if confirm "Download and install oh my fish?"; then
+if chk fish && ! fish -c "type -q omf" && confirm "Download and install oh my fish?"; then
   ./install/omf.fish
+fi
+
+if (! chk n || ! chk node || ! chk npm) && confirm "Install Node.js?"; then
+  ./install/node.sh
+fi
+
+if chk npm && confirm "Install the npm packages?"; then
+  ./packages/npm.sh
+fi
+
+if chk opam && confirm "Install the opam packages?"; then
+  ./packages/opam.sh
+fi
+
+if chk pip3 && confirm "Install the pip packages?"; then
+  ./packages/python.sh
 fi

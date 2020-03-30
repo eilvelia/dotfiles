@@ -96,7 +96,7 @@
 	<key>NSWindow Frame SharedPreferences</key>
 	<string>246 223 918 512 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>376 240 668 473 0 0 1440 877 </string>
+	<string>353 241 668 473 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>402 292 605 439 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -859,7 +859,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>661B42ED-689A-490A-B793-3DC789746485</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>205</integer>
+	<integer>225</integer>
 	<key>NoSyncNeverAskAboutSettingAlternateMouseScroll</key>
 	<true/>
 	<key>NoSyncNextAnnoyanceTime</key>
@@ -1634,7 +1634,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>~/dotfiles</string>
+	<string>~/dotfiles/plists</string>
 	<key>PreserveWindowSizeWhenTabBarVisibilityChanges</key>
 	<false/>
 	<key>Print In Black And White</key>
