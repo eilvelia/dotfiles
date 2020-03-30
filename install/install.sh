@@ -10,7 +10,7 @@ source ./utils.sh
 
 if confirm "Link dotfiles?"; then
   mkdir -p ~/.emacs.d/
-  mkdir -p ~/.config/nvim/
+  mkdir -p ~/.config/
 
   if confirm "Backup old dotfiles?"; then
     echo "Backup directory: $_bakdir"
@@ -25,6 +25,7 @@ if confirm "Link dotfiles?"; then
     mv ~/.config/nvim "$_bakdir/nvim"
     mv ~/.config/fish "$_bakdir/fish"
     mv ~/.config/omf "$_bakdir/omf"
+    mv ~/.config/ranger "$_bakdir/ranger"
     [ "$(ls -A $_bakdir)" ] || rm -r $_bakdir
   fi
 
@@ -37,6 +38,7 @@ if confirm "Link dotfiles?"; then
   ln -s ~/dotfiles/nvim ~/.config/nvim
   ln -s ~/dotfiles/fish ~/.config/fish
   ln -s ~/dotfiles/omf ~/.config/omf
+  ln -s ~/dotfiles/ranger ~/.config/ranger
 fi
 
 mkdir -p ~/.local
