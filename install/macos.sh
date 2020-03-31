@@ -15,6 +15,12 @@ if confirm "Import the text replacement settings?"; then
   ./manage-text-replacements.sh import
 fi
 
+if confirm "Copy the karabiner-elements config?"; then
+  mkdir -p ~/.config/karabiner/assets/complex_modifications
+  cp ./karabiner_rules/personal.json \
+    ~/.config/karabiner/assets/complex_modifications/personal.json
+fi
+
 if ! chk brew &> /dev/null && confirm "Download and install Homebrew?"; then
   echo "Installing Homebrew..."
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

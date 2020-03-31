@@ -40,6 +40,7 @@ brew install micro
 brew install emojify
 brew install highlight
 brew install ranger
+brew install nnn
 brew install diff-so-fancy
 brew install bash-completion
 brew install aspell

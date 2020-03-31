@@ -55,7 +55,7 @@ function! s:DeinRemoveDisabledPlugins()
   call map(dein#check_clean(), "delete(v:val, 'rf')")
   call dein#recache_runtimepath()
 endfunction
-command! DeinRemoveDisabledPlugins call <SID>RemoveDisabledDeinPlugins()
+command! DeinRemoveDisabledPlugins call <SID>DeinRemoveDisabledPlugins()
 
 command! -nargs=1 DeinSaveRollback call dein#save_rollback('<args>')
 
@@ -359,26 +359,22 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 nnoremap <silent> <Leader>n :call setreg(v:register,
       \ substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
 
-" insert a new character
-nnoremap <Leader>i i_<Esc>r
-nnoremap <Leader>I a_<Esc>r
-
 " delete a character on Backspace without changing registers
-nnoremap <silent> <BS> "_X
-nnoremap <silent> <S-BS> "_x
+nnoremap <BS> "_X
+nnoremap <S-BS> "_x
 
 " search the selected text
 vnoremap <silent> // y/<C-R>"<CR>
 
-inoremap <silent> <C-.> <Esc>
+inoremap <C-.> <Esc>
 
 " command history
 nnoremap q: <NOP>
 nnoremap <Leader><Leader>q: q:
 
 " ex mode
+" alternative mapping: gQ
 nnoremap Q <NOP>
-nnoremap <Leader><Leader><C-q>Q Q
 
 " strip trailing whitespace
 function! s:StripTrailingWhitespace()
@@ -493,27 +489,27 @@ if is_mac && is_gui
     execute "inoremap <silent> <D-" . i . "> <Esc>:tabn " . i . "<CR>"
   endfor
 
-  nnoremap <silent> <D-Left> ^
-  inoremap <silent> <D-Left> <C-c>I
-  vnoremap <silent> <D-Left> ^
-  nnoremap <silent> <D-Right> g_
-  inoremap <silent> <D-Right> <End>
-  vnoremap <silent> <D-Right> g_
-  nnoremap <silent> <D-Up> gg
-  inoremap <silent> <D-Up> <C-Home>
-  vnoremap <silent> <D-Up> gg
-  nnoremap <silent> <D-Down> G
-  inoremap <silent> <D-Down> <C-End>
-  vnoremap <silent> <D-Down> G
+  nnoremap <D-Left> ^
+  inoremap <D-Left> <C-c>I
+  vnoremap <D-Left> ^
+  nnoremap <D-Right> g_
+  inoremap <D-Right> <End>
+  vnoremap <D-Right> g_
+  nnoremap <D-Up> gg
+  inoremap <D-Up> <C-Home>
+  vnoremap <D-Up> gg
+  nnoremap <D-Down> G
+  inoremap <D-Down> <C-End>
+  vnoremap <D-Down> G
 
-  nnoremap <silent> <D-BS> v0d
+  nnoremap <D-BS> v0d
 
-  nnoremap <silent> <D-]> >>
-  inoremap <silent> <D-]> <C-t>
-  vnoremap <silent> <D-]> >
-  nnoremap <silent> <D-[> <<
-  inoremap <silent> <D-[> <C-d>
-  vnoremap <silent> <D-[> <
+  nnoremap <D-]> >>
+  inoremap <D-]> <C-t>
+  vnoremap <D-]> >
+  nnoremap <D-[> <<
+  inoremap <D-[> <C-d>
+  vnoremap <D-[> <
 
   " duplicate the line
   nnoremap <silent> <D-S-d> :t.<CR>

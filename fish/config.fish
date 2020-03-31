@@ -22,6 +22,8 @@ abbr -ag f "ls | grep -i"
 
 abbr -ag r "ranger"
 
+abbr -ag gs "git status"
+
 abbr -ag totarbz2 "tar cjvf"
 abbr -ag fromtarbz2 "tar xjvf"
 abbr -ag totargz "tar czvf"
