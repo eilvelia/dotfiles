@@ -57,7 +57,7 @@
 §isomorphism -> ≅
 §iso -> ≅
 §niso -> ≇
-§def -> ≅
+§def -> ≔
 §land -> ∧
 §lor -> ∨
 §not -> ¬
