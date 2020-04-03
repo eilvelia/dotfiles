@@ -13,6 +13,15 @@ merged = 0
 [[plugins]]
 repo = 'junegunn/fzf.vim'
 
+# Too slow
+# [[plugins]]
+# repo = 'yuki-ycino/fzf-preview.vim'
+
+# TODO: vim-clap?
+
+[[plugins]]
+repo = 'voldikss/vim-floaterm'
+
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
 # if = 'g:is_gui'
@@ -23,11 +32,23 @@ repo = 'scrooloose/nerdtree'
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
 
+# [[plugins]]
+# repo = 'Shougo/defx.nvim'
+
+# [[plugins]]
+# repo = 'kristijanhusak/defx-icons'
+
+# [[plugins]]
+# repo = 'kristijanhusak/defx-git'
+
 [[plugins]]
 repo = 'vim-airline/vim-airline'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]
+repo = 'chrisbra/Colorizer'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
@@ -135,12 +156,10 @@ let g:polyglot_disabled = [
 
 [[plugins]]
 repo = 'pangloss/vim-javascript'
-on_ft = [ 'javascript', 'jsx', 'javascript.jsx' ]
 
 [[plugins]]
 repo = 'carlosrocha/vim-flow-plus'
 rev = '458cc22cc4adb9106f23839df97e13557ec7444c'
-on_ft = 'javascript'
 
 [[plugins]]
 repo = 'rgrinberg/vim-ocaml'
@@ -148,11 +167,9 @@ on_ft = [ 'ocaml', 'dune', 'opam', 'oasis', 'ocamlbuild_tags', 'sexplib' ]
 
 [[plugins]]
 repo = 'neovimhaskell/haskell-vim'
-on_ft = 'haskell'
 
 [[plugins]]
 repo = 'derekelkins/agda-vim'
-on_ft = 'agda'
 
 # }}}
 

@@ -1,8 +1,6 @@
 " vim: foldmethod=marker
 
 if has('vim_starting')
-  set nocompatible
-
   let mapleader = ","
   let maplocalleader = "\<Space>"
 endif
@@ -57,12 +55,14 @@ function! s:DeinRemoveDisabledPlugins()
 endfunction
 command! DeinRemoveDisabledPlugins call <SID>DeinRemoveDisabledPlugins()
 
+command! DeinUselessLazy echo dein#check_lazy_plugins()
+
 command! -nargs=1 DeinSaveRollback call dein#save_rollback('<args>')
 
 " Plugin settings {{{
 
 " fzf {{{
-"let $FZF_DEFAULT_OPTS .= ' --inline-info'
+" let $FZF_DEFAULT_OPTS .= ' --preview="head -100 {}"'
 let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git'
 if is_mac && is_gui
   nnoremap <D-p> :FZF<CR>
@@ -87,6 +87,37 @@ nnoremap <Leader>§ :Marks<CR>
 imap <C-x><C-f> <Plug>(fzf-complete-path)
 imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <Plug>(fzf-complete-line)
+" since fzf v0.21.0:
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7 } }
+" }}}
+
+" " fzf-preview.vim {{{
+" if &shell =~# 'fish$'
+"   " Original: '[[ "$(file --mime {})" =~ binary ]]'
+"   let g:fzf_preview_if_binary_command = "string match -q -r 'binary$' (file --mime-encoding {})"
+" endif
+" let g:fzf_preview_filelist_command = 'fd --type f --hidden --exclude .git'
+" let g:fzf_preview_directory_files_command = 'fd --type f --hidden --exclude .git'
+" " }}}
+
+" vim-floaterm {{{
+let g:floaterm_winblend = 15
+let g:floaterm_position = 'center'
+hi! link FloatermNF Normal
+hi! link FloatermBorderNF Normal
+" let g:floaterm_keymap_new = '<C-t>n'
+" let g:floaterm_keymap_prev = '<C-t>['
+" let g:floaterm_keymap_next = '<C-t>]'
+let g:floaterm_keymap_toggle = '<C-t>'
+nnoremap <Leader>t[ :FloatermPrev<CR>
+nnoremap <Leader>t] :FloatermNext<CR>
+nnoremap <Leader>tn :FloatermNew<CR>
+nnoremap <Leader>ts :FloatermSend!<CR>
+vnoremap <Leader>ts :FloatermSend!<CR>
+tnoremap <F8> <C-\><C-n>:FloatermPrev<CR>
+tnoremap <F9> <C-\><C-n>:FloatermNext<CR>
+command! Ranger FloatermNew ranger
+command! Nnn FloatermNew nnn
 " }}}
 
 " vim-devicons {{{
@@ -105,7 +136,8 @@ let NERDTreeIgnore = ['^\.git$[[dir]]', '^\.DS_Store$', '\~$']
 " }}}
 
 " nerdtree-git-plugin {{{
-"let g:NERDTreeShowGitStatus = 0
+" Slows down NERDTree
+let g:NERDTreeShowGitStatus = 0
 let g:NERDTreeShowIgnoredStatus = 1
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
@@ -119,12 +151,95 @@ let g:NERDTreeIndicatorMapCustom = {
     \ 'Ignored'   : '·',
     \ "Unknown"   : "?"
     \ }
-hi! link NERDTreeGitStatusIgnored Comment
-hi! link NERDTreeGitStatusUntracked Title
 " Vim-devicons and nerdtree-git-plugin are conflicting here a bit.
 " Highlighting of the indicators doesn't work properly with devicons' conceal.
 let g:webdevicons_conceal_nerdtree_brackets = 0
 " }}}
+
+" " defx {{{
+" " TODO: change floating window colors?
+" let s:defx_height = max([float2nr(&lines * 0.9), 25])
+" let s:defx_col = float2nr((&columns - 90) / 2) " 90 = default width
+" let s:defx_row = float2nr((&lines - s:defx_height) / 2)
+" let s:defx_com = 'Defx -split=floating -winheight=' . s:defx_height
+"       \ . ' -wincol=' . s:defx_col . ' -winrow=' . s:defx_row
+"       \ . ' -toggle -columns=indent:git:icons:filename:type'
+" exe 'command! D ' . s:defx_com . ' -resume'
+" exe 'nnoremap <silent> <Leader>f :' . s:defx_com . ' -resume<CR>'
+" exe 'nnoremap <silent> <Leader><C-f> :' . s:defx_com . '<CR>'
+" autocmd FileType defx call s:DefxFtSettings()
+" function! s:DefxFtSettings()
+"   " setlocal cursorline
+"   " setlocal winhl=Normal:Floating
+
+"   " TODO: somehow remove other normal mode mappings?
+
+"   " Mappings
+"   nnoremap <silent><buffer><expr> <CR>
+"         \ defx#do_action('drop')
+"   nnoremap <silent><buffer><expr> c
+"         \ defx#do_action('copy')
+"   nnoremap <silent><buffer><expr> m
+"         \ defx#do_action('move')
+"   nnoremap <silent><buffer><expr> p
+"         \ defx#do_action('paste')
+"   nnoremap <silent><buffer><expr> l
+"         \ defx#do_action('open')
+"   " nnoremap <silent><buffer><expr> E
+"   "       \ defx#do_action('open', 'vsplit')
+"   " nnoremap <silent><buffer><expr> P
+"   "       \ defx#do_action('open', 'pedit')
+"   nnoremap <silent><buffer><expr> o
+"         \ defx#do_action('open_or_close_tree')
+"   nnoremap <silent><buffer><expr> A
+"         \ defx#do_action('new_directory')
+"   " nnoremap <silent><buffer><expr> N
+"   "       \ defx#do_action('new_file')
+"   nnoremap <silent><buffer><expr> a
+"         \ defx#do_action('new_file')
+"   nnoremap <silent><buffer><expr> M
+"         \ defx#do_action('new_multiple_files')
+"   nnoremap <silent><buffer><expr> C
+"         \ defx#do_action('toggle_columns',
+"         \                'mark:indent:icon:filename:type:size:time')
+"   " nnoremap <silent><buffer><expr> S
+"   "       \ defx#do_action('toggle_sort', 'time')
+"   nnoremap <silent><buffer><expr> d
+"         \ defx#do_action('remove')
+"   nnoremap <silent><buffer><expr> r
+"         \ defx#do_action('rename')
+"   nnoremap <silent><buffer><expr> <Leader>!
+"         \ defx#do_action('execute_command')
+"   nnoremap <silent><buffer><expr> <Leader>x
+"         \ defx#do_action('execute_system')
+"   nnoremap <silent><buffer><expr> yy
+"         \ defx#do_action('yank_path')
+"   nnoremap <silent><buffer><expr> I
+"         \ defx#do_action('toggle_ignored_files')
+"   nnoremap <silent><buffer><expr> ;
+"         \ defx#do_action('repeat')
+"   nnoremap <silent><buffer><expr> h
+"         \ defx#do_action('cd', ['..'])
+"   " nnoremap <silent><buffer><expr> ~
+"   "       \ defx#do_action('cd')
+"   nnoremap <silent><buffer><expr> q
+"         \ defx#do_action('quit')
+"   nnoremap <silent><buffer><expr> <Space>
+"         \ defx#do_action('toggle_select') . 'j'
+"   nnoremap <silent><buffer><expr> *
+"         \ defx#do_action('toggle_select_all')
+"   nnoremap <silent><buffer><expr> j
+"         \ line('.') == line('$') ? 'gg' : 'j'
+"   nnoremap <silent><buffer><expr> k
+"         \ line('.') == 1 ? 'G' : 'k'
+"   nnoremap <silent><buffer><expr> <C-l>
+"         \ defx#do_action('redraw')
+"   nnoremap <silent><buffer><expr> <C-g>
+"         \ defx#do_action('print')
+"   nnoremap <silent><buffer><expr> cd
+"         \ defx#do_action('change_vim_cwd')
+" endfunction
+" " }}}
 
 " airline {{{
 " let g:airline_theme = 'onedark_modified'
@@ -305,7 +420,7 @@ if g:is_gui
 endif
 let g:vista_default_executive = 'coc'
 let g:vista_finder_alternative_executives = []
-nnoremap <LocalLeader>v :Vista finder<CR>
+nnoremap <Space>v :Vista finder<CR>
 " }}}
 
 " vim-indent-guides {{{
@@ -353,12 +468,6 @@ nnoremap Y y$
 nnoremap <C-g>d gd
 nnoremap <C-g>D gD
 
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-
-" remove trailing newlines from the register
-nnoremap <silent> <Leader>n :call setreg(v:register,
-      \ substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
-
 " delete a character on Backspace without changing registers
 nnoremap <BS> "_X
 nnoremap <S-BS> "_x
@@ -376,6 +485,12 @@ nnoremap <Leader><Leader>q: q:
 " alternative mapping: gQ
 nnoremap Q <NOP>
 
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+
+" remove trailing newlines from the register
+nnoremap <silent> <Leader>n :call setreg(v:register,
+      \ substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
+
 " strip trailing whitespace
 function! s:StripTrailingWhitespace()
   if &binary
@@ -388,6 +503,14 @@ function! s:StripTrailingWhitespace()
 endfunction
 command! StripTrailingWhitespace call <SID>StripTrailingWhitespace()
 nnoremap <silent> <Leader><C-w> :StripTrailingWhitespace<CR>
+
+function! s:ExecuteVim() range
+    let lines = getline(a:firstline, a:lastline)
+    for line in lines
+      execute line
+    endfor
+endfunction
+command! -range ExecuteVim <line1>,<line2>call <SID>ExecuteVim()
 
 nnoremap <silent> <C-;> :let @/ = ''<CR>
 inoremap <silent> <C-;> <C-o>:let @/ = ''<CR>
@@ -454,7 +577,9 @@ nnoremap <C-A-=> <C-w>=
 
 " Terminal mappings {{{
 
-tnoremap <expr> <Esc> &filetype == 'fzf' ? "\<Esc>" : "\<C-\>\<C-n>"
+" tnoremap <expr> <Esc> &filetype == 'fzf' ? "\<Esc>" : "\<C-\>\<C-n>"
+tnoremap <C-.> <C-\><C-n>
+
 " tnoremap <A-Left> <C-\><C-N><C-w>h
 " tnoremap <A-Right> <C-\><C-N><C-w>l
 " tnoremap <A-Up> <C-\><C-N><C-w>k
@@ -467,13 +592,14 @@ nnoremap <silent> <A-]> :put =nr2char(10)<CR>
 inoremap <silent> <A-]> <C-o>:put =nr2char(10)<CR>
 
 inoremap <A-BS> <C-w>
+cnoremap <A-BS> <C-w>
 
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
-nnoremap <Leader><Leader><Leader>m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
-nnoremap <Leader><Leader><Leader>M :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
-nnoremap <Leader><Leader><Leader>t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
-nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nnoremap <Leader><Leader><Leader>m :set expandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>M :set expandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
 
 if is_mac && is_gui
   nnoremap <silent> <D-A-Left> :tabp<CR>
@@ -518,131 +644,8 @@ endif
 
 source $VIMDIR/vault.vim
 source $VIMDIR/syntax-attr.vim
-
-" Vim options {{{
-
-set completeopt-=preview
-
-set noshowmode
-
-set concealcursor=nc
-set conceallevel=1
-set listchars+=conceal:∘
-
-set nostartofline
-
-set scrolloff=1
-
-set foldmethod=indent
-set foldlevelstart=6
-
-set sessionoptions-=options
-
-set signcolumn=yes
-
-" set title
-
-set hidden
-
-set number
-set relativenumber
-set wrap
-set showbreak=↳
-set showmatch
-set visualbell
-
-set hlsearch
-set smartcase
-set ignorecase
-set incsearch
-
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set smarttab
-set expandtab
-set autoindent
-
-set ruler
-set whichwrap+=<,>,[,]
-set backspace=indent,eol,start
-
-set wildmode=longest,list
-
-set colorcolumn=80
-
-" set cursorline
-
-set list
-set lazyredraw
-
-set tagcase=smart
-
-set updatetime=300
-
-set termguicolors
-
-syntax on
-
-" }}}
-
-" Colors {{{
-
-" SpellBad       xxx cterm=underline ctermfg=204 gui=underline guifg=#E06C75
-" SpellCap       xxx ctermfg=173 guifg=#D19A66
-
-function! s:Highlighting()
-  hi SpellBad gui=undercurl guifg=NONE guibg=NONE guisp=#e06c75
-
-  hi! link ALEError SpellBad
-  hi! link ALEWarning SpellCap
-
-  hi ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
-  hi ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
-
-  hi CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
-  hi CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
-  hi CocErrorFloat guifg=#ff5d64
-  hi! link CocErrorHighlight SpellBad
-  hi! link CocWarningHighlight SpellCap
-
-  hi Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
-  hi clear SneakLabel
-
-  " hi Pmenu ctermbg=237 ctermfg=white
-  " hi PmenuSel ctermbg=220 ctermfg=black
-  " hi PmenuSbar ctermbg=233
-  " hi PmenuThumb ctermbg=7
-
-  hi IndentGuidesOdd guibg=#2d2b28
-  hi IndentGuidesEven guibg=#272522
-
-  hi VertSplit guifg=#121212 guibg=#121212
-
-  " Default value: #ef2f27
-  hi SrceryRed ctermfg=1 guifg=#ef453e
-  hi Title gui=bold guifg=#b8bb26
-endfunction
-
-augroup colorextend
-  autocmd!
-  autocmd ColorScheme * call s:Highlighting()
-augroup END
-
-" let g:onedark_terminal_italics = 1
-" colorscheme onedark
-
-" let g:gruvbox_contrast_dark = 'hard'
-" let g:gruvbox_hls_cursor = 'red'
-" colorscheme gruvbox
-
-" colorscheme space-vim-dark
-
-let g:srcery_italic = 1
-if !is_gui | let g:srcery_transparent_background = 1 | endif
-colorscheme srcery
-
-" }}}
+source $VIMDIR/options.vim
+source $VIMDIR/color.vim
 
 set exrc
 set secure
