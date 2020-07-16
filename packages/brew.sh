@@ -122,10 +122,12 @@ brew cask install electrum
 brew cask install fork # proprietary
 brew cask install gfxcardstatus
 brew cask install macs-fan-control # proprietary
+brew cask install dropbox # proprietary
 brew cask install db-browser-for-sqlite
 brew cask install hex-fiend
 brew cask install xrg
 brew cask install wire
+brew cask install signal
 brew cask install tor-browser
 brew cask install love
 brew cask install vimr
