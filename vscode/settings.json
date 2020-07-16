@@ -1,0 +1,26 @@
+{
+    "extensions.autoUpdate": false,
+    "update.mode": "manual",
+    "editor.fontSize": 13,
+    "editor.tabSize": 2,
+    "editor.rulers": [80],
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "breadcrumbs.enabled": true,
+    "explorer.confirmDragAndDrop": false,
+    "workbench.iconTheme": "file-icons",
+    "javascript.validate.enable": false,
+
+    "typescript.suggest.autoImports": false,
+    "javascript.suggest.autoImports": false,
+
+    "flow.useLSP": true,
+
+    "reason.codelens.enabled": true,
+
+    "bracketPairColorizer.forceIterationColorCycle": true,
+    "bracketPairColorizer.showHorizontalScopeLine": false,
+
+    "window.zoomLevel": 0
+}
