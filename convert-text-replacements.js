@@ -14,6 +14,7 @@ function printStatus (replacement) {
 }
 
 function parseLine (line) {
+  if (line[0] === '#') return
   const [from, to] = line.split('->')
   if (!to)
     return console.error(`Invalid line: "${line}"`)
