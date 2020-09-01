@@ -5,12 +5,9 @@ opam update
 opam install -y \
   utop \
   merlin \
+  dune \
+  ocamlformat \
   ocp-indent \
   ocp-index \
-  ocamlformat \
-  ocamlbuild \
-  dune \
-  base \
   ppx_deriving \
-  ppx_let \
-  cstruct
+  base
