@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>local.startupscript.plist</string>
+  <key>Program</key>
+  <string>$HOME/dotfiles/startup.sh</string>
+  <key>WorkingDirectory</key>
+  <string>$HOME/dotfiles</string>
+  <key>StandardErrorPath</key>
+  <string>$HOME/Library/Logs/startupscript.log</string>
+  <key>StandardOutPath</key>
+  <string>$HOME/Library/Logs/startupscript.log</string>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <false/>
+</dict>
+</plist>

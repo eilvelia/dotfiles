@@ -15,6 +15,11 @@ if confirm "Import the text replacement settings?"; then
   ./manage-text-replacements.sh import
 fi
 
+if confirm "Install the startup script?"; then
+  sed "s|\$HOME|$HOME|g" ./local.startupscript.plist \
+    > ~/Library/LaunchAgents/local.startupscript.plist
+fi
+
 if confirm "Copy the karabiner-elements config?"; then
   mkdir -p ~/.config/karabiner/assets/complex_modifications
   cp ./karabiner_rules/personal.json \
