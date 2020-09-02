@@ -23,7 +23,7 @@ if !exists('g:ocaml_loaded') && executable('opam')
   endif
 endif
 
-let g:ale_ocaml_ols_executable = 'ocamlmerlin-lsp'
+let g:ale_ocaml_ols_executable = 'ocamllsp'
 " let b:ale_linters = ['merlin']
 " let b:ale_linters = ['ols']
 let b:ale_fixers = ['ocp-indent']

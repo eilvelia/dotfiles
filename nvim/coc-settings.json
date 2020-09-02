@@ -13,8 +13,8 @@
   "list.autoResize": false,
   "list.maxHeight": 15,
   "languageserver": {
-    "ocaml": {
-      "command": "ocamlmerlin-lsp",
+    "ocaml-lsp": {
+      "command": "ocamllsp",
       "filetypes": ["ocaml"]
     }
   }
