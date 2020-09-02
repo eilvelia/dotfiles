@@ -11,7 +11,8 @@ let g:is_gui = has('gui_running') || has('gui_vimr')
 let g:is_mac = has('macunix') || has('mac')
 
 if is_mac
-  let g:python_host_prog = '/usr/local/bin/python2'
+  " let g:python_host_prog = '/usr/local/bin/python2'
+  let g:loaded_python_provider = 0
   let g:python3_host_prog = '/usr/local/bin/python3'
 endif
 
@@ -57,7 +58,7 @@ command! DeinRemoveDisabledPlugins call <SID>DeinRemoveDisabledPlugins()
 
 command! DeinUselessLazy echo dein#check_lazy_plugins()
 
-command! -nargs=1 DeinSaveRollback call dein#save_rollback('<args>')
+command! DeinSaveRollback call dein#save_rollback($VIMDIR . '/dein-rollback')
 
 " Plugin settings {{{
 
