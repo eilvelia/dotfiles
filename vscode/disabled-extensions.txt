@@ -1,0 +1,10 @@
+kumar-harsh.graphql-for-vscode
+peterjausovec.vscode-docker
+coenraads.bracket-pair-colorizer
+mads-hartmann.bash-ide-vscode
+goodmind.language-typelanguage
+arthurwang.vsc-prolog
+rreverser.llvm
+sirtobi.pegjs-language
+orta.vscode-jest
+npruehs.pony

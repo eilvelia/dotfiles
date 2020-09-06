@@ -1,5 +1,3 @@
-adammaras.overtype
-alanz.vscode-hie-server
 arthurwang.vsc-prolog
 CoenraadS.bracket-pair-colorizer
 dbaeumer.vscode-eslint
@@ -7,15 +5,18 @@ file-icons.file-icons
 flowtype.flow-for-vscode
 goodmind.language-typelanguage
 hackwaly.ocaml-debugger
+haskell.haskell
 justusadam.language-haskell
 kumar-harsh.graphql-for-vscode
 mads-hartmann.bash-ide-vscode
 mgmcdermott.vscode-language-babel
+ms-azuretools.vscode-docker
+ms-python.python
 muhammadsammy.flat-ui-dark
 npruehs.pony
 ocamllabs.ocaml-platform
 Orta.vscode-jest
-PeterJausovec.vscode-docker
 pustelto.bracketeer
 RReverser.llvm
 SirTobi.pegjs-language
+vscodevim.vim

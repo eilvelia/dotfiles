@@ -17,10 +17,11 @@
 
     "flow.useLSP": true,
 
-    "reason.codelens.enabled": true,
-
     "bracketPairColorizer.forceIterationColorCycle": true,
     "bracketPairColorizer.showHorizontalScopeLine": false,
+
+    "vim.leader": ",",
+    "vim.sneak": true,
 
     "window.zoomLevel": 0
 }
