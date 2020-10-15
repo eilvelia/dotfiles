@@ -6,7 +6,7 @@ set viminfo=""
 set number
 set wrap
 set showbreak=+++
-set showmatch
+set noshowmatch
 set visualbell
 
 set hlsearch

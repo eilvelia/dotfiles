@@ -5,11 +5,17 @@ set fish_greeting
 
 source $__fish_config_dir/colors.fish
 
+# The default is Alt-e / Alt-v
+bind \cx\ce edit_command_buffer
+
 alias ls "ls -FA"
 alias exa "exa --all -l --git"
 
 # gpg symmetric encrypt
 alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
+
+# light nvim
+alias lvim "nvim --cmd 'let g:min_mode = 1'"
 
 abbr -ag getdate "date \"+%Y_%m_%d\""
 

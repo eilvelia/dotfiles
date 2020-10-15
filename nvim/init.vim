@@ -16,6 +16,14 @@ if is_mac
   let g:python3_host_prog = '/usr/local/bin/python3'
 endif
 
+" Minimal mode
+if !exists('g:min_mode')
+  let g:min_mode = 0
+endif
+
+" itchyny/vim-parenmatch is used instead
+let g:loaded_matchparen = 1
+
 let s:dein_cache_path = expand('~/.cache/dein')
 let s:dein_dir = s:dein_cache_path . '/repos/github.com/Shougo/dein.vim'
 let s:dein_toml = expand('~/.config/nvim/dein.toml')
@@ -59,6 +67,8 @@ command! DeinRemoveDisabledPlugins call <SID>DeinRemoveDisabledPlugins()
 command! DeinUselessLazy echo dein#check_lazy_plugins()
 
 command! DeinSaveRollback call dein#save_rollback($VIMDIR . '/dein-rollback')
+
+command! DeinLoadRollback call dein#load_rollback($VIMDIR . '/dein-rollback')
 
 " Plugin settings {{{
 
@@ -338,20 +348,20 @@ let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '!'
 let g:ale_sign_info = 'i'
 let g:ale_set_balloons = 0
-nmap <Leader>af <Plug>(ale_fix)
-" nmap <Leader>al <Plug>(ale_lint)
-" nmap <Leader>ad <Plug>(ale_detail)
-" nmap <Leader>ah <Plug>(ale_hover)
-" nmap <Leader>ar <Plug>(ale_find_references)
-" nmap <Leader>agd <Plug>(ale_go_to_definition_in_split)
-" nmap <Leader>agD <Plug>(ale_go_to_definition)
+nmap <LocalLeader>af <Plug>(ale_fix)
+" nmap <LocalLeader>al <Plug>(ale_lint)
+" nmap <LocalLeader>ad <Plug>(ale_detail)
+" nmap <LocalLeader>ah <Plug>(ale_hover)
+" nmap <LocalLeader>ar <Plug>(ale_find_references)
+" nmap <LocalLeader>agd <Plug>(ale_go_to_definition_in_split)
+" nmap <LocalLeader>agD <Plug>(ale_go_to_definition)
 " nmap gd <Plug>(ale_go_to_definition_in_split)
 " nmap gD <Plug>(ale_go_to_definition)
 " nmap <LocalLeader>t <Plug>(ale_hover)
 " imap <C-t> <Plug>(ale_hover)
 " nmap <LocalLeader>f <Plug>(ale_find_references)
-" nmap <Leader>a, <Plug>(ale_next_wrap)
-" nmap <Leader>a. <Plug>(ale_previous_wrap)
+" nmap <LocalLeader>a, <Plug>(ale_next_wrap)
+" nmap <LocalLeader>a. <Plug>(ale_previous_wrap)
 let g:ale_linters = {}
 let g:ale_linters_explicit = 1
 let g:ale_disable_lsp = 1
@@ -362,8 +372,8 @@ let g:ale_disable_lsp = 1
 " " }}}
 
 " coc.nvim {{{
-nnoremap <silent> <LocalLeader>ct :call CocAction('doHover')<CR>
-nnoremap <silent> <LocalLeader>t :call CocAction('doHover')<CR>
+nnoremap <silent> <LocalLeader>ct :call CocActionAsync('doHover')<CR>
+nnoremap <silent> <LocalLeader>t :call CocActionAsync('doHover')<CR>
 nmap <silent> cgd <Plug>(coc-definition)
 nmap <silent> gd <Plug>(coc-definition)
 nnoremap <silent> gD :call CocAction('jumpDefinition', 'split')<CR>
@@ -389,6 +399,11 @@ nmap <silent> <LocalLeader>v <Plug>(coc-range-select)
 vmap <silent> <LocalLeader>cv <Plug>(coc-range-select)
 vmap <silent> <LocalLeader>v <Plug>(coc-range-select)
 
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+nnoremap <silent> <LocalLeader>cg :CocList diagnostics<CR>
+nnoremap <silent> <LocalLeader>g :CocList diagnostics<CR>
 nnoremap <silent> <LocalLeader>cc :CocList commands<CR>
 nnoremap <silent> <LocalLeader>co :CocList outline<CR>
 nnoremap <silent> <LocalLeader>o :CocList outline<CR>
@@ -421,7 +436,7 @@ if g:is_gui
 endif
 let g:vista_default_executive = 'coc'
 let g:vista_finder_alternative_executives = []
-nnoremap <Space>v :Vista finder<CR>
+nnoremap <Space>V :Vista finder<CR>
 " }}}
 
 " vim-indent-guides {{{

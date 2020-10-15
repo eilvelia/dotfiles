@@ -28,9 +28,13 @@ repo = 'ryanoasis/vim-devicons'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 # [[plugins]]
 # repo = 'Shougo/defx.nvim'
@@ -43,18 +47,26 @@ repo = 'Xuyuanp/nerdtree-git-plugin'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'chrisbra/Colorizer'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'jreybert/vimagit'
@@ -68,10 +80,13 @@ repo = 'tpope/vim-repeat'
 
 [[plugins]]
 repo = 'tpope/vim-unimpaired'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
-rev = '54d889a63716ee2f1818aa2ec5082db47147147b'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'tpope/vim-commentary'
@@ -118,6 +133,8 @@ rev = 'cf896c1f4f37a9feb15d657dfd120aeeb6215ad8'
 
 [[plugins]]
 repo = 'w0rp/ale'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 # [[plugins]]
 # repo = 'Shougo/deoplete.nvim'
@@ -131,9 +148,13 @@ repo = 'w0rp/ale'
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = 'release'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'liuchengxu/vista.vim'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'junegunn/goyo.vim'
@@ -159,7 +180,7 @@ repo = 'pangloss/vim-javascript'
 
 [[plugins]]
 repo = 'carlosrocha/vim-flow-plus'
-rev = '458cc22cc4adb9106f23839df97e13557ec7444c'
+on_cmd = [ 'FlowCoverageToggle' ]
 
 [[plugins]]
 repo = 'rgrinberg/vim-ocaml'

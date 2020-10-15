@@ -28,7 +28,7 @@ set relativenumber
 set wrap
 set showbreak=↳
 
-set showmatch
+set noshowmatch
 
 set hlsearch
 set smartcase

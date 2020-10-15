@@ -52,6 +52,8 @@ brew install autoconf
 brew install automake
 brew install cmake
 brew install ninja
+brew install ccls
+brew install bear
 
 brew install perl
 brew install ruby

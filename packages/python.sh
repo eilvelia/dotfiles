@@ -8,3 +8,5 @@ fi
 
 pip3 install --user neovim
 pip3 install --user neovim-remote
+
+pip3 install scan-build
