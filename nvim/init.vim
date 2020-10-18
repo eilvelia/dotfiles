@@ -449,6 +449,11 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
 " }}}
 
+" vim-polyglot {{{
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
+" }}}
+
 " vim-move {{{
 let g:move_map_keys = 0
 vmap <Leader><A-j> <Plug>MoveBlockDown
