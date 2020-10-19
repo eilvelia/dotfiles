@@ -20,11 +20,11 @@ if confirm "Install the startup script?"; then
     > ~/Library/LaunchAgents/local.startupscript.plist
 fi
 
-if confirm "Copy the karabiner-elements config?"; then
-  mkdir -p ~/.config/karabiner/assets/complex_modifications
-  cp ./karabiner_rules/personal.json \
-    ~/.config/karabiner/assets/complex_modifications/personal.json
-fi
+# if confirm "Copy the karabiner-elements config?"; then
+#   mkdir -p ~/.config/karabiner/assets/complex_modifications
+#   cp ./karabiner_rules/personal.json \
+#     ~/.config/karabiner/assets/complex_modifications/personal.json
+# fi
 
 if ! chk brew &> /dev/null && confirm "Download and install Homebrew?"; then
   echo "Installing Homebrew..."
@@ -37,4 +37,8 @@ if chk brew &> /dev/null; then
   fi
 else
   echo "Homebrew not found."
+fi
+
+if confirm "Install the karabiner-elements config (goku is required)?"; then
+  ./goku_update.sh
 fi
