@@ -17,53 +17,55 @@
               :default true
               :sim 50 ; simultaneous_threshold_milliseconds (def: 50)
               :delay 500 ; to_delayed_action_delay_milliseconds (def: 500)
-              :alone 1000 ; to_if_alone_timeout_milliseconds (def: 1000)
+              :alone 750 ; to_if_alone_timeout_milliseconds (def: 1000)
               :held 500 ; to_if_held_down_threshold_milliseconds (def: 500)
             }}
-  :froms {:from-mouse-button4 {:pointing_button "mouse4"}
-          :from-mouse-button5 {:pointing_button "mouse5"}}
+  :layers {:fn-mode {:key :right_command :alone {:key :vk_none}}}
   :input-sources {:en {:language "en"}
                   :ru {:language "ru"}}
   :tos {:to-en {:input :en}
         :to-ru {:input :ru}}
   :main [
-    {:des "extra mouse buttons"
-     :rules [[:from-mouse-button4 :!Copen_bracket]
-             [:from-mouse-button5 :!Cclose_bracket]]}
-    {:des "right_alt+up/down to page up / page down"
-     :rules [[:!E#Pup_arrow :page_up]
-             [:!E#Pdown_arrow :page_down]]}
-    {:des "disable fn"
-     :rules [[:##fn :vk_none]]}
+    ; {:des "right_alt+up/down to page up / page down"
+    ;  :rules [[:!E#Pup_arrow :page_up]
+    ;          [:!E#Pdown_arrow :page_down]]}
+    ; {:des "fn to ctrl"
+    ;  :rules [[:##fn :left_control]]}
+    ; {:des "ctrl+backspace to delete"
+    ;  :rules [[:!T#Pdelete_or_backspace :delete_forward]]}
     {:des "disable arrows"
      :rules [[:##up_arrow :vk_none]
              [:##left_arrow :vk_none]
              [:##down_arrow :vk_none]
              [:##right_arrow :vk_none]]}
-    {:des "disable escape"
-     :rules [[:#Pescape :vk_none]]}
-    {:des "caps"
+    {:des "caps_lock to escape"
      :rules [[:!C#Pescape :caps_lock]
-             [:##caps_lock :fn]]}
-    {:des "fn+q to escape"
-     :rules [[:!F#Pq :escape]]}
-    {:des "languages"
-     :rules [[:!F#Pa :to-en]
-             [:!F#Ps :to-ru]]}
-    {:des "right_cmd+hjkl to arrows"
-     :rules [[:!Q#Ph :left_arrow]
-             [:!Q#Pj :down_arrow]
-             [:!Q#Pk :up_arrow]
-             [:!Q#Pl :right_arrow]]}
-    {:des "fn+ijkl to arrows"
-     :rules [[:!F#Pi :up_arrow]
-             [:!F#Pj :left_arrow]
-             [:!F#Pk :down_arrow]
-             [:!F#Pl :right_arrow]]}
-    {:des "right_cmd+pl;' to arrows"
-     :rules [[:!Q#Pp :up_arrow]
-             [:!Q#Pl :left_arrow]
-             [:!Q#Psemicolon :down_arrow]
-             [:!Q#Pquote :right_arrow]]}
+             [:#Pcaps_lock :escape]]}
+    {:des "disable escape"
+     :rules [[:##escape :vk_none]]}
+    ; {:des "right_cmd+pl;' to arrows"
+    ;  :rules [[:!Q#Pp :up_arrow]
+    ;          [:!Q#Pl :left_arrow]
+    ;          [:!Q#Psemicolon :down_arrow]
+    ;          [:!Q#Pquote :right_arrow]]}
+    {:des "fn-mode (right_command)"
+     :rules [:fn-mode
+             [:e :left_alt]
+             [:grave_accent_and_tilde :left_shift]
+             [:##i :up_arrow]
+             [:##j :left_arrow]
+             [:##k :down_arrow]
+             [:##l :right_arrow]
+             [:a :to-en]
+             [:s :to-ru]
+             [:f :escape]
+             [:r :return_or_enter]
+             [:o :delete_or_backspace]
+             [:p :delete_forward]
+             [:w :left_shift]
+             [:t :page_up]
+             [:g :page_down]
+             [:m :home]
+             [:comma :end]]}
   ]
 }
