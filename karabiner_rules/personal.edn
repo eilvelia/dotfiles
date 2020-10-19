@@ -20,7 +20,6 @@
               :alone 750 ; to_if_alone_timeout_milliseconds (def: 1000)
               :held 500 ; to_if_held_down_threshold_milliseconds (def: 500)
             }}
-  :layers {:fn-mode {:key :right_command :alone {:key :vk_none}}}
   :input-sources {:en {:language "en"}
                   :ru {:language "ru"}}
   :tos {:to-en {:input :en}
@@ -44,28 +43,29 @@
     {:des "disable escape"
      :rules [[:##escape :vk_none]]}
     ; {:des "right_cmd+pl;' to arrows"
-    ;  :rules [[:!Q#Pp :up_arrow]
-    ;          [:!Q#Pl :left_arrow]
-    ;          [:!Q#Psemicolon :down_arrow]
-    ;          [:!Q#Pquote :right_arrow]]}
-    {:des "fn-mode (right_command)"
-     :rules [:fn-mode
-             [:e :left_alt]
-             [:grave_accent_and_tilde :left_shift]
-             [:##i :up_arrow]
-             [:##j :left_arrow]
-             [:##k :down_arrow]
-             [:##l :right_arrow]
-             [:a :to-en]
-             [:s :to-ru]
-             [:f :escape]
-             [:r :return_or_enter]
-             [:o :delete_or_backspace]
-             [:p :delete_forward]
-             [:w :left_shift]
-             [:t :page_up]
-             [:g :page_down]
-             [:m :home]
-             [:comma :end]]}
+    ;  :rules [[:!Q##p :up_arrow]
+    ;          [:!Q##l :left_arrow]
+    ;          [:!Q##semicolon :down_arrow]
+    ;          [:!Q##quote :right_arrow]]}
+    {:des "right_command mode: modifiers"
+     :rules [[:!Q#Pw :left_shift]
+             [:!Q#Pe :left_alt]
+             [:!Q#Pgrave_accent_and_tilde :left_shift]]}
+    {:des "right_command mode: arrows"
+     :rules [[:!Q##i :up_arrow]
+             [:!Q##j :left_arrow]
+             [:!Q##k :down_arrow]
+             [:!Q##l :right_arrow]]}
+    {:des "right_command mode: other"
+     :rules [[:!Q#Pa :to-en]
+             [:!Q#Ps :to-ru]
+             [:!Q#Pf :escape]
+             [:!Q#Pr :return_or_enter]
+             [:!Q#Po :delete_or_backspace]
+             [:!Q#Pp :delete_forward]
+             [:!Q#Pt :page_up]
+             [:!Q#Pg :page_down]
+             [:!Q#Pm :home]
+             [:!Q#Pcomma :end]]}
   ]
 }
