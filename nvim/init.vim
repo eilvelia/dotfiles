@@ -1,7 +1,13 @@
 " vim: foldmethod=marker
 
+nmap h <C-;>
+nnoremap j <nop>
+nnoremap k `
+nmap l <C-w>
+
 if has('vim_starting')
-  let mapleader = ","
+  " let mapleader = ","
+  let mapleader = "j"
   let maplocalleader = "\<Space>"
 endif
 
@@ -456,12 +462,18 @@ let g:vim_markdown_conceal_code_blocks = 0
 
 " vim-move {{{
 let g:move_map_keys = 0
-vmap <Leader><A-j> <Plug>MoveBlockDown
-vmap <Leader><A-k> <Plug>MoveBlockUp
-vmap <Leader><A-h> <Plug>MoveBlockLeft
-vmap <Leader><A-l> <Plug>MoveBlockRight
-nmap <Leader><A-j> <Plug>MoveLineDown
-nmap <Leader><A-k> <Plug>MoveLineUp
+" vmap <Leader><A-j> <Plug>MoveBlockDown
+" vmap <Leader><A-k> <Plug>MoveBlockUp
+" vmap <Leader><A-h> <Plug>MoveBlockLeft
+" vmap <Leader><A-l> <Plug>MoveBlockRight
+" nmap <Leader><A-j> <Plug>MoveLineDown
+" nmap <Leader><A-k> <Plug>MoveLineUp
+vmap <Leader><Down> <Plug>MoveBlockDown
+vmap <Leader><Up> <Plug>MoveBlockUp
+vmap <Leader><Left> <Plug>MoveBlockLeft
+vmap <Leader><Right> <Plug>MoveBlockRight
+nmap <Leader><Down> <Plug>MoveLineDown
+nmap <Leader><Up> <Plug>MoveLineUp
 if is_mac && is_gui
   nmap <D-A-Down> <Plug>MoveLineDown
   nmap <D-A-Up> <Plug>MoveLineUp
@@ -523,7 +535,7 @@ function! s:StripTrailingWhitespace()
   let @/ = old_pattern
 endfunction
 command! StripTrailingWhitespace call <SID>StripTrailingWhitespace()
-nnoremap <silent> <Leader><C-w> :StripTrailingWhitespace<CR>
+nnoremap <silent> <Leader><Leader>w :StripTrailingWhitespace<CR>
 
 function! s:ExecuteVim() range
     let lines = getline(a:firstline, a:lastline)
@@ -553,6 +565,11 @@ nnoremap <silent> <A-Q> :cclose<CR>
 nnoremap <silent> Q :cc<CR>
 
 " Window mappings {{{
+
+nnoremap <C-w><S-Left> <C-w>H
+nnoremap <C-w><S-Right> <C-w>L
+nnoremap <C-w><S-Up> <C-w>K
+nnoremap <C-w><S-Down> <C-w>J
 
 nnoremap <A-Left> <C-w><Left>
 nnoremap <A-Right> <C-w><Right>
