@@ -1,9 +1,13 @@
 " vim: foldmethod=marker
 
 nmap h <C-;>
+vnoremap h <nop>
 nnoremap j <nop>
+vnoremap j <nop>
 nnoremap k `
+vnoremap k <nop>
 nmap l <C-w>
+vnoremap l <nop>
 
 if has('vim_starting')
   " let mapleader = ","
