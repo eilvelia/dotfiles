@@ -13,59 +13,101 @@
   ; R  | right_shift
   ; !! | mandatory command + control + optional + shift (hyper)
   ; ## | optional any
-  :profiles {:DefaultGoku {
-              :default true
+  :profiles {:DefaultGoku
+             {:default true
               :sim 50 ; simultaneous_threshold_milliseconds (def: 50)
               :delay 500 ; to_delayed_action_delay_milliseconds (def: 500)
-              :alone 750 ; to_if_alone_timeout_milliseconds (def: 1000)
+              :alone 375 ; to_if_alone_timeout_milliseconds (def: 1000)
               :held 500 ; to_if_held_down_threshold_milliseconds (def: 500)
-            }}
+              }}
+  ; :templates {:anybar "osascript -e 'tell application \"AnyBar\" to set image name to \"%s\"'"} ; a bit slow
+  :templates {:anybar "printf \"%s\" | nc -4u -w0 localhost 1738"}
   :input-sources {:en {:language "en"}
                   :ru {:language "ru"}}
   :tos {:to-en {:input :en}
         :to-ru {:input :ru}}
+  :froms {:from-any-keycode {:any :key_code}}
   :main [
-    ; {:des "right_alt+up/down to page up / page down"
-    ;  :rules [[:!E#Pup_arrow :page_up]
-    ;          [:!E#Pdown_arrow :page_down]]}
     ; {:des "fn to ctrl"
     ;  :rules [[:##fn :left_control]]}
     ; {:des "ctrl+backspace to delete"
     ;  :rules [[:!T#Pdelete_or_backspace :delete_forward]]}
+    ; {:des "right_command mode: modifiers"
+    ;  :rules [[:!Q##w :!Qleft_shift]
+    ;          [:!Q##e :!Qleft_alt]
+    ;          [:!Q##grave_accent_and_tilde :!Qleft_shift]]}
+    ; {:des "right_command mode: arrows"
+    ;  :rules [[:!Q##i :up_arrow]
+    ;          [:!Q##j :left_arrow]
+    ;          [:!Q##k :down_arrow]
+    ;          [:!Q##l :right_arrow]]}
+    ; {:des "right_command mode: other"
+    ;  :rules [[:!Q#Pd :to-en]
+    ;          [:!Q#Ps :to-ru]
+    ;          [:!Q#Pf :escape]
+    ;          [:!Q#Pr :return_or_enter]
+    ;          [:!Q#Po :delete_or_backspace]
+    ;          [:!Q#Pp :delete_forward]
+    ;          [:!Q#Pt :page_up]
+    ;          [:!Q#Pg :page_down]
+    ;          [:!Q#Pcomma :home]
+    ;          [:!Q#Pperiod :end]]}
+    {:des "right_command sequence"
+     :rules [[:#Pright_command ["right-cmd-mode" 1] ["right-cmd-mode" 0]]
+             :right-cmd-mode
+             [:#Pd [:to-en ["right-cmd-mode" 0]]]
+             [:#Ps [:to-ru ["right-cmd-mode" 0]]]
+             ; [:#Pf [:escape ["right-cmd-mode" 0]]]
+             [:#Pr [:return_or_enter ["right-cmd-mode" 0]]]
+             [:#Pcomma [:home ["right-cmd-mode" 0]]]
+             [:#Pperiod [:end ["right-cmd-mode" 0]]]
+             [:#Pn [:!Squote ["right-cmd-mode" 0]]]
+             [:from-any-keycode ["right-cmd-mode" 0]]]}
+    {:des "cursor mode"
+     ; left_command if_alone - enable
+     ; ijkl - arrows
+     ; o - backspace
+     ; m/< - prev/next tab (ctrl+shift+tab / ctrl+tab)
+     ; t/g - open new/closed tab (command+t / command+shift+t)
+     ; left modifiers / backspace / enter / space - skip as is
+     ; caps_lock/f/a/s/d/q/right_alt - disable
+     ; other keys - do nothing
+     :rules [[:#Pleft_command :left_command ["cursor-mode" 0] {:alone [["cursor-mode" 1] [:anybar "green"]]}]
+             :cursor-mode
+             [:#Pleft_command :left_command]
+             [:#Pleft_alt :left_alt]
+             [:#Pleft_control :left_control]
+             [:#Pleft_shift :left_shift]
+             [:#Pfn :fn]
+             [:#Pdelete_or_backspace :delete_or_backspace]
+             [:#Preturn_or_enter :return_or_enter]
+             [:#Pspacebar :spacebar]
+             [:##i :up_arrow]
+             [:##j :left_arrow]
+             [:##k :down_arrow]
+             [:##l :right_arrow]
+             [:#Po :delete_or_backspace]
+             [:#Pm :!TStab]
+             [:#Pcomma :!Ttab]
+             [:#Pt :!Ct]
+             [:#Pg :!CSt]
+             [:#Pcaps_lock [["cursor-mode" 0] [:anybar "white"]]]
+             [:#Pright_alt [["cursor-mode" 0] [:anybar "white"]]]
+             [:#Pf [["cursor-mode" 0] [:anybar "white"]]]
+             [:#Pd [["cursor-mode" 0] [:anybar "white"]]]
+             [:#Ps [["cursor-mode" 0] [:anybar "white"]]]
+             [:#Pa [["cursor-mode" 0] [:anybar "white"]]]
+             [:#Pq [["cursor-mode" 0] [:anybar "white"]]]
+             [:from-any-keycode :vk_none]]}
+    {:des "caps_lock to escape"
+     :rules [[:!C#Pescape :caps_lock]
+             [:##caps_lock :escape]]}
     {:des "disable arrows"
      :rules [[:##up_arrow :vk_none]
              [:##left_arrow :vk_none]
              [:##down_arrow :vk_none]
              [:##right_arrow :vk_none]]}
-    {:des "caps_lock to escape"
-     :rules [[:!C#Pescape :caps_lock]
-             [:#Pcaps_lock :escape]]}
     {:des "disable escape"
      :rules [[:##escape :vk_none]]}
-    ; {:des "right_cmd+pl;' to arrows"
-    ;  :rules [[:!Q##p :up_arrow]
-    ;          [:!Q##l :left_arrow]
-    ;          [:!Q##semicolon :down_arrow]
-    ;          [:!Q##quote :right_arrow]]}
-    {:des "right_command mode: modifiers"
-     :rules [[:!Q#Pw :left_shift]
-             [:!Q#Pe :left_alt]
-             [:!Q#Pgrave_accent_and_tilde :left_shift]]}
-    {:des "right_command mode: arrows"
-     :rules [[:!Q##i :up_arrow]
-             [:!Q##j :left_arrow]
-             [:!Q##k :down_arrow]
-             [:!Q##l :right_arrow]]}
-    {:des "right_command mode: other"
-     :rules [[:!Q#Pa :to-en]
-             [:!Q#Ps :to-ru]
-             [:!Q#Pf :escape]
-             [:!Q#Pr :return_or_enter]
-             [:!Q#Po :delete_or_backspace]
-             [:!Q#Pp :delete_forward]
-             [:!Q#Pt :page_up]
-             [:!Q#Pg :page_down]
-             [:!Q#Pm :home]
-             [:!Q#Pcomma :end]]}
   ]
 }

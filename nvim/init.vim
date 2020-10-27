@@ -2,12 +2,14 @@
 
 nmap h <C-;>
 vnoremap h <nop>
-nnoremap j <nop>
-vnoremap j <nop>
+onoremap l <nop>
+noremap j <nop>
 nnoremap k `
 vnoremap k <nop>
+onoremap k <nop>
 nmap l <C-w>
 vnoremap l <nop>
+onoremap l <nop>
 
 if has('vim_starting')
   " let mapleader = ","
@@ -82,28 +84,33 @@ command! DeinLoadRollback call dein#load_rollback($VIMDIR . '/dein-rollback')
 
 " Plugin settings {{{
 
-" fzf {{{
+" fzf, fzf.vim {{{
 " let $FZF_DEFAULT_OPTS .= ' --preview="head -100 {}"'
 let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git'
 if is_mac && is_gui
   nnoremap <D-p> :FZF<CR>
   inoremap <D-p> <C-o>:FZF<CR>
-  vnoremap <D-p> <ESC>:FZF<CR>
+  vnoremap <D-p> <Esc>:FZF<CR>
   nnoremap <D-S-p> :Buffers<CR>
   inoremap <D-S-p> <C-o>:Buffers<CR>
-  nnoremap <D-A-p> :GFiles<CR>
-  nnoremap <D-A-S-p> :GFiles?<CR>
+  vnoremap <D-S-p> <Esc>:Buffers<CR>
 endif
 nnoremap <C-p> :FZF<CR>
-nnoremap <Leader>l :Lines<CR>
-nnoremap <Leader>L :BLines<CR>
-nnoremap <Leader>rg :Rg <C-r><C-w><CR>
-nnoremap <Leader>RG :Rg <C-r><C-r><CR>
-vnoremap <Leader>rg y:Rg <C-r>"<CR>
-" nnoremap <Leader>ag :Ag <C-r><C-w><CR>
-" vmap <Leader>f <Leader>rg
-nnoremap <Leader>` :Marks<CR>
-nnoremap <Leader>§ :Marks<CR>
+nnoremap <Leader>ff :FZF<CR>
+nnoremap <Leader>fd :Buffers<CR>
+nnoremap <Leader>fg :GFiles<CR>
+nnoremap <Leader>fs :GFiles?<CR>
+nnoremap <Leader>fc :Commits<CR>
+nnoremap <Leader>fbc :BCommits<CR>
+nnoremap <Leader>fl :Lines<CR>
+nnoremap <Leader>fbl :BLines<CR>
+nnoremap <Leader>fm :Marks<CR>
+nnoremap <Leader>fr :Rg <C-r><C-w><CR>
+nnoremap <Leader>fR :Rg <C-r><C-r><CR>
+vnoremap <Leader>fr y:Rg <C-r>"<CR>
+" nnoremap <Leader>fa :Ag <C-r><C-w><CR>
+" nnoremap <Leader>` :Marks<CR>
+" nnoremap <Leader>§ :Marks<CR>
 " imap <C-x><C-k> <Plug>(fzf-complete-word)
 imap <C-x><C-f> <Plug>(fzf-complete-path)
 imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
@@ -139,6 +146,8 @@ tnoremap <F8> <C-\><C-n>:FloatermPrev<CR>
 tnoremap <F9> <C-\><C-n>:FloatermNext<CR>
 command! Ranger FloatermNew ranger
 command! Nnn FloatermNew nnn
+nnoremap <Leader>ra :Ranger<CR>
+nnoremap <Leader>cf :CocList floaterm<CR>
 " }}}
 
 " vim-devicons {{{
@@ -148,8 +157,8 @@ endif
 " }}}
 
 " nerdtree {{{
-nnoremap <Leader>f :NERDTreeToggle<CR>
-nnoremap <Leader>F :NERDTreeToggleVCS<CR>
+nnoremap <Leader>d :NERDTreeToggle<CR>
+nnoremap <Leader>D :NERDTreeToggleVCS<CR>
 let NERDTreeMinimalUI = 1
 let NERDTreeShowHidden = 1
 let NERDTreeAutoDeleteBuffer = 1
@@ -186,8 +195,8 @@ let g:webdevicons_conceal_nerdtree_brackets = 0
 "       \ . ' -wincol=' . s:defx_col . ' -winrow=' . s:defx_row
 "       \ . ' -toggle -columns=indent:git:icons:filename:type'
 " exe 'command! D ' . s:defx_com . ' -resume'
-" exe 'nnoremap <silent> <Leader>f :' . s:defx_com . ' -resume<CR>'
-" exe 'nnoremap <silent> <Leader><C-f> :' . s:defx_com . '<CR>'
+" exe 'nnoremap <silent> <Leader>d :' . s:defx_com . ' -resume<CR>'
+" exe 'nnoremap <silent> <Leader>D :' . s:defx_com . '<CR>'
 " autocmd FileType defx call s:DefxFtSettings()
 " function! s:DefxFtSettings()
 "   " setlocal cursorline
@@ -289,6 +298,9 @@ endif
 " vim-easy-align {{{
 nmap ga <Plug>(EasyAlign)
 vmap ga <Plug>(EasyAlign)
+" align vim mappings - works for most cases
+command! -range AlignVimMappings execute
+      \ "<line1>,<line2>EasyAlign /\\s<silent>\\s\\|\\s/ l0r0all"
 " }}}
 
 " " vim-easymotion {{{
@@ -478,13 +490,19 @@ vmap <Leader><Left> <Plug>MoveBlockLeft
 vmap <Leader><Right> <Plug>MoveBlockRight
 nmap <Leader><Down> <Plug>MoveLineDown
 nmap <Leader><Up> <Plug>MoveLineUp
+vmap <Leader>mk <Plug>MoveBlockDown
+vmap <Leader>mi <Plug>MoveBlockUp
+vmap <Leader>mj <Plug>MoveBlockLeft
+vmap <Leader>ml <Plug>MoveBlockRight
+nmap <Leader>mk <Plug>MoveLineDown
+nmap <Leader>mi <Plug>MoveLineUp
 if is_mac && is_gui
-  nmap <D-A-Down> <Plug>MoveLineDown
-  nmap <D-A-Up> <Plug>MoveLineUp
   vmap <D-A-Down> <Plug>MoveBlockDown
   vmap <D-A-Up> <Plug>MoveBlockUp
   vmap <D-A-Left> <Plug>MoveBlockLeft
   vmap <D-A-Right> <Plug>MoveBlockRight
+  nmap <D-A-Down> <Plug>MoveLineDown
+  nmap <D-A-Up> <Plug>MoveLineUp
 endif
 " }}}
 
@@ -514,9 +532,12 @@ vnoremap <silent> // y/<C-R>"<CR>
 
 inoremap <C-.> <Esc>
 
+nnoremap <Leader><Leader>s "+
+vnoremap <Leader><Leader>s "+
+
 " command history
 nnoremap q: <NOP>
-nnoremap <Leader><Leader>q: q:
+nnoremap <Leader><Leader>q q:
 
 " ex mode
 " alternative mapping: gQ
@@ -525,7 +546,7 @@ nnoremap Q <NOP>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
 " remove trailing newlines from the register
-nnoremap <silent> <Leader>n :call setreg(v:register,
+nnoremap <silent> <Leader><Leader>n :call setreg(v:register,
       \ substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
 
 " strip trailing whitespace
@@ -553,10 +574,11 @@ nnoremap <silent> <C-;> :let @/ = ''<CR>
 inoremap <silent> <C-;> <C-o>:let @/ = ''<CR>
 
 " previous buffer
-nnoremap <silent> <C-\> :b#<CR>
+nnoremap <silent> <Leader>s :b#<CR>
+" nnoremap <silent> <C-\> :b#<CR>
 
 " duplicate the line
-nnoremap <silent> <Leader>d :t.<CR>
+nnoremap <silent> <Leader><Leader>d :t.<CR>
 
 " location list
 nnoremap <silent> <A-l> :lopen<CR>
@@ -585,20 +607,20 @@ nnoremap <A-S-Right> <C-w>L
 nnoremap <A-S-Up> <C-w>K
 nnoremap <A-S-Down> <C-w>J
 
-" close the other windows
-nnoremap <A-o> <C-w>o
+" " close the other windows
+" nnoremap <A-o> <C-w>o
 
-" to tab
-nnoremap <A-t> <C-w>T
+" " to tab
+" nnoremap <A-t> <C-w>T
 
-" close
-nnoremap <A-c> <C-w>c
+" " close
+" nnoremap <A-c> <C-w>c
 
-" previous window
-nnoremap <A-p> <C-w>p
+" " previous window
+" nnoremap <A-p> <C-w>p
 
-" preview window
-nnoremap <A-S-p> <C-w>P
+" " preview window
+" nnoremap <A-S-p> <C-w>P
 
 " height
 nnoremap <A--> <C-w>-
@@ -607,8 +629,8 @@ nnoremap <A-=> <C-w>+
 nnoremap <A-.> <C-w>>
 nnoremap <A-,> <C-w><
 
-" equal height and width
-nnoremap <C-A-=> <C-w>=
+" " equal height and width
+" nnoremap <C-A-=> <C-w>=
 
 " " height: maximize
 " nnoremap <C-A--> <C-w>_
@@ -622,10 +644,10 @@ nnoremap <C-A-=> <C-w>=
 " tnoremap <expr> <Esc> &filetype == 'fzf' ? "\<Esc>" : "\<C-\>\<C-n>"
 tnoremap <C-.> <C-\><C-n>
 
-" tnoremap <A-Left> <C-\><C-N><C-w>h
-" tnoremap <A-Right> <C-\><C-N><C-w>l
-" tnoremap <A-Up> <C-\><C-N><C-w>k
-" tnoremap <A-Down> <C-\><C-N><C-w>j
+" tnoremap <A-Left> <C-\><C-n><C-w>h
+" tnoremap <A-Right> <C-\><C-n><C-w>l
+" tnoremap <A-Up> <C-\><C-n><C-w>k
+" tnoremap <A-Down> <C-\><C-n><C-w>j
 
 " }}}
 
@@ -636,20 +658,32 @@ inoremap <silent> <A-]> <C-o>:put =nr2char(10)<CR>
 inoremap <A-BS> <C-w>
 cnoremap <A-BS> <C-w>
 
+nnoremap <Leader>v <C-v>
+vnoremap <Leader>v <C-v>
+
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
-nnoremap <Leader><Leader><Leader>m :set expandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
-nnoremap <Leader><Leader><Leader>M :set expandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>s :set expandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>S :set expandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader>t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
 
+if is_gui
+  nnoremap <silent> <C-Tab> :tabn<CR>
+  inoremap <silent> <C-Tab> <Esc>:tabn<CR>
+  vnoremap <silent> <C-Tab> <Esc>:tabn<CR>
+  nnoremap <silent> <C-S-Tab> :tabp<CR>
+  inoremap <silent> <C-S-Tab> <Esc>:tabp<CR>
+  vnoremap <silent> <C-S-Tab> <Esc>:tabp<CR>
+endif
+
 if is_mac && is_gui
-  nnoremap <silent> <D-A-Left> :tabp<CR>
-  inoremap <silent> <D-A-Left> <Esc>:tabp<CR>
-  vnoremap <silent> <D-A-Left> <Esc>:tabp<CR>
   nnoremap <silent> <D-A-Right> :tabn<CR>
   inoremap <silent> <D-A-Right> <Esc>:tabn<CR>
   vnoremap <silent> <D-A-Right> <Esc>:tabn<CR>
+  nnoremap <silent> <D-A-Left> :tabp<CR>
+  inoremap <silent> <D-A-Left> <Esc>:tabp<CR>
+  vnoremap <silent> <D-A-Left> <Esc>:tabp<CR>
 
   " select tabs by cmd+1..cmd+9
   for i in range(1, 9)

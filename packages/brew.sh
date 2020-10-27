@@ -95,6 +95,8 @@ brew install weechat
 
 brew install youtube-dl
 
+brew install yqrashawn/goku/goku
+
 echo "Installing cask packages..."
 
 brew tap homebrew/cask-fonts
@@ -128,6 +130,7 @@ brew cask install dropbox # proprietary
 brew cask install db-browser-for-sqlite
 brew cask install hex-fiend
 brew cask install xrg
+brew cask install anybar
 brew cask install wire
 brew cask install signal
 brew cask install tor-browser
