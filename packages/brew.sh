@@ -26,6 +26,7 @@ brew install fd # 'find' alternative
 brew install exa # 'ls' alternative
 brew install sd # 'sed' alternative
 brew install bat # 'cat' / 'less' alternative
+brew install highlight
 brew install procs # 'ps' alternative
 brew install dust # 'du' alternative
 brew install bingrep
@@ -38,7 +39,6 @@ brew install tldr
 brew install neovim
 brew install micro
 brew install emojify
-brew install highlight
 brew install ranger
 brew install nnn
 brew install diff-so-fancy
@@ -95,7 +95,10 @@ brew install weechat
 
 brew install youtube-dl
 
+brew install innoextract
+
 brew install yqrashawn/goku/goku
+brew install muesli/tap/duf
 
 echo "Installing cask packages..."
 
@@ -139,7 +142,7 @@ brew cask install vimr
 brew cask install keepassxc
 brew cask install netnewswire
 brew cask install osxfuse
-brew cask install docker
+brew cask install docker # can take a long time
 
 echo "Installing fuse filesystems..."
 

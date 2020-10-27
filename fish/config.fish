@@ -15,7 +15,7 @@ alias exa "exa --all -l --git"
 alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
 
 # light nvim
-alias lvim "nvim --cmd 'let g:min_mode = 1'"
+alias lvi "nvim --cmd 'let g:min_mode = 1'"
 
 abbr -ag getdate "date \"+%Y_%m_%d\""
 
@@ -26,20 +26,23 @@ abbr -ag l "ls"
 
 abbr -ag f "ls | grep -i"
 
-abbr -ag r "ranger"
-
-abbr -ag gs "git status"
-
 abbr -ag totarbz2 "tar cjvf"
 abbr -ag fromtarbz2 "tar xjvf"
 abbr -ag totargz "tar czvf"
 abbr -ag fromtargz "tar xzvf"
 
+abbr -ag sha256sum "shasum -a 256"
+
+abbr -ag gs "git status"
+
+abbr -ag r "ranger"
+abbr -ag ra "ranger"
+
+abbr -ag hi "highlight"
+
 abbr -ag npmplease "rm -rf node_modules/ package-lock.json && npm install"
 abbr -ag pnpmflat "pnpm install --shamefully-flatten"
 abbr -ag npmr "npm run"
-
-abbr -ag sha256sum "shasum -a 256"
 
 abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
 

@@ -23,6 +23,8 @@ _files=(
   ~/.rediscli_history
 
   ~/.local/share/fish/fish_history
+
+  ~/.slime_paste
 )
 
 for file in ${_files[@]}; do

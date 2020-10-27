@@ -276,6 +276,7 @@ let g:webdevicons_conceal_nerdtree_brackets = 0
 " let g:airline_theme = 'gruvbox'
 " let g:airline_theme = 'violet'
 let g:airline_theme = 'srcery'
+let g:airline_highlighting_cache = 1
 let g:airline_powerline_fonts = 1
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 let g:airline#extensions#tabline#enabled = 1
@@ -532,8 +533,7 @@ vnoremap <silent> // y/<C-R>"<CR>
 
 inoremap <C-.> <Esc>
 
-nnoremap <Leader><Leader>s "+
-vnoremap <Leader><Leader>s "+
+noremap <Leader><Leader>s "+
 
 " command history
 nnoremap q: <NOP>
