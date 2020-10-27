@@ -89,10 +89,10 @@ command! DeinLoadRollback call dein#load_rollback($VIMDIR . '/dein-rollback')
 let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git'
 if is_mac && is_gui
   nnoremap <D-p> :FZF<CR>
-  inoremap <D-p> <C-o>:FZF<CR>
+  inoremap <D-p> <Esc>:FZF<CR>
   vnoremap <D-p> <Esc>:FZF<CR>
   nnoremap <D-S-p> :Buffers<CR>
-  inoremap <D-S-p> <C-o>:Buffers<CR>
+  inoremap <D-S-p> <Esc>:Buffers<CR>
   vnoremap <D-S-p> <Esc>:Buffers<CR>
 endif
 nnoremap <C-p> :FZF<CR>
@@ -291,7 +291,7 @@ let g:airline#extensions#coc#enabled = 1
 " commentary {{{
 if is_mac && is_gui
   nmap <D-/> gcc
-  imap <D-/> <C-o>gcc
+  imap <D-/> <Cmd>normal gcc<CR>
   vmap <D-/> gc
 endif
 " }}}
@@ -571,7 +571,7 @@ endfunction
 command! -range ExecuteVim <line1>,<line2>call <SID>ExecuteVim()
 
 nnoremap <silent> <C-;> :let @/ = ''<CR>
-inoremap <silent> <C-;> <C-o>:let @/ = ''<CR>
+inoremap <silent> <C-;> <Cmd>let @/ = ''<CR>
 
 " previous buffer
 nnoremap <silent> <Leader>s :b#<CR>
@@ -653,7 +653,7 @@ tnoremap <C-.> <C-\><C-n>
 
 " insert newline without automatic comment insertion
 nnoremap <silent> <A-]> :put =nr2char(10)<CR>
-inoremap <silent> <A-]> <C-o>:put =nr2char(10)<CR>
+inoremap <silent> <A-]> <Cmd>put =nr2char(10)<CR>
 
 inoremap <A-BS> <C-w>
 cnoremap <A-BS> <C-w>
@@ -715,7 +715,7 @@ if is_mac && is_gui
 
   " duplicate the line
   nnoremap <silent> <D-S-d> :t.<CR>
-  inoremap <silent> <D-S-d> <C-o>:t.<CR>
+  inoremap <silent> <D-S-d> <Cmd>:t.<CR>
 endif
 
 source $VIMDIR/vault.vim
