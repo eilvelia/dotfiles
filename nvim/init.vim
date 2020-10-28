@@ -4,10 +4,10 @@ nmap h <C-;>
 vnoremap h <nop>
 onoremap l <nop>
 noremap j <nop>
-nnoremap k `
+nmap k <C-w>
 vnoremap k <nop>
 onoremap k <nop>
-nmap l <C-w>
+nnoremap l `
 vnoremap l <nop>
 onoremap l <nop>
 
@@ -22,7 +22,7 @@ let $VIMDIR = expand('~/.config/nvim')
 let g:is_gui = has('gui_running') || has('gui_vimr')
 let g:is_mac = has('macunix') || has('mac')
 
-if is_mac
+if g:is_mac
   " let g:python_host_prog = '/usr/local/bin/python2'
   let g:loaded_python_provider = 0
   let g:python3_host_prog = '/usr/local/bin/python3'
@@ -87,7 +87,7 @@ command! DeinLoadRollback call dein#load_rollback($VIMDIR . '/dein-rollback')
 " fzf, fzf.vim {{{
 " let $FZF_DEFAULT_OPTS .= ' --preview="head -100 {}"'
 let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git'
-if is_mac && is_gui
+if g:is_mac && g:is_gui
   nnoremap <D-p> :FZF<CR>
   inoremap <D-p> <Esc>:FZF<CR>
   vnoremap <D-p> <Esc>:FZF<CR>
@@ -151,7 +151,7 @@ nnoremap <Leader>cf :CocList floaterm<CR>
 " }}}
 
 " vim-devicons {{{
-if !is_gui
+if !g:is_gui
   let g:loaded_webdevicons = 1
 endif
 " }}}
@@ -289,7 +289,7 @@ let g:airline#extensions#coc#enabled = 1
 " }}}
 
 " commentary {{{
-if is_mac && is_gui
+if g:is_mac && g:is_gui
   nmap <D-/> gcc
   imap <D-/> <Cmd>normal gcc<CR>
   vmap <D-/> gc
@@ -359,7 +359,7 @@ nnoremap <C-c>a :SlimeSetJobId<CR>
 " let g:syntastic_style_error_symbol = 'S✗'
 " let g:syntastic_warning_symbol = '!'
 " let g:syntastic_style_warning_symbol = 'S!'
-" if is_gui
+" if g:is_gui
 "   let g:syntastic_full_redraws = 0
 " endif
 " " let g:syntastic_ocaml_checkers = ['merlin']
@@ -399,11 +399,14 @@ nnoremap <silent> <LocalLeader>ct :call CocActionAsync('doHover')<CR>
 nnoremap <silent> <LocalLeader>t :call CocActionAsync('doHover')<CR>
 nmap <silent> cgd <Plug>(coc-definition)
 nmap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gD :call CocAction('jumpDefinition', 'split')<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gY :call CocAction('jumpTypeDefinition', 'split')<CR>
 nmap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gI :call CocAction('jumpImplementation', 'split')<CR>
+nnoremap <silent> <C-w>gd :call CocAction('jumpDefinition', 'vsplit')<CR>
+nnoremap <silent> <C-w>gy :call CocAction('jumpTypeDefinition', 'vsplit')<CR>
+nnoremap <silent> <C-w>gi :call CocAction('jumpImplementation', 'vsplit')<CR>
+nnoremap <silent> <C-w>dgd :call CocAction('jumpDefinition', 'split')<CR>
+nnoremap <silent> <C-w>dgy :call CocAction('jumpTypeDefinition', 'split')<CR>
+nnoremap <silent> <C-w>dgi :call CocAction('jumpImplementation', 'split')<CR>
 nmap <silent> <LocalLeader>cf <Plug>(coc-references)
 nmap <silent> <LocalLeader>f <Plug>(coc-references)
 nmap <silent> <LocalLeader>cr <Plug>(coc-rename)
@@ -497,7 +500,7 @@ vmap <Leader>mj <Plug>MoveBlockLeft
 vmap <Leader>ml <Plug>MoveBlockRight
 nmap <Leader>mk <Plug>MoveLineDown
 nmap <Leader>mi <Plug>MoveLineUp
-if is_mac && is_gui
+if g:is_mac && g:is_gui
   vmap <D-A-Down> <Plug>MoveBlockDown
   vmap <D-A-Up> <Plug>MoveBlockUp
   vmap <D-A-Left> <Plug>MoveBlockLeft
@@ -537,11 +540,15 @@ noremap <Leader><Leader>s "+
 
 " command history
 nnoremap q: <NOP>
+" ^ That mapping adds delay to `q` when you stop recording. v This fixes it.
+nnoremap <nowait> q q
 nnoremap <Leader><Leader>q q:
 
 " ex mode
 " alternative mapping: gQ
 nnoremap Q <NOP>
+
+nnoremap <Leader>. @:
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
@@ -607,35 +614,33 @@ nnoremap <A-S-Right> <C-w>L
 nnoremap <A-S-Up> <C-w>K
 nnoremap <A-S-Down> <C-w>J
 
-" " close the other windows
-" nnoremap <A-o> <C-w>o
+" to tab
+nnoremap <A-t> <C-w>T
 
-" " to tab
-" nnoremap <A-t> <C-w>T
-
-" " close
-" nnoremap <A-c> <C-w>c
-
-" " previous window
-" nnoremap <A-p> <C-w>p
-
-" " preview window
-" nnoremap <A-S-p> <C-w>P
-
-" height
+" change height
 nnoremap <A--> <C-w>-
 nnoremap <A-=> <C-w>+
-" width
+
+" change width
 nnoremap <A-.> <C-w>>
 nnoremap <A-,> <C-w><
 
-" " equal height and width
-" nnoremap <C-A-=> <C-w>=
+" previous window - replaces "split horizontally"
+nnoremap <C-w>s <C-w>p
 
-" " height: maximize
-" nnoremap <C-A--> <C-w>_
-" " width: maximize
-" nnoremap <C-A-\> <C-w>|
+" <C-w> / <C-w>v - vertical mappings, <C-w>d - horizontal
+nnoremap <C-w>v <nop>
+nnoremap <C-w>d <nop>
+nnoremap <C-w>vv <C-w>v
+nnoremap <C-w>ds <C-w>s
+nnoremap <silent> <C-w>f :vertical :wincmd f<CR>
+nnoremap <silent> <C-w>F :vertical :wincmd F<CR>
+nnoremap <silent> <C-w>vf :vertical :wincmd f<CR>
+nnoremap <silent> <C-w>vF :vertical :wincmd F<CR>
+nnoremap <silent> <C-w>df <C-w>f
+nnoremap <silent> <C-w>dF <C-w>F
+nnoremap <silent> <C-w>vd :vertical :wincmd d<CR>
+nnoremap <silent> <C-w>dd d<CR>
 
 " }}}
 
@@ -668,7 +673,7 @@ nnoremap <Leader><Leader><Leader>S :set expandtab tabstop=4 shiftwidth=4 softtab
 nnoremap <Leader><Leader><Leader>t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
 
-if is_gui
+if g:is_gui
   nnoremap <silent> <C-Tab> :tabn<CR>
   inoremap <silent> <C-Tab> <Esc>:tabn<CR>
   vnoremap <silent> <C-Tab> <Esc>:tabn<CR>
@@ -677,7 +682,7 @@ if is_gui
   vnoremap <silent> <C-S-Tab> <Esc>:tabp<CR>
 endif
 
-if is_mac && is_gui
+if g:is_mac && g:is_gui
   nnoremap <silent> <D-A-Right> :tabn<CR>
   inoremap <silent> <D-A-Right> <Esc>:tabn<CR>
   vnoremap <silent> <D-A-Right> <Esc>:tabn<CR>

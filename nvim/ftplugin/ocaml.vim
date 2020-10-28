@@ -32,8 +32,6 @@ let no_ocaml_maps = 1
 
 nmap <silent><buffer> <LocalLeader>s <Plug>OCamlSwitchEdit
 nmap <silent><buffer> <LocalLeader>S <Plug>OCamlSwitchNewWin
-" nmap <silent><buffer> <C-x> <Plug>OCamlSwitchEdit
-" nmap <silent><buffer> <A-x> <Plug>OCamlSwitchNewWin
 
 let g:merlin_disable_default_keybindings = 1
 
@@ -46,7 +44,7 @@ nmap <buffer> <LocalLeader>y :MerlinYankLatestType<CR>
 imap <silent><buffer> <C-t> <C-o>:MerlinTypeOf<CR>
 
 map <silent><buffer> <LocalLeader>mt :MerlinTypeOf<CR>
-map  <silent><buffer> <LocalLeader>t :MerlinTypeOf<CR>
+" map  <silent><buffer> <LocalLeader>t :MerlinTypeOf<CR>
 map  <silent><buffer> <LocalLeader>n :MerlinGrowEnclosing<CR>
 map  <silent><buffer> <LocalLeader>p :MerlinShrinkEnclosing<CR>
 vmap <silent><buffer> <LocalLeader>t :MerlinTypeOfSel<CR>
@@ -61,8 +59,5 @@ nmap <silent><buffer> <A-;> :MerlinClearEnclosing<CR>
 " doesn't work well
 " let g:ocaml_folding = 1
 
+" setlocal foldmethod=manual
 setlocal foldmethod=indent
-
-setlocal tabstop=2
-setlocal softtabstop=2
-setlocal shiftwidth=2

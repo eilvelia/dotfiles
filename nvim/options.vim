@@ -52,6 +52,8 @@ set colorcolumn=80
 
 " set cursorline
 
+set splitright
+
 set lazyredraw
 
 set tagcase=smart
