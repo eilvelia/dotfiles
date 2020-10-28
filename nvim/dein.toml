@@ -13,18 +13,81 @@ merged = 0
 [[plugins]]
 repo = 'junegunn/fzf.vim'
 
-# Too slow
-# [[plugins]]
-# repo = 'yuki-ycino/fzf-preview.vim'
-
 # TODO: vim-clap?
+
+# [[plugins]]
+# repo = 'easymotion/vim-easymotion'
+
+[[plugins]]
+repo = 'justinmk/vim-sneak'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 't9md/vim-choosewin'
+
+[[plugins]]
+repo = 'matze/vim-move'
+
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
+
+[[plugins]]
+repo = 'tpope/vim-commentary'
+
+[[plugins]]
+repo = 'itchyny/vim-parenmatch'
+
+[[plugins]]
+repo = 'dhruvasagar/vim-open-url'
+rev = '595f964eca353f6cc158f953d879dda55e45370b'
+
+[[plugins]]
+repo = 'junegunn/vim-peekaboo'
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'voldikss/vim-floaterm'
 
 [[plugins]]
+repo = 'airblade/vim-gitgutter'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
+
+[[plugins]]
+repo = 'jreybert/vimagit'
+on_cmd = 'Magit'
+
+[[plugins]]
 repo = 'ryanoasis/vim-devicons'
-# if = 'g:is_gui'
+on_event = 'VimEnter'
+on_if = 'g:is_gui'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
@@ -46,93 +109,7 @@ on_if = '!g:min_mode'
 # repo = 'kristijanhusak/defx-git'
 
 [[plugins]]
-repo = 'vim-airline/vim-airline'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
-
-[[plugins]]
-repo = 'vim-airline/vim-airline-themes'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
-
-[[plugins]]
-repo = 'chrisbra/Colorizer'
-
-[[plugins]]
-repo = 'airblade/vim-gitgutter'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
-
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
-
-[[plugins]]
-repo = 'jreybert/vimagit'
-on_cmd = 'Magit'
-
-[[plugins]]
-repo = 'tpope/vim-surround'
-
-[[plugins]]
-repo = 'tpope/vim-repeat'
-
-[[plugins]]
 repo = 'tpope/vim-unimpaired'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
-
-[[plugins]]
-repo = 'nathanaelkane/vim-indent-guides'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
-
-[[plugins]]
-repo = 'tpope/vim-commentary'
-
-[[plugins]]
-repo = 'junegunn/vim-easy-align'
-
-# [[plugins]]
-# repo = 'easymotion/vim-easymotion'
-
-[[plugins]]
-repo = 'justinmk/vim-sneak'
-
-[[plugins]]
-repo = 'itchyny/vim-parenmatch'
-
-[[plugins]]
-repo = 'junegunn/vim-peekaboo'
-
-[[plugins]]
-repo = 'itchyny/vim-cursorword'
-
-[[plugins]]
-repo = 'brooth/far.vim'
-on_cmd = [ 'Far', 'Farp', 'F' ]
-
-[[plugins]]
-repo = 'mbbill/undotree'
-on_cmd = 'UndotreeToggle'
-
-[[plugins]]
-repo = 'matze/vim-move'
-
-[[plugins]]
-repo = 'dhruvasagar/vim-open-url'
-rev = '595f964eca353f6cc158f953d879dda55e45370b'
-
-[[plugins]]
-repo = 'jpalardy/vim-slime'
-rev = 'cf896c1f4f37a9feb15d657dfd120aeeb6215ad8'
-
-# [[plugins]]
-# repo = 'vim-syntastic/syntastic'
-
-[[plugins]]
-repo = 'w0rp/ale'
 on_event = 'VimEnter'
 on_if = '!g:min_mode'
 
@@ -156,12 +133,30 @@ repo = 'liuchengxu/vista.vim'
 on_event = 'VimEnter'
 on_if = '!g:min_mode'
 
+# Used for "fixers"
+[[plugins]]
+repo = 'w0rp/ale'
+on_event = 'VimEnter'
+on_if = '!g:min_mode'
+
+[[plugins]]
+repo = 'jpalardy/vim-slime'
+rev = 'cf896c1f4f37a9feb15d657dfd120aeeb6215ad8'
+
+[[plugins]]
+repo = 'brooth/far.vim'
+on_cmd = [ 'Far', 'Farp', 'F' ]
+
+[[plugins]]
+repo = 'mbbill/undotree'
+on_cmd = 'UndotreeToggle'
+
 [[plugins]]
 repo = 'junegunn/goyo.vim'
 on_cmd = 'Goyo'
 
 [[plugins]]
-repo = 't9md/vim-choosewin'
+repo = 'chrisbra/Colorizer'
 
 # Languages {{{
 
