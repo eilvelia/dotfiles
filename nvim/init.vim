@@ -119,6 +119,7 @@ imap <C-x><C-l> <Plug>(fzf-complete-line)
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7 } }
 " }}}
 
+" Too slow, also fzf has a built-in preview
 " " fzf-preview.vim {{{
 " if &shell =~# 'fish$'
 "   " Original: '[[ "$(file --mime {})" =~ binary ]]'
@@ -170,17 +171,17 @@ let NERDTreeIgnore = ['^\.git$[[dir]]', '^\.DS_Store$', '\~$']
 let g:NERDTreeShowGitStatus = 0
 let g:NERDTreeShowIgnoredStatus = 1
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✹",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '·',
-    \ "Unknown"   : "?"
-    \ }
+      \ "Modified"  : "✹",
+      \ "Staged"    : "✚",
+      \ "Untracked" : "✭",
+      \ "Renamed"   : "➜",
+      \ "Unmerged"  : "═",
+      \ "Deleted"   : "✖",
+      \ "Dirty"     : "✹",
+      \ "Clean"     : "✔︎",
+      \ 'Ignored'   : '·',
+      \ "Unknown"   : "?"
+      \ }
 " Vim-devicons and nerdtree-git-plugin are conflicting here a bit.
 " Highlighting of the indicators doesn't work properly with devicons' conceal.
 let g:webdevicons_conceal_nerdtree_brackets = 0
@@ -304,6 +305,7 @@ command! -range AlignVimMappings execute
       \ "<line1>,<line2>EasyAlign /\\s<silent>\\s\\|\\s/ l0r0all"
 " }}}
 
+" EasyMotion is too slow, changes buffers, doesn't work well with macros, etc.
 " " vim-easymotion {{{
 " let g:EasyMotion_smartcase = 1
 " nmap s <Plug>(easymotion-s2)
@@ -327,6 +329,29 @@ command! -range AlignVimMappings execute
 " vim-sneak {{{
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
+" replaces S from surround
+xmap S <Plug>Sneak_S
+" }}}
+
+" vim-surround {{{
+let g:surround_no_mappings = 1
+nmap ds  <Plug>Dsurround
+nmap cs  <Plug>Csurround
+nmap cS  <Plug>CSurround
+nmap ys  <Plug>Ysurround
+nmap yS  <Plug>YSurround
+nmap yss <Plug>Yssurround
+nmap ySs <Plug>YSsurround
+nmap ySS <Plug>YSsurround
+" xmap S   <Plug>VSurround
+xmap gS  <Plug>VgSurround
+" if !hasmapto("<Plug>Isurround", "i") && "" == mapcheck("<C-S>", "i")
+"   imap <C-S> <Plug>Isurround
+" endif
+" imap <C-G>s <Plug>Isurround
+" imap <C-G>S <Plug>ISurround
+
+xmap <Leader>s <Plug>VSurround
 " }}}
 
 " vim-open-url {{{
@@ -372,16 +397,17 @@ let g:ale_sign_warning = '!'
 let g:ale_sign_info = 'i'
 let g:ale_set_balloons = 0
 nmap <LocalLeader>af <Plug>(ale_fix)
-" nmap <LocalLeader>al <Plug>(ale_lint)
+nmap <LocalLeader>al <Plug>(ale_lint)
 " nmap <LocalLeader>ad <Plug>(ale_detail)
-" nmap <LocalLeader>ah <Plug>(ale_hover)
 " nmap <LocalLeader>ar <Plug>(ale_find_references)
 " nmap <LocalLeader>agd <Plug>(ale_go_to_definition_in_split)
 " nmap <LocalLeader>agD <Plug>(ale_go_to_definition)
 " nmap gd <Plug>(ale_go_to_definition_in_split)
 " nmap gD <Plug>(ale_go_to_definition)
+" nmap <LocalLeader>at <Plug>(ale_hover)
 " nmap <LocalLeader>t <Plug>(ale_hover)
 " imap <C-t> <Plug>(ale_hover)
+" nmap <LocalLeader>af <Plug>(ale_find_references)
 " nmap <LocalLeader>f <Plug>(ale_find_references)
 " nmap <LocalLeader>a, <Plug>(ale_next_wrap)
 " nmap <LocalLeader>a. <Plug>(ale_previous_wrap)
@@ -516,7 +542,7 @@ nmap - <Plug>(choosewin)
 
 " }}}
 
-nnoremap <Space> <NOP>
+nnoremap <Space> <nop>
 
 nnoremap ' `
 nnoremap ` '
@@ -539,14 +565,14 @@ inoremap <C-.> <Esc>
 noremap <Leader><Leader>s "+
 
 " command history
-nnoremap q: <NOP>
+nnoremap q: <nop>
 " ^ That mapping adds delay to `q` when you stop recording. v This fixes it.
 nnoremap <nowait> q q
 nnoremap <Leader><Leader>q q:
 
 " ex mode
 " alternative mapping: gQ
-nnoremap Q <NOP>
+nnoremap Q <nop>
 
 nnoremap <Leader>. @:
 
@@ -567,15 +593,25 @@ function! s:StripTrailingWhitespace()
   let @/ = old_pattern
 endfunction
 command! StripTrailingWhitespace call <SID>StripTrailingWhitespace()
+
 nnoremap <silent> <Leader><Leader>w :StripTrailingWhitespace<CR>
 
 function! s:ExecuteVim() range
-    let lines = getline(a:firstline, a:lastline)
-    for line in lines
-      execute line
-    endfor
+  let lines = getline(a:firstline, a:lastline)
+  for line in lines
+    execute line
+  endfor
 endfunction
 command! -range ExecuteVim <line1>,<line2>call <SID>ExecuteVim()
+
+function! s:DeleteNoNameBuffers()
+  let bufs = filter(range(1, bufnr('$')), 'bufexists(v:val) && bufname(v:val) == ""')
+  if !empty(bufs)
+    " Doesn't delete buffers with unsaved changes
+    execute 'bdelete' join(bufs)
+  endif
+endfunction
+command! DeleteNoNameBuffers call <SID>DeleteNoNameBuffers()
 
 nnoremap <silent> <C-;> :let @/ = ''<CR>
 inoremap <silent> <C-;> <Cmd>let @/ = ''<CR>
@@ -588,14 +624,16 @@ nnoremap <silent> <Leader>s :b#<CR>
 nnoremap <silent> <Leader><Leader>d :t.<CR>
 
 " location list
-nnoremap <silent> <A-l> :lopen<CR>
-nnoremap <silent> <A-L> :lclose<CR>
-nnoremap <silent> <C-l> :ll<CR>
+nnoremap <silent> <Leader>l :lopen<CR>
+nnoremap <silent> <Leader>L :lclose<CR>
+nnoremap <silent> <Leader><Leader>l :ll<CR>
+" [l / ]l / [<C-l> / ]<C-l> from unimpaired are useful
 
 " quickfix list
-nnoremap <silent> <A-q> :copen<CR>
-nnoremap <silent> <A-Q> :cclose<CR>
-nnoremap <silent> Q :cc<CR>
+nnoremap <silent> <Leader>q :copen<CR>
+nnoremap <silent> <Leader>Q :cclose<CR>
+nnoremap <silent> <Leader><Leader>c :cc<CR>
+" [q / ]q / [<C-q> / ]<C-q> from unimpaired are useful
 
 " Window mappings {{{
 
@@ -608,6 +646,11 @@ nnoremap <A-Left> <C-w><Left>
 nnoremap <A-Right> <C-w><Right>
 nnoremap <A-Up> <C-w><Up>
 nnoremap <A-Down> <C-w><Down>
+
+nnoremap <A-j> <C-w><Left>
+nnoremap <A-l> <C-w><Right>
+nnoremap <A-i> <C-w><Up>
+nnoremap <A-k> <C-w><Down>
 
 nnoremap <A-S-Left> <C-w>H
 nnoremap <A-S-Right> <C-w>L
@@ -666,12 +709,17 @@ cnoremap <A-BS> <C-w>
 nnoremap <Leader>v <C-v>
 vnoremap <Leader>v <C-v>
 
+nnoremap <Leader>4 $
+nnoremap <Leader>5 %
+
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
 nnoremap <Leader><Leader><Leader>s :set expandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader>S :set expandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader>t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
+
+nnoremap <Leader><Leader>a :SyntaxAttr<CR>
 
 if g:is_gui
   nnoremap <silent> <C-Tab> :tabn<CR>
@@ -697,7 +745,7 @@ if g:is_mac && g:is_gui
   endfor
 
   nnoremap <D-Left> ^
-  inoremap <D-Left> <C-c>I
+  inoremap <D-Left> <Cmd>normal! ^<CR>
   vnoremap <D-Left> ^
   nnoremap <D-Right> g_
   inoremap <D-Right> <End>
@@ -720,7 +768,7 @@ if g:is_mac && g:is_gui
 
   " duplicate the line
   nnoremap <silent> <D-S-d> :t.<CR>
-  inoremap <silent> <D-S-d> <Cmd>:t.<CR>
+  inoremap <silent> <D-S-d> <Cmd>t.<CR>
 endif
 
 source $VIMDIR/vault.vim

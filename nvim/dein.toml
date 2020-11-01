@@ -133,7 +133,6 @@ repo = 'liuchengxu/vista.vim'
 on_event = 'VimEnter'
 on_if = '!g:min_mode'
 
-# Used for "fixers"
 [[plugins]]
 repo = 'w0rp/ale'
 on_event = 'VimEnter'
