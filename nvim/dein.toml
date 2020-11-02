@@ -23,13 +23,9 @@ repo = 'justinmk/vim-sneak'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
@@ -76,21 +72,15 @@ repo = 'itchyny/vim-parenmatch'
 
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'voldikss/vim-floaterm'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'jreybert/vimagit'
@@ -98,18 +88,12 @@ on_cmd = 'Magit'
 
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
-on_event = 'VimEnter'
-on_if = 'g:is_gui'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'Xuyuanp/nerdtree-git-plugin'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 # [[plugins]]
 # repo = 'Shougo/defx.nvim'
@@ -122,8 +106,6 @@ on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'tpope/vim-unimpaired'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 # [[plugins]]
 # repo = 'Shougo/deoplete.nvim'
@@ -137,18 +119,12 @@ on_if = '!g:min_mode'
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = 'release'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'liuchengxu/vista.vim'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'w0rp/ale'
-on_event = 'VimEnter'
-on_if = '!g:min_mode'
 
 [[plugins]]
 repo = 'jpalardy/vim-slime'

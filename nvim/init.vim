@@ -46,6 +46,24 @@ if &runtimepath !~ '/dein.vim'
   execute 'set runtimepath+=' . fnamemodify(s:dein_dir, ':p')
 endif
 
+" TODO: don't set plugin mappings / settings if the plugin is disabled
+if g:min_mode
+  let g:loaded_airline = 1
+  let g:loaded_airline_themes = 1
+  let g:loaded_indent_guides = 1
+  let g:loaded_nerd_tree = 1
+  let g:loaded_gitgutter = 1
+  let g:loaded_unimpaired = 1
+  let g:loaded_fugitive = 1
+  let g:did_coc_loaded = 1
+  let g:loaded_vista = 1
+  let g:loaded_ale_dont_use_this_in_other_plugins_please = 1 " Nope.
+endif
+
+if !g:is_gui
+  let g:loaded_webdevicons = 1
+endif
+
 if dein#load_state(s:dein_cache_path)
   call dein#begin(s:dein_cache_path, [$MYVIMRC, s:dein_toml])
 
