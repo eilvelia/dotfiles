@@ -45,6 +45,11 @@ function! s:Highlighting()
   " hi def link NERDTreeGitStatusDirDirty Tag
   " hi def link NERDTreeGitStatusDirClean DiffAdd
   " hi def link NERDTreeGitStatusIgnored DiffAdd
+
+  " hi QuickScopePrimary guifg=#afff5f gui=underline ctermfg=155 cterm=underline
+  " hi QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=81 cterm=underline
+  hi QuickScopePrimary guifg=#9de555 gui=underline ctermfg=155 cterm=underline
+  hi QuickScopeSecondary guifg=#55e5e5 gui=underline ctermfg=81 cterm=underline
 endfunction
 
 augroup colorextend

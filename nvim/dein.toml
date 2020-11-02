@@ -38,10 +38,19 @@ repo = 'tpope/vim-repeat'
 repo = 'tpope/vim-surround'
 
 [[plugins]]
+repo = 'wellle/targets.vim'
+
+[[plugins]]
+repo = 'tommcdo/vim-exchange'
+
+[[plugins]]
 repo = 't9md/vim-choosewin'
 
 [[plugins]]
 repo = 'matze/vim-move'
+
+[[plugins]]
+repo = 'unblevable/quick-scope'
 
 [[plugins]]
 repo = 'itchyny/vim-cursorword'
@@ -50,7 +59,7 @@ repo = 'itchyny/vim-cursorword'
 repo = 'tpope/vim-commentary'
 
 [[plugins]]
-repo = 'itchyny/vim-parenmatch'
+repo = 'chaoren/vim-wordmotion'
 
 [[plugins]]
 repo = 'dhruvasagar/vim-open-url'
@@ -61,6 +70,9 @@ repo = 'junegunn/vim-peekaboo'
 
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
+
+[[plugins]]
+repo = 'itchyny/vim-parenmatch'
 
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'

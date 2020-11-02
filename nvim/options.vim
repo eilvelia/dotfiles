@@ -63,3 +63,6 @@ set updatetime=300
 set visualbell
 
 set termguicolors
+
+" interesting nvim feature
+set inccommand=nosplit

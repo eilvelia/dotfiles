@@ -1,8 +1,6 @@
 " vim: foldmethod=marker
 
-nmap h <C-;>
-vnoremap h <nop>
-onoremap l <nop>
+noremap h <nop>
 noremap j <nop>
 nmap k <C-w>
 vnoremap k <nop>
@@ -148,7 +146,7 @@ tnoremap <F9> <C-\><C-n>:FloatermNext<CR>
 command! Ranger FloatermNew ranger
 command! Nnn FloatermNew nnn
 nnoremap <Leader>ra :Ranger<CR>
-nnoremap <Leader>cf :CocList floaterm<CR>
+nnoremap <Leader>tl :CocList floaterm<CR>
 " }}}
 
 " vim-devicons {{{
@@ -289,7 +287,8 @@ let g:airline#extensions#coc#enabled = 1
 " let g:airline_skip_empty_sections = 1
 " }}}
 
-" commentary {{{
+" commentary isn't very good tbh
+" vim-commentary {{{
 if g:is_mac && g:is_gui
   nmap <D-/> gcc
   imap <D-/> <Cmd>normal gcc<CR>
@@ -356,9 +355,11 @@ xmap <Leader>s <Plug>VSurround
 
 " vim-open-url {{{
 " (default is gB)
-nmap <Leader>o <Plug>(open-url-browser)
+" nmap <Leader>o <Plug>(open-url-browser)
+nmap go <Plug>(open-url-browser)
 " open on GitHub
-vnoremap <Leader>gh y:OpenURL https://github.com/<C-r>"<CR>
+" vnoremap <Leader>gh y:OpenURL https://github.com/<C-r>"<CR>
+vnoremap gh y:OpenURL https://github.com/<C-r>"<CR>
 " }}}
 
 " vim-slime {{{
@@ -370,6 +371,11 @@ endfunction
 command! SlimeSetJobId call <SID>SlimeSetJobId()
 " a - activate
 nnoremap <C-c>a :SlimeSetJobId<CR>
+" }}}
+
+" works pretty slow and unstable
+" Colorizer {{{
+nnoremap <Leader><Leader><Leader>c :ColorToggle<CR>
 " }}}
 
 " " syntastic {{{
@@ -540,6 +546,38 @@ endif
 nmap - <Plug>(choosewin)
 " }}}
 
+" quick-scope {{{
+let g:qs_buftype_blacklist = ['terminal', 'help']
+" TODO: an option to give priority to lowercase letters would be useful
+"       (without completely disabling uppercase letters)
+" }}}
+
+" vim-wordmotion {{{
+" " prefix can be changed to the leader
+" let g:wordmotion_prefix = 'h'
+" let g:wordmotion_nomap = 1
+" map h [wm-prefix]
+" map [wm-prefix]w <Plug>WordMotion_w
+" map [wm-prefix]b <Plug>WordMotion_b
+" map [wm-prefix]e <Plug>WordMotion_e
+" map [wm-prefix]ge <Plug>WordMotion_ge
+" omap [wm-prefix]aw <Plug>WordMotion_aw
+" xmap [wm-prefix]aw <Plug>WordMotion_aw
+" omap [wm-prefix]iw <Plug>WordMotion_iw
+" xmap [wm-prefix]iw <Plug>WordMotion_iw
+
+let g:wordmotion_nomap = 1
+" i means "inner" (a word in the word)
+omap ii <Plug>WordMotion_iw
+xmap ii <Plug>WordMotion_iw
+omap ai <Plug>WordMotion_aw
+xmap ai <Plug>WordMotion_aw
+map <A-w> <Plug>WordMotion_w
+map <A-b> <Plug>WordMotion_b
+map <A-e> <Plug>WordMotion_e
+map g<A-e> <Plug>WordMotion_ge
+" }}}
+
 " }}}
 
 nnoremap <Space> <nop>
@@ -604,7 +642,7 @@ function! s:ExecuteVim() range
 endfunction
 command! -range ExecuteVim <line1>,<line2>call <SID>ExecuteVim()
 
-function! s:DeleteNoNameBuffers()
+function! s:DeleteNoNameBuffers() abort
   let bufs = filter(range(1, bufnr('$')), 'bufexists(v:val) && bufname(v:val) == ""')
   if !empty(bufs)
     " Doesn't delete buffers with unsaved changes
@@ -613,6 +651,8 @@ function! s:DeleteNoNameBuffers()
 endfunction
 command! DeleteNoNameBuffers call <SID>DeleteNoNameBuffers()
 
+nmap <Leader>g <C-;>
+
 nnoremap <silent> <C-;> :let @/ = ''<CR>
 inoremap <silent> <C-;> <Cmd>let @/ = ''<CR>
 
@@ -620,8 +660,26 @@ inoremap <silent> <C-;> <Cmd>let @/ = ''<CR>
 nnoremap <silent> <Leader>s :b#<CR>
 " nnoremap <silent> <C-\> :b#<CR>
 
-" duplicate the line
-nnoremap <silent> <Leader><Leader>d :t.<CR>
+" duplicate current line
+" nnoremap <silent> <Leader><Leader>d :t.<CR>
+nnoremap <silent> <Leader>c :t.<CR>
+" (c - clone)
+
+function! s:DeleteNearestLine(above) abort
+  let save_col = col('.')
+  let curline = line('.')
+  if a:above && curline != 1
+    -d
+    call cursor(curline - 1, save_col)
+  elseif curline != line('$')
+    +d
+    call cursor(curline, save_col)
+  endif
+endfunction
+
+" can be mapped to other keys / removed in the future
+nnoremap <silent> <Leader><Leader>d :call <SID>DeleteNearestLine(0)<CR>
+nnoremap <silent> <Leader><Leader>D :call <SID>DeleteNearestLine(1)<CR>
 
 " location list
 nnoremap <silent> <Leader>l :lopen<CR>
@@ -709,8 +767,9 @@ cnoremap <A-BS> <C-w>
 nnoremap <Leader>v <C-v>
 vnoremap <Leader>v <C-v>
 
-nnoremap <Leader>4 $
-nnoremap <Leader>5 %
+noremap <Leader>4 $
+noremap <Leader>5 %
+" I use 0w instead of ^
 
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
@@ -719,10 +778,11 @@ nnoremap <Leader><Leader><Leader>S :set expandtab tabstop=4 shiftwidth=4 softtab
 nnoremap <Leader><Leader><Leader>t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
 
-nnoremap <Leader><Leader>a :SyntaxAttr<CR>
-
 command! -count EditReg call edit_reg#start()
 nnoremap <Leader>e :EditReg<CR>
+
+command! SyntaxAttr call syntax_attr#main()
+nnoremap <Leader><Leader>a :SyntaxAttr<CR>
 
 if g:is_gui
   nnoremap <silent> <C-Tab> :tabn<CR>
@@ -769,13 +829,12 @@ if g:is_mac && g:is_gui
   inoremap <D-[> <C-d>
   vnoremap <D-[> <
 
-  " duplicate the line
+  " duplicate current line
   nnoremap <silent> <D-S-d> :t.<CR>
   inoremap <silent> <D-S-d> <Cmd>t.<CR>
 endif
 
 source $VIMDIR/vault.vim
-source $VIMDIR/syntax-attr.vim
 source $VIMDIR/options.vim
 source $VIMDIR/color.vim
 
