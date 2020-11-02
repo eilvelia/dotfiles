@@ -721,6 +721,9 @@ nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softt
 
 nnoremap <Leader><Leader>a :SyntaxAttr<CR>
 
+command! -count EditReg call edit_reg#start()
+nnoremap <Leader>e :EditReg<CR>
+
 if g:is_gui
   nnoremap <silent> <C-Tab> :tabn<CR>
   inoremap <silent> <C-Tab> <Esc>:tabn<CR>
