@@ -17,8 +17,8 @@ function! s:Highlighting()
   hi! link CocErrorHighlight SpellBad
   hi! link CocWarningHighlight SpellCap
 
-  hi Sneak ctermfg=15 ctermbg=201 guifg=#ff0000 guibg=#000000
-  hi clear SneakLabel
+  hi Sneak ctermfg=red ctermbg=black guifg=#ff0000 guibg=#000000
+  hi SneakLabel ctermfg=red ctermbg=black guifg=#ff0000 guibg=#000000
 
   " hi Pmenu ctermbg=237 ctermfg=white
   " hi PmenuSel ctermbg=220 ctermfg=black
@@ -67,5 +67,5 @@ augroup END
 " colorscheme space-vim-dark
 
 let g:srcery_italic = 1
-if !is_gui | let g:srcery_transparent_background = 1 | endif
+if !g:is_gui | let g:srcery_transparent_background = 1 | endif
 colorscheme srcery

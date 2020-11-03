@@ -40,6 +40,9 @@ repo = 'wellle/targets.vim'
 repo = 'tommcdo/vim-exchange'
 
 [[plugins]]
+repo = 'tpope/vim-commentary'
+
+[[plugins]]
 repo = 't9md/vim-choosewin'
 
 [[plugins]]
@@ -50,9 +53,6 @@ repo = 'unblevable/quick-scope'
 
 [[plugins]]
 repo = 'itchyny/vim-cursorword'
-
-[[plugins]]
-repo = 'tpope/vim-commentary'
 
 [[plugins]]
 repo = 'chaoren/vim-wordmotion'
@@ -104,6 +104,7 @@ repo = 'Xuyuanp/nerdtree-git-plugin'
 # [[plugins]]
 # repo = 'kristijanhusak/defx-git'
 
+# unimpaired's startup time is pretty bad
 [[plugins]]
 repo = 'tpope/vim-unimpaired'
 
@@ -128,7 +129,6 @@ repo = 'w0rp/ale'
 
 [[plugins]]
 repo = 'jpalardy/vim-slime'
-rev = 'cf896c1f4f37a9feb15d657dfd120aeeb6215ad8'
 
 [[plugins]]
 repo = 'brooth/far.vim'
@@ -180,7 +180,6 @@ repo = 'derekelkins/agda-vim'
 
 [[plugins]]
 repo = 'srcery-colors/srcery-vim'
-rev = '2aaba124461dacd1089dda0c622197f849a685f2'
 
 # }}}
 

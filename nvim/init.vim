@@ -380,6 +380,7 @@ nmap go <Plug>(open-url-browser)
 vnoremap gh y:OpenURL https://github.com/<C-r>"<CR>
 " }}}
 
+" doesn't work very well
 " vim-slime {{{
 let g:slime_target = 'neovim'
 function! s:SlimeSetJobId()
@@ -395,24 +396,6 @@ nnoremap <C-c>a :SlimeSetJobId<CR>
 " Colorizer {{{
 nnoremap <Leader><Leader><Leader>c :ColorToggle<CR>
 " }}}
-
-" " syntastic {{{
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_error_symbol = '✗'
-" let g:syntastic_style_error_symbol = 'S✗'
-" let g:syntastic_warning_symbol = '!'
-" let g:syntastic_style_warning_symbol = 'S!'
-" if g:is_gui
-"   let g:syntastic_full_redraws = 0
-" endif
-" " let g:syntastic_ocaml_checkers = ['merlin']
-" " }}}
 
 " ale {{{
 let g:ale_virtualtext_cursor = 1
