@@ -18,6 +18,8 @@ brew install gnupg
 brew install pgpdump
 brew install unrar
 brew install gnu-sed
+brew install gnu-tar
+brew install gawk
 brew install fortune
 brew install fzf
 brew install ripgrep # aka rg. 'grep' alternative

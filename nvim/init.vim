@@ -298,10 +298,7 @@ let g:airline_powerline_fonts = 1
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#coc#enabled = 1
-" let g:airline#extensions#vista#enabled = 1
+let g:airline#extensions#branch#enabled = 0
 " let g:airline_skip_empty_sections = 1
 " }}}
 
