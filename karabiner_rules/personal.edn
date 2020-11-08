@@ -53,18 +53,39 @@
     ;          [:!Q#Pcomma :home]
     ;          [:!Q#Pperiod :end]]}
     {:des "right_command sequence"
-     :rules [[:#Pright_command ["right-cmd-mode" 1] ["right-cmd-mode" 0]]
+     :rules [[:##Pright_command ["right-cmd-mode" 1] :!right-cmd-mode]
+     ; :rules [[:##right_command ["right-cmd-comb" 1] :!right-cmd-mode {:afterup ["right-cmd-comb" 0] :alone ["right-cmd-seq" 1]}]
              :right-cmd-mode
              [:#Pd [:to-en ["right-cmd-mode" 0]]]
              [:#Ps [:to-ru ["right-cmd-mode" 0]]]
              ; [:#Pf [:escape ["right-cmd-mode" 0]]]
-             [:#Pr [:return_or_enter ["right-cmd-mode" 0]]]
+             ; [:#Pr [:return_or_enter ["right-cmd-mode" 0]]]
              [:#Pcomma [:home ["right-cmd-mode" 0]]]
              [:#Pperiod [:end ["right-cmd-mode" 0]]]
              [:#Pn [:!Squote ["right-cmd-mode" 0]]]
+             [:#Pc [{:key :caps_lock :hold_down_ms 90} ["right-cmd-mode" 0]]]
+             [:#Pf [["cursor-mode" 1] [:anybar "green"] ["right-cmd-mode" 0]]]
+             ; [:#Pspacebar [["sticky-shift" 1] ["right-cmd-mode" 0]]]
+             [:##i [:up_arrow ["right-cmd-mode" 0]]]
+             [:##j [:left_arrow ["right-cmd-mode" 0]]]
+             [:##k [:down_arrow ["right-cmd-mode" 0]]]
+             [:##l [:right_arrow ["right-cmd-mode" 0]]]
+             [:#P1 [:f1 ["right-cmd-mode" 0]]]
+             [:#P2 [:f2 ["right-cmd-mode" 0]]]
+             [:#P3 [:f3 ["right-cmd-mode" 0]]]
+             [:#P4 [:f4 ["right-cmd-mode" 0]]]
+             [:#P5 [:f5 ["right-cmd-mode" 0]]]
+             [:#P6 [:f6 ["right-cmd-mode" 0]]]
+             [:#P7 [:f7 ["right-cmd-mode" 0]]]
+             [:#P8 [:f8 ["right-cmd-mode" 0]]]
+             [:#P9 [:f9 ["right-cmd-mode" 0]]]
+             [:#P0 [:f10 ["right-cmd-mode" 0]]]
+             [:#Phyphen [:f11 ["right-cmd-mode" 0]]]
+             [:#Pequal_sign [:f12 ["right-cmd-mode" 0]]]
+             ; [:##left_shift :left_shift]
+             ; [:from-any-keycode :vk_none {:afterup ["right-cmd-mode" 0]}]]}
              [:from-any-keycode ["right-cmd-mode" 0]]]}
     {:des "cursor mode"
-     ; left_command if_alone - enable
      ; ijkl - arrows
      ; o - backspace
      ; m/< - prev/next tab (ctrl+shift+tab / ctrl+tab)
@@ -72,7 +93,8 @@
      ; left modifiers / backspace / enter / space / 0-9 - skip as is
      ; caps_lock/f/a/s/d/q/right_alt - disable
      ; other keys - do nothing
-     :rules [[:#Pleft_command :left_command ["cursor-mode" 0] {:alone [["cursor-mode" 1] [:anybar "green"]]}]
+     :rules [#_[:#Pleft_command :left_command :!cursor-mode {:alone [["cursor-mode" 1] [:anybar "green"]]}]
+             [:right_alt :vk_none ["cursor-mode" 0]]
              :cursor-mode
              [:#Pleft_command :left_command]
              [:#Pleft_alt :left_alt]
@@ -96,7 +118,7 @@
              [:##j :left_arrow]
              [:##k :down_arrow]
              [:##l :right_arrow]
-             [:#Po :delete_or_backspace]
+             [:##o :delete_or_backspace]
              [:#Pm :!TStab]
              [:#Pcomma :!Ttab]
              [:#Pt :!Ct]
@@ -109,8 +131,57 @@
              [:#Pa [["cursor-mode" 0] [:anybar "white"]]]
              [:#Pq [["cursor-mode" 0] [:anybar "white"]]]
              [:from-any-keycode :vk_none]]}
+    {:des "sticky shift"
+     :rules [[:left_shift :left_shift :!sticky-shift {:alone ["sticky-shift" 1]}]
+             :sticky-shift
+             [:##caps_lock ["sticky-shift" 0]]
+             [:#Pq [:!Sq ["sticky-shift" 0]]]
+             [:#Pw [:!Sw ["sticky-shift" 0]]]
+             [:#Pe [:!Se ["sticky-shift" 0]]]
+             [:#Pr [:!Sr ["sticky-shift" 0]]]
+             [:#Pt [:!St ["sticky-shift" 0]]]
+             [:#Py [:!Sy ["sticky-shift" 0]]]
+             [:#Pu [:!Su ["sticky-shift" 0]]]
+             [:#Pi [:!Si ["sticky-shift" 0]]]
+             [:#Po [:!So ["sticky-shift" 0]]]
+             [:#Pp [:!Sp ["sticky-shift" 0]]]
+             [:#Pa [:!Sa ["sticky-shift" 0]]]
+             [:#Ps [:!Ss ["sticky-shift" 0]]]
+             [:#Pd [:!Sd ["sticky-shift" 0]]]
+             [:#Pf [:!Sf ["sticky-shift" 0]]]
+             [:#Pg [:!Sg ["sticky-shift" 0]]]
+             [:#Ph [:!Sh ["sticky-shift" 0]]]
+             [:#Pj [:!Sj ["sticky-shift" 0]]]
+             [:#Pk [:!Sk ["sticky-shift" 0]]]
+             [:#Pl [:!Sl ["sticky-shift" 0]]]
+             [:#Pz [:!Sz ["sticky-shift" 0]]]
+             [:#Px [:!Sx ["sticky-shift" 0]]]
+             [:#Pc [:!Sc ["sticky-shift" 0]]]
+             [:#Pv [:!Sv ["sticky-shift" 0]]]
+             [:#Pb [:!Sb ["sticky-shift" 0]]]
+             [:#Pn [:!Sn ["sticky-shift" 0]]]
+             [:#Pm [:!Sm ["sticky-shift" 0]]]
+             [:#P1 [:!S1 ["sticky-shift" 0]]]
+             [:#P2 [:!S2 ["sticky-shift" 0]]]
+             [:#P3 [:!S3 ["sticky-shift" 0]]]
+             [:#P4 [:!S4 ["sticky-shift" 0]]]
+             [:#P5 [:!S5 ["sticky-shift" 0]]]
+             [:#P6 [:!S6 ["sticky-shift" 0]]]
+             [:#P7 [:!S7 ["sticky-shift" 0]]]
+             [:#P8 [:!S8 ["sticky-shift" 0]]]
+             [:#P9 [:!S9 ["sticky-shift" 0]]]
+             [:#P0 [:!S0 ["sticky-shift" 0]]]
+             [:#Popen_bracket [:!Sopen_bracket ["sticky-shift" 0]]]
+             [:#Pclose_bracket [:!Sclose_bracket ["sticky-shift" 0]]]
+             [:#Psemicolon [:!Ssemicolon ["sticky-shift" 0]]]
+             [:#Pquote [:!Squote ["sticky-shift" 0]]]
+             [:#Pbackslash [:!Sbackslash ["sticky-shift" 0]]]
+             [:#Pcomma [:!Scomma ["sticky-shift" 0]]]
+             [:#Pperiod [:!Speriod ["sticky-shift" 0]]]
+             [:#Pslash [:!Sslash ["sticky-shift" 0]]]
+             [:#Pgrave_accent_and_tilde [:!Sgrave_accent_and_tilde ["sticky-shift" 0]]]]}
     {:des "caps_lock to escape"
-     :rules [[:!C#Pescape :caps_lock]
+     :rules [#_[:!C#Pescape :caps_lock]
              [:##caps_lock :escape]]}
     {:des "disable arrows"
      :rules [[:##up_arrow :vk_none]
