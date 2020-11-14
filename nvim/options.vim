@@ -17,7 +17,15 @@ set foldlevelstart=6
 
 set sessionoptions-=options
 
-set signcolumn=yes
+if g:min_mode
+  set signcolumn=auto
+else
+  set signcolumn=yes
+endif
+
+if !g:is_gui
+  set mouse=a
+endif
 
 " set title
 
@@ -42,6 +50,8 @@ set expandtab
 set smarttab
 set autoindent
 
+set nojoinspaces
+
 set ruler
 set whichwrap+=<,>,[,]
 set backspace=indent,eol,start
@@ -58,7 +68,8 @@ set lazyredraw
 
 set tagcase=smart
 
-set updatetime=300
+" set updatetime=300
+set updatetime=3000
 
 set visualbell
 

@@ -1,3 +1,23 @@
+let g:ale_ocaml_ols_executable = 'ocamllsp'
+" let b:ale_linters = ['merlin']
+" let b:ale_linters = ['ols']
+let b:ale_fixers = ['ocp-indent']
+
+let no_ocaml_maps = 1
+
+nmap <buffer> <LocalLeader>s <Plug>OCamlSwitchEdit
+nmap <buffer> <LocalLeader>S <Plug>OCamlSwitchNewWin
+
+" doesn't work well
+" let g:ocaml_folding = 1
+
+" setlocal foldmethod=manual
+setlocal foldmethod=indent
+
+"" Merlin without LSP:
+
+let g:merlin_disable_default_keybindings = 1
+
 if !exists('g:ocaml_loaded') && executable('opam')
   let g:ocaml_loaded = 1
 
@@ -23,41 +43,21 @@ if !exists('g:ocaml_loaded') && executable('opam')
   endif
 endif
 
-let g:ale_ocaml_ols_executable = 'ocamllsp'
-" let b:ale_linters = ['merlin']
-" let b:ale_linters = ['ols']
-let b:ale_fixers = ['ocp-indent']
-
-let no_ocaml_maps = 1
-
-nmap <silent><buffer> <LocalLeader>s <Plug>OCamlSwitchEdit
-nmap <silent><buffer> <LocalLeader>S <Plug>OCamlSwitchNewWin
-
-let g:merlin_disable_default_keybindings = 1
-
 " nmap <buffer> <LocalLeader>r <Plug>(MerlinRename)
 
-nmap <buffer> <LocalLeader>y :MerlinYankLatestType<CR>
+nnoremap <buffer> <LocalLeader>y :MerlinYankLatestType<CR>
 
-" nmap <silent><buffer> <LocalLeader>f :MerlinOccurrences<CR>
+" nnoremap <silent><buffer> <LocalLeader>f :MerlinOccurrences<CR>
 
-imap <silent><buffer> <C-t> <C-o>:MerlinTypeOf<CR>
-
-map <silent><buffer> <LocalLeader>mt :MerlinTypeOf<CR>
-" map  <silent><buffer> <LocalLeader>t :MerlinTypeOf<CR>
-map  <silent><buffer> <LocalLeader>n :MerlinGrowEnclosing<CR>
-map  <silent><buffer> <LocalLeader>p :MerlinShrinkEnclosing<CR>
-vmap <silent><buffer> <LocalLeader>t :MerlinTypeOfSel<CR>
+noremap <silent><buffer> <LocalLeader>mt :MerlinTypeOf<CR>
+" noremap <silent><buffer> <LocalLeader>t :MerlinTypeOf<CR>
+noremap <silent><buffer> <LocalLeader>n :MerlinGrowEnclosing<CR>
+noremap <silent><buffer> <LocalLeader>p :MerlinShrinkEnclosing<CR>
+vnoremap <silent><buffer> <LocalLeader>t :MerlinTypeOfSel<CR>
 
 " nmap <silent><buffer> gd :MerlinLocate<CR>
 
-nmap <buffer> <LocalLeader>T :MerlinTypeOf<space>
-nmap <buffer> <LocalLeader>gd :MerlinLocate<space>
+nnoremap <buffer> <LocalLeader>T :MerlinTypeOf<Space>
+nnoremap <buffer> <LocalLeader>mg :MerlinLocate<Space>
 
-nmap <silent><buffer> <A-;> :MerlinClearEnclosing<CR>
-
-" doesn't work well
-" let g:ocaml_folding = 1
-
-" setlocal foldmethod=manual
-setlocal foldmethod=indent
+nnoremap <silent><buffer> <A-;> :MerlinClearEnclosing<CR>

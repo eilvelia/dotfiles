@@ -1,23 +1,21 @@
 " Protect sensitive information
 
-" From https://github.com/rafi/vim-config/blob/b4bfc5306467c4/plugin/vault.vim
+" Partially from
+" https://github.com/rafi/vim-config/blob/b4bfc5306467c4/plugin/vault.vim
 
-" Don't backup files in temp directories or shm
 if exists('&backupskip')
-  set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
+  set backupskip+=/tmp/*,,*/shm/*,/private/var/*
 endif
 
-" Don't keep swap files in temp directories or shm
-augroup swapskip
+augroup vault_swapskip
   autocmd!
   silent! autocmd BufNewFile,BufReadPre
     \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
     \ setlocal noswapfile
 augroup END
 
-" Don't keep undo files in temp directories or shm
-if has('persistent_undo')
-  augroup undoskip
+if has('persistent_undo') && &undofile
+  augroup vault_undoskip
     autocmd!
     silent! autocmd BufWritePre
       \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
@@ -25,10 +23,18 @@ if has('persistent_undo')
   augroup END
 endif
 
-" Don't keep viminfo for files in temp directories or shm
-augroup viminfoskip
-  autocmd!
-  silent! autocmd BufNewFile,BufReadPre
-    \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
-    \ setlocal viminfo=
-augroup END
+if has('nvim')
+  augroup vault_shadaskip
+    autocmd!
+    silent! autocmd BufNewFile,BufReadPre
+      \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
+      \ setlocal shada=
+  augroup END
+else
+  augroup vault_viminfoskip
+    autocmd!
+    silent! autocmd BufNewFile,BufReadPre
+      \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*,/private/var/*
+      \ setlocal viminfo=
+  augroup END
+endif

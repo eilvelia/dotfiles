@@ -34,13 +34,13 @@ repo = 'tpope/vim-repeat'
 repo = 'tpope/vim-surround'
 
 [[plugins]]
+repo = 'tpope/vim-commentary'
+
+[[plugins]]
 repo = 'wellle/targets.vim'
 
 [[plugins]]
 repo = 'tommcdo/vim-exchange'
-
-[[plugins]]
-repo = 'tpope/vim-commentary'
 
 [[plugins]]
 repo = 't9md/vim-choosewin'
@@ -49,17 +49,24 @@ repo = 't9md/vim-choosewin'
 repo = 'matze/vim-move'
 
 [[plugins]]
-repo = 'unblevable/quick-scope'
+# repo = 'unblevable/quick-scope'
+repo = 'Bannerets/quick-scope'
+rev = 'fork'
+
+# [[plugins]]
+# # repo = 'itchyny/vim-cursorword'
+# repo = 'Bannerets/vim-cursorword'
+# rev = 'fork'
 
 [[plugins]]
-repo = 'itchyny/vim-cursorword'
-
-[[plugins]]
-repo = 'chaoren/vim-wordmotion'
+repo = 'RRethy/vim-illuminate'
 
 [[plugins]]
 repo = 'dhruvasagar/vim-open-url'
 rev = '595f964eca353f6cc158f953d879dda55e45370b'
+
+[[plugins]]
+repo = 'chaoren/vim-wordmotion'
 
 [[plugins]]
 repo = 'junegunn/vim-peekaboo'
@@ -77,6 +84,9 @@ repo = 'nathanaelkane/vim-indent-guides'
 repo = 'voldikss/vim-floaterm'
 
 [[plugins]]
+repo = 'antoinemadec/FixCursorHold.nvim'
+
+[[plugins]]
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
@@ -89,20 +99,20 @@ on_cmd = 'Magit'
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
 
+# [[plugins]]
+# repo = 'scrooloose/nerdtree'
+
+# [[plugins]]
+# repo = 'Xuyuanp/nerdtree-git-plugin'
+
 [[plugins]]
-repo = 'scrooloose/nerdtree'
+repo = 'Shougo/defx.nvim'
 
 [[plugins]]
-repo = 'Xuyuanp/nerdtree-git-plugin'
+repo = 'kristijanhusak/defx-icons'
 
-# [[plugins]]
-# repo = 'Shougo/defx.nvim'
-
-# [[plugins]]
-# repo = 'kristijanhusak/defx-icons'
-
-# [[plugins]]
-# repo = 'kristijanhusak/defx-git'
+[[plugins]]
+repo = 'kristijanhusak/defx-git'
 
 # unimpaired's startup time is pretty bad
 [[plugins]]
@@ -144,6 +154,9 @@ on_cmd = 'Goyo'
 
 [[plugins]]
 repo = 'chrisbra/Colorizer'
+
+# [[plugins]]
+# repo = 'norcalli/nvim-colorizer.lua'
 
 # Languages {{{
 

@@ -9,6 +9,7 @@ echo "Installing Homebrew packages..."
 
 brew install less # Upgrade less
 
+brew install bash
 brew install tree
 brew install wget
 brew install htop
@@ -144,7 +145,7 @@ brew cask install vimr
 brew cask install keepassxc
 brew cask install netnewswire
 brew cask install osxfuse
-brew cask install docker # can take a long time
+brew cask install docker # proprietary; can take a long time to install
 
 echo "Installing fuse filesystems..."
 

@@ -1,15 +1,13 @@
 " vim: foldmethod=marker
 
-noremap h <nop>
-noremap j <nop>
-nmap k <C-w>
-vnoremap k <nop>
-onoremap k <nop>
-nnoremap l `
-vnoremap l <nop>
-onoremap l <nop>
-
 if has('vim_starting')
+  noremap h <nop>
+  noremap j <nop>
+  noremap k <nop>
+  noremap l <nop>
+
+  nnoremap <Space> <nop>
+
   " let mapleader = ","
   let mapleader = "j"
   let maplocalleader = "\<Space>"
@@ -51,7 +49,7 @@ if g:min_mode
   let g:loaded_airline = 1
   let g:loaded_airline_themes = 1
   let g:loaded_indent_guides = 1
-  let g:loaded_nerd_tree = 1
+  " let g:loaded_nerd_tree = 1
   let g:loaded_gitgutter = 1
   let g:loaded_unimpaired = 1
   let g:loaded_fugitive = 1
@@ -86,17 +84,29 @@ command! DeinRecache call dein#recache_runtimepath()
 
 command! DeinShowDisabledPlugins echo dein#check_clean()
 
-function! s:DeinRemoveDisabledPlugins()
+function! s:dein_remove_disabled_plugins()
   call map(dein#check_clean(), "delete(v:val, 'rf')")
   call dein#recache_runtimepath()
 endfunction
-command! DeinRemoveDisabledPlugins call <SID>DeinRemoveDisabledPlugins()
+command! DeinRemoveDisabledPlugins call <SID>dein_remove_disabled_plugins()
 
 command! DeinUselessLazy echo dein#check_lazy_plugins()
 
 command! DeinSaveRollback call dein#save_rollback($VIMDIR . '/dein-rollback')
-
 command! DeinLoadRollback call dein#load_rollback($VIMDIR . '/dein-rollback')
+
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   ensure_installed = "maintained",
+"   highlight = {
+"     enable = true
+"   },
+" }
+" EOF
+
+source $VIMDIR/options.vim
+
+nmap k <C-w>
 
 " Plugin settings {{{
 
@@ -167,126 +177,191 @@ nnoremap <Leader>ra :Ranger<CR>
 nnoremap <Leader>tl :CocList floaterm<CR>
 " }}}
 
-" vim-devicons {{{
-if !g:is_gui
-  let g:loaded_webdevicons = 1
-endif
-" }}}
-
-" nerdtree {{{
-nnoremap <Leader>d :NERDTreeToggle<CR>
-nnoremap <Leader>D :NERDTreeToggleVCS<CR>
-let NERDTreeMinimalUI = 1
-let NERDTreeShowHidden = 1
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeIgnore = ['^\.git$[[dir]]', '^\.DS_Store$', '\~$']
-" }}}
-
-" nerdtree-git-plugin {{{
-" Slows down NERDTree
-let g:NERDTreeShowGitStatus = 0
-let g:NERDTreeShowIgnoredStatus = 1
-let g:NERDTreeIndicatorMapCustom = {
-      \ "Modified"  : "✹",
-      \ "Staged"    : "✚",
-      \ "Untracked" : "✭",
-      \ "Renamed"   : "➜",
-      \ "Unmerged"  : "═",
-      \ "Deleted"   : "✖",
-      \ "Dirty"     : "✹",
-      \ "Clean"     : "✔︎",
-      \ 'Ignored'   : '·',
-      \ "Unknown"   : "?"
-      \ }
-" Vim-devicons and nerdtree-git-plugin are conflicting here a bit.
-" Highlighting of the indicators doesn't work properly with devicons' conceal.
-let g:webdevicons_conceal_nerdtree_brackets = 0
-" }}}
-
-" " defx {{{
-" " TODO: change floating window colors?
-" let s:defx_height = max([float2nr(&lines * 0.9), 25])
-" let s:defx_col = float2nr((&columns - 90) / 2) " 90 = default width
-" let s:defx_row = float2nr((&lines - s:defx_height) / 2)
-" let s:defx_com = 'Defx -split=floating -winheight=' . s:defx_height
-"       \ . ' -wincol=' . s:defx_col . ' -winrow=' . s:defx_row
-"       \ . ' -toggle -columns=indent:git:icons:filename:type'
-" exe 'command! D ' . s:defx_com . ' -resume'
-" exe 'nnoremap <silent> <Leader>d :' . s:defx_com . ' -resume<CR>'
-" exe 'nnoremap <silent> <Leader>D :' . s:defx_com . '<CR>'
-" autocmd FileType defx call s:DefxFtSettings()
-" function! s:DefxFtSettings()
-"   " setlocal cursorline
-"   " setlocal winhl=Normal:Floating
-
-"   " TODO: somehow remove other normal mode mappings?
-
-"   " Mappings
-"   nnoremap <silent><buffer><expr> <CR>
-"         \ defx#do_action('drop')
-"   nnoremap <silent><buffer><expr> c
-"         \ defx#do_action('copy')
-"   nnoremap <silent><buffer><expr> m
-"         \ defx#do_action('move')
-"   nnoremap <silent><buffer><expr> p
-"         \ defx#do_action('paste')
-"   nnoremap <silent><buffer><expr> l
-"         \ defx#do_action('open')
-"   " nnoremap <silent><buffer><expr> E
-"   "       \ defx#do_action('open', 'vsplit')
-"   " nnoremap <silent><buffer><expr> P
-"   "       \ defx#do_action('open', 'pedit')
-"   nnoremap <silent><buffer><expr> o
-"         \ defx#do_action('open_or_close_tree')
-"   nnoremap <silent><buffer><expr> A
-"         \ defx#do_action('new_directory')
-"   " nnoremap <silent><buffer><expr> N
-"   "       \ defx#do_action('new_file')
-"   nnoremap <silent><buffer><expr> a
-"         \ defx#do_action('new_file')
-"   nnoremap <silent><buffer><expr> M
-"         \ defx#do_action('new_multiple_files')
-"   nnoremap <silent><buffer><expr> C
-"         \ defx#do_action('toggle_columns',
-"         \                'mark:indent:icon:filename:type:size:time')
-"   " nnoremap <silent><buffer><expr> S
-"   "       \ defx#do_action('toggle_sort', 'time')
-"   nnoremap <silent><buffer><expr> d
-"         \ defx#do_action('remove')
-"   nnoremap <silent><buffer><expr> r
-"         \ defx#do_action('rename')
-"   nnoremap <silent><buffer><expr> <Leader>!
-"         \ defx#do_action('execute_command')
-"   nnoremap <silent><buffer><expr> <Leader>x
-"         \ defx#do_action('execute_system')
-"   nnoremap <silent><buffer><expr> yy
-"         \ defx#do_action('yank_path')
-"   nnoremap <silent><buffer><expr> I
-"         \ defx#do_action('toggle_ignored_files')
-"   nnoremap <silent><buffer><expr> ;
-"         \ defx#do_action('repeat')
-"   nnoremap <silent><buffer><expr> h
-"         \ defx#do_action('cd', ['..'])
-"   " nnoremap <silent><buffer><expr> ~
-"   "       \ defx#do_action('cd')
-"   nnoremap <silent><buffer><expr> q
-"         \ defx#do_action('quit')
-"   nnoremap <silent><buffer><expr> <Space>
-"         \ defx#do_action('toggle_select') . 'j'
-"   nnoremap <silent><buffer><expr> *
-"         \ defx#do_action('toggle_select_all')
-"   nnoremap <silent><buffer><expr> j
-"         \ line('.') == line('$') ? 'gg' : 'j'
-"   nnoremap <silent><buffer><expr> k
-"         \ line('.') == 1 ? 'G' : 'k'
-"   nnoremap <silent><buffer><expr> <C-l>
-"         \ defx#do_action('redraw')
-"   nnoremap <silent><buffer><expr> <C-g>
-"         \ defx#do_action('print')
-"   nnoremap <silent><buffer><expr> cd
-"         \ defx#do_action('change_vim_cwd')
-" endfunction
+" " nerdtree {{{
+" nnoremap <Leader>d :NERDTreeToggle<CR>
+" nnoremap <Leader>D :NERDTreeToggleVCS<CR>
+" let NERDTreeMinimalUI = 1
+" let NERDTreeShowHidden = 1
+" let NERDTreeAutoDeleteBuffer = 1
+" let NERDTreeIgnore = ['^\.git$[[dir]]', '^\.DS_Store$', '\~$']
 " " }}}
+
+" " nerdtree-git-plugin {{{
+" " Slows down NERDTree, so it is disabled
+" let g:NERDTreeShowGitStatus = 0
+" let g:NERDTreeShowIgnoredStatus = 1
+" let g:NERDTreeIndicatorMapCustom = {
+"       \ "Modified"  : "✹",
+"       \ "Staged"    : "✚",
+"       \ "Untracked" : "✭",
+"       \ "Renamed"   : "➜",
+"       \ "Unmerged"  : "═",
+"       \ "Deleted"   : "✖",
+"       \ "Dirty"     : "✹",
+"       \ "Clean"     : "✔︎",
+"       \ 'Ignored'   : '·',
+"       \ "Unknown"   : "?"
+"       \ }
+" " Vim-devicons and nerdtree-git-plugin are conflicting here a bit.
+" " Highlighting of the indicators doesn't work properly with devicons' conceal.
+" let g:webdevicons_conceal_nerdtree_brackets = 0
+" " }}}
+
+" defx {{{
+let s:defx_height = max([float2nr(&lines * 0.9), 25])
+let s:defx_col = float2nr((&columns - 90) / 2) " 90 = default width
+let s:defx_row = float2nr((&lines - s:defx_height) / 2)
+let s:defx_columns = g:is_gui
+      \ ? 'indent:git:icons:filename:type'
+      \ : 'indent:git:filename:type'
+" TODO: defx#custom#option('_', {...}) can be used instead of this, but it
+" won't work if there's no defx, so a check is needed
+let s:defx_command =
+      \ 'Defx -split=floating -winheight=' . s:defx_height
+      \ . ' -wincol=' . s:defx_col . ' -winrow=' . s:defx_row
+      \ . ' -toggle -columns=' . s:defx_columns
+      \ . ' -vertical-preview -floating-preview -preview-height=' . (s:defx_height - 5)
+execute 'command! D ' . s:defx_command . ' -resume'
+execute 'nnoremap <silent> <Leader>d :' . s:defx_command . ' -resume<CR>'
+execute 'nnoremap <silent> <Leader>D :' . s:defx_command . '<CR>'
+
+augroup defx_settings
+  autocmd!
+  autocmd FileType defx call s:defx_ft_settings()
+augroup END
+
+function! s:defx_ft_settings() abort
+  setlocal cursorline
+
+  " " setlocal winhl=Normal:Floating
+  " TODO: change floating window colors?
+  " TODO: borders?
+
+  " nowrap enables horizontal scrolling in my gui
+  setlocal wrap
+
+  nnoremap <silent><nowait><buffer><expr> k
+        \ line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><nowait><buffer><expr> i
+        \ line('.') == 1 ? 'G' : 'k'
+
+  nnoremap <silent><buffer><expr> <2-LeftMouse>
+        \ defx#is_directory()
+        \ ? defx#do_action('open_tree', ['toggle', 'nested'])
+        \ : defx#do_action('multi', ['drop', 'quit'])
+
+  nnoremap <silent><nowait><buffer><expr> <Tab>
+        \ defx#do_action('open_tree', ['toggle', 'nested'])
+  nnoremap <silent><nowait><buffer><expr> <Leader><Tab>
+        \ defx#do_action('open_tree', ['recursive:6', 'nested'])
+  nnoremap <silent><nowait><buffer><expr> <CR>
+        \ defx#is_directory() ? '\<nop>' : defx#do_action('multi', ['drop', 'quit'])
+  nnoremap <silent><nowait><buffer><expr> o
+        \ defx#is_directory() ? '\<nop>' : defx#do_action('multi', ['drop', 'quit'])
+  nnoremap <silent><nowait><buffer><expr> <Leader>o
+        \ defx#is_directory() ? '\<nop>' : defx#do_action('multi', [['drop', 'vsplit'], 'quit'])
+  " nnoremap <silent><nowait><buffer><expr> <Leader>s
+  "       \ defx#is_directory() ? '\<nop>' : defx#do_action('multi', [['drop', 'split'], 'quit'])
+  " uses choosewin (doesn't work for now)
+  " nnoremap <silent><nowait><buffer><expr> <Leader>c
+  "       \ defx#is_directory() ? '\<nop>' : defx#do_action('multi', [['drop', 'choose'], 'quit'])
+  nnoremap <silent><nowait><buffer><expr> t
+        \ defx#is_directory() ? '\<nop>' : defx#do_action('drop', 'tabedit')
+
+  nnoremap <silent><nowait><buffer><expr> cv
+        \ defx#do_action('change_vim_cwd')
+  nnoremap <silent><nowait><buffer><expr> cp
+        \ defx#do_action('cd', ['..'])
+  nnoremap <silent><nowait><buffer><expr> cc
+        \ defx#do_action('open_directory')
+
+  nnoremap <silent><nowait><buffer><expr> p
+        \ defx#do_action('preview')
+
+  " go to parent
+  nnoremap <silent><nowait><buffer><expr> <Leader>p
+        \ defx#do_action('search',
+        \   fnamemodify(defx#get_candidate().action__path, ':h'))
+
+  " TODO: go to next/prev sibling?
+
+  function! s:close_all()
+    normal! ggj
+    while defx#is_directory()
+      if defx#is_opened_tree()
+        call defx#call_action('close_tree')
+      endif
+      normal! j
+    endwhile
+    normal! ggj
+  endfunction
+
+  " should be very slow, but I can't find a better way for defx
+  function! s:open_all()
+    call s:close_all()
+    normal! G
+    while line('.') > 1
+      if defx#is_directory() && !defx#is_opened_tree()
+        call defx#call_action('open_tree', ['recursive:6', 'nested'])
+      endif
+      normal! k
+    endwhile
+    normal! j
+  endfunction
+
+  " a - all
+  nnoremap <silent><nowait><buffer> ao
+        \ :call <SID>open_all()<CR>
+  nnoremap <silent><nowait><buffer> ax
+        \ :call <SID>close_all()<CR>
+
+  nnoremap <silent><nowait><buffer><expr> mc
+        \ defx#do_action('copy')
+  nnoremap <silent><nowait><buffer><expr> mm
+        \ defx#do_action('move')
+  nnoremap <silent><nowait><buffer><expr> mp
+        \ defx#do_action('paste')
+  nnoremap <silent><nowait><buffer><expr> mA
+        \ defx#do_action('new_directory')
+  nnoremap <silent><nowait><buffer><expr> ma
+        \ defx#do_action('new_file')
+  nnoremap <silent><nowait><buffer><expr> M
+        \ defx#do_action('new_multiple_files')
+  nnoremap <silent><nowait><buffer><expr> md
+        \ defx#do_action('remove')
+  nnoremap <silent><nowait><buffer><expr> mr
+        \ defx#do_action('rename')
+
+  nnoremap <silent><nowait><buffer><expr> C
+        \ defx#do_action('toggle_columns',
+        \                'mark:indent:icon:filename:type:size:time')
+  " nnoremap <silent><nowait><buffer><expr> S
+  "       \ defx#do_action('toggle_sort', 'time')
+
+  nnoremap <silent><nowait><buffer><expr> <Leader>!
+        \ defx#do_action('execute_command')
+  nnoremap <silent><nowait><buffer><expr> <Leader>x
+        \ defx#do_action('execute_system')
+  nnoremap <silent><nowait><buffer><expr> yy
+        \ defx#do_action('yank_path')
+  nnoremap <silent><nowait><buffer><expr> I
+        \ defx#do_action('toggle_ignored_files')
+  nnoremap <silent><nowait><buffer><expr> ;
+        \ defx#do_action('repeat')
+  nnoremap <silent><nowait><buffer><expr> q
+        \ defx#do_action('quit')
+  nnoremap <silent><nowait><buffer><expr> <Space>
+        \ defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><nowait><buffer><expr> *
+        \ defx#do_action('toggle_select_all')
+  nnoremap <silent><nowait><buffer><expr> <C-l>
+        \ defx#do_action('redraw')
+  nnoremap <silent><nowait><buffer><expr> R
+        \ defx#do_action('redraw')
+  nnoremap <silent><nowait><buffer><expr> <C-g>
+        \ defx#do_action('print')
+endfunction
+" }}}
 
 " airline {{{
 " let g:airline_theme = 'onedark_modified'
@@ -341,7 +416,7 @@ command! -range AlignVimMappings execute
 " " }}}
 
 " vim-sneak {{{
-let g:sneak#label = 1
+let g:sneak#label = 1 " TODO: disable labels / bind to a standalone key?
 let g:sneak#use_ic_scs = 1
 " replaces S from surround
 xmap S <Plug>Sneak_S
@@ -368,6 +443,12 @@ xmap gS  <Plug>VgSurround
 xmap <Leader>s <Plug>VSurround
 " }}}
 
+" targets.vim {{{
+" 'Prefer multiline targets around cursor over distant targets within cursor
+" line'
+let g:targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab lB Ar aB Ab AB rr ll rb al rB Al bb aa bB Aa BB AA'
+" }}}
+
 " vim-open-url {{{
 " (default is gB)
 " nmap <Leader>o <Plug>(open-url-browser)
@@ -380,19 +461,25 @@ vnoremap gh y:OpenURL https://github.com/<C-r>"<CR>
 " doesn't work very well
 " vim-slime {{{
 let g:slime_target = 'neovim'
-function! s:SlimeSetJobId()
+function! s:slime_set_job_id()
   let g:slime_default_config = { "jobid": b:terminal_job_id }
   let g:slime_dont_ask_default = 1
 endfunction
-command! SlimeSetJobId call <SID>SlimeSetJobId()
+command! SlimeSetJobId call <SID>slime_set_job_id()
 " a - activate
 nnoremap <C-c>a :SlimeSetJobId<CR>
 " }}}
 
-" works pretty slow and unstable
+" works pretty slow and unstable,
+" but can highlight vim's hi commands including underline, cterm colors, etc.
 " Colorizer {{{
 nnoremap <Leader><Leader><Leader>c :ColorToggle<CR>
 " }}}
+
+" not needed for now
+" " nvim-colorizer.lua {{{
+" lua require 'colorizer'.setup { 'vim'; 'css' }
+" " }}}
 
 " ale {{{
 let g:ale_virtualtext_cursor = 1
@@ -444,8 +531,8 @@ nmap <silent> <LocalLeader>r <Plug>(coc-rename)
 nmap <LocalLeader>ca <Plug>(coc-codeaction)
 vmap <LocalLeader>ca <Plug>(coc-codeaction-selected)
 nmap <LocalLeader>qf <Plug>(coc-fix-current)
-nnoremap <silent> <LocalLeader>chi :call CocActionAsync('highlight')<CR>
-nnoremap <silent> <LocalLeader>hi :call CocActionAsync('highlight')<CR>
+nnoremap <silent> <LocalLeader>ch :call CocActionAsync('highlight')<CR>
+nnoremap <silent> <LocalLeader>h :call CocActionAsync('highlight')<CR>
 vmap <LocalLeader>cxf <Plug>(coc-format-selected)
 nmap <LocalLeader>cxf <Plug>(coc-format-selected)
 
@@ -546,8 +633,19 @@ nmap - <Plug>(choosewin)
 
 " quick-scope {{{
 let g:qs_buftype_blacklist = ['terminal', 'help']
+nmap <Leader><Leader>t <Plug>(QuickScopeToggle)
 " TODO: an option to give priority to lowercase letters would be useful
 "       (without completely disabling uppercase letters)
+"       https://github.com/unblevable/quick-scope/issues/62
+let g:qs_accepted_chars = [
+      \ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+      \ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+" }}}
+
+" vim-illuminate {{{
+let g:Illuminate_delay = 50
+let g:Illuminate_highlightPriority = -100
+nnoremap <Leader>il :IlluminationToggle<CR>
 " }}}
 
 " vim-wordmotion {{{
@@ -576,16 +674,56 @@ map <A-e> <Plug>WordMotion_e
 map g<A-e> <Plug>WordMotion_ge
 " }}}
 
+" FixCursorHold.nvim {{{
+let g:cursorhold_updatetime = 250
 " }}}
 
-nnoremap <Space> <nop>
+" }}}
 
-nnoremap ' `
-nnoremap ` '
+" Move the text closer to the center if there's only one vertical split
+" by setting signcolumn to yes:9 (works only in neovim)
+" Currently doesn't work correctly with Goyo
+let s:default_signcolumn = &signcolumn
+function! s:left_padding()
+  if &columns < 140 | return | endif
+  " " for handle in nvim_list_wins()
+  " NOTE: mouse=a in nvim doesn't work correctly with multiple tabs if you use
+  " nvim_win_set_option for all nvim_list_wins() (tested with nvim v0.4.4 and
+  " v0.5.0-832-g35325ddac). All other features seem to work.
+  for handle in nvim_tabpage_list_wins(0)
+    let cfg = nvim_win_get_config(handle)
+    " Skip floating and external windows
+    if cfg.relative != '' || cfg.external | continue | endif
+    if nvim_win_get_width(handle) == &columns
+      call nvim_win_set_option(handle, 'signcolumn', 'yes:9')
+    else
+      call nvim_win_set_option(handle, 'signcolumn', s:default_signcolumn)
+    endif
+  endfor
+endfunction
+augroup left_padding
+  autocmd!
+  autocmd WinEnter * call s:left_padding()
+augroup END
+call s:left_padding()
+
+if g:is_mac
+  " Apple ISO keyboards
+  map § `
+endif
+
+" nnoremap ' `
+" nnoremap ` '
+
+" if g:is_gui
+"   noremap <Tab> `
+" endif
+
+noremap l `
 
 nnoremap Y y$
 
-" builtin 'goto local declaration' and 'goto global declaration'
+" built-in 'goto local declaration' and 'goto global declaration'
 nnoremap <C-g>d gd
 nnoremap <C-g>D gD
 
@@ -593,12 +731,10 @@ nnoremap <C-g>D gD
 nnoremap <BS> "_X
 nnoremap <S-BS> "_x
 
-" search the selected text
-vnoremap <silent> // y/<C-R>"<CR>
-
 inoremap <C-.> <Esc>
 
-noremap <Leader><Leader>s "+
+noremap <Leader>a "+
+map h "
 
 " command history
 nnoremap q: <nop>
@@ -619,7 +755,7 @@ nnoremap <silent> <Leader><Leader>n :call setreg(v:register,
       \ substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
 
 " strip trailing whitespace
-function! s:StripTrailingWhitespace()
+function! s:strip_trailing_whitespace()
   if &binary
     echoerr 'Cannot strip whitespace in a binary file.'
     return
@@ -628,26 +764,27 @@ function! s:StripTrailingWhitespace()
   %s/\s\+$//e
   let @/ = old_pattern
 endfunction
-command! StripTrailingWhitespace call <SID>StripTrailingWhitespace()
+command! StripTrailingWhitespace call <SID>strip_trailing_whitespace()
 
 nnoremap <silent> <Leader><Leader>w :StripTrailingWhitespace<CR>
 
-function! s:ExecuteVim() range
+function! s:execute_vim() range
   let lines = getline(a:firstline, a:lastline)
   for line in lines
     execute line
   endfor
 endfunction
-command! -range ExecuteVim <line1>,<line2>call <SID>ExecuteVim()
+command! -range ExecuteVim <line1>,<line2>call <SID>execute_vim()
 
-function! s:DeleteNoNameBuffers() abort
-  let bufs = filter(range(1, bufnr('$')), 'bufexists(v:val) && bufname(v:val) == ""')
+" Delete [No Name] buffers
+function! s:delete_unnamed_buffers() abort
+  let bufs = filter(range(1, bufnr('$')), 'bufexists(v:val) && bufname(v:val) ==# ""')
   if !empty(bufs)
     " Doesn't delete buffers with unsaved changes
     execute 'bdelete' join(bufs)
   endif
 endfunction
-command! DeleteNoNameBuffers call <SID>DeleteNoNameBuffers()
+command! DeleteUnnamedBuffers call <SID>delete_unnamed_buffers()
 
 nmap <Leader>g <C-;>
 
@@ -663,7 +800,7 @@ nnoremap <silent> <Leader>s :b#<CR>
 nnoremap <silent> <Leader>c :t.<CR>
 " (c - clone)
 
-function! s:DeleteNearestLine(above) abort
+function! s:delete_nearest_line(above) abort
   let save_col = col('.')
   let curline = line('.')
   if a:above && curline != 1
@@ -676,8 +813,8 @@ function! s:DeleteNearestLine(above) abort
 endfunction
 
 " can be mapped to other keys / removed in the future
-nnoremap <silent> <Leader><Leader>d :call <SID>DeleteNearestLine(0)<CR>
-nnoremap <silent> <Leader><Leader>D :call <SID>DeleteNearestLine(1)<CR>
+nnoremap <silent> <Leader><Leader>d :call <SID>delete_nearest_line(0)<CR>
+nnoremap <silent> <Leader><Leader>D :call <SID>delete_nearest_line(1)<CR>
 
 " location list
 nnoremap <silent> <Leader>l :lopen<CR>
@@ -765,22 +902,46 @@ cnoremap <A-BS> <C-w>
 nnoremap <Leader>v <C-v>
 vnoremap <Leader>v <C-v>
 
+noremap 0 ^
+noremap ^ 0
+
+noremap <Leader>2 @
+noremap <Leader>3 #
 noremap <Leader>4 $
 noremap <Leader>5 %
-" I use 0w instead of ^
+noremap <Leader>6 0
+noremap <Leader>7 &
+noremap <Leader>8 *
+
+nnoremap <Leader>w *N
+
+" search the selected text
+vnoremap <silent> <Leader>w y/<C-R>"<CR>
+" vnoremap <silent> // y/<C-R>"<CR>
+
+nnoremap <Leader>n :normal<Space>
+vnoremap <Leader>n :normal<Space>
 
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
-nnoremap <Leader><Leader><Leader>s :set expandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
-nnoremap <Leader><Leader><Leader>S :set expandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
-nnoremap <Leader><Leader><Leader>t :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
-nnoremap <Leader><Leader><Leader>T :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>s     :set expandtab   tabstop=2 shiftwidth=2 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>S     :set expandtab   tabstop=4 shiftwidth=4 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>t     :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader>T     :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
+nnoremap <Leader><Leader><Leader><A-t> :set noexpandtab tabstop=8 shiftwidth=8 softtabstop=0<CR>
 
 command! -count EditReg call edit_reg#start()
 nnoremap <Leader>e :EditReg<CR>
 
 command! SyntaxAttr call syntax_attr#main()
 nnoremap <Leader><Leader>a :SyntaxAttr<CR>
+
+nnoremap <silent> <A-[> :-tabmove<CR>
+nnoremap <silent> <A-]> :+tabmove<CR>
+
+for i in range(1, 9)
+  execute "nnoremap <silent> g" . i . " :tabn " . i . "<CR>"
+endfor
 
 if g:is_gui
   nnoremap <silent> <C-Tab> :tabn<CR>
@@ -802,7 +963,7 @@ if g:is_mac && g:is_gui
   " select tabs by cmd+1..cmd+9
   for i in range(1, 9)
     execute "nnoremap <silent> <D-" . i . "> :tabn " . i . "<CR>"
-    execute "inoremap <silent> <D-" . i . "> <Esc>:tabn " . i . "<CR>"
+    execute "inoremap <silent> <D-" . i . "> <Cmd>tabn " . i . "<CR>"
   endfor
 
   nnoremap <D-Left> ^
@@ -833,7 +994,7 @@ if g:is_mac && g:is_gui
 endif
 
 source $VIMDIR/vault.vim
-source $VIMDIR/options.vim
+source $VIMDIR/useful-text-objects.vim
 source $VIMDIR/color.vim
 
 set exrc
