@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Markdown preview
+
+# TODO: Check OS
+open /Applications/Shiba.app --args --detach $(realpath "$1")

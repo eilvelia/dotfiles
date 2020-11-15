@@ -41,6 +41,7 @@ brew install xz
 brew install tldr
 brew install neovim
 brew install micro
+brew install kakoune
 brew install emojify
 brew install ranger
 brew install nnn
@@ -66,6 +67,8 @@ brew install python
 brew install python@2
 brew install swi-prolog
 brew install v8
+brew install wren
+brew install wren-cli
 
 brew install redis
 brew install postgresql
@@ -135,6 +138,8 @@ brew cask install macs-fan-control # proprietary
 brew cask install dropbox # proprietary
 brew cask install db-browser-for-sqlite
 brew cask install hex-fiend
+brew cask install shiba
+ln -s /Applications/Shiba.app/Contents/MacOS/Shiba /usr/local/bin/shiba
 brew cask install xrg
 brew cask install anybar
 brew cask install wire
