@@ -24,7 +24,7 @@
 				<key>editor-characterspacing</key>
 				<real>1</real>
 				<key>editor-font-name</key>
-				<string>FuraCodeNerdFontCompleteM-Regular</string>
+				<string>FuraCodeNerdFontCompleteM-Light</string>
 				<key>editor-font-size</key>
 				<real>13</real>
 				<key>editor-linespacing</key>
@@ -104,7 +104,7 @@
 				<key>com.qvacua.vimr.tools.preview</key>
 				<dict>
 					<key>dimension</key>
-					<real>430</real>
+					<real>503</real>
 					<key>is-visible</key>
 					<false/>
 					<key>location</key>
@@ -126,14 +126,22 @@
 	</dict>
 	<key>ApplePressAndHoldEnabled</key>
 	<string>NO</string>
+	<key>NSFontPanelAttributes</key>
+	<string>1, 1</string>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/Documents</string>
+	<string>~/Downloads</string>
+	<key>NSNavLastUserSetHideExtensionButtonState</key>
+	<true/>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
+	<string>{712, 448}</string>
+	<key>NSNavPanelExpandedSizeForSaveMode</key>
 	<string>{712, 448}</string>
 	<key>NSWindow Frame 38.open-quickly-window.frame</key>
 	<string>538 260 365 265 0 0 1440 877 </string>
 	<key>NSWindow Frame 38.pref-window.frame</key>
-	<string>559 237 792 629 0 0 1440 877 </string>
+	<string>490 201 792 629 0 0 1440 877 </string>
+	<key>NSWindow Frame NSFontPanel</key>
+	<string>505 166 761 405 0 0 1440 877 </string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
