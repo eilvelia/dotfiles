@@ -487,6 +487,7 @@ let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '!'
 let g:ale_sign_info = 'i'
 let g:ale_set_balloons = 0
+let g:ale_set_highlights = 0
 nmap <LocalLeader>af <Plug>(ale_fix)
 nmap <LocalLeader>al <Plug>(ale_lint)
 " nmap <LocalLeader>ad <Plug>(ale_detail)
@@ -643,6 +644,7 @@ let g:qs_accepted_chars = [
 " }}}
 
 " vim-illuminate {{{
+" TODO: disable in visual mode?
 let g:Illuminate_delay = 50
 let g:Illuminate_highlightPriority = -100
 nnoremap <Leader>il :IlluminationToggle<CR>
@@ -786,10 +788,11 @@ function! s:delete_unnamed_buffers() abort
 endfunction
 command! DeleteUnnamedBuffers call <SID>delete_unnamed_buffers()
 
-nmap <Leader>g <C-;>
-
-nnoremap <silent> <C-;> :let @/ = ''<CR>
-inoremap <silent> <C-;> <Cmd>let @/ = ''<CR>
+nnoremap <silent> <Leader>g :let @/ = ''<CR>
+vnoremap <silent> <Leader>g <Cmd>let @/ = ''<CR>
+nnoremap <silent> <C-;>     :let @/ = ''<CR>
+vnoremap <silent> <C-;>     <Cmd>let @/ = ''<CR>
+inoremap <silent> <C-;>     <Cmd>let @/ = ''<CR>
 
 " previous buffer
 nnoremap <silent> <Leader>s :b#<CR>
@@ -991,6 +994,12 @@ if g:is_mac && g:is_gui
   " duplicate current line
   nnoremap <silent> <D-S-d> :t.<CR>
   inoremap <silent> <D-S-d> <Cmd>t.<CR>
+
+  " nnoremap <D-f> /
+  " vnoremap <D-f> /
+  " nnoremap <D-S-f> ?
+  " vnoremap <D-S-f> ?
+  " " cnoremap <D-f> <CR>
 endif
 
 source $VIMDIR/vault.vim

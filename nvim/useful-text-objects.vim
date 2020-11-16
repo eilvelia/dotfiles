@@ -5,7 +5,7 @@
 " supports count
 function! s:number_textobj()
   let rx_num = '\d\+\(\.\d\+\)*'
-  let n = v:count == 0 ? 1 : v:count
+  let n = v:count1
   while search(rx_num, 'ceW')
     if n <= 1
       normal! v
@@ -21,8 +21,11 @@ endfunction
 xnoremap <silent> id :<C-u>call <SID>number_textobj()<CR>
 onoremap <silent> id :<C-u>call <SID>number_textobj()<CR>
 
-"" Indent text object
-"" Useful for python-like indentation based programming lanugages
+" Indent text object {{{
+" TODO: select a paragraph on current indentation level (as in
+" `<Plug>(textobj-indent-i)`)?
+" TODO: iS to include a line above, aS to include lines above and below?
+" TODO: Support count
 function! s:indent_textobj(inner)
   if getline('.') =~ '^\s*$'
     let ln_start = s:detect_nearest_line()
@@ -103,6 +106,7 @@ xnoremap <silent> is :<C-u>call <SID>indent_textobj(v:true)<CR>
 onoremap <silent> is :<C-u>call <SID>indent_textobj(v:true)<CR>
 xnoremap <silent> as :<C-u>call <SID>indent_textobj(v:false)<CR>
 onoremap <silent> as :<C-u>call <SID>indent_textobj(v:false)<CR>
+" }}}
 
 "" Markdown header text object
 " * inner object is the text between prev section header(excluded) and the next

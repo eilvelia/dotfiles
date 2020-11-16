@@ -7,6 +7,9 @@ function! s:highlighting()
   hi SrceryRed ctermfg=1 guifg=#ef453e
   hi Title gui=bold guifg=#b8bb26
 
+  hi clear Visual
+  hi Visual guibg=#3c382f
+
   hi VertSplit guifg=#121212 guibg=#121212
 
   " hi Pmenu ctermbg=237 ctermfg=white
@@ -39,21 +42,22 @@ function! s:highlighting()
 
   hi Sneak ctermfg=red ctermbg=black guifg=#ff0000 guibg=#000000
   hi SneakLabel ctermfg=red ctermbg=black guifg=#ff0000 guibg=#000000
+  hi! link SneakScope Cursor
 
-  hi IndentGuidesOdd guibg=#2d2b28
-  hi IndentGuidesEven guibg=#272522
+  hi IndentGuidesOdd guibg=#2b2a26
+  hi IndentGuidesEven guibg=#23221f
 
-  hi! link NERDTreeGitStatusIgnored Comment
-  hi! link NERDTreeGitStatusUntracked Title
-  " Defaults:
-  " hi def link NERDTreeGitStatusModified Special
-  " hi def link NERDTreeGitStatusStaged Function
-  " hi def link NERDTreeGitStatusRenamed Title
-  " hi def link NERDTreeGitStatusUnmerged Label
-  " hi def link NERDTreeGitStatusUntracked Comment
-  " hi def link NERDTreeGitStatusDirDirty Tag
-  " hi def link NERDTreeGitStatusDirClean DiffAdd
-  " hi def link NERDTreeGitStatusIgnored DiffAdd
+  " hi! link NERDTreeGitStatusIgnored Comment
+  " hi! link NERDTreeGitStatusUntracked Title
+  " " Defaults:
+  " " hi def link NERDTreeGitStatusModified Special
+  " " hi def link NERDTreeGitStatusStaged Function
+  " " hi def link NERDTreeGitStatusRenamed Title
+  " " hi def link NERDTreeGitStatusUnmerged Label
+  " " hi def link NERDTreeGitStatusUntracked Comment
+  " " hi def link NERDTreeGitStatusDirDirty Tag
+  " " hi def link NERDTreeGitStatusDirClean DiffAdd
+  " " hi def link NERDTreeGitStatusIgnored DiffAdd
 endfunction
 
 augroup colorextend
