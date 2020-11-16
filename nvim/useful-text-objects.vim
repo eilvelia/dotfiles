@@ -1,8 +1,7 @@
-" Partially from https://gist.github.com/habamax/4662821a1dad716f5c18205489203a67 (revision 4)
-
-" number text object
+" Number text object
 " "inner" only
 " supports count
+" TODO: hex numbers
 function! s:number_textobj()
   let rx_num = '\d\+\(\.\d\+\)*'
   let n = v:count1
@@ -21,78 +20,63 @@ endfunction
 xnoremap <silent> id :<C-u>call <SID>number_textobj()<CR>
 onoremap <silent> id :<C-u>call <SID>number_textobj()<CR>
 
-" Indent text object {{{
-" TODO: select a paragraph on current indentation level (as in
-" `<Plug>(textobj-indent-i)`)?
-" TODO: iS to include a line above, aS to include lines above and below?
-" TODO: Support count
-function! s:indent_textobj(inner)
-  if getline('.') =~ '^\s*$'
-    let ln_start = s:detect_nearest_line()
-    let ln_end = ln_start
+" Indent text object
+" supports count, count depends on 'shiftwidth' / 'tabstop'
+function! s:indent_textobj(paragraph, around)
+  let ln_start = getline('.') =~ '^\s*$' ? s:detect_nearest_line() : line('.')
+  let ln_end = ln_start
+
+  if v:count >= 1
+    let indent = indent(ln_start) - (v:count - 1) * shiftwidth()
   else
-    let ln_start = line('.')
-    let ln_end = ln_start
+    let indent = indent(ln_start)
   endif
 
-  let indent = indent(ln_start)
-  if indent > 0
-    while indent(ln_start) >= indent && ln_start > 0
-      let ln_start = prevnonblank(ln_start-1)
-    endwhile
+  while ln_start > 1
+    if getline(ln_start - 1) =~ '^\s*$'
+      if a:paragraph
+        break
+      endif
+    elseif indent(ln_start - 1) < indent
+      break
+    endif
+    let ln_start -= 1
+  endwhile
 
-    while indent(ln_end) >= indent && ln_end <= line('$')
-      let ln_end = s:nextnonblank(ln_end+1)
-    endwhile
-  else
-    while indent(ln_start) == 0 && ln_start > 0 && getline(ln_start) !~ '^\s*$'
-      let ln_start -= 1
-    endwhile
-    while indent(ln_start) > 0 && ln_start > 0
-      let ln_start = prevnonblank(ln_start-1)
-    endwhile
-    while indent(ln_start) == 0 && ln_start > 0 && getline(ln_start) !~ '^\s*$'
-      let ln_start -= 1
-    endwhile
+  while ln_end < line('$')
+    if getline(ln_end + 1) =~ '^\s*$'
+      if a:paragraph
+        break
+      endif
+    elseif indent(ln_end + 1) < indent
+      break
+    endif
+    let ln_end += 1
+  endwhile
 
-    while indent(ln_end) == 0 && ln_end <= line('$') && getline(ln_end) !~ '^\s*$'
+  if a:around == 2
+    if ln_start > 1
+      let ln_start -= 1
+    endif
+    if ln_end < line('$')
       let ln_end += 1
-    endwhile
-    while indent(ln_end) > 0 && ln_end <= line('$')
-      let ln_end = s:nextnonblank(ln_end+1)
-    endwhile
+    endif
+  elseif a:around == 1 && ln_start > 1
+    let ln_start -= 1
   endif
 
-  if a:inner || indent == 0
-    let ln_start = s:nextnonblank(ln_start+1)
-  endif
-
-  if a:inner
-    let ln_end = prevnonblank(ln_end-1)
-  else
-    let ln_end = ln_end-1
-  endif
-
-  if ln_end < ln_start
-    let ln_end = ln_start
-  endif
-
-  exe ln_end
+  execute ln_end
   normal! V
-  exe ln_start
+  execute ln_start
 endfunction
 
-function! s:nextnonblank(lnum) abort
-  let res = nextnonblank(a:lnum)
-  if res == 0
-    let res = line('$')+1
-  endif
-  return res
-endfunction
-
+" From https://gist.github.com/habamax/4662821a1dad716f5c18205489203a67 (revision 4)
 function! s:detect_nearest_line() abort
   let lnum = line('.')
-  let nline = s:nextnonblank(lnum)
+  let nline = nextnonblank(lnum)
+  if nline == 0
+    let nline = line('$') + 1
+  endif
   let pline = prevnonblank(lnum)
   if abs(nline - lnum) > abs(pline - lnum) || getline(nline) =~ '^\s*$'
     return pline
@@ -101,13 +85,21 @@ function! s:detect_nearest_line() abort
   endif
 endfunction
 
-" s - spaces
-xnoremap <silent> is :<C-u>call <SID>indent_textobj(v:true)<CR>
-onoremap <silent> is :<C-u>call <SID>indent_textobj(v:true)<CR>
-xnoremap <silent> as :<C-u>call <SID>indent_textobj(v:false)<CR>
-onoremap <silent> as :<C-u>call <SID>indent_textobj(v:false)<CR>
-" }}}
+" i - indent
+" ii - a paragraph in the same indentation level
+" ai - current indentation level
+" iI - current indentation level + a line above
+" aI - current indentation level + a line above + a line below
+xnoremap <silent> ii :<C-u>call <SID>indent_textobj(v:true, 0)<CR>
+onoremap <silent> ii :<C-u>call <SID>indent_textobj(v:true, 0)<CR>
+xnoremap <silent> ai :<C-u>call <SID>indent_textobj(v:false, 0)<CR>
+onoremap <silent> ai :<C-u>call <SID>indent_textobj(v:false, 0)<CR>
+xnoremap <silent> iI :<C-u>call <SID>indent_textobj(v:false, 1)<CR>
+onoremap <silent> iI :<C-u>call <SID>indent_textobj(v:false, 1)<CR>
+xnoremap <silent> aI :<C-u>call <SID>indent_textobj(v:false, 2)<CR>
+onoremap <silent> aI :<C-u>call <SID>indent_textobj(v:false, 2)<CR>
 
+" From https://gist.github.com/habamax/4662821a1dad716f5c18205489203a67 (revision 5)
 "" Markdown header text object
 " * inner object is the text between prev section header(excluded) and the next
 "   section of the same level(excluded) or end of file.
@@ -119,7 +111,7 @@ function! s:header_textobj(inner) abort
     let lvlheader = matchstr(getline(lnum_start), '^#\+')
     let lnum_end = search('^#\{1,'..len(lvlheader)..'}\s', "nW")
     if !lnum_end
-      let lnum_end = search('\%$', 'nW')
+      let lnum_end = search('\%$', 'cnW')
     else
       let lnum_end -= 1
     endif
@@ -133,6 +125,7 @@ function! s:header_textobj(inner) abort
   endif
 endfunction
 
+" m - markdown
 xnoremap <silent> im :<C-u>call <SID>header_textobj(v:true)<CR>
 onoremap <silent> im :<C-u>call <SID>header_textobj(v:true)<CR>
 xnoremap <silent> am :<C-u>call <SID>header_textobj(v:false)<CR>

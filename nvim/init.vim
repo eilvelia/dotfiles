@@ -665,11 +665,11 @@ nnoremap <Leader>il :IlluminationToggle<CR>
 " xmap [wm-prefix]iw <Plug>WordMotion_iw
 
 let g:wordmotion_nomap = 1
-" i means "inner" (a word in the word)
-omap ii <Plug>WordMotion_iw
-xmap ii <Plug>WordMotion_iw
-omap ai <Plug>WordMotion_aw
-xmap ai <Plug>WordMotion_aw
+" v is like w but without a v.
+omap iv <Plug>WordMotion_iw
+xmap iv <Plug>WordMotion_iw
+omap av <Plug>WordMotion_aw
+xmap av <Plug>WordMotion_aw
 map <A-w> <Plug>WordMotion_w
 map <A-b> <Plug>WordMotion_b
 map <A-e> <Plug>WordMotion_e
