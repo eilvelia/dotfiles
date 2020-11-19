@@ -123,6 +123,7 @@ if g:is_mac && g:is_gui
 endif
 nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>ff :FZF<CR>
+nnoremap <Leader>fe :FZF %:h<CR>
 nnoremap <Leader>fd :Buffers<CR>
 nnoremap <Leader>fg :GFiles<CR>
 nnoremap <Leader>fs :GFiles?<CR>
@@ -208,6 +209,7 @@ nnoremap <Leader>tl :CocList floaterm<CR>
 " " }}}
 
 " defx {{{
+" TODO: doesn't always work correctly with :b#
 let s:defx_height = max([float2nr(&lines * 0.9), 25])
 let s:defx_col = float2nr((&columns - 90) / 2) " 90 = default width
 let s:defx_row = float2nr((&lines - s:defx_height) / 2)
@@ -224,6 +226,8 @@ let s:defx_command =
 execute 'command! D ' . s:defx_command . ' -resume'
 execute 'nnoremap <silent> <Leader>d :' . s:defx_command . ' -resume<CR>'
 execute 'nnoremap <silent> <Leader>D :' . s:defx_command . '<CR>'
+execute 'nnoremap <silent> <Leader><Space>d :'
+      \ . s:defx_command . " -resume -search=`expand('%:p')`" . '<CR>'
 
 augroup defx_settings
   autocmd!
@@ -486,7 +490,6 @@ let g:ale_virtualtext_cursor = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '!'
 let g:ale_sign_info = 'i'
-let g:ale_set_balloons = 0
 let g:ale_set_highlights = 0
 nmap <LocalLeader>af <Plug>(ale_fix)
 nmap <LocalLeader>al <Plug>(ale_lint)
@@ -503,9 +506,8 @@ nmap <LocalLeader>al <Plug>(ale_lint)
 " nmap <LocalLeader>f <Plug>(ale_find_references)
 " nmap <LocalLeader>a, <Plug>(ale_next_wrap)
 " nmap <LocalLeader>a. <Plug>(ale_previous_wrap)
-let g:ale_linters = {}
-let g:ale_linters_explicit = 1
 let g:ale_disable_lsp = 1
+let g:ale_linters_explicit = 1
 " }}}
 
 " " deoplete {{{
@@ -515,6 +517,7 @@ let g:ale_disable_lsp = 1
 " coc.nvim {{{
 nnoremap <silent> <LocalLeader>ct :call CocActionAsync('doHover')<CR>
 nnoremap <silent> <LocalLeader>t :call CocActionAsync('doHover')<CR>
+nmap <LocalLeader>j <LocalLeader>t
 nmap <silent> cgd <Plug>(coc-definition)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -685,6 +688,7 @@ let g:cursorhold_updatetime = 250
 " Move the text closer to the center if there's only one vertical split
 " by setting signcolumn to yes:9 (works only in neovim)
 " Currently doesn't work correctly with Goyo
+" TODO: Doesn't work correctly with gf
 let s:default_signcolumn = &signcolumn
 function! s:left_padding()
   if &columns < 140 | return | endif
@@ -705,7 +709,8 @@ function! s:left_padding()
 endfunction
 augroup left_padding
   autocmd!
-  autocmd WinEnter * call s:left_padding()
+  " TODO: WinResized from neovim 0.5?
+  autocmd WinNew,WinEnter * call s:left_padding()
 augroup END
 call s:left_padding()
 
@@ -757,7 +762,7 @@ nnoremap <silent> <Leader><Leader>n :call setreg(v:register,
       \ substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
 
 " strip trailing whitespace
-function! s:strip_trailing_whitespace()
+function! s:strip_trailing_whitespace() abort
   if &binary
     echoerr 'Cannot strip whitespace in a binary file.'
     return
@@ -853,6 +858,11 @@ nnoremap <A-S-Right> <C-w>L
 nnoremap <A-S-Up> <C-w>K
 nnoremap <A-S-Down> <C-w>J
 
+nnoremap <A-S-j> <C-w>H
+nnoremap <A-S-l> <C-w>L
+nnoremap <A-S-i> <C-w>K
+nnoremap <A-S-k> <C-w>J
+
 " to tab
 nnoremap <A-t> <C-w>T
 
@@ -919,8 +929,8 @@ noremap <Leader>8 *
 nnoremap <Leader>w *N
 
 " search the selected text
-vnoremap <silent> <Leader>w y/<C-R>"<CR>
-" vnoremap <silent> // y/<C-R>"<CR>
+vnoremap <silent> <Leader>w y/\M<C-R>"<CR>
+" vnoremap <silent> // y/\M<C-R>"<CR>
 
 nnoremap <Leader>n :normal<Space>
 vnoremap <Leader>n :normal<Space>
@@ -1006,5 +1016,7 @@ source $VIMDIR/vault.vim
 source $VIMDIR/useful-text-objects.vim
 source $VIMDIR/color.vim
 
-set exrc
-set secure
+if !g:min_mode
+  set exrc
+  set secure
+endif

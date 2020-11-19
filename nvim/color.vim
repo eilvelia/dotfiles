@@ -24,16 +24,20 @@ function! s:highlighting()
   hi ALEVirtualTextError gui=bold,italic cterm=bold ctermfg=204 guifg=#dd7186
   hi ALEVirtualTextWarning gui=bold,italic cterm=bold ctermfg=173 guifg=#d19a66
 
-  hi CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
   hi CocErrorVirtualText gui=italic cterm=bold ctermfg=204 guifg=#c30000
   hi CocErrorFloat guifg=#ff5d64
   hi! link CocErrorHighlight SpellBad
+  hi CocWarningVirtualText gui=italic cterm=bold ctermfg=130 guifg=#c36c00
   hi! link CocWarningHighlight SpellCap
+  hi CocInfoSign ctermfg=gray guifg=#999999
+  hi! link CocInfoFloat CocInfoSign
+  hi clear CocInfoHighlight
+  hi CocInfoHighlight ctermfg=gray guifg=#999999
   " Default: links to CursorColumn -> CursorLine (ctermbg=236 guibg=#303030)
-  hi CocHighlightText ctermbg=236 guibg=#3A3A3A
+  hi CocHighlightText ctermbg=236 guibg=#3a3a3a
 
   " Default: links to CursorLine (ctermbg=236 guibg=#303030 in srcery)
-  hi illuminatedWord ctermbg=236 guibg=#2A2A2A
+  hi illuminatedWord ctermbg=236 guibg=#2a2a2a
 
   " hi QuickScopePrimary guifg=#afff5f gui=underline ctermfg=155 cterm=underline
   " hi QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=81 cterm=underline
