@@ -5,6 +5,7 @@
 let s:edit_reg_keycodes = {
       \ "\<CR>": '<CR>',
       \ "\<BS>": '<BS>',
+      \ "\<Del>": '<Del>',
       \ "\<Tab>": '<Tab>',
       \ "\<Esc>": '<Esc>',
       \ "\<Up>": '<Up>',
@@ -26,8 +27,8 @@ function! edit_reg#start()
   let content = getreg(b:reg)
   for code in keys(s:edit_reg_keycodes)
     let code_not = s:edit_reg_keycodes[code] " code_notation
-    let content = substitute(content, code_not, '\\' . code_not, 'g')
-    let content = substitute(content, code, code_not, 'g')
+    let content = substitute(content, '\C' . code_not, '\\' . code_not, 'g')
+    let content = substitute(content, '\C' . code, code_not, 'g')
   endfor
   let lines = split(content, "\n")
   if strgetchar(content, strchars(content)-1) == 10
@@ -41,8 +42,8 @@ function! edit_reg#on_exit()
   let content = join(getline(1, '$'), "\n")
   for code in keys(s:edit_reg_keycodes)
     let code_not = s:edit_reg_keycodes[code]
-    let content = substitute(content, '\(\\\)\@4<!' . code_not, code, 'g')
-    let content = substitute(content, '\\' . code_not, code_not, 'g')
+    let content = substitute(content, '\C\(\\\)\@4<!' . code_not, code, 'g')
+    let content = substitute(content, '\C\\' . code_not, code_not, 'g')
   endfor
   call setreg(b:reg, content)
   echo "Register changed"

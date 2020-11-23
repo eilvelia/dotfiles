@@ -690,6 +690,7 @@ let g:cursorhold_updatetime = 250
 " by setting signcolumn to yes:9 (works only in neovim)
 " Currently doesn't work correctly with Goyo
 " TODO: Doesn't work correctly with gf
+" TODO: Skip if peekaboo window is open
 let s:default_signcolumn = &signcolumn
 function! s:left_padding()
   if &columns < 140 | return | endif
