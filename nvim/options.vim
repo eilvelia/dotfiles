@@ -71,6 +71,9 @@ set tagcase=smart
 " set updatetime=300
 set updatetime=3000
 
+" default is 50 in neovim
+set ttimeoutlen=10
+
 set visualbell
 
 set termguicolors

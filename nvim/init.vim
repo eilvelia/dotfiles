@@ -515,6 +515,7 @@ let g:ale_linters_explicit = 1
 " " }}}
 
 " coc.nvim {{{
+" TODO: change the prefix from c to l (lsp)?
 nnoremap <silent> <LocalLeader>ct :call CocActionAsync('doHover')<CR>
 nnoremap <silent> <LocalLeader>t :call CocActionAsync('doHover')<CR>
 nmap <LocalLeader>j <LocalLeader>t
@@ -591,10 +592,10 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
 " }}}
 
-" vim-javascript {{{
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_flow = 1
-" }}}
+" " vim-javascript {{{
+" let g:javascript_plugin_jsdoc = 1
+" let g:javascript_plugin_flow = 1
+" " }}}
 
 " vim-polyglot {{{
 let g:vim_markdown_conceal = 0
