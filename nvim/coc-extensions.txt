@@ -1,4 +1,0 @@
-coc-json
-coc-tsserver
-coc-flow
-coc-floaterm

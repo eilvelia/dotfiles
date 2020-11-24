@@ -515,6 +515,13 @@ let g:ale_linters_explicit = 1
 " " }}}
 
 " coc.nvim {{{
+let g:coc_global_extensions = [
+      \ 'coc-json',
+      \ 'coc-tsserver',
+      \ 'coc-flow',
+      \ 'coc-floaterm'
+      \ ]
+
 " TODO: change the prefix from c to l (lsp)?
 nnoremap <silent> <LocalLeader>ct :call CocActionAsync('doHover')<CR>
 nnoremap <silent> <LocalLeader>t :call CocActionAsync('doHover')<CR>
@@ -1012,6 +1019,8 @@ if g:is_mac && g:is_gui
   " nnoremap <D-S-f> ?
   " vnoremap <D-S-f> ?
   " " cnoremap <D-f> <CR>
+
+  inoremap <D-y> <C-y>
 endif
 
 source $VIMDIR/vault.vim
