@@ -58,6 +58,8 @@ set backspace=indent,eol,start
 
 set wildmode=longest,list
 
+set shortmess+=c
+
 set colorcolumn=80
 
 " set cursorline

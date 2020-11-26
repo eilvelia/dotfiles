@@ -39,6 +39,8 @@ function! s:highlighting()
   " Default: links to CursorLine (ctermbg=236 guibg=#303030 in srcery)
   hi illuminatedWord ctermbg=236 guibg=#2a2a2a
 
+  hi! link ParenMatch CursorLine
+
   " hi QuickScopePrimary guifg=#afff5f gui=underline ctermfg=155 cterm=underline
   " hi QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=81 cterm=underline
   hi QuickScopePrimary guifg=#9de555 gui=underline ctermfg=155 cterm=underline

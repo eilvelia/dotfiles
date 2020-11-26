@@ -63,7 +63,8 @@ if !g:is_gui
 endif
 
 if dein#load_state(s:dein_cache_path)
-  call dein#begin(s:dein_cache_path, [$MYVIMRC, s:dein_toml])
+  " call dein#begin(s:dein_cache_path, [$MYVIMRC, s:dein_toml])
+  call dein#begin(s:dein_cache_path, [s:dein_toml])
 
   call dein#add(s:dein_dir)
 
@@ -144,6 +145,10 @@ imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <Plug>(fzf-complete-line)
 " since fzf v0.21.0:
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7 } }
+" }}}
+
+" itchyny/vim-parenmatch {{{
+let g:parenmatch_highlight = 0
 " }}}
 
 " Too slow, also fzf has a built-in preview
@@ -586,12 +591,16 @@ command! OrganizeImports call CocAction('runCommand', 'editor.action.organizeImp
 " " }}}
 
 " vista.vim {{{
-if g:is_gui
-  let g:vista#renderer#enable_icon = 1
-endif
+let g:vista#renderer#enable_icon = g:is_gui
 let g:vista_default_executive = 'coc'
 let g:vista_finder_alternative_executives = []
-nnoremap <Space>V :Vista finder<CR>
+let g:vista_sidebar_width = 33 " (default: 30)
+let g:vista_echo_cursor = 0
+" let g:vista_echo_cursor_strategy = 'floating_win'
+let g:vista_sidebar_keepalt = 1
+let g:vista_cursor_delay = 300 " (default: 400)
+let g:vista_stay_on_open = 0
+nnoremap <silent> <LocalLeader>k :Vista!!<CR>
 " }}}
 
 " vim-indent-guides {{{
@@ -740,8 +749,8 @@ noremap l `
 nnoremap Y y$
 
 " built-in 'goto local declaration' and 'goto global declaration'
-nnoremap <C-g>d gd
-nnoremap <C-g>D gD
+nnoremap <Leader>Gd gd
+nnoremap <Leader>GD gD
 
 " delete a character on Backspace without changing registers
 nnoremap <BS> "_X
@@ -765,6 +774,8 @@ nnoremap Q <nop>
 nnoremap <Leader>. @:
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " remove trailing newlines from the register
 nnoremap <silent> <Leader><Leader>n :call setreg(v:register,
@@ -1014,11 +1025,11 @@ if g:is_mac && g:is_gui
   nnoremap <silent> <D-S-d> :t.<CR>
   inoremap <silent> <D-S-d> <Cmd>t.<CR>
 
-  " nnoremap <D-f> /
-  " vnoremap <D-f> /
-  " nnoremap <D-S-f> ?
-  " vnoremap <D-S-f> ?
-  " " cnoremap <D-f> <CR>
+  nnoremap <D-f> /
+  vnoremap <D-f> /
+  nnoremap <D-S-f> ?
+  vnoremap <D-S-f> ?
+  " cnoremap <D-f> <CR>
 
   inoremap <D-y> <C-y>
 endif
