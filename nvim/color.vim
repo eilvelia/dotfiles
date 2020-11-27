@@ -3,21 +3,10 @@
 " SpellCap       xxx ctermfg=173 guifg=#D19A66
 
 function! s:highlighting()
-  " Default value: #ef2f27
-  hi SrceryRed ctermfg=1 guifg=#ef453e
-  hi Title gui=bold guifg=#b8bb26
+  hi Title  guifg=#b8bb26 ctermfg=142  guibg=none    ctermbg=none gui=bold cterm=bold
+  hi Visual guifg=NONE    ctermfg=NONE guibg=#3c382f ctermbg=236  gui=NONE cterm=NONE
 
-  hi clear Visual
-  hi Visual guibg=#3c382f
-
-  hi VertSplit guifg=#121212 guibg=#121212
-
-  " hi Pmenu ctermbg=237 ctermfg=white
-  " hi PmenuSel ctermbg=220 ctermfg=black
-  " hi PmenuSbar ctermbg=233
-  " hi PmenuThumb ctermbg=7
-
-  hi SpellBad gui=undercurl guifg=NONE guibg=NONE guisp=#e06c75
+  hi SpellBad guifg=NONE guibg=NONE gui=undercurl guisp=#e06c75
 
   hi! link ALEError SpellBad
   hi! link ALEWarning SpellCap
@@ -34,24 +23,22 @@ function! s:highlighting()
   hi clear CocInfoHighlight
   hi CocInfoHighlight ctermfg=gray guifg=#999999
   " Default: links to CursorColumn -> CursorLine (ctermbg=236 guibg=#303030)
-  hi CocHighlightText ctermbg=236 guibg=#3a3a3a
+  hi CocHighlightText ctermbg=237 guibg=#3a3a3a
 
   " Default: links to CursorLine (ctermbg=236 guibg=#303030 in srcery)
   hi illuminatedWord ctermbg=236 guibg=#2a2a2a
 
   hi! link ParenMatch CursorLine
 
-  " hi QuickScopePrimary guifg=#afff5f gui=underline ctermfg=155 cterm=underline
-  " hi QuickScopeSecondary guifg=#5fffff gui=underline ctermfg=81 cterm=underline
-  hi QuickScopePrimary guifg=#9de555 gui=underline ctermfg=155 cterm=underline
-  hi QuickScopeSecondary guifg=#55e5e5 gui=underline ctermfg=81 cterm=underline
+  hi QuickScopePrimary   guifg=#9de555 ctermfg=149 gui=underline cterm=underline
+  hi QuickScopeSecondary guifg=#55e5e5 ctermfg=80  gui=underline cterm=underline
 
-  hi Sneak ctermfg=red ctermbg=black guifg=#ff0000 guibg=#000000
+  hi Sneak      ctermfg=red ctermbg=black guifg=#ff0000 guibg=#000000
   hi SneakLabel ctermfg=red ctermbg=black guifg=#ff0000 guibg=#000000
   hi! link SneakScope Cursor
 
-  hi IndentGuidesOdd guibg=#2b2a26
-  hi IndentGuidesEven guibg=#23221f
+  hi IndentGuidesOdd  guifg=NONE ctermfg=NONE guibg=#2b2a26 ctermbg=234
+  hi IndentGuidesEven guifg=NONE ctermfg=NONE guibg=#23221f ctermbg=235
 
   " hi! link NERDTreeGitStatusIgnored Comment
   " hi! link NERDTreeGitStatusUntracked Title
@@ -82,6 +69,9 @@ augroup colorextend
   autocmd ColorScheme * call s:highlighting()
 augroup END
 
+" Without this the theme sources twice
+syntax enable
+
 " let g:onedark_terminal_italics = 1
 " colorscheme onedark
 
@@ -91,6 +81,7 @@ augroup END
 
 " colorscheme space-vim-dark
 
-let g:srcery_italic = 1
+" let g:srcery_italic = 1
 if !g:is_gui | let g:srcery_transparent_background = 1 | endif
-colorscheme srcery
+" colorscheme srcery
+colorscheme my_srcery

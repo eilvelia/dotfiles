@@ -111,7 +111,7 @@ nmap k <C-w>
 " Plugin settings {{{
 
 " fzf, fzf.vim {{{
-" let $FZF_DEFAULT_OPTS .= ' --preview="head -100 {}"'
+" TODO: bat, which is used for preview in fzf, is pretty slow
 let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git'
 if g:is_mac && g:is_gui
   nnoremap <D-p> :FZF<CR>
@@ -394,7 +394,7 @@ endfunction
 " lightline {{{
 " TODO: show trailing whitespace in lightline?
 let g:lightline = {}
-let g:lightline.colorscheme = 'srcery'
+let g:lightline.colorscheme = 'my_srcery'
 let g:lightline.active = {
       \ 'left': [
       \   [ 'mode', 'paste' ],
@@ -1116,7 +1116,7 @@ tnoremap <C-.> <C-\><C-n>
 " }}}
 
 " insert newline without automatic comment insertion
-nnoremap <silent> <A-]> :put =nr2char(10)<CR>
+nnoremap <silent> <Space><CR> :put =nr2char(10)<CR>
 inoremap <silent> <A-]> <Cmd>put =nr2char(10)<CR>
 
 inoremap <A-BS> <C-w>

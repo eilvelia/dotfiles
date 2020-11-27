@@ -1,6 +1,5 @@
 .DS_Store
 *.bak
-/nvim/.netrwhist
 /system_ocaml_path
 /default_user
 /text-replacements.plist
