@@ -64,6 +64,17 @@ function! s:highlighting()
   " " hi def link NERDTreeGitStatusDirDirty Tag
   " " hi def link NERDTreeGitStatusDirClean DiffAdd
   " " hi def link NERDTreeGitStatusIgnored DiffAdd
+
+  execute 'hi StatusModified'
+      \ . ' guifg=' . synIDattr(synIDtrans(hlID('Special')), 'fg', 'gui')
+      \ . ' ctermfg=' . synIDattr(synIDtrans(hlID('Special')), 'fg', 'cterm')
+      \ . ' guibg=' . synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'gui')
+      \ . ' ctermbg=' . synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'cterm')
+  " execute 'hi StatusNotModified'
+  "     \ . ' guifg=' . synIDattr(synIDtrans(hlID('StatusLine')), 'fg', 'gui')
+  "     \ . ' ctermfg=' . synIDattr(synIDtrans(hlID('StatusLine')), 'fg', 'cterm')
+  "     \ . ' guibg=' . synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'gui')
+  "     \ . ' ctermbg=' . synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'cterm')
 endfunction
 
 augroup colorextend

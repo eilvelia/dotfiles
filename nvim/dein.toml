@@ -21,11 +21,23 @@ repo = 'junegunn/fzf.vim'
 [[plugins]]
 repo = 'justinmk/vim-sneak'
 
-[[plugins]]
-repo = 'vim-airline/vim-airline'
+# [[plugins]]
+# repo = 'vim-airline/vim-airline'
+
+# [[plugins]]
+# repo = 'vim-airline/vim-airline-themes'
+
+# [[plugins]]
+# repo = 'adelarsq/neoline.vim'
 
 [[plugins]]
-repo = 'vim-airline/vim-airline-themes'
+repo = 'itchyny/lightline.vim'
+
+[[plugins]]
+repo = 'mengelbrecht/lightline-bufferline'
+
+# [[plugins]]
+# repo = 'rbong/vim-crystalline'
 
 [[plugins]]
 repo = 'tpope/vim-repeat'

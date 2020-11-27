@@ -46,10 +46,9 @@ endif
 
 " TODO: don't set plugin mappings / settings if the plugin is disabled
 if g:min_mode
-  let g:loaded_airline = 1
-  let g:loaded_airline_themes = 1
+  let g:loaded_lightline = 1
+  let g:loaded_lightline_bufferline = 1
   let g:loaded_indent_guides = 1
-  " let g:loaded_nerd_tree = 1
   let g:loaded_gitgutter = 1
   let g:loaded_unimpaired = 1
   let g:loaded_fugitive = 1
@@ -372,19 +371,210 @@ function! s:defx_ft_settings() abort
 endfunction
 " }}}
 
-" airline {{{
-" let g:airline_theme = 'onedark_modified'
-" let g:airline_theme = 'gruvbox'
-" let g:airline_theme = 'violet'
-let g:airline_theme = 'srcery'
-let g:airline_highlighting_cache = 1
-let g:airline_powerline_fonts = 1
-let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#branch#enabled = 0
-" let g:airline_skip_empty_sections = 1
+" airline is pretty slow for me
+" " airline {{{
+" " let g:airline_theme = 'onedark_modified'
+" " let g:airline_theme = 'gruvbox'
+" " let g:airline_theme = 'violet'
+" let g:airline_theme = 'srcery'
+" let g:airline_highlighting_cache = 1
+" let g:airline_powerline_fonts = 1
+" let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#formatter = 'unique_tail'
+" let g:airline#extensions#branch#enabled = 0
+" " let g:airline_skip_empty_sections = 1
+" let g:airline_extensions = [
+"       \ 'coc', 'ale', 'vista', 'undotree', 'term', 'fugitiveline',
+"       \ 'hunks', 'whitespace', 'tabline', 'quickfix'
+"       \ ]
+" " call add(g:airline_extensions, 'wordcount')
+" " }}}
+
+" lightline {{{
+" TODO: show trailing whitespace in lightline?
+let g:lightline = {}
+let g:lightline.colorscheme = 'srcery'
+let g:lightline.active = {
+      \ 'left': [
+      \   [ 'mode', 'paste' ],
+      \   [ 'modhighlight', 'readonly', 'relativepath', 'modified' ],
+      \ ],
+      \ 'right': [
+      \   [ 'mylineinfo' ],
+      \   [ 'percent' ],
+      \   [ 'filetype', 'myfileformatandencoding' ],
+      \ ]
+      \ }
+if !g:min_mode
+  call add(g:lightline.active.left, [ 'cocstatus' ])
+endif
+let g:lightline.inactive = {
+      \ 'left': [
+      \   [ 'relativepath' ],
+      \ ],
+      \ 'right': [
+      \   [ 'mylineinfo' ],
+      \   [ 'percent' ],
+      \ ]
+      \ }
+let g:lightline.component = {
+      \ 'modhighlight': '%#StatusCurrentModified#%{StatusHiModified()}',
+      \ 'mylineinfo': '%5(%2l/%L%):%-2c',
+      \ }
+let g:lightline.component_visible_condition = {
+      \ 'modhighlight': '0',
+      \ }
+let g:lightline.component_raw = {
+      \ 'modhighlight': 1,
+      \ }
+let g:lightline.component_function = {
+      \ 'myfileformatandencoding': 'StatusFileFormatAndEncoding',
+      \ 'cocstatus': 'coc#status',
+      \ }
+" \ 'myfiletype': 'StatusFiletype',
+" let g:lightline.component_function_visible_condition = {
+"       \ 'myfiletype': '1'
+"       \ }
+function! StatusHiModified()
+  if &modified
+    hi! link StatusCurrentModified StatusModified
+  else
+    hi! link StatusCurrentModified StatusLine
+  endif
+  return ''
+endfunction
+" " \ 'myfilenamec': '%#StatusNotModified# %{StatusFilename(0)}%#StatusModified#%{StatusFilename(1)}',
+" function! StatusFilename(mod)
+"   if a:mod != &modified
+"     return ''
+"   endif
+"   " Shows absolute path in help files, etc. And doesn't show special buffer
+"   " names.
+"   return lightline#concatenate(
+"         \ [&readonly ? 'RO' : '', expand('%'), &modified ? '+' : ''], 0)
+" endfunction
+" StatusFiletype is not needed since the icons are displayed in the tabline
+" function! StatusFiletype()
+"   if &filetype !=# ''
+"     if exists('*WebDevIconsGetFileTypeSymbol') && winwidth(0) > 70
+"       " to__do: Cache for WebDevIconsGetFileTypeSymbol() calls?
+"       return &filetype . ' ' . WebDevIconsGetFileTypeSymbol()
+"     endif
+"     return &filetype
+"   endif
+"   return 'no ft'
+" endfunction
+function! StatusFileFormatAndEncoding()
+  let output = ''
+  " 'unix' and 'utf-8' are skipped
+  let enc = &fileencoding ==# '' ? &encoding : &fileencoding
+  if enc !=# 'utf-8'
+    let output .= enc
+  endif
+  if &fileformat !=# 'unix'
+    if output !=# ''
+      let output .= ' '
+    endif
+    let output .= &fileformat
+  endif
+  return output
+endfunction
+" let s:wordcount_filetypes = [
+"       \ 'text', 'help', 'markdown', 'rst', 'mail',
+"       \ 'asciidoc', 'org', 'plaintex', 'tex',
+"       \ ]
+" function! StatusWordcount()
+"   if index(s:wordcount_filetypes, &filetype) == -1
+"     return ''
+"   endif
+"   let wordinfo = wordcount()
+"   let count = get(wordinfo, 'visual_words', wordinfo.words)
+"   return count . ' words'
+" endfunction
+let g:lightline.tabline_separator = { 'left': '', 'right': '' }
+let g:lightline.tabline_subseparator = { 'left': '', 'right': '' }
+let g:lightline.tabline = {
+      \ 'left': [
+      \   [ 'buffers_or_tabs' ],
+      \ ],
+      \ 'right': [
+      \   [ 'close' ],
+      \ ]
+      \ }
+let g:lightline.component_expand = {
+      \ 'buffers_or_tabs': 'TablineComponent',
+      \ }
+let g:lightline.component_type = {
+      \ 'buffers_or_tabs': 'tabsel',
+      \ }
+if g:is_gui
+  let g:lightline.tab_component_function = {
+        \ 'tabnum': 'TabnumDevicons',
+        \ }
+  function! TabnumDevicons(n)
+    let bufnr = tabpagebuflist(a:n)[tabpagewinnr(a:n) - 1]
+    return a:n . ' ' . WebDevIconsGetFileTypeSymbol(bufname(bufnr))
+  endfunction
+endif
+function! TablineComponent()
+  if len(nvim_list_tabpages()) > 1
+    let tabs = lightline#tabs()
+    call insert(tabs[0], 'tabs')
+    return tabs
+  endif
+  return lightline#bufferline#buffers()
+endfunction
+let g:lightline#bufferline#unnamed = '[No Name]'
+if g:is_gui
+  let g:lightline#bufferline#enable_devicons = 1
+endif
+if !g:min_mode
+  set showtabline=2
+endif
 " }}}
+
+" " vim-crystalline {{{
+" " From the crystalline README
+" function! StatusLine(current, width)
+"   let l:s = ''
+
+"   if a:current
+"     let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
+"   else
+"     let l:s .= '%#CrystallineInactive#'
+"   endif
+"   let l:s .= ' %f%h%w%m%r '
+"   if a:current
+"     let l:s .= crystalline#right_sep('', 'Fill') . ' %{fugitive#head()}'
+"   endif
+
+"   let l:s .= '%='
+"   if a:current
+"     let l:s .= crystalline#left_sep('', 'Fill') . ' %{&paste ?"PASTE ":""}%{&spell?"SPELL ":""}'
+"     let l:s .= crystalline#left_mode_sep('')
+"   endif
+"   if a:width > 80
+"     let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+"   else
+"     let l:s .= ' '
+"   endif
+
+"   return l:s
+" endfunction
+
+" function! TabLine()
+"   let l:vimlabel = has('nvim') ?  'NVIM ' : 'VIM '
+"   return crystalline#bufferline(2, len(l:vimlabel), 1) . '%=%#CrystallineTab# ' . l:vimlabel
+" endfunction
+
+" let g:crystalline_enable_sep = 1
+" let g:crystalline_statusline_fn = 'StatusLine'
+" let g:crystalline_tabline_fn = 'TabLine'
+" let g:crystalline_theme = 'default'
+
+" set showtabline=2
+" " }}}
 
 " commentary isn't very good tbh
 " vim-commentary {{{
