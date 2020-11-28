@@ -1,13 +1,13 @@
 " vim: foldmethod=marker
 
+noremap h <nop>
+noremap j <nop>
+nmap k <C-w>
+noremap l <nop>
+
+nnoremap <Space> <nop>
+
 if has('vim_starting')
-  noremap h <nop>
-  noremap j <nop>
-  noremap k <nop>
-  noremap l <nop>
-
-  nnoremap <Space> <nop>
-
   " let mapleader = ","
   let mapleader = "j"
   let maplocalleader = "\<Space>"
@@ -32,18 +32,6 @@ endif
 " itchyny/vim-parenmatch is used instead
 let g:loaded_matchparen = 1
 
-let s:dein_cache_path = expand('~/.cache/dein')
-let s:dein_dir = s:dein_cache_path . '/repos/github.com/Shougo/dein.vim'
-let s:dein_toml = expand('~/.config/nvim/dein.toml')
-
-if &runtimepath !~ '/dein.vim'
-  if !isdirectory(s:dein_dir) && has('vim_starting')
-    echomsg 'Installing dein.vim...'
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
-  endif
-  execute 'set runtimepath+=' . fnamemodify(s:dein_dir, ':p')
-endif
-
 " TODO: don't set plugin mappings / settings if the plugin is disabled
 if g:min_mode
   let g:loaded_lightline = 1
@@ -59,6 +47,18 @@ endif
 
 if !g:is_gui
   let g:loaded_webdevicons = 1
+endif
+
+let s:dein_cache_path = expand('~/.cache/dein')
+let s:dein_dir = s:dein_cache_path . '/repos/github.com/Shougo/dein.vim'
+let s:dein_toml = expand('~/.config/nvim/dein.toml')
+
+if &runtimepath !~ '/dein.vim'
+  if !isdirectory(s:dein_dir) && has('vim_starting')
+    echomsg 'Installing dein.vim...'
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
+  endif
+  execute 'set runtimepath+=' . fnamemodify(s:dein_dir, ':p')
 endif
 
 if dein#load_state(s:dein_cache_path)
@@ -106,8 +106,6 @@ command! DeinLoadRollback call dein#load_rollback($VIMDIR . '/dein-rollback')
 
 source $VIMDIR/options.vim
 
-nmap k <C-w>
-
 " Plugin settings {{{
 
 " fzf, fzf.vim {{{
@@ -121,9 +119,10 @@ if g:is_mac && g:is_gui
   inoremap <D-S-p> <Esc>:Buffers<CR>
   vnoremap <D-S-p> <Esc>:Buffers<CR>
 endif
-nnoremap <C-p> :FZF<CR>
 nnoremap <Leader>ff :FZF<CR>
 nnoremap <Leader>fe :FZF %:h<CR>
+nnoremap <Leader><Space>f :FZF<CR>
+nnoremap <Leader>f<Space> :FZF<CR>
 nnoremap <Leader>fd :Buffers<CR>
 nnoremap <Leader>fg :GFiles<CR>
 nnoremap <Leader>fs :GFiles?<CR>
@@ -178,7 +177,7 @@ tnoremap <F8> <C-\><C-n>:FloatermPrev<CR>
 tnoremap <F9> <C-\><C-n>:FloatermNext<CR>
 command! Ranger FloatermNew ranger
 command! Nnn FloatermNew nnn
-nnoremap <Leader>ra :Ranger<CR>
+nnoremap <Leader>tr :Ranger<CR>
 nnoremap <Leader>tl :CocList floaterm<CR>
 " }}}
 
@@ -927,29 +926,65 @@ if g:is_mac
   map § `
 endif
 
-" nnoremap ' `
-" nnoremap ` '
-
 " if g:is_gui
 "   noremap <Tab> `
 " endif
 
-noremap l `
+" noremap l `
+
+noremap <Leader>k `
+noremap <C-w>j `
 
 nnoremap Y y$
 
-" built-in 'goto local declaration' and 'goto global declaration'
-nnoremap <Leader>Gd gd
-nnoremap <Leader>GD gD
-
-" delete a character on Backspace without changing registers
 nnoremap <BS> "_X
 nnoremap <S-BS> "_x
 
-inoremap <C-.> <Esc>
+" inoremap <C-.> <Esc>
 
 noremap <Leader>a "+
 map h "
+
+inoremap <A-BS> <C-w>
+cnoremap <A-BS> <C-w>
+
+nnoremap <Leader>v <C-v>
+vnoremap <Leader>v <C-v>
+
+noremap 0 ^
+noremap ^ 0
+
+noremap <Leader>2 @
+noremap <Leader>3 #
+noremap <Leader>4 $
+noremap <Leader>5 %
+noremap <Leader>6 0
+noremap <Leader>7 &
+noremap <Leader>8 *
+
+nnoremap <Leader>w *N
+" search selected text
+vnoremap <silent> <Leader>w y/\M<C-R>"<CR>
+" vnoremap <silent> // y/\M<C-R>"<CR>
+
+" " ls - line start, le - line end
+" noremap ls ^
+" noremap le $
+noremap ls ^
+noremap lf $
+noremap lw b
+noremap lW B
+noremap le ge
+noremap lE gE
+" go to previous paragraph, works as ge
+noremap lj {k
+" go to next paragraph, works as w
+noremap lk }j
+" TODO: lt/lg instead of lj/lk?
+noremap lt %
+
+nnoremap <Leader>n :normal<Space>
+vnoremap <Leader>n :normal<Space>
 
 " command history
 nnoremap q: <nop>
@@ -966,6 +1001,29 @@ nnoremap <Leader>. @:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+nnoremap <silent> <Leader>g :let @/ = ''<CR>
+vnoremap <silent> <Leader>g <Cmd>let @/ = ''<CR>
+nnoremap <silent> <C-;>     :let @/ = ''<CR>
+vnoremap <silent> <C-;>     <Cmd>let @/ = ''<CR>
+inoremap <silent> <C-;>     <Cmd>let @/ = ''<CR>
+
+" previous buffer
+nnoremap <silent> <Leader>s :b#<CR>
+" nnoremap <silent> <C-\> :b#<CR>
+
+" duplicate current line
+" nnoremap <silent> <Leader><Leader>d :t.<CR>
+nnoremap <silent> <Leader>c :t.<CR>
+" (c - clone)
+
+" insert newline without automatic comment insertion
+nnoremap <silent> <Space><CR> :put =nr2char(10)<CR>
+inoremap <silent> <A-]> <Cmd>put =nr2char(10)<CR>
+
+" built-in 'goto local declaration' and 'goto global declaration'
+nnoremap <Leader>Gd gd
+nnoremap <Leader>GD gD
 
 " remove trailing newlines from the register
 nnoremap <silent> <Leader><Leader>n :call setreg(v:register,
@@ -1003,21 +1061,6 @@ function! s:delete_unnamed_buffers() abort
 endfunction
 command! DeleteUnnamedBuffers call <SID>delete_unnamed_buffers()
 
-nnoremap <silent> <Leader>g :let @/ = ''<CR>
-vnoremap <silent> <Leader>g <Cmd>let @/ = ''<CR>
-nnoremap <silent> <C-;>     :let @/ = ''<CR>
-vnoremap <silent> <C-;>     <Cmd>let @/ = ''<CR>
-inoremap <silent> <C-;>     <Cmd>let @/ = ''<CR>
-
-" previous buffer
-nnoremap <silent> <Leader>s :b#<CR>
-" nnoremap <silent> <C-\> :b#<CR>
-
-" duplicate current line
-" nnoremap <silent> <Leader><Leader>d :t.<CR>
-nnoremap <silent> <Leader>c :t.<CR>
-" (c - clone)
-
 function! s:delete_nearest_line(above) abort
   let save_col = col('.')
   let curline = line('.')
@@ -1053,20 +1096,30 @@ nnoremap <C-w><S-Right> <C-w>L
 nnoremap <C-w><S-Up> <C-w>K
 nnoremap <C-w><S-Down> <C-w>J
 
+nnoremap <C-w>h <nop>
+" nnoremap <C-w>j <nop>
+nnoremap <C-w>k <nop>
+nnoremap <C-w>l <nop>
+
+nnoremap <C-w>H <nop>
+nnoremap <C-w>J <nop>
+nnoremap <C-w>K <nop>
+nnoremap <C-w>L <nop>
+
 nnoremap <A-Left> <C-w><Left>
 nnoremap <A-Right> <C-w><Right>
 nnoremap <A-Up> <C-w><Up>
 nnoremap <A-Down> <C-w><Down>
 
-nnoremap <A-j> <C-w><Left>
-nnoremap <A-l> <C-w><Right>
-nnoremap <A-i> <C-w><Up>
-nnoremap <A-k> <C-w><Down>
-
 nnoremap <A-S-Left> <C-w>H
 nnoremap <A-S-Right> <C-w>L
 nnoremap <A-S-Up> <C-w>K
 nnoremap <A-S-Down> <C-w>J
+
+nnoremap <A-j> <C-w><Left>
+nnoremap <A-l> <C-w><Right>
+nnoremap <A-i> <C-w><Up>
+nnoremap <A-k> <C-w><Down>
 
 nnoremap <A-S-j> <C-w>H
 nnoremap <A-S-l> <C-w>L
@@ -1115,35 +1168,11 @@ tnoremap <C-.> <C-\><C-n>
 
 " }}}
 
-" insert newline without automatic comment insertion
-nnoremap <silent> <Space><CR> :put =nr2char(10)<CR>
-inoremap <silent> <A-]> <Cmd>put =nr2char(10)<CR>
+command! -count EditReg call edit_reg#start()
+nnoremap <Leader>e :EditReg<CR>
 
-inoremap <A-BS> <C-w>
-cnoremap <A-BS> <C-w>
-
-nnoremap <Leader>v <C-v>
-vnoremap <Leader>v <C-v>
-
-noremap 0 ^
-noremap ^ 0
-
-noremap <Leader>2 @
-noremap <Leader>3 #
-noremap <Leader>4 $
-noremap <Leader>5 %
-noremap <Leader>6 0
-noremap <Leader>7 &
-noremap <Leader>8 *
-
-nnoremap <Leader>w *N
-
-" search the selected text
-vnoremap <silent> <Leader>w y/\M<C-R>"<CR>
-" vnoremap <silent> // y/\M<C-R>"<CR>
-
-nnoremap <Leader>n :normal<Space>
-vnoremap <Leader>n :normal<Space>
+command! SyntaxAttr call syntax_attr#main()
+nnoremap <Leader><Leader>a :SyntaxAttr<CR>
 
 nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
@@ -1152,12 +1181,6 @@ nnoremap <Leader><Leader><Leader>S     :set expandtab   tabstop=4 shiftwidth=4 s
 nnoremap <Leader><Leader><Leader>t     :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader>T     :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
 nnoremap <Leader><Leader><Leader><A-t> :set noexpandtab tabstop=8 shiftwidth=8 softtabstop=0<CR>
-
-command! -count EditReg call edit_reg#start()
-nnoremap <Leader>e :EditReg<CR>
-
-command! SyntaxAttr call syntax_attr#main()
-nnoremap <Leader><Leader>a :SyntaxAttr<CR>
 
 nnoremap <silent> <A-[> :-tabmove<CR>
 nnoremap <silent> <A-]> :+tabmove<CR>
