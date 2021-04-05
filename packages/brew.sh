@@ -35,6 +35,8 @@ brew install dust # 'du' alternative
 brew install bingrep
 brew install hyperfine
 brew install bandwhich # 'iftop' alternative
+brew install pv
+brew install iperf3
 brew install tokei
 brew install miniserve
 brew install xz
