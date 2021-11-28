@@ -20,6 +20,7 @@
 	history = plog-nograph --follow -p --
 	showfull = show --pretty=fuller
 	showraw = show --pretty=raw
+	addnw = "!git diff -U0 --ignore-space-at-eol \"$@\" | git apply --cached --unidiff-zero -"
 [commit]
 	gpgSign = true
 [tag]
