@@ -12,19 +12,19 @@
 " - removed support for plugins that I don't use
 " - removed g:srcery_{bold,italic,underline,undercurl,inverse} options
 " - changed the red color: #ef2f27 -> #ef453e
-" - added red_error color: #a11a15
+" - added new red_error color: #a11a15
 " - removed bold from Error
-" - Error, ErrorMsg, DiffDelete, ExtraWhitespace, shParenError
-"   use red_error instead of red
+" - red_error is used instead of red in
+"   Error, ErrorMsg, DiffDelete, ExtraWhitespace, shParenError
 " - changed VertSplit to use hard_black (as both fg and bg)
 " - removed jsonString linking (now behaves as jsonString -> String)
 " - jsonKeyword -> Identifier instead of SrceryCyan
-" - removed Visual (I change it to another color in my config)
-" - removed Title (I change it to another color in my config)
+" - removed Visual (it's changed to another color in my config)
+" - removed Title (it's changed to another color in my config)
 
 " TODO: Use colortemplate (https://github.com/lifepillar/vim-colortemplate)?
 
-" TODO: Instead of SrceryX groups use preprocessing as well?
+" TODO: Use preprocessing instead of SrceryX groups as well?
 
 scriptencoding utf-8
 

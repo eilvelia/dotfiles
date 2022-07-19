@@ -942,7 +942,9 @@ nnoremap <S-BS> "_x
 
 " inoremap <C-.> <Esc>
 
+" system register
 noremap <Leader>a "+
+
 map h "
 
 inoremap <A-BS> <C-w>

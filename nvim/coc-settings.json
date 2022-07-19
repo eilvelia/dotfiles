@@ -6,12 +6,14 @@
   "diagnostic.virtualTextPrefix": "⟩ ",
   "diagnostic.errorSign": "✗",
   "codeLens.enable": true,
-  "javascript.validate.enable": false,
+  "codeLens.separator": "‣",
+  "codeLens.position": "eol",
   "list.insertMappings": {
     "<C-c>": "do:exit"
   },
   "list.autoResize": false,
   "list.maxHeight": 15,
+  "javascript.validate.enable": false,
   "languageserver": {
     "ocaml-lsp": {
       "command": "ocamllsp",

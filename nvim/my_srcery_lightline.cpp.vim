@@ -1,6 +1,6 @@
 " Based on https://github.com/srcery-colors/srcery-vim/blob/ecbd5ba9055ad6b78dc47ef4f0894a7da63215f7/autoload/lightline/colorscheme/srcery.vim
 
-" BRIGHT_RED in replace changed to RED
+" BRIGHT_RED in the replace mode is changed to RED
 
 #include "my_srcery_colors.cpp.vim"
 
