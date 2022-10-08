@@ -10,7 +10,6 @@
 	uncommit = reset HEAD^
 	plog-nograph = log --color --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)(%an)%Creset' --abbrev-commit
 	plog = plog-nograph --graph
-	lg = plog
 	ptags = "!git log --tags --simplify-by-decoration --date=iso-local --pretty='format:%ad %d' | sort"
 	ptags-orig = "!git log --tags --simplify-by-decoration --pretty='format:%ai %d' | sort"
 	assume = update-index --assume-unchanged

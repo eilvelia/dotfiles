@@ -66,7 +66,6 @@ brew install ruby
 brew install lua
 brew install luajit
 brew install python
-brew install python@2
 brew install swi-prolog
 brew install v8
 brew install wren
@@ -84,7 +83,6 @@ brew install speedtest-cli
 brew install aircrack-ng
 brew install upx
 brew install hashcat
-
 brew install tor
 brew install ipfs
 
@@ -137,14 +135,13 @@ brew cask install electrum
 brew cask install fork # proprietary
 brew cask install gfxcardstatus
 brew cask install macs-fan-control # proprietary
-brew cask install dropbox # proprietary
+# brew cask install dropbox # proprietary
 brew cask install db-browser-for-sqlite
 brew cask install hex-fiend
 brew cask install shiba
 ln -s /Applications/Shiba.app/Contents/MacOS/Shiba /usr/local/bin/shiba
 brew cask install xrg
 brew cask install anybar
-brew cask install wire
 brew cask install signal
 brew cask install tor-browser
 brew cask install love
@@ -152,7 +149,7 @@ brew cask install vimr
 brew cask install keepassxc
 brew cask install netnewswire
 brew cask install osxfuse
-brew cask install docker # proprietary; can take a long time to install
+# brew cask install docker # proprietary; can take a long time to install
 
 echo "Installing fuse filesystems..."
 

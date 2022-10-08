@@ -27,5 +27,9 @@ function fish_prompt
     set ranger (echo -n -s (set_color cyan) " [ranger]" $__fish_prompt_normal)
   end
 
-  echo -n -s "$__fish_prompt_cwd" (prompt_pwd) "$__fish_prompt_normal" "$ranger" " $prompt_sign "
+  if set -q IN_NIX_SHELL
+    set nix_shell_info (echo -n -s (set_color brcyan) " [nix]" $__fish_prompt_normal)
+  end
+
+  echo -n -s "$__fish_prompt_cwd" (prompt_pwd) "$__fish_prompt_normal" "$nix_shell_info" "$ranger" " $prompt_sign "
 end

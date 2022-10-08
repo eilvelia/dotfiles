@@ -1,34 +1,27 @@
-§dash -> —
-\-- -> —
-§-- -> —
+§hyph -> --
 
 §cmd -> ⌘
 §opt -> ⌥
 
-§P -> ℙ
 §primes -> ℙ
-§N -> ℕ
 §n -> ℕ
 §nat -> ℕ
 §natural -> ℕ
-§Z -> ℤ
+§z -> ℤ
 §int -> ℤ
 §integer -> ℤ
-§Q -> ℚ
 §q -> ℚ
+§rat -> ℚ
 §rational -> ℚ
-§R -> ℝ
+§r -> ℝ
 §real -> ℝ
-§C -> ℂ
 §complex -> ℂ
 
 §forall -> ∀
 §all -> ∀
 §exists -> ∃
-§some -> ∃
 §approx -> ≈
 §ne -> ≠
-# §/= -> ≠
 §eq -> ≡
 §neq -> ≢
 §=== -> ≡
@@ -38,16 +31,12 @@
 §>= -> ≥
 §lte -> ≤
 §<= -> ≤
-§infinity -> ∞
 §circ -> ∘
-# §. -> ∘
 §* -> ×
+§x -> ×
 §dturnstile -> ⊨
-# §|= -> ⊨
 §to -> →
-# §-> -> →
 §from -> ←
-§<- -> ←
 §sum -> ∑
 §bot -> ⊥
 §top -> ⊤
@@ -59,9 +48,6 @@
 §turnstile -> ⊢
 §specialize -> ⊑
 §specialization -> ⊑
-§isomorphism -> ≅
-§iso -> ≅
-§niso -> ≇
 §def -> ≔
 §land -> ∧
 §lor -> ∨
@@ -72,7 +58,6 @@
 §p< -> ≺
 §p> -> ≻
 §squiggle -> ⇝
-# §~> -> ⇝
 §fatarrow -> ⇒
 §=> -> ⇒
 §oplus -> ⊕
@@ -83,19 +68,15 @@
 §nin -> ∉
 §empty -> ∅
 §sub -> ⊂
-§subset -> ⊂
 §subeq -> ⊆
-§subseteq -> ⊆
 §sup -> ⊃
-§supset -> ⊃
 §supeq -> ⊇
-§supseteq -> ⊇
 §union -> ∪
-§intersection -> ∩
 §intersect -> ∩
+§intersection -> ∩
 
 §tm -> ™
-§yes -> ✓
+§check -> ✓
 §no -> ✗
 §voltage -> ⚡
 §star -> ✭
@@ -103,11 +84,8 @@
 §vdots -> ⋮
 §vscode -> ⋊
 §sharp -> ♯
-§# -> ♯
 §down -> ↓
 §up -> ↑
-
-§shrug -> ¯\_(ツ)_/¯
 
 §ell -> ℓ
 
@@ -122,73 +100,54 @@
 §epsilon -> ε
 §e -> ε
 §zeta -> ζ
-§z -> ζ
 §eta -> η
-§h -> η
 §theta -> θ
 §iota -> ι
-§i -> ι
 §kappa -> κ
-§k -> κ
 §lambda -> λ
 §l -> λ
 §mu -> μ
-§m -> μ
 §u -> μ
 §micro -> μ
 §nu -> ν
 §xi -> ξ
 §omicron -> ο
 §pi -> π
-§p -> π
 §rho -> ρ
-§r -> ρ
 §sigma -> σ
-§s -> σ
 §varsigma -> ς
-§vars -> ς
 §tau -> τ
 §t -> τ
 §phi -> φ
-§f -> φ
 §chi -> χ
-§x -> χ
 §psi -> ψ
-§c -> ψ
 §omega -> ω
-§v -> ω
 §w -> ω
 
-§Alpha -> Α
-§Beta -> Β
-§Gamma -> Γ
-§G -> Γ
-§Delta -> Δ
-§D -> Δ
-§Epsilon -> Ε
-§Zeta -> Ζ
-§Eta -> Η
-§Theta -> Θ
-§Iota -> Ι
-§Kappa -> Κ
-§Lambda -> Λ
-§L -> Λ
-§Mu -> Μ
-§Nu -> Ν
-§Xi -> Ξ
-§Omicron -> Ο
-§Pi -> Π
-§Rho -> Ρ
-§Sigma -> Σ
-§S -> Σ
-§Tau -> Τ
-§Upsilon -> Υ
-§Phi -> Φ
-§F -> Φ
-§Chi -> Χ
-§Psi -> Ψ
-§Omega -> Ω
-§V -> Ω
+§alphau -> Α
+§betau -> Β
+§gammau -> Γ
+§deltau -> Δ
+§epsilonu -> Ε
+§zetau -> Ζ
+§etau -> Η
+§thetau -> Θ
+§iotau -> Ι
+§kappau -> Κ
+§lambdau -> Λ
+§muu -> Μ
+§nuu -> Ν
+§xiu -> Ξ
+§omicronu -> Ο
+§piu -> Π
+§rhou -> Ρ
+§sigmau -> Σ
+§tau -> Τ
+§upsilonu -> Υ
+§phiu -> Φ
+§chiu -> Χ
+§psiu -> Ψ
+§omegau -> Ω
 
 \0 -> ₀
 \1 -> ₁

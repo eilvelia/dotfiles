@@ -1,16 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # The iTerm2 customizations fall under the following license:
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -61,7 +61,7 @@ ITERM_PREV_PS1="$PS1"
 # been sourced elsewhere, it doesn't exit our entire script.
 _install_bash_preexec () {
 # -- BEGIN BASH-PREEXEC.SH --
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # bash-preexec.sh -- Bash support for ZSH-like 'preexec' and 'precmd' functions.
 # https://github.com/rcaloras/bash-preexec

@@ -33,8 +33,10 @@ set hidden
 
 set number
 set relativenumber
+
 set wrap
 set showbreak=↳
+set linebreak
 
 set noshowmatch
 

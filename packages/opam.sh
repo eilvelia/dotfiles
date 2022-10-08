@@ -3,11 +3,11 @@
 opam update
 
 opam install -y \
-  utop \
-  merlin \
   dune \
+  utop \
+  ocaml-lsp-server \
+  merlin \
   ocamlformat \
   ocp-indent \
   ocp-index \
-  ppx_deriving \
   base

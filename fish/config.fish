@@ -22,7 +22,6 @@ abbr -ag getdate "date \"+%Y_%m_%d\""
 abbr -ag qfind "find . -name"
 
 abbr -ag e "echo"
-abbr -ag l "ls"
 
 abbr -ag f "ls | grep -i"
 
@@ -35,7 +34,6 @@ abbr -ag sha256sum "shasum -a 256"
 
 abbr -ag gs "git status"
 
-abbr -ag r "ranger"
 abbr -ag ra "ranger"
 
 abbr -ag hi "highlight"
@@ -66,8 +64,13 @@ set -x GPG_TTY (tty)
 set -x LESSCHARSET utf-8
 set -x INPUTRC ~/.inputrc
 
-set -xp PATH ~/.cargo/bin
 set -xp PATH ~/.local/bin
+
+set -xp PATH $dotfiles/global-scripts
+
+if test -d ~/.cargo
+  set -xp PATH ~/.cargo/bin
+end
 
 if test -r $system_ocaml_path_file
   set p (cat $system_ocaml_path_file)
@@ -76,9 +79,9 @@ if test -r $system_ocaml_path_file
   end
 end
 
-set -xp PATH $dotfiles/global-scripts
-
 source ~/.opam/opam-init/init.fish > /dev/null 2>&1 || true
+
+set -x HOMEBREW_NO_AUTO_UPDATE 1
 
 if test -r $dotfiles/vendor/.iterm2_shell_integration.fish
   source $dotfiles/vendor/.iterm2_shell_integration.fish
