@@ -95,55 +95,74 @@ command! DeinUselessLazy echo dein#check_lazy_plugins()
 command! DeinSaveRollback call dein#save_rollback($VIMDIR . '/dein-rollback')
 command! DeinLoadRollback call dein#load_rollback($VIMDIR . '/dein-rollback')
 
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-"   ensure_installed = "maintained",
-"   highlight = {
-"     enable = true
-"   },
-" }
-" EOF
-
 source $VIMDIR/options.vim
+
+" TODO: Move all the mappings to a different section
 
 " Plugin settings {{{
 
-" fzf, fzf.vim {{{
-" TODO: bat, which is used for preview in fzf, is pretty slow
-let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git'
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { 'c', 'lua', 'ocaml', 'javascript' },
+  auto_install = true,
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false
+  }
+}
+EOF
+
+" telescope.nvim {{{
 if g:is_mac && g:is_gui
-  nnoremap <D-p> :FZF<CR>
-  inoremap <D-p> <Esc>:FZF<CR>
-  vnoremap <D-p> <Esc>:FZF<CR>
-  nnoremap <D-S-p> :Buffers<CR>
-  inoremap <D-S-p> <Esc>:Buffers<CR>
-  vnoremap <D-S-p> <Esc>:Buffers<CR>
+  nnoremap <D-p> <Cmd>Telescope find_files<CR>
+  inoremap <D-p> <Esc>:Telescope find_files<CR>
+  vnoremap <D-p> <Esc>:Telescope find_files<CR>
+  nnoremap <D-S-p> <Cmd>Telescope buffers<CR>
+  inoremap <D-S-p> <Esc>:Telescope buffers<CR>
+  vnoremap <D-S-p> <Esc>:Telescope buffers<CR>
 endif
-nnoremap <Leader>ff :FZF<CR>
-nnoremap <Leader>fe :FZF %:h<CR>
-nnoremap <Leader><Space>f :FZF<CR>
-nnoremap <Leader>f<Space> :FZF<CR>
-nnoremap <Leader>fd :Buffers<CR>
-nnoremap <Leader>fg :GFiles<CR>
-nnoremap <Leader>fs :GFiles?<CR>
-nnoremap <Leader>fc :Commits<CR>
-nnoremap <Leader>fbc :BCommits<CR>
-nnoremap <Leader>fl :Lines<CR>
-nnoremap <Leader>fbl :BLines<CR>
-nnoremap <Leader>fm :Marks<CR>
-nnoremap <Leader>fr :Rg <C-r><C-w><CR>
-nnoremap <Leader>fR :Rg <C-r><C-r><CR>
-vnoremap <Leader>fr y:Rg <C-r>"<CR>
-" nnoremap <Leader>fa :Ag <C-r><C-w><CR>
-" nnoremap <Leader>` :Marks<CR>
-" nnoremap <Leader>§ :Marks<CR>
-" imap <C-x><C-k> <Plug>(fzf-complete-word)
-imap <C-x><C-f> <Plug>(fzf-complete-path)
-imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
-imap <C-x><C-l> <Plug>(fzf-complete-line)
-" since fzf v0.21.0:
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7 } }
+nnoremap <Leader>ff <Cmd>Telescope find_files<CR>
+nnoremap <Leader>fg <Cmd>Telescope live_grep<CR>
+nnoremap <Leader>fb <Cmd>Telescope buffers<CR>
+nnoremap <Leader>fh <Cmd>Telescope help_tags<CR>
 " }}}
+
+" " fzf, fzf.vim {{{
+" " TODO: bat, which is used for preview in fzf, is pretty slow
+" let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude .git'
+" if g:is_mac && g:is_gui
+"   nnoremap <D-p> :FZF<CR>
+"   inoremap <D-p> <Esc>:FZF<CR>
+"   vnoremap <D-p> <Esc>:FZF<CR>
+"   nnoremap <D-S-p> :Buffers<CR>
+"   inoremap <D-S-p> <Esc>:Buffers<CR>
+"   vnoremap <D-S-p> <Esc>:Buffers<CR>
+" endif
+" nnoremap <Leader>ff :FZF<CR>
+" nnoremap <Leader>fe :FZF %:h<CR>
+" nnoremap <Leader><Space>f :FZF<CR>
+" nnoremap <Leader>f<Space> :FZF<CR>
+" nnoremap <Leader>fd :Buffers<CR>
+" nnoremap <Leader>fg :GFiles<CR>
+" nnoremap <Leader>fs :GFiles?<CR>
+" nnoremap <Leader>fc :Commits<CR>
+" nnoremap <Leader>fbc :BCommits<CR>
+" nnoremap <Leader>fl :Lines<CR>
+" nnoremap <Leader>fbl :BLines<CR>
+" nnoremap <Leader>fm :Marks<CR>
+" nnoremap <Leader>fr :Rg <C-r><C-w><CR>
+" nnoremap <Leader>fR :Rg <C-r><C-r><CR>
+" vnoremap <Leader>fr y:Rg <C-r>"<CR>
+" " nnoremap <Leader>fa :Ag <C-r><C-w><CR>
+" " nnoremap <Leader>` :Marks<CR>
+" " nnoremap <Leader>§ :Marks<CR>
+" " imap <C-x><C-k> <Plug>(fzf-complete-word)
+" imap <C-x><C-f> <Plug>(fzf-complete-path)
+" imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
+" imap <C-x><C-l> <Plug>(fzf-complete-line)
+" " since fzf v0.21.0:
+" let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.7 } }
+" " }}}
 
 " itchyny/vim-parenmatch {{{
 let g:parenmatch_highlight = 0
@@ -667,17 +686,6 @@ command! SlimeSetJobId call <SID>slime_set_job_id()
 " a - activate
 nnoremap <C-c>a :SlimeSetJobId<CR>
 " }}}
-
-" works pretty slow and unstable,
-" but can highlight vim's hi commands including underline, cterm colors, etc.
-" Colorizer {{{
-nnoremap <Leader><Leader><Leader>c :ColorToggle<CR>
-" }}}
-
-" not needed for now
-" " nvim-colorizer.lua {{{
-" lua require 'colorizer'.setup { 'vim'; 'css' }
-" " }}}
 
 " ale {{{
 let g:ale_virtualtext_cursor = 1

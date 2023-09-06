@@ -1,34 +1,33 @@
 # vim: foldmethod=marker
 
 [[plugins]]
-repo = '/usr/local/opt/fzf'
-if = 'isdirectory("/usr/local/opt/fzf")'
+repo = 'nvim-treesitter/nvim-treesitter'
 
 [[plugins]]
-repo = 'junegunn/fzf'
-if = '!isdirectory("/usr/local/opt/fzf")'
-build = './install --bin'
-merged = 0
+repo = 'lourenci/github-colors'
 
 [[plugins]]
-repo = 'junegunn/fzf.vim'
+repo = 'nvim-lua/plenary.nvim'
 
-# TODO: vim-clap?
+[[plugins]]
+repo = 'nvim-telescope/telescope.nvim'
+depends = 'nvim-lua/plenary.nvim'
 
 # [[plugins]]
-# repo = 'easymotion/vim-easymotion'
+# repo = '/usr/local/opt/fzf'
+# if = 'isdirectory("/usr/local/opt/fzf")'
+
+# [[plugins]]
+# repo = 'junegunn/fzf'
+# if = '!isdirectory("/usr/local/opt/fzf")'
+# build = './install --bin'
+# merged = 0
+
+# [[plugins]]
+# repo = 'junegunn/fzf.vim'
 
 [[plugins]]
 repo = 'justinmk/vim-sneak'
-
-# [[plugins]]
-# repo = 'vim-airline/vim-airline'
-
-# [[plugins]]
-# repo = 'vim-airline/vim-airline-themes'
-
-# [[plugins]]
-# repo = 'adelarsq/neoline.vim'
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
@@ -64,11 +63,6 @@ repo = 'matze/vim-move'
 # repo = 'unblevable/quick-scope'
 repo = 'Bannerets/quick-scope'
 rev = 'fork'
-
-# [[plugins]]
-# # repo = 'itchyny/vim-cursorword'
-# repo = 'Bannerets/vim-cursorword'
-# rev = 'fork'
 
 [[plugins]]
 repo = 'RRethy/vim-illuminate'
@@ -111,12 +105,6 @@ on_cmd = 'Magit'
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
 
-# [[plugins]]
-# repo = 'scrooloose/nerdtree'
-
-# [[plugins]]
-# repo = 'Xuyuanp/nerdtree-git-plugin'
-
 [[plugins]]
 repo = 'Shougo/defx.nvim'
 
@@ -129,15 +117,6 @@ repo = 'kristijanhusak/defx-git'
 # unimpaired's startup time is pretty bad
 [[plugins]]
 repo = 'tpope/vim-unimpaired'
-
-# [[plugins]]
-# repo = 'Shougo/deoplete.nvim'
-# # on_event = 'InsertEnter'
-# hook_post_update = ':UpdateRemotePlugins'
-# # hook_source = 'call deoplete#enable()'
-
-# [[plugins]]
-# repo = 'Shougo/echodoc.vim'
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
@@ -165,10 +144,12 @@ repo = 'junegunn/goyo.vim'
 on_cmd = 'Goyo'
 
 [[plugins]]
-repo = 'chrisbra/Colorizer'
-
-# [[plugins]]
-# repo = 'norcalli/nvim-colorizer.lua'
+repo = 'NvChad/nvim-colorizer.lua'
+on_cmd = [ 'ColorEnable', 'ColorDisable' ]
+hook_post_source = '''
+command! ColorEnable lua require'colorizer'.attach_to_buffer()
+command! ColorDisable lua require'colorizer'.detach_from_buffer()
+'''
 
 # Languages {{{
 
@@ -201,13 +182,6 @@ repo = 'neovimhaskell/haskell-vim'
 
 [[plugins]]
 repo = 'derekelkins/agda-vim'
-
-# }}}
-
-# Themes {{{
-
-# [[plugins]]
-# repo = 'srcery-colors/srcery-vim'
 
 # }}}
 

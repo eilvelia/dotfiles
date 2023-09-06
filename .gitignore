@@ -1,5 +1,6 @@
 .DS_Store
 *.bak
-/system_ocaml_path
-/default_user
 /text-replacements.plist
+/todo.txt
+/*-ignored.txt
+/profile

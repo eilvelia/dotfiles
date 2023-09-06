@@ -6,7 +6,7 @@
 " Yes, this file uses cpp.
 
 " Modifications:
-" - uses preprocessing instead of calling `s:HL`
+" - uses preprocessing instead of calling `s:HL`, which makes it much faster
 " - replaced `link Normal` with `hi clear` (works better in floating windows)
 " - removed support for sneak and indent-guides (I have my own settings in my config)
 " - removed support for plugins that I don't use

@@ -30,8 +30,6 @@ alias start_redis="redis-server /usr/local/etc/redis.conf"
 
 __lambda="λ"
 __dotfiles="$HOME/dotfiles"
-__system_ocaml_file="$__dotfiles/system_ocaml_path"
-__default_user_file="$__dotfiles/default_user"
 
 export LANG=en_US.UTF-8
 
@@ -44,9 +42,6 @@ export GPG_TTY=$(tty)
 export LESSCHARSET=utf-8
 export HISTCONTROL=ignoreboth
 export INPUTRC=~/.inputrc
-
-__default_user=$(test -r "$__default_user_file" && \
-  cat "$__default_user_file" || echo "")
 
 extract () {
   if [ -f $1 ] ; then
@@ -90,9 +85,7 @@ function __prompt {
 
   local __git_branch='`git branch 2> /dev/null | grep ^* | sed -e "s/* \(.*\)/ (\1)/"`'
 
-  local __user='`[[ "$__default_user" == "\u" ]] && echo $__lambda || echo "\u"`'
-
-  export PS1="$GREEN$__user $YELLOW\w$CYAN$__git_branch$RESETCOLOR \\$ "
+  export PS1="$YELLOW\w$CYAN$__git_branch$RESETCOLOR \\$ "
 }
 
 __prompt
@@ -103,13 +96,6 @@ source "$__dotfiles/vendor/git-completion.bash"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$__dotfiles/global-scripts:$PATH"
-
-__system_ocaml_path=$(test -r "$__system_ocaml_file" && \
-  cat "$__system_ocaml_file" || echo "")
-
-if test -d "$__system_ocaml_path"; then
-  export PATH="$__system_ocaml_path:$PATH"
-fi
 
 # OPAM configuration
 . ~/.opam/opam-init/init.sh &> /dev/null || true

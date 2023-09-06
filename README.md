@@ -2,7 +2,7 @@
 
 ```sh
 cd ~
-git clone https://github.com/Bannerets/dotfiles.git dotfiles
+git clone <repository> dotfiles
 cd ~/dotfiles
 ./install.sh
 ```

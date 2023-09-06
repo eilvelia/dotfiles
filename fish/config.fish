@@ -1,5 +1,4 @@
 set -l dotfiles ~/dotfiles
-set -l system_ocaml_path_file $dotfiles/system_ocaml_path
 
 set fish_greeting
 
@@ -16,6 +15,9 @@ alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 
 
 # light nvim
 alias lvi "nvim --cmd 'let g:min_mode = 1'"
+
+# "private" mode
+alias lvi-p "nvim --cmd 'let g:min_mode = 1' -i NONE --cmd 'set noswapfile'"
 
 abbr -ag getdate "date \"+%Y_%m_%d\""
 
@@ -44,6 +46,8 @@ abbr -ag npmr "npm run"
 
 abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
 
+abbr -ag nixi "nix profile install"
+
 abbr -ag vimr "vimr --cur-env"
 
 abbr -ag start-postgres "pg_ctl -D /usr/local/var/postgres start"
@@ -70,13 +74,6 @@ set -xp PATH $dotfiles/global-scripts
 
 if test -d ~/.cargo
   set -xp PATH ~/.cargo/bin
-end
-
-if test -r $system_ocaml_path_file
-  set p (cat $system_ocaml_path_file)
-  if test -d $p
-    set -xp PATH $p
-  end
 end
 
 source ~/.opam/opam-init/init.fish > /dev/null 2>&1 || true
