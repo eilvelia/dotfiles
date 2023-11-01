@@ -1,3 +1,7 @@
+if not status --is-interactive
+  exit
+end
+
 set -l dotfiles ~/dotfiles
 
 set fish_greeting
@@ -8,7 +12,9 @@ source $__fish_config_dir/colors.fish
 bind \cx\ce edit_command_buffer
 
 alias ls "ls -FA"
-alias exa "exa --all -l --git"
+
+abbr -ag ez "eza --all -l --git"
+abbr -ag eza-tree "eza --tree --git-ignore"
 
 # gpg symmetric encrypt
 alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
@@ -58,11 +64,20 @@ abbr -ag start-redis "redis-server /usr/local/etc/redis.conf"
 set -x LANG en_US.UTF-8
 
 set -x CLICOLOR 1
-set -x LSCOLORS gxBxhxDxfxhxhxhxhxcxcx
-# set -x LSCOLORS GxFxCxDxBxegedabagaced
-set -x LS_COLORS $LSCOLORS
 
-set -x VISUAL vim
+if test "$TERM" = "xterm-kitty"
+  set -x LSCOLORS gxbxhxdxfxhxhxhxhxcxcx
+  set -x LS_COLORS \
+    "di=36:ln=31:so=37:pi=33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32"
+  abbr -ag icat "kitten icat"
+else
+  set -x LSCOLORS gxBxhxDxfxhxhxhxhxcxcx
+  set -x LS_COLORS \
+    "di=36:ln=1;31:so=37:pi=1;33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32"
+end
+
+set -x VISUAL nvim
+set -x EDITOR nvim
 
 set -x GPG_TTY (tty)
 set -x LESSCHARSET utf-8
@@ -77,9 +92,11 @@ if test -d ~/.cargo
 end
 
 source ~/.opam/opam-init/init.fish > /dev/null 2>&1 || true
+set -x OPAMNODEPEXTS 1
 
 set -x HOMEBREW_NO_AUTO_UPDATE 1
 
-if test -r $dotfiles/vendor/.iterm2_shell_integration.fish
+if test "$LC_TERMINAL" = "iTerm2"
+   and test -r $dotfiles/vendor/.iterm2_shell_integration.fish
   source $dotfiles/vendor/.iterm2_shell_integration.fish
 end

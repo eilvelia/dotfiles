@@ -9,19 +9,24 @@
     "files.trimFinalNewlines": true,
     "breadcrumbs.enabled": true,
     "explorer.confirmDragAndDrop": false,
+    "editor.bracketPairColorization.enabled": false,
+    "editor.acceptSuggestionOnEnter": "off",
     "workbench.iconTheme": "file-icons",
+    "workbench.colorTheme": "GitHub Dark",
+
     "javascript.validate.enable": false,
-
-    "typescript.suggest.autoImports": false,
     "javascript.suggest.autoImports": false,
+    "typescript.suggest.autoImports": false,
 
-    "flow.useLSP": true,
-
-    "bracketPairColorizer.forceIterationColorCycle": true,
-    "bracketPairColorizer.showHorizontalScopeLine": false,
-
-    "vim.leader": ",",
-    "vim.sneak": true,
-
-    "window.zoomLevel": 0
+    "[ocaml]": {
+        "editor.autoIndent": "keep",
+        "editor.semanticHighlighting.enabled": false
+    },
+    "[markdown]": {
+        "editor.unicodeHighlight.ambiguousCharacters": false,
+        "editor.unicodeHighlight.invisibleCharacters": false,
+        "editor.wordWrap": "bounded",
+        "editor.wordWrapColumn": 105
+    },
+    "haskell.manageHLS": "PATH"
 }

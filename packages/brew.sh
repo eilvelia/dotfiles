@@ -26,7 +26,7 @@ brew install fzf
 brew install ripgrep # aka rg. 'grep' alternative
 brew install ag # 'grep' alternative
 brew install fd # 'find' alternative
-brew install exa # 'ls' alternative
+brew install eza # 'ls' alternative
 brew install sd # 'sed' alternative
 brew install bat # 'cat' / 'less' alternative
 brew install highlight
@@ -86,8 +86,7 @@ brew install hashcat
 brew install tor
 brew install ipfs
 
-# bfg - Remove large files or passwords from Git history
-brew install bfg
+brew install bfg # remove large files or passwords from git history
 
 brew install tesseract
 
@@ -110,46 +109,46 @@ echo "Installing cask packages..."
 
 brew tap homebrew/cask-fonts
 
-brew cask install font-menlo-for-powerline
+brew install --cask font-menlo-for-powerline
+brew install --cask font-dejavusansmono-nerd-font
+brew install --cask font-fantasque-sans-mono
+brew install --cask font-fira-code
+brew install --cask font-firacode-nerd-font
+brew install --cask font-firacode-nerd-font-mono
+brew install --cask font-iosevka
+brew install --cask font-iosevka-nerd-font
+brew install --cask font-sourcecodepro-nerd-font
+brew install --cask font-symbols-only-nerd-font
 
-brew cask install font-dejavusansmono-nerd-font
-brew cask install font-fantasque-sans-mono
-brew cask install font-fira-code
-brew cask install font-firacode-nerd-font
-brew cask install font-firacode-nerd-font-mono
-brew cask install font-iosevka
-brew cask install font-iosevka-nerd-font
-brew cask install font-sourcecodepro-nerd-font
-
-brew cask install rq # "Record Query"
-brew cask install iterm2
-brew cask install emacs
-brew cask install qbittorrent
-brew cask install sublime-text # proprietary
-brew cask install visual-studio-code
-brew cask install tunnelblick
-brew cask install keka
-brew cask install vlc
-brew cask install iina
-brew cask install electrum
-brew cask install fork # proprietary
-brew cask install gfxcardstatus
-brew cask install macs-fan-control # proprietary
-# brew cask install dropbox # proprietary
-brew cask install db-browser-for-sqlite
-brew cask install hex-fiend
-brew cask install shiba
+brew install --cask iterm2
+brew install --cask kitty
+brew install --cask emacs
+brew install --cask qbittorrent
+brew install --cask sublime-text # proprietary
+brew install --cask visual-studio-code
+brew install --cask tunnelblick
+brew install --cask keka
+brew install --cask vlc
+brew install --cask iina
+brew install --cask electrum
+# brew install --cask fork # proprietary
+brew install --cask gfxcardstatus
+brew install --cask macs-fan-control # proprietary
+# brew install --cask dropbox # proprietary
+brew install --cask db-browser-for-sqlite
+brew install --cask hex-fiend
+brew install --cask shiba
 ln -s /Applications/Shiba.app/Contents/MacOS/Shiba /usr/local/bin/shiba
-brew cask install xrg
-brew cask install anybar
-brew cask install signal
-brew cask install tor-browser
-brew cask install love
-brew cask install vimr
-brew cask install keepassxc
-brew cask install netnewswire
-brew cask install osxfuse
-# brew cask install docker # proprietary; can take a long time to install
+brew install --cask xrg
+brew install --cask anybar
+brew install --cask signal
+brew install --cask tor-browser
+brew install --cask love
+brew install --cask vimr
+brew install --cask keepassxc
+brew install --cask netnewswire
+brew install --cask macfuse
+# brew install --cask docker # proprietary; can take a long time to install
 
 echo "Installing fuse filesystems..."
 

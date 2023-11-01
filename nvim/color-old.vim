@@ -69,7 +69,7 @@ augroup colorextend
   autocmd ColorScheme * call s:highlighting()
 augroup END
 
-" Without this the theme sources twice
+" Without this, the theme sources twice
 syntax enable
 
 " let g:onedark_terminal_italics = 1

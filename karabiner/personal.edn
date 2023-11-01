@@ -1,0 +1,119 @@
+{
+  ;; !  | means mandatory
+  ;; #  | means optional
+  ;; C  | left_command
+  ;; T  | left_control
+  ;; O  | left_option
+  ;; S  | left_shift
+  ;; F  | fn
+  ;; P  | caps_lock
+  ;; Q  | right_command
+  ;; W  | right_control
+  ;; E  | right_option
+  ;; R  | right_shift
+  ;; !! | mandatory command + control + optional + shift (hyper)
+  ;; ## | optional any
+  :profiles {:DefaultGoku
+             {:default true
+              :alone 10000 ; to_if_alone_timeout_milliseconds (def: 1000)
+              :held 500 ; to_if_held_down_threshold_milliseconds (def: 500)
+              :delay 500 ; to_delayed_action_delay_milliseconds (def: 500)
+              :sim 50 ; simultaneous_threshold_milliseconds (def: 50)
+              }}
+  ;; :templates ; send to AnyBar (calling osascript is a bit slow)
+  ;;            {:anybar "printf \"%s\" | nc -4u -w0 localhost 1738"}
+  :input-sources {:en {:language "en"}
+                  :ru {:language "ru"}}
+  :tos {:to-en {:input :en}
+        :to-ru {:input :ru}}
+  :froms {:any {:any :key_code}
+          #_:any-right-cmd #_{:any :key_code
+                          :modi {:mandatory [:right_command] :optional [:caps_lock]}}}
+  :main [
+    ;; {:des "right_command modifier"
+    ;;  :rules [:!right-cmd-mode
+    ;;          [:!Q#Pd :to-en]
+    ;;          [:!Q#Ps :to-ru]
+    ;;          #_[:!Q#Pf :escape]
+    ;;          [:!Q#Pc {:key :caps_lock :hold_down_ms 90}]
+    ;;          [:!Q##i :up_arrow]
+    ;;          [:!Q##j :left_arrow]
+    ;;          [:!Q##k :down_arrow]
+    ;;          [:!Q##l :right_arrow]
+    ;;          [:!Q##t :page_up]
+    ;;          [:!Q##g :page_down]
+    ;;          [:!Q##comma :home]
+    ;;          [:!Q##period :end]
+    ;;          [:!Q#P1 :f1]
+    ;;          [:!Q#P2 :f2]
+    ;;          [:!Q#P3 :f3]
+    ;;          [:!Q#P4 :f4]
+    ;;          [:!Q#P5 :f5]
+    ;;          [:!Q#P6 :f6]
+    ;;          [:!Q#P7 :f7]
+    ;;          [:!Q#P8 :f8]
+    ;;          [:!Q#P9 :f9]
+    ;;          [:!Q#P0 :f10]
+    ;;          [:!Q#Phyphen :f11]
+    ;;          [:!Q#Pequal_sign :f12]
+    ;;          [:##right_command :right_command :!right-cmd-mode {:alone ["right-cmd-mode" 1]}]
+    ;;          [:##left_command  :left_command]
+    ;;          [:##left_control  :left_control]
+    ;;          [:##left_option   :left_option]
+    ;;          [:##left_shift    :left_shift]
+    ;;          [:##fn            :fn]
+    ;;          [:##right_control :right_control]
+    ;;          [:##right_option  :right_option]
+    ;;          [:##right_shift   :right_shift]
+    ;;          [:any-right-cmd :vk_none]]}
+    {:des "right_command sequence"
+     :rules [[:##right_command ["right-cmd-mode" 1] :!right-cmd-mode]
+             :right-cmd-mode
+             [:#Pd [:to-en ["right-cmd-mode" 0]]]
+             [:#Ps [:to-ru ["right-cmd-mode" 0]]]
+             #_[:#Pf [:escape ["right-cmd-mode" 0]]]
+             #_[:#Pn [:!Squote ["right-cmd-mode" 0]]]
+             [:#Pc [{:key :caps_lock :hold_down_ms 90} ["right-cmd-mode" 0]]]
+             [:##i [:up_arrow ["right-cmd-mode" 0]]]
+             [:##j [:left_arrow ["right-cmd-mode" 0]]]
+             [:##k [:down_arrow ["right-cmd-mode" 0]]]
+             [:##l [:right_arrow ["right-cmd-mode" 0]]]
+             [:##t [:page_up ["right-cmd-mode" 0]]]
+             [:##g [:page_down ["right-cmd-mode" 0]]]
+             [:##comma [:home ["right-cmd-mode" 0]]]
+             [:##period [:end ["right-cmd-mode" 0]]]
+             [:#Pspacebar [["cursor-mode" 1] ["right-cmd-mode" 0]] :!cursor-mode {:afterup ["cursor-mode" 0]}]
+             [:#P1 [:f1 ["right-cmd-mode" 0]]]
+             [:#P2 [:f2 ["right-cmd-mode" 0]]]
+             [:#P3 [:f3 ["right-cmd-mode" 0]]]
+             [:#P4 [:f4 ["right-cmd-mode" 0]]]
+             [:#P5 [:f5 ["right-cmd-mode" 0]]]
+             [:#P6 [:f6 ["right-cmd-mode" 0]]]
+             [:#P7 [:f7 ["right-cmd-mode" 0]]]
+             [:#P8 [:f8 ["right-cmd-mode" 0]]]
+             [:#P9 [:f9 ["right-cmd-mode" 0]]]
+             [:#P0 [:f10 ["right-cmd-mode" 0]]]
+             [:#Phyphen [:f11 ["right-cmd-mode" 0]]]
+             [:#Pequal_sign [:f12 ["right-cmd-mode" 0]]]
+             [:any ["right-cmd-mode" 0]]]}
+    {:des "cursor mode"
+     :rules [:cursor-mode
+             [:##i :up_arrow]
+             [:##j :left_arrow]
+             [:##k :down_arrow]
+             [:##l :right_arrow]
+             [:##t :page_up]
+             [:##g :page_down]
+             [:##comma :home]
+             [:##period :end]]}
+    {:des "caps_lock to escape"
+     :rules [[:##caps_lock :escape]]}
+    {:des "disable escape"
+     :rules [[:##escape :vk_none]]}
+    ;; {:des "disable arrows"
+    ;;  :rules [[:##up_arrow :vk_none]
+    ;;          [:##left_arrow :vk_none]
+    ;;          [:##down_arrow :vk_none]
+    ;;          [:##right_arrow :vk_none]]}
+  ]
+}

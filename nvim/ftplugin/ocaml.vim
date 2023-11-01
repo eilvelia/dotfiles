@@ -1,14 +1,9 @@
-let g:ale_ocaml_ols_executable = 'ocamllsp'
-" let b:ale_linters = ['merlin']
-" let b:ale_linters = ['ols']
-let b:ale_fixers = ['ocp-indent']
-
 let no_ocaml_maps = 1
 
 " TODO: Use `ocamllsp/switchImplIntf`?
 
-nmap <buffer> <LocalLeader>s <Plug>OCamlSwitchEdit
-nmap <buffer> <LocalLeader>S <Plug>OCamlSwitchNewWin
+nmap <buffer> <LocalLeader>o <Plug>OCamlSwitchEdit
+nmap <buffer> <LocalLeader>O <Plug>OCamlSwitchNewWin
 
 " doesn't work well
 " let g:ocaml_folding = 1

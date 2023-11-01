@@ -26,6 +26,7 @@ if confirm "Link dotfiles?"; then
     mv ~/.config/fish "$_bakdir/fish"
     mv ~/.config/omf "$_bakdir/omf"
     mv ~/.config/ranger "$_bakdir/ranger"
+    mv ~/.config/kitty "$_bakdir/kitty"
     [ "$(ls -A $_bakdir)" ] || rm -r $_bakdir
   fi
 
@@ -39,6 +40,7 @@ if confirm "Link dotfiles?"; then
   ln -s ~/dotfiles/fish ~/.config/fish
   ln -s ~/dotfiles/omf ~/.config/omf
   ln -s ~/dotfiles/ranger ~/.config/ranger
+  ln -s ~/dotfiles/kitty ~/.config/kitty
 fi
 
 mkdir -p ~/.local

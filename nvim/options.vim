@@ -12,8 +12,8 @@ set nostartofline
 
 set scrolloff=1
 
-set foldmethod=indent
-set foldlevelstart=6
+" set foldmethod=indent
+set foldlevelstart=99
 
 set sessionoptions-=options
 
@@ -27,7 +27,9 @@ if !g:is_gui
   set mouse=a
 endif
 
-" set title
+set title
+set titlestring=%t\ -\ NVIM
+set titlelen=60
 
 set hidden
 
@@ -64,7 +66,8 @@ set shortmess+=c
 
 set colorcolumn=80
 
-" set cursorline
+set cursorline
+set cursorlineopt=number
 
 set splitright
 
@@ -82,5 +85,9 @@ set visualbell
 
 set termguicolors
 
-" interesting nvim feature
 set inccommand=nosplit
+
+" Cyrillic layout in normal mode
+set langmap+=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ
+set langmap+=фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+set langmap+=ЁёЖжЭэХхЪъ;~`\:\;\"\'{[}]
