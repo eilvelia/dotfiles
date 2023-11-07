@@ -21,6 +21,10 @@ function fish_prompt
       set prompt_sign '$'
   end
 
+  if set -q SSH_TTY || set -q SSH_CLIENT
+    set host (set_color brgreen) (prompt_hostname) " " $__fish_prompt_normal
+  end
+
   if set -q RANGER_LEVEL
     set ranger (set_color cyan) " [ranger]" $__fish_prompt_normal
   end
@@ -33,6 +37,6 @@ function fish_prompt
     set git_branch (set_color cyan) (fish_git_prompt) $__fish_prompt_normal
   end
 
-  echo -n -s "$__fish_prompt_cwd" (prompt_pwd) $__fish_prompt_normal \
+  echo -n -s $host "$__fish_prompt_cwd" (prompt_pwd) $__fish_prompt_normal \
     $git_branch $nix_indicator $ranger " $prompt_sign "
 end
