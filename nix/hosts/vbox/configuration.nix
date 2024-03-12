@@ -11,6 +11,8 @@
       ../../nixos/conf-generic.nix
     ];
 
+  networking.hostName = "nixos-vbox";
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

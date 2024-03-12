@@ -27,16 +27,13 @@ abbr -ag getdate "date \"+%Y_%m_%d\""
 
 abbr -ag qfind "find . -name"
 
-abbr -ag e "echo"
-
 abbr -ag f "ls | grep -i"
 
-abbr -ag totarbz2 "tar cjvf"
-abbr -ag fromtarbz2 "tar xjvf"
-abbr -ag totargz "tar czvf"
-abbr -ag fromtargz "tar xzvf"
-
-abbr -ag sha256sum "shasum -a 256"
+abbr -ag to-tar-zstd "tar c --zstd -f .tar.zst"
+abbr -ag to-tar-gz "tar c --gzip -f .tgz"
+abbr -ag to-tar-bz2 "tar c --bzip2 -f .tbz2"
+abbr -ag to-tar-any "tar c -a -f"
+abbr -ag from-tar "tar x -f"
 
 abbr -ag gs "git status"
 
@@ -50,8 +47,6 @@ abbr -ag npmr "npm run"
 
 abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
 
-abbr -ag nixi "nix profile install"
-
 abbr -ag start-postgres "pg_ctl -D /usr/local/var/postgres start"
 abbr -ag stop-postgres "pg_ctl -D /usr/local/var/postgres stop"
 
@@ -63,6 +58,7 @@ set -x CLICOLOR 1
 
 if test (uname) = "Darwin"
   alias ls "ls -FA"
+  abbr -ag sha256sum "shasum -a 256"
 else
   alias ls "ls -FA --color=auto"
 end
@@ -95,6 +91,10 @@ if status --is-login
 
   if test -d ~/.cargo
     set -xp PATH ~/.cargo/bin
+  end
+
+  if test -d ~/.juliaup
+    set -xp PATH ~/.juliaup/bin
   end
 
   source ~/.opam/opam-init/init.fish > /dev/null 2>&1 || true

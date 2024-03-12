@@ -1,6 +1,6 @@
 # vim: set noexpandtab
 [user]
-	name = Bannerets
+	name = b
 	email = comonoid@protonmail.com
 	signingkey = 8C383C26D7A884B9098E0D5338C7564724AB8709
 [core]

@@ -45,6 +45,8 @@ fi
 
 mkdir -p ~/.local
 
+# Lots of outdated stuff here
+
 if [[ "$OSTYPE" == "darwin"* ]] && confirm "macOS detected. Run macos.sh?"; then
   ./install/macos.sh
 fi

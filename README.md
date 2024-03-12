@@ -4,5 +4,5 @@
 cd ~
 git clone <repository> dotfiles
 cd ~/dotfiles
-./install.sh # on non-nixos
+./install.sh # without nix
 ```

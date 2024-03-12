@@ -6,18 +6,24 @@ function extract --description "Expand or extract bundled & compressed files"
       switch $file
         case '*.tar'
           tar -xvf $file
-        case '*.tar.bz2' '*.tbz2' '*.tbz'
-          tar -jxvf $file
         case '*.tar.gz' '*.tgz'
-          tar -zxvf $file
+          tar -xzvf $file
+        case '*.tar.bz2' '*.tbz2' '*.tbz'
+          tar -xjvf $file
+        case '*.tar.zst'
+          tar -xv --zstd -f $file
+        case '*.tar.xz'
+          tar -xv --xz -f $file
+        case '*.tar.*'
+          tar -xvf $file
         case '*.bz2'
           bunzip2 $file
         case '*.gz'
           gunzip $file
-        case '*.rar'
-          unrar x $file
         case '*.zip' '*.ZIP'
           unzip $file
+        case '*.rar'
+          unrar x $file
         case '*.pax'
           pax -r < $file
         case '*.Z'

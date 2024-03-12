@@ -6,10 +6,12 @@
     kitty
     ripdrag
     flameshot
+    keepassxc
+    qbittorrent
+    telegram-desktop
   ];
 
-  # NOTE: Renamed to fonts.packages in newer versions of NixOS
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     fira-code
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
     noto-fonts
