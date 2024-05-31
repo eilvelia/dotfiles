@@ -23,7 +23,7 @@ alias lvi-p "nvim --cmd 'let g:min_mode = 1' -i NONE --cmd 'set noswapfile'"
 abbr -ag ez "eza --all -l --git"
 abbr -ag eza-tree "eza --tree --git-ignore"
 
-abbr -ag getdate "date \"+%Y_%m_%d\""
+abbr -ag getdate "date \"+%Y-%m-%d\""
 
 abbr -ag qfind "find . -name"
 
@@ -75,11 +75,13 @@ end
 set -x VISUAL nvim
 set -x EDITOR nvim
 
-set -x GPG_TTY (tty)
+set -x LESSHISTFILE "-"
 set -x LESSCHARSET utf-8
 if test -r ~/.inputrc
   set -x INPUTRC ~/.inputrc
 end
+
+set -x GPG_TTY (tty)
 
 set -x OPAMNODEPEXTS 1
 set -x HOMEBREW_NO_AUTO_UPDATE 1

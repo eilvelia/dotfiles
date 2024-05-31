@@ -1,46 +1,27 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-
 { config, pkgs, inputs, lib, ... }:
-
 {
-  imports = [
-    ./sway.nix
-    ./gui.nix
-  ];
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.registry.unstable.flake = inputs.nixpkgs-unstable;
 
-  nix.registry.nixpkgs.flake = inputs.nixpkgs-unstable;
-  nix.registry.p.flake = inputs.nixpkgs-unstable;
+  networking.hostName = lib.mkDefault "nixos";
 
-  networking.hostName = lib.mkDefault "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
-  time.timeZone = "Etc/UTC";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  time.timeZone = lib.mkDefault "Etc/UTC";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -49,21 +30,22 @@
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.lambda = {
     isNormalUser = true;
+    initialPassword = "password";
     extraGroups = [ "wheel" ]; # Enable 'sudo' for the user.
     packages = [];
     shell = pkgs.fish;
   };
+  users.users.root.password = null;
+  users.mutableUsers = true;
 
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
     git
+    rsync
     fish
     neofetch
     psmisc
@@ -102,5 +84,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }

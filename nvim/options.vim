@@ -3,7 +3,7 @@ set completeopt-=preview
 set noshowmode
 
 set concealcursor=nc
-set conceallevel=1
+set conceallevel=0
 
 set listchars+=conceal:∘
 set list

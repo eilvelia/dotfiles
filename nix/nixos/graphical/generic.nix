@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
-
 {
+  imports = [
+    /sway.nix
+  ];
+
   environment.systemPackages = with pkgs; [
     chromium
     kitty

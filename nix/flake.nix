@@ -2,9 +2,9 @@
   description = "Nix configuration flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -22,7 +22,7 @@
       # sudo nixos-rebuild switch --flake .#nixos-vbox
       nixosConfigurations."nixos-vbox" = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
-        modules = [ ./hosts/vbox/configuration.nix ];
+        modules = [ ./hosts/vbox ];
       };
 
       # home-manager switch --flake .#lambda

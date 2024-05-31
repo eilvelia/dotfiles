@@ -10,14 +10,18 @@ echo "Installing Homebrew packages..."
 brew install bash
 brew install wget
 brew install gnupg
-brew install tor
 brew install gnu-sed
 # brew install gnu-tar
 brew install gawk
+brew install coreutils
+brew install pkg-config
+brew install tor
 brew install openjdk
 brew install rar
 brew install zstd
 brew install iperf3
+brew install rsync
+brew install rsnapshot
 # brew install bfg
 
 # brew install ninja

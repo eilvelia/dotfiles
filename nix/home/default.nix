@@ -7,8 +7,6 @@ let
   dotfiles = "${homeDir}/dotfiles";
   rel-dotfiles = "../..";
 in {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = username;
   home.homeDirectory = homeDir;
 
@@ -19,11 +17,11 @@ in {
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   home.packages = with pkgs; [
-    neovim
-    helix
+    pkgs-unstable.neovim
+    pkgs-unstable.helix
     tree
     htop
     jq
@@ -42,6 +40,7 @@ in {
     fzf
     zf
     mdcat
+    miniserve
     hyperfine
     du-dust
     gh
@@ -55,21 +54,26 @@ in {
     ranger
     asciinema
     speedtest-cli
-    pkgs-unstable.opam # fails to compile in 23.11
+    mosh
+    abduco
+    direnv
+    nushell
+    rizin
+    gocryptfs
+    opam
     elan
     deno
     luajit
     ninja
     cmake
-    direnv
-    nushell
-    rizin
     nil
+    nix-output-monitor
   ] ++ (if isDarwin then [
     goku
     pstree
-    encfs # also needs fuse
-  ] else []);
+  ] else [
+    syncthing
+  ]);
 
   home.file = {
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
@@ -99,14 +103,14 @@ in {
 
   nix = if isDarwin then {
     package = pkgs.nix;
-    registry.nixpkgs.flake = inputs.nixpkgs-unstable;
-    registry.p.flake = inputs.nixpkgs-unstable;
-    registry.nixpkgs-stable.flake = inputs.nixpkgs;
+    registry.nixpkgs.flake = inputs.nixpkgs;
+    registry.p.flake = inputs.nixpkgs;
+    registry.unstable.flake = inputs.nixpkgs-unstable;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       nix-path = [
         "nixpkgs=${inputs.nixpkgs}"
-        "nixpkgs-unstable=${inputs.nixpkgs-unstable}"
+        "unstable=${inputs.nixpkgs-unstable}"
       ];
     };
   } else {};

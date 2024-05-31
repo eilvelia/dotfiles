@@ -28,7 +28,7 @@ require('lazy').setup {
       'nvim-lua/plenary.nvim',
       'natecraddock/telescope-zf-native.nvim',
     },
-    tag = '0.1.2',
+    tag = '0.1.8',
     cond = not min_mode,
     config = function ()
       local actions = require('telescope.actions')
@@ -76,7 +76,7 @@ require('lazy').setup {
     config = function ()
       local configs = require('nvim-treesitter.configs')
       configs.setup {
-        -- `:TSInstallSync all` manually
+        -- `:TSInstall all` manually
         -- ensure_installed = {
         --   'lua', 'vim', 'vimdoc', 'query', 'comment', 'c', 'cpp', 'nix',
         --   'html', 'css', 'markdown', 'markdown_inline', 'rst',
@@ -285,7 +285,14 @@ require('lazy').setup {
       require('nvim-surround').setup()
     end },
   { 'RRethy/vim-illuminate', cond = not min_mode },
-  { 'lukas-reineke/indent-blankline.nvim' },
+  { 'lukas-reineke/indent-blankline.nvim',
+    config = function ()
+      require('ibl').setup {
+        scope = {
+          enabled = false
+        }
+      }
+    end },
   { 'tversteeg/registers.nvim',
     name = 'registers',
     keys = {

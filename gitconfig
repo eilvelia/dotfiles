@@ -1,4 +1,4 @@
-# vim: set noexpandtab
+# vim: noexpandtab
 [user]
 	name = b
 	email = comonoid@protonmail.com
@@ -26,3 +26,5 @@
 	forceSignAnnotated = true
 [pull]
 	ff = only
+[init]
+	defaultBranch = main
