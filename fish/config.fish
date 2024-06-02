@@ -6,8 +6,6 @@ set -l dotfiles ~/dotfiles
 
 set fish_greeting
 
-source $__fish_config_dir/colors.fish
-
 # The default is Alt-e / Alt-v
 bind \cx\ce edit_command_buffer
 
@@ -36,6 +34,7 @@ abbr -ag to-tar-any "tar c -a -f"
 abbr -ag from-tar "tar x -f"
 
 abbr -ag gs "git status"
+abbr -ag go "git switch"
 
 abbr -ag ra "ranger"
 
@@ -99,10 +98,22 @@ if status --is-login
     set -xp PATH ~/.juliaup/bin
   end
 
+  if test -d ~/.nix-profile/lib && test (uname) = "Darwin"
+    set -xp DYLD_FALLBACK_LIBRARY_PATH ~/.nix-profile/lib
+  end
+
   source ~/.opam/opam-init/init.fish > /dev/null 2>&1 || true
 
   if test "$LC_TERMINAL" = "iTerm2"
     and test -r $dotfiles/vendor/.iterm2_shell_integration.fish
     source $dotfiles/vendor/.iterm2_shell_integration.fish
+  end
+
+  if test "$__fish_theme_set" != "1"
+    echo 'Setting the fish theme...'
+    yes | fish_config theme save 'fish default'
+    set -U fish_color_cwd yellow
+    set -U fish_color_option brgreen
+    set -U __fish_theme_set '1'
   end
 end
