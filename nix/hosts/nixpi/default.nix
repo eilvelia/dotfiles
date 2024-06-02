@@ -12,6 +12,10 @@
     pkgs.raspberrypiWirelessFirmware
   ];
 
+  environment.systemPackages = with pkgs; [
+    lm_sensors
+  ];
+
   services.openssh.enable = true;
 
   networking.firewall.enable = false;

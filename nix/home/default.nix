@@ -73,6 +73,7 @@ in {
     pstree
   ] else [
     syncthing
+    nh
   ]);
 
   home.file = {
