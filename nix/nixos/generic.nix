@@ -37,6 +37,9 @@
     extraGroups = [ "wheel" ]; # Enable 'sudo' for the user.
     packages = [];
     shell = pkgs.fish;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDV5YFxhv784mta82xDgWHCZ3IHGCT/4bNv/CvZ12amr"
+    ];
   };
   users.users.root.password = null;
   users.mutableUsers = true;
@@ -47,8 +50,10 @@
     git
     rsync
     fish
-    neofetch
     psmisc
+    bind # dig, nslookup, etc.
+    neofetch
+    htop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

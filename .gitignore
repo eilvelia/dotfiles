@@ -1,5 +1,6 @@
 .DS_Store
 *.bak
+*.s.vim
 /text-replacements.plist
 /todo.txt
 /*-ignored.txt

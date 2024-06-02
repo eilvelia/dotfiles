@@ -23,7 +23,6 @@ in {
     pkgs-unstable.neovim
     pkgs-unstable.helix
     tree
-    htop
     jq
     ripgrep
     fd
@@ -33,7 +32,6 @@ in {
     difftastic
     diff-so-fancy
     highlight
-    neofetch
     hyfetch
     pgpdump
     pwgen
@@ -69,6 +67,8 @@ in {
     nil
     nix-output-monitor
   ] ++ (if isDarwin then [
+    neofetch
+    htop
     goku
     pstree
   ] else [
