@@ -19,11 +19,12 @@
   services.openssh.enable = true;
 
   networking.firewall.enable = false;
-  networking.useDHCP = lib.mkDefault true;
   networking.networkmanager.enable = true;
 
-  boot.kernel.sysctl."vm.swappiness" = 5;
-  swapDevices = [{ device = "/var/lib/swapfile"; size = 1024; }];
+  boot.kernel.sysctl."vm.swappiness" = 150;
+  zramSwap.enable = true;
+  zramSwap.algorithm = "zstd";
+  zramSwap.memoryPercent = 250;
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_SD";
