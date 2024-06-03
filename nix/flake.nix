@@ -47,9 +47,9 @@
         ];
       }).config.system.build.sdImage;
 
-      # home-manager switch --flake .#lambda
+      # home-manager switch --flake .
       homeConfigurations."lambda@nixos-vbox" = homeForSystem "x86_64-linux";
       homeConfigurations."lambda@nixpi" = homeForSystem "aarch64-linux";
-      homeConfigurations."lambda-macos" = homeForSystem "x86_64-darwin";
+      homeConfigurations."lambda@MacBook-Pro.local" = homeForSystem "x86_64-darwin";
     };
 }

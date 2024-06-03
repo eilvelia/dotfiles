@@ -66,6 +66,7 @@ in {
     cmake
     nil
     nix-output-monitor
+    nvd
   ] ++ (if isDarwin then [
     neofetch
     htop

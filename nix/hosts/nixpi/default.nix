@@ -14,7 +14,16 @@
 
   environment.systemPackages = with pkgs; [
     lm_sensors
+    libraspberrypi # vcgencmd, etc.
   ];
+
+  systemd.services.setleds = {
+    script = ''
+      echo 'Setting LEDs'
+      echo none > /sys/class/leds/ACT/trigger
+    '';
+    wantedBy = ["multi-user.target"];
+  };
 
   services.openssh.enable = true;
 
