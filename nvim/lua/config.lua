@@ -48,22 +48,22 @@ require('lazy').setup {
         vim.keymap.set({ 'n', 'v' }, '<D-p>', builtin.find_files, {})
         vim.keymap.set({ 'n', 'v' }, '<D-S-p>', builtin.buffers, {})
       end
-      vim.keymap.set('n', '<LocalLeader>f', builtin.find_files, {})
+      vim.keymap.set('n', '<Space>f', builtin.find_files, {})
       -- TODO: F to include hidden files?
-      vim.keymap.set('n', '<LocalLeader>b', builtin.buffers, {})
-      vim.keymap.set('n', '<LocalLeader>/', builtin.live_grep, {})
-      vim.keymap.set('n', '<LocalLeader>s', builtin.lsp_document_symbols, {})
-      vim.keymap.set('n', '<LocalLeader>S', builtin.lsp_workspace_symbols, {})
-      vim.keymap.set('n', '<LocalLeader>gr', builtin.lsp_references, {})
-      vim.keymap.set('n', '<LocalLeader>d', builtin.diagnostics, {})
-      vim.keymap.set('n', '<LocalLeader>j', builtin.jumplist, {})
-      vim.keymap.set('n', '<LocalLeader>\'', builtin.resume, {})
-      vim.keymap.set('n', '<Leader>ff', builtin.builtin, {})
-      vim.keymap.set('n', '<Leader>fh', builtin.help_tags, {})
-      vim.keymap.set('n', '<Leader>fm', builtin.marks, {})
-      vim.keymap.set('n', '<Leader>fr', builtin.registers, {})
-      vim.keymap.set('n', '<Leader>ft', builtin.treesitter, {})
-      vim.keymap.set('n', '<Leader>fg', builtin.current_buffer_fuzzy_find, {})
+      vim.keymap.set('n', '<Space>b', builtin.buffers, {})
+      vim.keymap.set('n', '<Space>/', builtin.live_grep, {})
+      vim.keymap.set('n', '<Space>s', builtin.lsp_document_symbols, {})
+      vim.keymap.set('n', '<Space>S', builtin.lsp_workspace_symbols, {})
+      vim.keymap.set('n', '<Space>gr', builtin.lsp_references, {})
+      vim.keymap.set('n', '<Space>d', builtin.diagnostics, {})
+      vim.keymap.set('n', '<Space>j', builtin.jumplist, {})
+      vim.keymap.set('n', '<Space>\'', builtin.resume, {})
+      vim.keymap.set('n', '<Space>uf', builtin.builtin, {})
+      vim.keymap.set('n', '<Space>uh', builtin.help_tags, {})
+      vim.keymap.set('n', '<Space>um', builtin.marks, {})
+      vim.keymap.set('n', '<Space>ur', builtin.registers, {})
+      vim.keymap.set('n', '<Space>ut', builtin.treesitter, {})
+      vim.keymap.set('n', '<Space>ug', builtin.current_buffer_fuzzy_find, {})
     end },
   { 'nvim-lualine/lualine.nvim',
     cond = not min_mode,
@@ -143,7 +143,7 @@ require('lazy').setup {
       vim.keymap.set('n', '<LocalLeader>e', vim.diagnostic.open_float)
       vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
       vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-      vim.keymap.set('n', '<LocalLeader>q', vim.diagnostic.setloclist)
+      vim.keymap.set('n', '<LocalLeader>ls', vim.diagnostic.setloclist)
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
         callback = function (ev)
@@ -159,9 +159,9 @@ require('lazy').setup {
           vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
           vim.keymap.set('n', '<LocalLeader>k', vim.lsp.buf.hover, opts)
           vim.keymap.set('n', 'K', vim.lsp.buf.signature_help, opts)
-          vim.keymap.set('n', '<LocalLeader>wa', vim.lsp.buf.add_workspace_folder, opts)
-          vim.keymap.set('n', '<LocalLeader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-          vim.keymap.set('n', '<LocalLeader>wl', function ()
+          vim.keymap.set('n', '<LocalLeader>la', vim.lsp.buf.add_workspace_folder, opts)
+          vim.keymap.set('n', '<LocalLeader>lr', vim.lsp.buf.remove_workspace_folder, opts)
+          vim.keymap.set('n', '<LocalLeader>ll', function ()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
           end, opts)
           vim.keymap.set('n', '<LocalLeader>r', vim.lsp.buf.rename, opts)
@@ -260,19 +260,19 @@ require('lazy').setup {
           end, { expr = true })
 
           -- Actions
-          map('n', '<leader>hs', gs.stage_hunk)
-          map('n', '<leader>hr', gs.reset_hunk)
-          map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-          map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-          map('n', '<leader>hS', gs.stage_buffer)
-          map('n', '<leader>hu', gs.undo_stage_hunk)
-          map('n', '<leader>hR', gs.reset_buffer)
-          map('n', '<leader>hp', gs.preview_hunk)
-          map('n', '<leader>hb', function() gs.blame_line { full = true } end)
-          map('n', '<leader>tb', gs.toggle_current_line_blame)
-          map('n', '<leader>hd', gs.diffthis)
-          map('n', '<leader>hD', function() gs.diffthis('~') end)
-          map('n', '<leader>td', gs.toggle_deleted)
+          map('n', '<Space>hs', gs.stage_hunk)
+          map('n', '<Space>hr', gs.reset_hunk)
+          map('v', '<Space>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+          map('v', '<Space>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+          map('n', '<Space>hS', gs.stage_buffer)
+          map('n', '<Space>hu', gs.undo_stage_hunk)
+          map('n', '<Space>hR', gs.reset_buffer)
+          map('n', '<Space>hp', gs.preview_hunk)
+          map('n', '<Space>hb', function() gs.blame_line { full = true } end)
+          map('n', '<Space>htb', gs.toggle_current_line_blame)
+          map('n', '<Space>hd', gs.diffthis)
+          map('n', '<Space>hD', function() gs.diffthis('~') end)
+          map('n', '<Space>htd', gs.toggle_deleted)
 
           -- Text object
           map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
@@ -315,16 +315,10 @@ require('lazy').setup {
   { 'nvim-tree/nvim-tree.lua',
     cmd = { 'NvimTreeToggle' },
     init = function ()
-      vim.keymap.set('n', '<LocalLeader>t', ':NvimTreeToggle<CR>')
+      vim.keymap.set('n', '<Space>t', ':NvimTreeToggle<CR>')
     end,
     config = function ()
       require('nvim-tree').setup()
-    end },
-  { 'dhruvasagar/vim-open-url',
-    commit = '595f964eca353f6cc158f953d879dda55e45370b',
-    config = function ()
-      vim.keymap.set('n', 'go', '<Plug>(open-url-browser)')
-      vim.keymap.set('v', 'gh', 'y:OpenURL https://github.com/<C-r>"<CR>')
     end },
   { 'junegunn/goyo.vim', cmd = 'Goyo' },
   { 'mbbill/undotree', cmd = 'UndotreeToggle' },

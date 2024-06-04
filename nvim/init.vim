@@ -20,89 +20,56 @@ source $VIMDIR/options.vim
 " Arrow keys are bound to ijkl system-wide
 noremap h <nop>
 noremap j <nop>
-nmap k <C-w>
+noremap k <nop>
 noremap l <nop>
 
 nnoremap <Space> <nop>
 
 if has('vim_starting')
-  let mapleader = "j"
+  let mapleader = "\<Space>"
   let maplocalleader = "\<Space>"
 endif
 
 lua require('config')
-
-" " vim-surround {{{
-" let g:surround_no_mappings = 1
-" nmap ds  <Plug>Dsurround
-" nmap cs  <Plug>Csurround
-" nmap cS  <Plug>CSurround
-" nmap ys  <Plug>Ysurround
-" nmap yS  <Plug>YSurround
-" nmap yss <Plug>Yssurround
-" nmap ySs <Plug>YSsurround
-" nmap ySS <Plug>YSsurround
-" " xmap S   <Plug>VSurround
-" xmap gS  <Plug>VgSurround
-" " if !hasmapto("<Plug>Isurround", "i") && "" == mapcheck("<C-S>", "i")
-" "   imap <C-S> <Plug>Isurround
-" " endif
-" " imap <C-G>s <Plug>Isurround
-" " imap <C-G>S <Plug>ISurround
-
-" xmap <Leader>s <Plug>VSurround
-" " }}}
 
 if g:is_mac
   " Apple ISO keyboards
   map § `
 endif
 
-noremap <Leader>k `
-noremap <C-w>j `
-
 nnoremap Y y$
 
 nnoremap <BS> "_X
 nnoremap <S-BS> "_x
 
-" inoremap <C-.> <Esc>
+nnoremap <Space>y "+y
+nnoremap <Space>Y "+Y
+nnoremap <Space>p "+p
+nnoremap <Space>P "+P
+vnoremap <Space>y "+y
+vnoremap <Space>Y "+Y
+vnoremap <Space>p "+p
+vnoremap <Space>P "+P
 
 " system register
-noremap <Leader>a "+
-
-nnoremap <LocalLeader>y "+y
-nnoremap <LocalLeader>Y "+Y
-nnoremap <LocalLeader>p "+p
-nnoremap <LocalLeader>P "+P
-vnoremap <LocalLeader>y "+y
-vnoremap <LocalLeader>Y "+Y
-vnoremap <LocalLeader>p "+p
-vnoremap <LocalLeader>P "+P
-
-map h "
+noremap <Space>= "+
 
 inoremap <A-BS> <C-w>
 cnoremap <A-BS> <C-w>
 
-nnoremap <Leader>v <C-v>
-vnoremap <Leader>v <C-v>
-
 noremap 0 ^
 noremap ^ 0
 
-noremap <Leader>1 !
-noremap <Leader>2 @
-noremap <Leader>3 #
-noremap <Leader>4 $
-noremap <Leader>5 %
-noremap <Leader>6 0
-noremap <Leader>7 &
-noremap <Leader>8 *
+noremap <Space>1 !
+noremap <Space>2 @
+noremap <Space>3 #
+noremap <Space>4 $
+noremap <Space>5 %
+noremap <Space>6 0
+noremap <Space>7 &
+noremap <Space>8 *
 
 nnoremap <silent> c<Tab> :let @/=expand('<cword>')<CR>cgn
-
-nnoremap <Leader>w :w<CR>
 
 " TODO: consider gs + gl (helix)?
 " noremap ls ^
@@ -114,34 +81,29 @@ noremap lW B
 noremap le ge
 noremap lE gE
 
-nnoremap <Leader>n :normal<Space>
-vnoremap <Leader>n :normal<Space>
+nnoremap <Space>n :normal<Space>
+vnoremap <Space>n :normal<Space>
 
 " command history
 nnoremap q: <nop>
 " ^ That mapping adds delay to `q` when you stop recording. v This fixes it.
 nnoremap <nowait> q q
-nnoremap <Leader><Leader>q q:
+nnoremap <Space><Space>q q:
 
 " ex mode, alternative mapping: gQ
 nnoremap Q <nop>
 
-nnoremap <Leader>. @:
+nnoremap <Space>. @:
 
 " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " clear search selection
-nnoremap <silent> <Leader>g :let @/ = ''<CR>
-vnoremap <silent> <Leader>g <Cmd>let @/ = ''<CR>
+nnoremap <silent> <Space>c :let @/ = ''<CR>
+vnoremap <silent> <Space>c <Cmd>let @/ = ''<CR>
 
-" previous buffer
-nnoremap <silent> <Leader>s :b#<CR>
-
-" duplicate current line
-" nnoremap <silent> <Leader><Leader>d :t.<CR>
-nnoremap <silent> <Leader>c :t.<CR>
-" (c - clone)
+" previous (last used) buffer
+nnoremap <silent> ga :b#<CR>
 
 " add newlines above and below
 nnoremap <silent> [<Space> :call append(line('.')-1, '')<CR>
@@ -152,7 +114,7 @@ nnoremap <silent> <Space><CR> :put =nr2char(10)<CR>
 inoremap <silent> <A-]> <Cmd>put =nr2char(10)<CR>
 
 " remove trailing newlines from the register
-nnoremap <silent> <Leader><Leader>n :call setreg(v:register,
+nnoremap <silent> <Space><Space>n :call setreg(v:register,
       \ substitute(getreg(v:register), '\n\+$', '', 'g'))<CR>
 
 " strip trailing whitespace
@@ -166,8 +128,6 @@ function! s:strip_trailing_whitespace() abort
   let @/ = old_pattern
 endfunction
 command! StripTrailingWhitespace call <SID>strip_trailing_whitespace()
-
-nnoremap <silent> <Leader><Leader>w :StripTrailingWhitespace<CR>
 
 function! s:execute_vim() range
   let lines = getline(a:firstline, a:lastline)
@@ -199,19 +159,9 @@ command! DeleteUnnamedBuffers call <SID>delete_unnamed_buffers()
 "   endif
 " endfunction
 
-" location list
-nnoremap <silent> <Leader>l :lopen<CR>
-nnoremap <silent> <Leader>L :lclose<CR>
-nnoremap <silent> <Leader><Leader>l :ll<CR>
-" [l / ]l / [<C-l> / ]<C-l> from unimpaired are useful
-
-" quickfix list
-nnoremap <silent> <Leader>q :copen<CR>
-nnoremap <silent> <Leader>Q :cclose<CR>
-nnoremap <silent> <Leader><Leader>c :cc<CR>
-" [q / ]q / [<C-q> / ]<C-q> from unimpaired are useful
-
 " Window mappings {{{
+
+nmap <Space>w <C-w>
 
 nnoremap <C-w><S-Left> <C-w>H
 nnoremap <C-w><S-Right> <C-w>L
@@ -273,18 +223,18 @@ tnoremap <C-.> <C-\><C-n>
 " }}}
 
 command! -count EditReg call edit_reg#start()
-nnoremap <Leader>e :EditReg<CR>
+nnoremap <Space><Space>e :EditReg<CR>
 
 command! SyntaxAttr call syntax_attr#main()
-nnoremap <Leader><Leader>a :SyntaxAttr<CR>
+nnoremap <Space><Space>a :SyntaxAttr<CR>
 
-nnoremap <Leader><Leader><Leader>w :setlocal wrap!<CR>:setlocal wrap?<CR>
+nnoremap <Space><Space>w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
-nnoremap <Leader><Leader><Leader>s     :set expandtab   tabstop=2 shiftwidth=2 softtabstop=0<CR>
-nnoremap <Leader><Leader><Leader>S     :set expandtab   tabstop=4 shiftwidth=4 softtabstop=0<CR>
-nnoremap <Leader><Leader><Leader>t     :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
-nnoremap <Leader><Leader><Leader>T     :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
-nnoremap <Leader><Leader><Leader><A-t> :set noexpandtab tabstop=8 shiftwidth=8 softtabstop=0<CR>
+nnoremap <Space><Space>s     :set expandtab   tabstop=2 shiftwidth=2 softtabstop=0<CR>
+nnoremap <Space><Space>S     :set expandtab   tabstop=4 shiftwidth=4 softtabstop=0<CR>
+nnoremap <Space><Space>t     :set noexpandtab tabstop=2 shiftwidth=2 softtabstop=0<CR>
+nnoremap <Space><Space>T     :set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0<CR>
+nnoremap <Space><Space><A-t> :set noexpandtab tabstop=8 shiftwidth=8 softtabstop=0<CR>
 
 nnoremap <silent> <A-[> :-tabmove<CR>
 nnoremap <silent> <A-]> :+tabmove<CR>
