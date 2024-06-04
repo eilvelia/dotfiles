@@ -324,7 +324,7 @@ require('lazy').setup {
   { 'mbbill/undotree', cmd = 'UndotreeToggle' },
   -- Languages
   { 'tjdevries/ocaml.nvim',
-    build = ':TSUpdate rapper',
+    build = ':lua require(\'ocaml\').update()',
     config = function ()
       vim.api.nvim_set_hl(0, '@rapper_argument', { link = '@parameter', default = true })
       vim.api.nvim_set_hl(0, '@rapper_return', { link = '@type', default = true })

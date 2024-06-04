@@ -22,7 +22,7 @@ _files=(
   ~/.psql_history
   ~/.rediscli_history
 
-  ~/.local/share/fish/fish_history
+  # ~/.local/share/fish/fish_history
 
   ~/.slime_paste
 )

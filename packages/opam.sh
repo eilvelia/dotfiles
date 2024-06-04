@@ -7,6 +7,7 @@ opam install -y \
   utop \
   ocaml-lsp-server \
   merlin \
+  odoc \
   ocamlformat \
   ocp-indent \
   ocp-index \
