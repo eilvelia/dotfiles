@@ -52,9 +52,11 @@ in {
     ranger
     asciinema
     speedtest-cli
+    iperf
     mosh
     abduco
     direnv
+    scrypt
     nushell
     rizin
     gocryptfs

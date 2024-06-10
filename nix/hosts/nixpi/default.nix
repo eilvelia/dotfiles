@@ -26,6 +26,8 @@
   };
 
   services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
+  services.openssh.settings.KbdInteractiveAuthentication = false;
 
   networking.firewall.enable = false;
   networking.networkmanager.enable = true;

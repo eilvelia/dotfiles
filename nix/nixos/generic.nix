@@ -48,12 +48,12 @@
     vim
     wget
     git
-    rsync
+    htop
     fish
-    psmisc
+    rsync
+    psmisc # pstree, killall, etc.
     bind # dig, nslookup, etc.
     neofetch
-    htop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

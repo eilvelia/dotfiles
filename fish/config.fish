@@ -10,7 +10,7 @@ set fish_greeting
 bind \cx\ce edit_command_buffer
 
 # gpg symmetric encrypt
-alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256"
+alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256 --no-symkey-cache"
 
 # light nvim
 alias lvi "nvim --cmd 'let g:min_mode = 1'"

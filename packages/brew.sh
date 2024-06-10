@@ -8,6 +8,7 @@ brew upgrade
 echo "Installing Homebrew packages..."
 
 brew install bash
+brew install fish
 brew install wget
 brew install gnupg
 brew install gnu-sed
@@ -17,9 +18,7 @@ brew install coreutils
 brew install pkg-config
 brew install tor
 brew install openjdk
-brew install rar
 brew install zstd
-brew install iperf3
 brew install rsync
 brew install rsnapshot
 # brew install bfg
@@ -122,11 +121,12 @@ brew install --cask insomnia
 brew install --cask db-browser-for-sqlite
 brew install --cask shiba
 ln -s /Applications/Shiba.app/Contents/MacOS/Shiba /usr/local/bin/shiba
+brew install --cask karabiner-elements
 brew install --cask gfxcardstatus
 brew install --cask macs-fan-control # proprietary
-brew install --cask karabiner-elements
 brew install --cask steam
 brew install --cask virtualbox
+brew install --cask rar
 
 brew install --cask macfuse
 

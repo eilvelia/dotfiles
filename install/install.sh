@@ -47,14 +47,6 @@ if [[ "$OSTYPE" == "darwin"* ]] && confirm "macOS detected. Run macos.sh?"; then
   ./install/macos.sh
 fi
 
-if ! grep fish /etc/shells &> /dev/null && confirm "Setup fish as the default shell?"; then
-  ./install/setup-fish.sh
-fi
-
-if chk fish && ! fish -c "type -q omf" && confirm "Download and install oh my fish?"; then
-  ./install/omf.fish
-fi
-
 if (! chk n || ! chk node || ! chk npm) && confirm "Install Node.js via n?"; then
   ./install/node.sh
 fi

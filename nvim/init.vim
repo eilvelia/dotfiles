@@ -17,12 +17,6 @@ endif
 
 source $VIMDIR/options.vim
 
-" Arrow keys are bound to ijkl system-wide
-noremap h <nop>
-noremap j <nop>
-noremap k <nop>
-noremap l <nop>
-
 nnoremap <Space> <nop>
 
 if has('vim_starting')
@@ -71,15 +65,10 @@ noremap <Space>8 *
 
 nnoremap <silent> c<Tab> :let @/=expand('<cword>')<CR>cgn
 
-" TODO: consider gs + gl (helix)?
-" noremap ls ^
-" noremap le $
-noremap ls ^
-noremap lf $
-noremap lw b
-noremap lW B
-noremap le ge
-noremap lE gE
+" helix-style
+noremap gl $
+noremap gh 0
+noremap gs ^
 
 nnoremap <Space>n :normal<Space>
 vnoremap <Space>n :normal<Space>
@@ -90,7 +79,6 @@ nnoremap q: <nop>
 nnoremap <nowait> q q
 nnoremap <Space><Space>q q:
 
-" ex mode, alternative mapping: gQ
 nnoremap Q <nop>
 
 nnoremap <Space>. @:
@@ -168,16 +156,6 @@ nnoremap <C-w><S-Right> <C-w>L
 nnoremap <C-w><S-Up> <C-w>K
 nnoremap <C-w><S-Down> <C-w>J
 
-nnoremap <C-w>h <nop>
-" nnoremap <C-w>j <nop>
-nnoremap <C-w>k <nop>
-nnoremap <C-w>l <nop>
-
-nnoremap <C-w>H <nop>
-nnoremap <C-w>J <nop>
-nnoremap <C-w>K <nop>
-nnoremap <C-w>L <nop>
-
 nnoremap <A-Left> <C-w><Left>
 nnoremap <A-Right> <C-w><Right>
 nnoremap <A-Up> <C-w><Up>
@@ -188,15 +166,15 @@ nnoremap <A-S-Right> <C-w>L
 nnoremap <A-S-Up> <C-w>K
 nnoremap <A-S-Down> <C-w>J
 
-nnoremap <A-j> <C-w><Left>
+nnoremap <A-h> <C-w><Left>
 nnoremap <A-l> <C-w><Right>
-nnoremap <A-i> <C-w><Up>
-nnoremap <A-k> <C-w><Down>
+nnoremap <A-k> <C-w><Up>
+nnoremap <A-j> <C-w><Down>
 
-nnoremap <A-S-j> <C-w>H
+nnoremap <A-S-h> <C-w>H
 nnoremap <A-S-l> <C-w>L
-nnoremap <A-S-i> <C-w>K
-nnoremap <A-S-k> <C-w>J
+nnoremap <A-S-k> <C-w>K
+nnoremap <A-S-j> <C-w>J
 
 " to tab
 nnoremap <A-t> <C-w>T
@@ -240,9 +218,15 @@ nnoremap <silent> <A-[> :-tabmove<CR>
 nnoremap <silent> <A-]> :+tabmove<CR>
 
 " select tab by g1..g9
-for i in range(1, 9)
-  execute "nnoremap <silent> g" . i . " :tabn " . i . "<CR>"
-endfor
+nnoremap <silent> g1 :tabn 1<CR>
+nnoremap <silent> g2 :tabn 2<CR>
+nnoremap <silent> g3 :tabn 3<CR>
+nnoremap <silent> g4 :tabn 4<CR>
+nnoremap <silent> g5 :tabn 5<CR>
+nnoremap <silent> g6 :tabn 6<CR>
+nnoremap <silent> g7 :tabn 7<CR>
+nnoremap <silent> g8 :tabn 8<CR>
+nnoremap <silent> g9 :tabn 9<CR>
 
 if g:is_gui
   nnoremap <silent> <C-Tab> :tabn<CR>

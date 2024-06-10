@@ -22,3 +22,7 @@ fi
 if confirm "Install the karabiner-elements config (goku is required)?"; then
   ./goku_update.sh
 fi
+
+if ! grep fish /etc/shells &> /dev/null && confirm "Set fish as the default shell?"; then
+  ./install/setup-fish.sh
+fi
