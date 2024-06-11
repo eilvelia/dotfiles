@@ -26,7 +26,7 @@
                   :ru {:language "ru"}}
   :tos {:to-en {:input :en}
         :to-ru {:input :ru}}
-  :froms {:any {:any :key_code}}
+  :froms {:from-any {:any :key_code}}
   :main [
     {:des "right_command sequence"
      :rules [[:##right_command ["right-cmd-mode" 1] :!right-cmd-mode]
@@ -50,7 +50,8 @@
              [:#P0 [:f10 ["right-cmd-mode" 0]]]
              [:#Phyphen [:f11 ["right-cmd-mode" 0]]]
              [:#Pequal_sign [:f12 ["right-cmd-mode" 0]]]
-             [:any ["right-cmd-mode" 0]]]}
+             [:##right_command :vk_none]
+             [:from-any [:vk_none ["right-cmd-mode" 0]]]]}
     {:des "escape: activate cursor mode"
      :rules [[:##escape ["cursor-mode" 1] nil {:afterup ["cursor-mode" 0]}]]}
     {:des "caps_lock to escape"
