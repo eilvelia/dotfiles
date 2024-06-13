@@ -109,13 +109,13 @@ brew install --cask visual-studio-code
 brew install --cask sublime-text # proprietary
 brew install --cask sublime-merge # proprietary
 brew install --cask iina
-brew install --cask keka
-brew install --cask hex-fiend
 brew install --cask telegram-desktop
 brew install --cask signal
 brew install --cask keybase
 brew install --cask tor-browser
+brew install --cask keepassxc
 brew install --cask electrum
+brew install --cask syncthing
 brew install --cask tunnelblick
 brew install --cask insomnia
 brew install --cask db-browser-for-sqlite
@@ -124,6 +124,9 @@ ln -s /Applications/Shiba.app/Contents/MacOS/Shiba /usr/local/bin/shiba
 brew install --cask karabiner-elements
 brew install --cask gfxcardstatus
 brew install --cask macs-fan-control # proprietary
+brew install --cask lulu
+brew install --cask hex-fiend
+brew install --cask keka
 brew install --cask steam
 brew install --cask virtualbox
 brew install --cask rar
