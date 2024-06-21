@@ -49,6 +49,7 @@ in {
     nmap
     duf
     weechat
+    graphviz
     ranger
     asciinema
     speedtest-cli
@@ -62,7 +63,7 @@ in {
     gocryptfs
     opam
     elan
-    deno
+    pkgs-unstable.deno
     luajit
     ninja
     cmake

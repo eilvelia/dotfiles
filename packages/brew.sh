@@ -21,6 +21,7 @@ brew install openjdk
 brew install zstd
 brew install rsync
 brew install rsnapshot
+brew install bun
 # brew install bfg
 
 # brew install ninja
