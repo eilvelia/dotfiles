@@ -1,10 +1,10 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, lib, nixpkgs-unstable, ... }:
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.registry.unstable.flake = inputs.nixpkgs-unstable;
+  nix.registry.unstable.flake = nixpkgs-unstable;
 
   networking.hostName = lib.mkDefault "nixos";
 

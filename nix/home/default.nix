@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, inputs, ... }:
+{ config, pkgs, unstable, nixpkgs, nixpkgs-unstable, ... }:
 let
   username = "lambda";
   link = config.lib.file.mkOutOfStoreSymlink;
@@ -20,8 +20,8 @@ in {
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
   home.packages = with pkgs; [
-    pkgs-unstable.neovim
-    pkgs-unstable.helix
+    unstable.neovim
+    unstable.helix
     tree
     jq
     ripgrep
@@ -63,7 +63,7 @@ in {
     gocryptfs
     opam
     elan
-    pkgs-unstable.deno
+    unstable.deno
     luajit
     ninja
     cmake
@@ -108,14 +108,14 @@ in {
 
   nix = if isDarwin then {
     package = pkgs.nix;
-    registry.nixpkgs.flake = inputs.nixpkgs;
-    registry.p.flake = inputs.nixpkgs;
-    registry.unstable.flake = inputs.nixpkgs-unstable;
+    registry.nixpkgs.flake = nixpkgs;
+    registry.p.flake = nixpkgs;
+    registry.unstable.flake = nixpkgs-unstable;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       nix-path = [
-        "nixpkgs=${inputs.nixpkgs}"
-        "unstable=${inputs.nixpkgs-unstable}"
+        "nixpkgs=${nixpkgs}"
+        "unstable=${nixpkgs-unstable}"
       ];
     };
   } else {};

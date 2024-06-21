@@ -6,38 +6,59 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
+    darwin-nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    darwin-home-manager.url = "github:nix-community/home-manager/release-24.05";
+    darwin-home-manager.inputs.nixpkgs.follows = "darwin-nixpkgs";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... } @ inputs:
+  outputs = { nixpkgs, ... } @ inputs:
     let
-      homeForSystem = system: home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        extraSpecialArgs = {
-          pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
-          inherit inputs;
+      homeForSystem = system:
+        let
+          isDarwin = nixpkgs.lib.hasSuffix "darwin" system;
+          nixp = if isDarwin then inputs.darwin-nixpkgs else nixpkgs;
+          nixp-unstable = if isDarwin
+            then inputs.darwin-nixpkgs-unstable
+            else inputs.nixpkgs-unstable;
+          home-manager = if isDarwin
+            then inputs.darwin-home-manager
+            else inputs.home-manager;
+        in
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = nixp.legacyPackages.${system};
+          extraSpecialArgs = {
+            unstable = nixp-unstable.legacyPackages.${system};
+            nixpkgs = nixp;
+            nixpkgs-unstable = nixp-unstable;
+          };
+          modules = [ ./home ];
         };
-        modules = [ ./home ];
+      nixosUnstableOverlay = final: _prev: {
+        unstable = inputs.nixpkgs-unstable.legacyPackages.${final.system};
+      };
+      baseModule = {
+        nix.registry.unstable.flake = inputs.nixpkgs-unstable;
+        nixpkgs.overlays = [ nixosUnstableOverlay ];
       };
     in {
       # sudo nixos-rebuild switch --flake .#nixos-vbox
       nixosConfigurations."nixos-vbox" = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/vbox ];
+        modules = [ baseModule ./hosts/vbox ];
       };
 
       nixosConfigurations."nixos-qemu-aarch64" = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/qemu-aarch64 ];
+        modules = [ baseModule ./hosts/qemu-aarch64 ];
       };
 
       nixosConfigurations."nixpi" = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/nixpi ];
+        modules = [ baseModule ./hosts/nixpi ];
       };
 
       images."nixpi" = (nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
         modules = [
+          baseModule
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
           ./hosts/nixpi
           {
