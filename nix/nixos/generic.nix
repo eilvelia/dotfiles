@@ -1,10 +1,9 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-{ config, pkgs, lib, nixpkgs-unstable, ... }:
+{ config, pkgs, lib, ... }:
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.registry.unstable.flake = nixpkgs-unstable;
 
   networking.hostName = lib.mkDefault "nixos";
 
@@ -54,6 +53,8 @@
     psmisc # pstree, killall, etc.
     bind # dig, nslookup, etc.
     neofetch
+    file
+    stdenv.cc
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -71,6 +72,13 @@
     Defaults env_keep += "SSH_TTY"
     Defaults env_keep += "EDITOR VISUAL LS_COLORS"
   '';
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc
+    ];
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
