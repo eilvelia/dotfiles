@@ -1,4 +1,4 @@
-{ config, pkgs, unstable, nixpkgs, nixpkgs-unstable, ... }:
+{ config, pkgs, nixpkgs, nixpkgs-unstable, ... }:
 let
   username = "lambda";
   link = config.lib.file.mkOutOfStoreSymlink;
@@ -55,13 +55,13 @@ in {
     speedtest-cli
     iperf
     mosh
-    abduco
+    nq
     direnv
     scrypt
     nushell
     rizin
     gocryptfs
-    opam
+    unstable.opam
     elan
     unstable.deno
     luajit

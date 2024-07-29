@@ -7,8 +7,7 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.05-darwin";
-    darwin-nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     darwin-home-manager.url = "github:nix-community/home-manager/release-24.05";
     darwin-home-manager.inputs.nixpkgs.follows = "darwin-nixpkgs";
   };
@@ -19,28 +18,34 @@
         let
           isDarwin = nixpkgs.lib.hasSuffix "darwin" system;
           nixp = if isDarwin then inputs.darwin-nixpkgs else nixpkgs;
-          nixp-unstable = if isDarwin
-            then inputs.darwin-nixpkgs-unstable
-            else inputs.nixpkgs-unstable;
+          # unstable is the same as nixpkgs on macos
+          nixp-unstable = if isDarwin then nixp else inputs.nixpkgs-unstable;
           home-manager = if isDarwin
             then inputs.darwin-home-manager
             else inputs.home-manager;
+          unstableOverlay = final: _prev: {
+            unstable = nixp-unstable.legacyPackages.${final.system};
+          };
         in
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixp.legacyPackages.${system};
           extraSpecialArgs = {
-            unstable = nixp-unstable.legacyPackages.${system};
             nixpkgs = nixp;
             nixpkgs-unstable = nixp-unstable;
           };
-          modules = [ ./home ];
+          modules = [
+            {
+              nixpkgs.overlays = [ unstableOverlay (import ./overlays) ];
+            }
+            ./home
+          ];
         };
       nixosUnstableOverlay = final: _prev: {
         unstable = inputs.nixpkgs-unstable.legacyPackages.${final.system};
       };
       baseModule = {
         nix.registry.unstable.flake = inputs.nixpkgs-unstable;
-        nixpkgs.overlays = [ nixosUnstableOverlay ];
+        nixpkgs.overlays = [ nixosUnstableOverlay (import ./overlays) ];
       };
     in {
       # sudo nixos-rebuild switch --flake .#nixos-vbox
