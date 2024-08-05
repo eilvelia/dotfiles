@@ -61,6 +61,7 @@ in {
     nushell
     rizin
     gocryptfs
+    btop
     unstable.opam
     elan
     unstable.deno

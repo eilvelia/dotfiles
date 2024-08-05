@@ -8,12 +8,13 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    darwin-home-manager.url = "github:nix-community/home-manager/release-24.05";
+    darwin-home-manager.url = "github:nix-community/home-manager/master";
     darwin-home-manager.inputs.nixpkgs.follows = "darwin-nixpkgs";
   };
 
   outputs = { nixpkgs, ... } @ inputs:
     let
+      overlays = import ./overlays;
       homeForSystem = system:
         let
           isDarwin = nixpkgs.lib.hasSuffix "darwin" system;
@@ -35,7 +36,7 @@
           };
           modules = [
             {
-              nixpkgs.overlays = [ unstableOverlay (import ./overlays) ];
+              nixpkgs.overlays = [ unstableOverlay overlays ];
             }
             ./home
           ];
@@ -45,7 +46,7 @@
       };
       baseModule = {
         nix.registry.unstable.flake = inputs.nixpkgs-unstable;
-        nixpkgs.overlays = [ nixosUnstableOverlay (import ./overlays) ];
+        nixpkgs.overlays = [ nixosUnstableOverlay overlays ];
       };
     in {
       # sudo nixos-rebuild switch --flake .#nixos-vbox
