@@ -36,7 +36,6 @@ in {
     pgpdump
     pwgen
     fzf
-    zf
     mdcat
     miniserve
     hyperfine
@@ -77,6 +76,7 @@ in {
     goku
     pstree
   ] else [
+    zf
     syncthing
     nh
   ]);
