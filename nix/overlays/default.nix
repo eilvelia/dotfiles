@@ -1,5 +1,9 @@
-final: prev:
-let
-  inherit (final) pkgs;
-in
-{ }
+{
+  default = final: prev:
+    let
+      inherit (final) pkgs;
+    in
+    {
+
+    };
+}

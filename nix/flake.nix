@@ -10,9 +10,11 @@
     darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     darwin-home-manager.url = "github:nix-community/home-manager/master";
     darwin-home-manager.inputs.nixpkgs.follows = "darwin-nixpkgs";
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "darwin-nixpkgs";
   };
 
-  outputs = { nixpkgs, ... } @ inputs:
+  outputs = { nixpkgs, nix-darwin, ... } @ inputs:
     let
       overlays = import ./overlays;
       homeForSystem = system:
@@ -30,13 +32,9 @@
         in
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixp.legacyPackages.${system};
-          extraSpecialArgs = {
-            nixpkgs = nixp;
-            nixpkgs-unstable = nixp-unstable;
-          };
           modules = [
             {
-              nixpkgs.overlays = [ unstableOverlay overlays ];
+              nixpkgs.overlays = [ unstableOverlay overlays.default ];
             }
             ./home
           ];
@@ -44,27 +42,40 @@
       nixosUnstableOverlay = final: _prev: {
         unstable = inputs.nixpkgs-unstable.legacyPackages.${final.system};
       };
-      baseModule = {
+      nixosBaseModule = {
         nix.registry.unstable.flake = inputs.nixpkgs-unstable;
-        nixpkgs.overlays = [ nixosUnstableOverlay overlays ];
+        nixpkgs.overlays = [ nixosUnstableOverlay overlays.default ];
+      };
+      darwinUnstableOverlay = final: _prev: {
+        unstable = inputs.darwin-nixpkgs.legacyPackages.${final.system};
+      };
+      darwinBaseModule = {
+        nix.registry.nixpkgs.flake = inputs.darwin-nixpkgs;
+        nix.registry.unstable.flake = inputs.darwin-nixpkgs;
+        nix.settings.experimental-features = [ "nix-command" "flakes" ];
+        nix.settings.nix-path = [
+          "nixpkgs=${inputs.darwin-nixpkgs}"
+          "unstable=${inputs.darwin-nixpkgs}"
+        ];
+        nixpkgs.overlays = [ darwinUnstableOverlay overlays.default ];
       };
     in {
       # sudo nixos-rebuild switch --flake .#nixos-vbox
       nixosConfigurations."nixos-vbox" = nixpkgs.lib.nixosSystem {
-        modules = [ baseModule ./hosts/vbox ];
+        modules = [ nixosBaseModule ./hosts/vbox ];
       };
 
       nixosConfigurations."nixos-qemu-aarch64" = nixpkgs.lib.nixosSystem {
-        modules = [ baseModule ./hosts/qemu-aarch64 ];
+        modules = [ nixosBaseModule ./hosts/qemu-aarch64 ];
       };
 
       nixosConfigurations."nixpi" = nixpkgs.lib.nixosSystem {
-        modules = [ baseModule ./hosts/nixpi ];
+        modules = [ nixosBaseModule ./hosts/nixpi ];
       };
 
       images."nixpi" = (nixpkgs.lib.nixosSystem {
         modules = [
-          baseModule
+          nixosBaseModule
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
           ./hosts/nixpi
           {
@@ -78,5 +89,10 @@
       homeConfigurations."lambda@nixos-vbox" = homeForSystem "x86_64-linux";
       homeConfigurations."lambda@nixpi" = homeForSystem "aarch64-linux";
       homeConfigurations."lambda@MacBook-Pro.local" = homeForSystem "x86_64-darwin";
+
+      # darwin-rebuild switch --flake .
+      darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        modules = [ darwinBaseModule ./darwin ];
+      };
     };
 }

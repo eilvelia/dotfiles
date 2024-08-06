@@ -1,4 +1,4 @@
-{ config, pkgs, nixpkgs, nixpkgs-unstable, ... }:
+{ config, pkgs, ... }:
 let
   username = "lambda";
   link = config.lib.file.mkOutOfStoreSymlink;
@@ -107,20 +107,6 @@ in {
     "sway" = { recursive = true; source = link "${dotfiles}/sway"; };
   } else {});
 
-  nix = if isDarwin then {
-    package = pkgs.nix;
-    registry.nixpkgs.flake = nixpkgs;
-    registry.p.flake = nixpkgs;
-    registry.unstable.flake = nixpkgs-unstable;
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      nix-path = [
-        "nixpkgs=${nixpkgs}"
-        "unstable=${nixpkgs-unstable}"
-      ];
-    };
-  } else {};
-
   # You can also manage environment variables but you will have to manually
   # source
   #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
@@ -132,6 +118,46 @@ in {
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+
+  launchd.agents.homebrew-update = {
+    enable = true;
+    config.ProgramArguments = [
+      "/usr/bin/env"
+      "brew"
+      "update"
+    ];
+    config.StartCalendarInterval = [{ Minute = 0; Hour = 13; }];
+    config.StandardOutPath = "/tmp/auto-run-update.log";
+    config.StandardErrorPath = "/tmp/auto-run-update.log";
+    config.EnvironmentVariables.PATH =
+      "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+  };
+
+  launchd.agents.tldr-update = {
+    enable = true;
+    config.ProgramArguments = [
+      "${pkgs.tldr}/bin/tldr"
+      "--update"
+    ];
+    config.StartCalendarInterval = [{ Minute = 0; Hour = 14; Weekday = 6; }];
+    config.StandardOutPath = "/tmp/auto-run-update.log";
+    config.StandardErrorPath = "/tmp/auto-run-update.log";
+    config.EnvironmentVariables.NIX_SSL_CERT_FILE =
+      "/etc/ssl/certs/ca-certificates.crt";
+  };
+
+  launchd.agents.opam-update = {
+    enable = true;
+    config.ProgramArguments = [
+      "${pkgs.unstable.opam}/bin/opam"
+      "update"
+    ];
+    config.StartCalendarInterval = [{ Minute = 0; Hour = 14; Weekday = 0; }];
+    config.StandardOutPath = "/tmp/auto-run-update.log";
+    config.StandardErrorPath = "/tmp/auto-run-update.log";
+    config.EnvironmentVariables.PATH =
+      "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
   };
 
   # Let Home Manager install and manage itself.
