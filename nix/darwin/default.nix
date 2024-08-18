@@ -25,6 +25,11 @@
   system.defaults.finder.AppleShowAllExtensions = true;
   system.defaults.finder.ShowPathbar = true;
 
+  environment.shells =
+    if pkgs.stdenv.isAarch64
+    then ["/opt/homebrew/bin/fish"]
+    else ["/usr/local/bin/fish"];
+
   time.timeZone = lib.mkDefault "GMT";
 
   networking.knownNetworkServices = [ "Wi-Fi" ];
