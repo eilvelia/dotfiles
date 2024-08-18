@@ -1,4 +1,4 @@
-if not status --is-interactive
+if not status is-interactive
   exit
 end
 
@@ -85,7 +85,7 @@ set -x GPG_TTY (tty)
 set -x OPAMNODEPEXTS 1
 set -x HOMEBREW_NO_AUTO_UPDATE 1
 
-if status --is-login
+if status is-login
   set -xp PATH ~/.local/bin
 
   set -xp PATH $dotfiles/global-scripts

@@ -41,7 +41,7 @@ set --local packages (string match --regex "/nix/store/[\w.-]+" $PATH)
 #     fish_add_path --global --append $system/bin
 # end
 
-if status --is-login
+if status is-login
     if test -d $system/bin
         set -xp PATH $system/bin
     end
