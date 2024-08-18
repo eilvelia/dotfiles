@@ -117,3 +117,16 @@ if status --is-login
     set -U __fish_theme_set '1'
   end
 end
+
+if not set -q __fish_last_status_generation
+  set -g __fish_last_status_generation $status_generation
+end
+
+function fish_print_error_status --on-event fish_postexec
+  set -l last_status $status
+  if test $last_status -ne 0 -a $last_status -lt 126 -a \
+     $__fish_last_status_generation -ne $status_generation
+    echo (set_color $fish_color_status)"[exit status: $last_status]$__fish_prompt_normal"
+  end
+  set -g __fish_last_status_generation $status_generation
+end
