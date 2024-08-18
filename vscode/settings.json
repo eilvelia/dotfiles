@@ -11,22 +11,42 @@
     "explorer.confirmDragAndDrop": false,
     "editor.bracketPairColorization.enabled": false,
     "editor.acceptSuggestionOnEnter": "off",
+    "editor.acceptSuggestionOnCommitCharacter": false,
     "workbench.iconTheme": "file-icons",
     "workbench.colorTheme": "GitHub Dark",
+
+    "terminal.integrated.shellIntegration.enabled": false,
 
     "javascript.validate.enable": false,
     "javascript.suggest.autoImports": false,
     "typescript.suggest.autoImports": false,
 
-    "[ocaml]": {
-        "editor.autoIndent": "keep",
-        "editor.semanticHighlighting.enabled": false
-    },
+    "html.autoClosingTags": false,
+
     "[markdown]": {
         "editor.unicodeHighlight.ambiguousCharacters": false,
         "editor.unicodeHighlight.invisibleCharacters": false,
         "editor.wordWrap": "bounded",
         "editor.wordWrapColumn": 105
     },
-    "haskell.manageHLS": "PATH"
+
+    "[ocaml]": {
+        "editor.autoIndent": "keep",
+        "editor.semanticHighlighting.enabled": false
+    },
+
+    "haskell.manageHLS": "PATH",
+
+    "nix.enableLanguageServer": true,
+    "nix.serverPath": "nil",
+    "nix.serverSettings": {
+        "nil": {
+            "diagnostics": {
+                "ignored": ["unused_binding", "unused_with"]
+            }
+        }
+    },
+    "[nix]": {
+        "editor.semanticHighlighting.enabled": false
+    }
 }

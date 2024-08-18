@@ -67,9 +67,9 @@ in {
     luajit
     ninja
     cmake
-    nil
     nix-output-monitor
     nvd
+    nil
   ] ++ (if isDarwin then [
     neofetch
     htop

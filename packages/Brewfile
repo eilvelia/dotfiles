@@ -4,6 +4,7 @@ tap "homebrew/services"
 tap "oven-sh/bun"
 
 brew "bash"
+brew "clifm"
 brew "coreutils"
 brew "eigen"
 brew "fish"

@@ -21,7 +21,7 @@
         let
           isDarwin = nixpkgs.lib.hasSuffix "darwin" system;
           nixp = if isDarwin then inputs.darwin-nixpkgs else nixpkgs;
-          # unstable is the same as nixpkgs on macos
+          # on macos, "unstable" is the same as "nixpkgs"
           nixp-unstable = if isDarwin then nixp else inputs.nixpkgs-unstable;
           home-manager = if isDarwin
             then inputs.darwin-home-manager
