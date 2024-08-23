@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+# A script to import/export VSCode settings
+
+cd ~/dotfiles/vscode/ || exit 1
 
 # TODO: Default dirs for other OSes
 _settings_dir=${VSCODE_SETTINGS_DIR:-"$HOME/Library/Application Support/Code/User"}
-
-cd ~/dotfiles/vscode/
 
 function _save_disabled_extensions {
   { set +x; } 2> /dev/null
@@ -32,6 +33,10 @@ case $1 in
     cat disabled-extensions.txt
     ;;
   *)
+    echo "Usage: $0 <command>"
+    echo "Commands:"
+    echo "  export"
+    echo "  import"
     exit 1
     ;;
 esac

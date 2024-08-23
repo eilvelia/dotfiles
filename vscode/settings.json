@@ -1,6 +1,7 @@
 {
-    "extensions.autoUpdate": false,
     "update.mode": "manual",
+    "extensions.autoUpdate": false,
+    "telemetry.telemetryLevel": "off",
     "editor.fontSize": 13,
     "editor.tabSize": 2,
     "editor.rulers": [80],
@@ -12,6 +13,7 @@
     "editor.bracketPairColorization.enabled": false,
     "editor.acceptSuggestionOnEnter": "off",
     "editor.acceptSuggestionOnCommitCharacter": false,
+    "editor.fontFamily": "Fira Code, Menlo, 'Courier New', monospace",
     "workbench.iconTheme": "file-icons",
     "workbench.colorTheme": "GitHub Dark",
 
