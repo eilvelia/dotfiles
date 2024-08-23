@@ -47,18 +47,14 @@ if [[ "$OSTYPE" == "darwin"* ]] && confirm "macOS detected. Run macos.sh?"; then
   ./install/macos.sh
 fi
 
-if (! chk n || ! chk node || ! chk npm) && confirm "Install Node.js via n?"; then
-  ./install/node.sh
-fi
-
-if chk npm && confirm "Install npm packages?"; then
-  ./packages/npm.sh
-fi
-
-if chk opam && confirm "Install opam packages?"; then
-  ./packages/opam.sh
-fi
-
-if chk pip3 && confirm "Install pip packages?"; then
-  ./packages/python.sh
-fi
+# if chk npm && confirm "Install npm packages?"; then
+#   ./packages/npm.sh
+# fi
+#
+# if chk opam && confirm "Install opam packages?"; then
+#   ./packages/opam.sh
+# fi
+#
+# if chk pip3 && confirm "Install pip packages?"; then
+#   ./packages/python.sh
+# fi

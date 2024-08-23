@@ -75,6 +75,8 @@ in {
     htop
     goku
     pstree
+    katahexCPU
+    katahexCPU19
   ] else [
     zf
     syncthing

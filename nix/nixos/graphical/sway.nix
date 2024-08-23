@@ -96,7 +96,7 @@ in
 
   services.greetd = {
     enable = true;
-    settings = rec {
+    settings = {
       default_session = {
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time -r --cmd sway";
         user = "greeter";

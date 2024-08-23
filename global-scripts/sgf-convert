@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+const path = require('path')
+const fs = require('fs')
+
+const file = process.argv[2]
+const keepColors = process.argv.includes('--keep-colors')
+
+if (!file || process.argv.includes('--help')) {
+  const scriptName = path.basename(process.argv[1])
+  console.log(`Usage: ${scriptName} <filename> [--keep-colors]`)
+  process.exit(1)
+}
+
+const sgf = fs.readFileSync(file).toString()
+
+const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const toLetter = d => alphabet[d - 1]
+const fromLetter = l => alphabet.indexOf(l) + 1
+
+// Coords : [file: number, rank: number]
+// Move   : { color: 'B' | 'W', coords: Coords }
+
+const fromLN = (f, r) => [fromLetter(f), Number(r)]
+const toLN = ([f, r]) => toLetter(f) + r
+const toLL = ([f, r]) => toLetter(f) + toLetter(r)
+
+const convertToRectangular = ([f, r]) => [f * 2 + r - 1, r * 2]
+
+const toLizzieSgfMoveString = ({ color, coords }) =>
+  `${color}[${toLL(convertToRectangular(coords))}]`
+
+const swap = ([f, r]) => [r, f]
+const invertColor = color => color.toUpperCase() === 'W' ? 'B' : 'W'
+const invertMove = ({ color, coords }) =>
+  ({ color: invertColor(color), coords: swap(coords) })
+
+let invert = false
+
+const output = sgf
+  .replace(/([WB])\[(\w)(\d+)\];[WB]\[swap-pieces\]/i, (_, color, f, r) => {
+    if (!keepColors) invert = true
+    const move = { color, coords: fromLN(f, r) }
+    return toLizzieSgfMoveString(invert ? move : invertMove(move))
+  })
+  .replace(/([WB])\[(\w)(\d+)\]/ig, (_, color, f, r) => {
+    const move = { color, coords: fromLN(f, r) }
+    return toLizzieSgfMoveString(invert ? invertMove(move) : move)
+  })
+  .replace(/;[WB]\[(?:swap-sides|resign|forfeit)\]/i, '')
+  .replace(/\n$/, '')
+
+console.log(output)

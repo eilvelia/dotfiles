@@ -11,6 +11,8 @@ _files=(
   ~/.zhistory
 
   ~/.node_repl_history
+  ~/.ts_node_repl_history
+  ~/.bun_repl_history
   ~/.coffee_history
   ~/.python_history
   ~/.utop-history

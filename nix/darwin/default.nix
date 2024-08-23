@@ -45,6 +45,11 @@
     Defaults env_keep += "SSH_TTY"
   '';
 
+  environment.etc."npmrc".text = ''
+    prefix = ''${HOME}/.npm
+  '';
+  environment.variables.NPM_CONFIG_GLOBALCONFIG = "/etc/npmrc";
+
   nixpkgs.hostPlatform = "x86_64-darwin";
 
   # Used for backwards compatibility, please read the changelog before changing.

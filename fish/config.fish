@@ -76,29 +76,24 @@ set -x EDITOR nvim
 
 set -x LESSHISTFILE "-"
 set -x LESSCHARSET utf-8
-if test -r ~/.inputrc
-  set -x INPUTRC ~/.inputrc
-end
+
+test -r ~/.inputrc; and set -x INPUTRC ~/.inputrc
 
 set -x GPG_TTY (tty)
 
+set -x NPM_CONFIG_GLOBALCONFIG "/etc/npmrc"
 set -x OPAMNODEPEXTS 1
 set -x HOMEBREW_NO_AUTO_UPDATE 1
 
 if status is-login
   set -xp PATH ~/.local/bin
-
   set -xp PATH $dotfiles/global-scripts
 
-  if test -d ~/.cargo
-    set -xp PATH ~/.cargo/bin
-  end
+  test -d ~/.cargo;   and set -xp PATH ~/.cargo/bin
+  test -d ~/.juliaup; and set -xp PATH ~/.juliaup/bin
+  test -d ~/.npm/bin; and set -xp PATH ~/.npm/bin
 
-  if test -d ~/.juliaup
-    set -xp PATH ~/.juliaup/bin
-  end
-
-  if test -d ~/.nix-profile/lib && test (uname) = "Darwin"
+  if test -d ~/.nix-profile/lib -a (uname) = "Darwin"
     set -xp DYLD_FALLBACK_LIBRARY_PATH ~/.nix-profile/lib
   end
 
@@ -121,7 +116,6 @@ end
 if not set -q __fish_last_status_generation
   set -g __fish_last_status_generation $status_generation
 end
-
 function fish_print_error_status --on-event fish_postexec
   set -l last_status $status
   if test $last_status -ne 0 -a $last_status -lt 126 -a \
