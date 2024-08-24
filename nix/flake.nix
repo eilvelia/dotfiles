@@ -60,9 +60,17 @@
         nixpkgs.overlays = [ darwinUnstableOverlay overlays.default ];
       };
     in {
-      # sudo nixos-rebuild switch --flake .#nixos-vbox
+      # nixos-rebuild switch --use-remote-sudo --flake .
       nixosConfigurations."nixos-vbox" = nixpkgs.lib.nixosSystem {
         modules = [ nixosBaseModule ./hosts/vbox ];
+      };
+
+      nixosConfigurations."nixos-vmware" = nixpkgs.lib.nixosSystem {
+        modules = [ nixosBaseModule ./hosts/vmware ];
+      };
+
+      nixosConfigurations."nixos-parallels" = nixpkgs.lib.nixosSystem {
+        modules = [ nixosBaseModule ./hosts/parallels ];
       };
 
       nixosConfigurations."nixos-qemu-aarch64" = nixpkgs.lib.nixosSystem {
@@ -86,7 +94,7 @@
       }).config.system.build.sdImage;
 
       # home-manager switch --flake .
-      homeConfigurations."lambda@nixos-vbox" = homeForSystem "x86_64-linux";
+      homeConfigurations."lambda@nixos-parallels" = homeForSystem "x86_64-linux";
       homeConfigurations."lambda@nixpi" = homeForSystem "aarch64-linux";
       homeConfigurations."lambda@MacBook-Pro.local" = homeForSystem "x86_64-darwin";
 

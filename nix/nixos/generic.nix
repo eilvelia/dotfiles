@@ -25,10 +25,6 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
-
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.lambda = {
     isNormalUser = true;
@@ -66,6 +62,7 @@
   };
 
   programs.fish.enable = true;
+  programs.fish.useBabelfish = true;
 
   security.sudo.configFile = ''
     Defaults env_keep += "TERM TERMINFO"

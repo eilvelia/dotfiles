@@ -78,9 +78,10 @@ in {
     katahexCPU
     katahexCPU19
   ] else [
-    zf
-    syncthing
     nh
+    zf
+    ncdu
+    clifm
   ]);
 
   home.file = {

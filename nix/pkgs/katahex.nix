@@ -15,9 +15,8 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "hzyhhzy";
     repo = "KataGo";
-    # Hex2024
-    rev = "eafb7ae7effb959c7419a662bd74a03d60820d71";
-    sha256 = "sha256-stzNnCT2fe5aEid4Ry2/7ysjnSw9OhdIEaCFG9UlXTg=";
+    rev = "eafb7ae7effb959c7419a662bd74a03d60820d71"; # Hex2024
+    hash = "sha256-stzNnCT2fe5aEid4Ry2/7ysjnSw9OhdIEaCFG9UlXTg=";
   };
 
   nativeBuildInputs = [ cmake makeWrapper ];

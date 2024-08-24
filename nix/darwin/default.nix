@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }:
 {
-  nix.package = pkgs.lix;
+  nix.package = pkgs.lix.overrideAttrs {
+    doCheck = false;
+    doInstallCheck = false;
+  };
 
   services.nix-daemon.enable = true;
 

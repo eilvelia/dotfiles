@@ -6,8 +6,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../nixos/generic.nix
-    ../../nixos/graphical/generic.nix
+    ../../nixos/desktop
   ];
 
   networking.hostName = "nixos-vbox";
