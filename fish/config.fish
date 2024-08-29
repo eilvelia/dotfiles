@@ -12,20 +12,16 @@ bind \cx\ce edit_command_buffer
 # gpg symmetric encrypt
 alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 --s2k-cipher-algo aes256 --no-symkey-cache"
 
-# light nvim
-alias lvi "nvim --cmd 'let g:min_mode = 1'"
-
-# "private" mode
-alias lvi-p "nvim --cmd 'let g:min_mode = 1' -i NONE --cmd 'set noswapfile'"
-
-abbr -ag ez "eza --all -l --git"
-abbr -ag eza-tree "eza --tree --git-ignore"
+# light nvim + "private" mode
+alias lvi "nvim --cmd 'let g:min_mode = 1' -i NONE --cmd 'set noswapfile'"
 
 abbr -ag getdate "date \"+%Y-%m-%d\""
 
-abbr -ag qfind "find . -name"
+abbr -ag gs "git status"
+abbr -ag go "git switch"
 
-abbr -ag f "ls | grep -i"
+abbr -ag ez "eza --all -l --git"
+abbr -ag eza-tree "eza --tree --git-ignore"
 
 abbr -ag to-tar-zstd "tar c --zstd -f .tar.zst"
 abbr -ag to-tar-gz "tar c --gzip -f .tgz"
@@ -33,23 +29,20 @@ abbr -ag to-tar-bz2 "tar c --bzip2 -f .tbz2"
 abbr -ag to-tar-any "tar c -a -f"
 abbr -ag from-tar "tar x -f"
 
-abbr -ag gs "git status"
-abbr -ag go "git switch"
+abbr -ag qfind "find . -name"
+
+abbr -ag f "ls | grep -i"
 
 abbr -ag ra "ranger"
 
 abbr -ag hi "highlight"
 
-abbr -ag npmplease "rm -rf node_modules/ package-lock.json && npm install"
-abbr -ag pnpmflat "pnpm install --shamefully-flatten"
 abbr -ag npmr "npm run"
 
 abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
 
 abbr -ag start-postgres "pg_ctl -D /usr/local/var/postgres start"
 abbr -ag stop-postgres "pg_ctl -D /usr/local/var/postgres stop"
-
-abbr -ag start-redis "redis-server /usr/local/etc/redis.conf"
 
 set -x LANG en_US.UTF-8
 
