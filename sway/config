@@ -1,5 +1,3 @@
-# barely changed for now
-
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -17,17 +15,39 @@ set $term kitty
 # set $menu dmenu_path | smenu swaymsg exec --
 set $menu fuzzel
 
+set $gnome_schema org.gnome.desktop.interface
+set $scaling_factor 2
+set $cursor_theme 'Adwaita'
+set $cursor_size 22
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /run/current-system/sw/share/backgrounds/sway/)
 # output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg /etc/wallpaper.png fill
+exec_always /bin/sh -c "[ -r "\$HOME/wallpaper" ] && \
+    swaymsg output '*' bg ~/wallpaper fill || \
+    swaymsg output '*' bg /etc/wallpaper.png fill"
 #
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
+
+output * scale $scaling_factor
+
+exec_always {
+    gsettings set $gnome_schema text-scaling-factor 1
+    gsettings set $gnome_schema cursor-theme $cursor_theme
+    gsettings set $gnome_schema cursor-size $cursor_size
+}
+
+seat seat0 xcursor_theme $cursor_theme $cursor_size
+
+default_border pixel 3
+hide_edge_borders both
+
+for_window [shell="xwayland"] title_format "[XWayland] %title"
 
 ### Idle configuration
 #
@@ -41,6 +61,11 @@ output * bg /etc/wallpaper.png fill
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
+
+exec swayidle -w \
+    timeout 600 'swaylock -f -c 000000' \
+    timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    before-sleep 'swaylock -f -c 000000'
 
 ### Input configuration
 #
@@ -56,18 +81,28 @@ output * bg /etc/wallpaper.png fill
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
+input "type:keyboard" {
+    xkb_layout us,ru
+
+    # xkb_options caps:swapescape
+
+    repeat_delay 225
+    repeat_rate 30
+}
+
 ### Key bindings
 #
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
+    bindsym $mod+t exec $term
 
     # Kill focused window
-    bindsym $mod+Shift+q kill
+    bindsym $mod+q kill
 
     # Start your launcher
     bindsym $mod+d exec $menu
+    # TODO: replace to $mod+space or another key?
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -77,7 +112,7 @@ output * bg /etc/wallpaper.png fill
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -145,18 +180,22 @@ output * bg /etc/wallpaper.png fill
     bindsym $mod+s layout stacking
     bindsym $mod+w layout tabbed
     bindsym $mod+e layout toggle split
+    bindsym $mod+Shift+v layout splitv
+    bindsym $mod+Shift+b layout splith
 
     # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+    bindsym $mod+Return fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+f floating toggle
 
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+
+    bindsym $mod+c focus child
 #
 # Scratchpad:
 #
@@ -194,22 +233,6 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
-}
+bar swaybar_command waybar
 
 include /etc/sway/config.d/*

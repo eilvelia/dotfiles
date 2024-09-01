@@ -50,7 +50,7 @@ set -x CLICOLOR 1
 
 if test (uname) = "Darwin"
   alias ls "ls -FA"
-  abbr -ag sha256sum "shasum -a 256"
+  # abbr -ag sha256sum "shasum -a 256"
 else
   alias ls "ls -FA --color=auto"
 end

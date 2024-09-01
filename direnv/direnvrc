@@ -1,0 +1,14 @@
+# vim: filetype=sh:
+
+# https://github.com/direnv/direnv/wiki/Customizing-cache-location
+
+: "${XDG_CACHE_HOME:="${HOME}/.cache"}"
+declare -A direnv_layout_dirs
+direnv_layout_dir() {
+    local hash path
+    echo "${direnv_layout_dirs[$PWD]:=$(
+        hash="$(sha256sum - <<< "$PWD" | head -c32)"
+        path="${PWD##*/}" # pwd basename
+        echo "${XDG_CACHE_HOME}/direnv/layouts/${hash}-${path}"
+    )}"
+}

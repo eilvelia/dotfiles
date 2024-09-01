@@ -22,9 +22,6 @@
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.lambda = {
     isNormalUser = true;
@@ -72,9 +69,9 @@
 
   programs.nix-ld = {
     enable = true;
-    libraries = with pkgs; [
-      stdenv.cc.cc
-    ];
+    # libraries = with pkgs; [
+    #   stdenv.cc.cc
+    # ];
   };
 
   # Open ports in the firewall.

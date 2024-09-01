@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   username = "lambda";
   link = config.lib.file.mkOutOfStoreSymlink;
-  isDarwin = pkgs.stdenv.isDarwin;
+  inherit (pkgs.stdenv) isDarwin isLinux;
   homeDir = if isDarwin then "/Users/${username}" else "/home/${username}";
   dotfiles = "${homeDir}/dotfiles";
   rel-dotfiles = "../..";
@@ -70,45 +70,36 @@ in {
     nix-output-monitor
     nvd
     nil
-  ] ++ (if isDarwin then [
+  ] ++ lib.optionals isDarwin [
     neofetch
     htop
     goku
     pstree
     katahexCPU
     katahexCPU19
-  ] else [
+  ] ++ lib.optionals isLinux [
     nh
     zf
     ncdu
     clifm
-  ]);
+  ];
 
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
-    ".gitconfig".source = link "${dotfiles}/gitconfig";
-  } // (if isDarwin then {
+  home.file = lib.optionalAttrs isDarwin {
     ".inputrc".source = ./${rel-dotfiles}/inputrc;
     ".vimrc".source = link "${dotfiles}/vimrc";
-  } else {});
+  };
 
   xdg.configFile = {
+    "git/config".source = link "${dotfiles}/gitconfig";
     "nvim" = { recursive = true; source = link "${dotfiles}/nvim"; };
     "fish" = { recursive = true; source = link "${dotfiles}/fish"; };
     "kitty" = { recursive = true; source = link "${dotfiles}/kitty"; };
     "ranger" = { recursive = true; source = link "${dotfiles}/ranger"; };
-  } // (if !isDarwin then {
+    "direnv/direnvrc".source = link "${dotfiles}/direnv/direnvrc";
+  } // lib.optionalAttrs isLinux {
     "sway" = { recursive = true; source = link "${dotfiles}/sway"; };
-  } else {});
+    "waybar" = { recursive = true; source = link "${dotfiles}/waybar"; };
+  };
 
   # You can also manage environment variables but you will have to manually
   # source
@@ -120,6 +111,7 @@ in {
 
   programs.direnv = {
     enable = true;
+    # TODO: try also lorri?
     nix-direnv.enable = true;
   };
 

@@ -46,6 +46,7 @@
         nix.registry.unstable.flake = inputs.nixpkgs-unstable;
         nixpkgs.overlays = [ nixosUnstableOverlay overlays.default ];
       };
+      specialArgs = { home-manager = inputs.home-manager; };
       darwinUnstableOverlay = final: _prev: {
         unstable = inputs.darwin-nixpkgs.legacyPackages.${final.system};
       };
@@ -63,18 +64,22 @@
       # nixos-rebuild switch --use-remote-sudo --flake .
       nixosConfigurations."nixos-vbox" = nixpkgs.lib.nixosSystem {
         modules = [ nixosBaseModule ./hosts/vbox ];
+        inherit specialArgs;
       };
 
       nixosConfigurations."nixos-vmware" = nixpkgs.lib.nixosSystem {
         modules = [ nixosBaseModule ./hosts/vmware ];
+        inherit specialArgs;
       };
 
       nixosConfigurations."nixos-parallels" = nixpkgs.lib.nixosSystem {
         modules = [ nixosBaseModule ./hosts/parallels ];
+        inherit specialArgs;
       };
 
       nixosConfigurations."nixos-qemu-aarch64" = nixpkgs.lib.nixosSystem {
         modules = [ nixosBaseModule ./hosts/qemu-aarch64 ];
+        inherit specialArgs;
       };
 
       nixosConfigurations."nixpi" = nixpkgs.lib.nixosSystem {
