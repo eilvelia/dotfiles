@@ -70,6 +70,7 @@ in {
     nix-output-monitor
     nvd
     nil
+    nix-tree
   ] ++ lib.optionals isDarwin [
     neofetch
     htop
@@ -77,6 +78,7 @@ in {
     pstree
     katahexCPU
     katahexCPU19
+    benzene
   ] ++ lib.optionals isLinux [
     nh
     zf

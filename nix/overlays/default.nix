@@ -14,5 +14,7 @@
         maxBoardSize = 19;
         binaryName = "katahex-19";
       };
+
+      benzene = pkgs.callPackage ../pkgs/benzene.nix { };
     };
 }

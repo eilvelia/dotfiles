@@ -107,5 +107,8 @@
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [ darwinBaseModule ./darwin ];
       };
+
+      # the custom packages can potentially be used from outside
+      overlays.default = overlays.default;
     };
 }

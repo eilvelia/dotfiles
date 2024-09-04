@@ -97,4 +97,15 @@
   boot.kernel.sysctl."vm.swappiness" = 150;
   zramSwap.enable = true;
   zramSwap.memoryPercent = lib.mkDefault 100;
+
+  boot.tmp.useTmpfs = true;
+  systemd.services.nix-daemon = {
+    environment.TMPDIR = "/var/tmp";
+  };
+
+  services.fstrim.enable = true;
+
+  services.dbus.implementation = "broker";
+
+  networking.networkmanager.wifi.backend = "iwd";
 }

@@ -29,6 +29,8 @@ in
   system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
   system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
 
+  system.defaults.LaunchServices.LSQuarantine = false;
+
   system.defaults.finder.AppleShowAllExtensions = true;
   system.defaults.finder.ShowPathbar = true;
 
