@@ -1,8 +1,8 @@
 # vim: noexpandtab
 [user]
-	name = b
-	email = comonoid@protonmail.com
-	signingkey = 8C383C26D7A884B9098E0D5338C7564724AB8709
+	name = eilvelia
+	email = hi@eilvelia.cat
+	signingkey = F3EEE136F2C4ABAB72B08B9A002173A7C4B259CE
 [core]
 	excludesfile = ~/dotfiles/gitignore-global
 	pager = "LC_ALL=C diff-so-fancy | less --tabs=4 -RFX"

@@ -65,6 +65,7 @@ in {
     elan
     unstable.deno
     luajit
+    typst
     ninja
     cmake
     nix-output-monitor
