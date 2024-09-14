@@ -29,6 +29,9 @@ in
   system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
   system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
 
+  # invert trackpad scrolling direction
+  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
+
   system.defaults.LaunchServices.LSQuarantine = false;
 
   system.defaults.finder.AppleShowAllExtensions = true;
@@ -50,8 +53,7 @@ in
   ];
 
   security.sudo.extraConfig = ''
-    Defaults env_keep += "TERM TERMINFO"
-    Defaults env_keep += "SSH_TTY"
+    Defaults env_keep += "TERM TERMINFO SSH_TTY"
   '';
 
   environment.etc."npmrc".text = ''

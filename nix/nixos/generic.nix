@@ -44,7 +44,10 @@
     bind # dig, nslookup, etc.
     neofetch
     file
+    bubblewrap
     stdenv.cc
+    kitty.terminfo
+    wezterm.terminfo
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -58,11 +61,10 @@
   programs.fish.enable = true;
   programs.fish.useBabelfish = true;
 
-  security.sudo.configFile = ''
-    Defaults env_keep += "TERM TERMINFO"
-    Defaults env_keep += "SSH_TTY"
-    Defaults env_keep += "EDITOR VISUAL LS_COLORS"
+  security.sudo.extraConfig = ''
+    Defaults env_keep += "TERM SSH_TTY EDITOR VISUAL LS_COLORS"
   '';
+  security.sudo.keepTerminfo = true;
 
   programs.nix-ld = {
     enable = true;
