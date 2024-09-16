@@ -44,10 +44,6 @@ abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
 abbr -ag start-postgres "pg_ctl -D /usr/local/var/postgres start"
 abbr -ag stop-postgres "pg_ctl -D /usr/local/var/postgres stop"
 
-set -x LANG en_US.UTF-8
-
-set -x CLICOLOR 1
-
 if test (uname) = "Darwin"
   alias ls "ls -FA"
   # abbr -ag sha256sum "shasum -a 256"
@@ -56,13 +52,15 @@ else
 end
 
 if test "$TERM" = "xterm-kitty"
-  set -x LSCOLORS gxbxhxdxfxhxhxhxhxcxcx
-  set -x LS_COLORS "di=36:ln=31:so=37:pi=33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32"
   abbr -ag icat "kitten icat"
-else
-  set -x LSCOLORS gxBxhxDxfxhxhxhxhxcxcx
-  set -x LS_COLORS "di=36:ln=1;31:so=37:pi=1;33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32"
 end
+
+set -x LANG en_US.UTF-8
+
+set -x CLICOLOR 1
+
+set -x LSCOLORS gxbxhxdxfxhxhxhxhxcxcx
+set -x LS_COLORS "di=36:ln=31:so=37:pi=33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32"
 
 set -x VISUAL nvim
 set -x EDITOR nvim
@@ -82,9 +80,10 @@ if status is-login
   set -xp PATH ~/.local/bin
   set -xp PATH $dotfiles/global-scripts
 
-  test -d ~/.cargo;   and set -xp PATH ~/.cargo/bin
-  test -d ~/.juliaup; and set -xp PATH ~/.juliaup/bin
-  test -d ~/.npm/bin; and set -xp PATH ~/.npm/bin
+  test -d ~/.cargo;       and set -xp PATH ~/.cargo/bin
+  test -d ~/.juliaup;     and set -xp PATH ~/.juliaup/bin
+  test -d ~/.npm/bin;     and set -xp PATH ~/.npm/bin
+  test -d ~/.ghcup/bin;   and set -xp PATH ~/.ghcup/bin
 
   if test -d ~/.nix-profile/lib -a (uname) = "Darwin"
     set -xp DYLD_FALLBACK_LIBRARY_PATH ~/.nix-profile/lib
@@ -93,7 +92,7 @@ if status is-login
   source ~/.opam/opam-init/init.fish > /dev/null 2>&1 || true
 
   if test "$LC_TERMINAL" = "iTerm2"
-    and test -r $dotfiles/vendor/.iterm2_shell_integration.fish
+     and test -r $dotfiles/vendor/.iterm2_shell_integration.fish
     source $dotfiles/vendor/.iterm2_shell_integration.fish
   end
 
@@ -106,9 +105,8 @@ if status is-login
   end
 end
 
-if not set -q __fish_last_status_generation
-  set -g __fish_last_status_generation $status_generation
-end
+set -q __fish_last_status_generation
+  or set -g __fish_last_status_generation $status_generation
 function fish_print_error_status --on-event fish_postexec
   set -l last_status $status
   if test $last_status -ne 0 -a $last_status -lt 126 -a \
