@@ -80,6 +80,7 @@ in {
     katahexCPU
     katahexCPU19
     benzene
+    hlesspass
   ] ++ lib.optionals isLinux [
     nh
     zf
