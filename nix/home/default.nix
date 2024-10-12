@@ -68,6 +68,9 @@ in {
     typst
     ninja
     cmake
+    rclone
+    restic
+    unstable.resticprofile
     nix-output-monitor
     nvd
     nil
