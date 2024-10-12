@@ -63,7 +63,6 @@ in {
     btop
     unstable.opam
     elan
-    unstable.deno
     luajit
     typst
     ninja
@@ -85,6 +84,7 @@ in {
     benzene
     hlesspass
   ] ++ lib.optionals isLinux [
+    unstable.deno
     nh
     zf
     ncdu
