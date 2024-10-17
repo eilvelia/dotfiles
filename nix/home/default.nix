@@ -40,6 +40,7 @@ in {
     miniserve
     hyperfine
     du-dust
+    cyme
     gh
     tldr
     tokei
