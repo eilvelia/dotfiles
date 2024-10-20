@@ -12,11 +12,15 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  services.openssh.enable = lib.mkDefault false;
+
   environment.systemPackages = with pkgs; [
     rsnapshot
     xdg-utils
     lm_sensors
     nodejs
+
+    exfatprogs
 
     (pkgs.buildFHSUserEnv (pkgs.appimageTools.defaultFhsEnvArgs // {
       name = "fhs";
@@ -103,7 +107,7 @@
     environment.TMPDIR = "/var/tmp";
   };
 
-  services.fstrim.enable = true;
+  services.fstrim.enable = lib.mkDefault true;
 
   services.dbus.implementation = "broker";
 

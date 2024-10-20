@@ -7,6 +7,8 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     darwin-home-manager.url = "github:nix-community/home-manager/master";
     darwin-home-manager.inputs.nixpkgs.follows = "darwin-nixpkgs";
@@ -46,7 +48,7 @@
         nix.registry.unstable.flake = inputs.nixpkgs-unstable;
         nixpkgs.overlays = [ nixosUnstableOverlay overlays.default ];
       };
-      specialArgs = { home-manager = inputs.home-manager; };
+      specialArgs = { inherit (inputs) home-manager nixos-hardware; };
       darwinUnstableOverlay = final: _prev: {
         unstable = inputs.darwin-nixpkgs.legacyPackages.${final.system};
       };
@@ -62,6 +64,11 @@
       };
     in {
       # nixos-rebuild switch --use-remote-sudo --flake .
+      nixosConfigurations."eastretosh" = nixpkgs.lib.nixosSystem {
+        modules = [ nixosBaseModule ./hosts/eastretosh ];
+        inherit specialArgs;
+      };
+
       nixosConfigurations."nixos-vbox" = nixpkgs.lib.nixosSystem {
         modules = [ nixosBaseModule ./hosts/vbox ];
         inherit specialArgs;
@@ -108,7 +115,7 @@
         modules = [ darwinBaseModule ./darwin ];
       };
 
-      # the custom packages can potentially be used from outside
+      # the custom packages can potentially be used outside
       overlays.default = overlays.default;
     };
 }
