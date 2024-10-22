@@ -13,7 +13,8 @@
     "editor.bracketPairColorization.enabled": false,
     "editor.acceptSuggestionOnEnter": "off",
     "editor.acceptSuggestionOnCommitCharacter": false,
-    "editor.fontFamily": "Fira Code, Menlo, 'Courier New', monospace",
+    "editor.fontFamily": "Fira Code, 'Symbols Nerd Font', Menlo, 'Courier New', monospace",
+
     "workbench.iconTheme": "file-icons",
     "workbench.colorTheme": "GitHub Dark",
 
