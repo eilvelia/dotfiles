@@ -47,7 +47,7 @@ const output = sgf
     const move = { color, coords: fromLN(f, r) }
     return toLizzieSgfMoveString(invert ? invertMove(move) : move)
   })
-  .replace(/;[WB]\[(?:swap-sides|resign|forfeit)\]/i, '')
+  .replace(/;[WB]\[(?:swap-sides|resign|forfeit)\]/ig, '')
   .replace(/\n$/, '')
 
 console.log(output)

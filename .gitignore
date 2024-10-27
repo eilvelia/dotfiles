@@ -1,9 +1,6 @@
-.DS_Store
 *.bak
 *.s.vim
 .netrwhist
-/text-replacements.plist
-/todo.txt
+text-replacements.plist
 /*-ignored.txt
-/profile
 Brewfile.lock.json

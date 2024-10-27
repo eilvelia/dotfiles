@@ -44,6 +44,7 @@ abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
 
 if test "$uname" = "Darwin"
   alias ls "ls -FA"
+  alias gls "gls -FA --color=auto"
   # abbr -ag sha256sum "shasum -a 256"
 else
   alias ls "ls -FA --color=auto"
@@ -53,25 +54,23 @@ if test "$TERM" = "xterm-kitty"
   abbr -ag icat "kitten icat"
 end
 
-set -x LANG en_US.UTF-8
+set -gx LANG en_US.UTF-8
 
-set -x CLICOLOR 1
-set -x LSCOLORS gxbxhxdxfxhxhxhxhxcxcx
-set -x LS_COLORS "di=36:ln=31:so=37:pi=33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32"
+set -gx CLICOLOR 1
+set -gx LSCOLORS gxbxhxdxfxhxhxhxhxcxcx
+set -gx LS_COLORS "di=36:ln=31:so=37:pi=33:ex=35:bd=37:cd=37:su=37:sg=37:tw=32:ow=32"
 
-set -x VISUAL nvim
-set -x EDITOR nvim
+set -gx VISUAL nvim
+set -gx EDITOR nvim
 
-set -x LESSHISTFILE "-"
-set -x LESSCHARSET utf-8
+set -gx LESSHISTFILE "-"
+set -gx LESSCHARSET utf-8
 
-test -r ~/.inputrc; and set -x INPUTRC ~/.inputrc
+test -r ~/.inputrc; and set -gx INPUTRC ~/.inputrc
 
-set -x GPG_TTY (tty)
+set -gx GPG_TTY (tty)
 
-set -x NPM_CONFIG_GLOBALCONFIG "/etc/npmrc"
-set -x OPAMNODEPEXTS 1
-set -x HOMEBREW_NO_AUTO_UPDATE 1
+set -gx OPAMNODEPEXTS 1
 
 if not set -q __fish_config_path_set
   set -xp PATH $dotfiles/global-scripts
@@ -80,18 +79,7 @@ if not set -q __fish_config_path_set
   test -d ~/.juliaup/bin; and set -xp PATH ~/.juliaup/bin
   test -d ~/.npm/bin;     and set -xp PATH ~/.npm/bin
   test -d ~/.ghcup/bin;   and set -xp PATH ~/.ghcup/bin
-  set -x __fish_config_path_set 1
-end
-
-if status is-login && test "$uname" = "Darwin"
-  if test "$LC_TERMINAL" = "iTerm2"
-     and test -r $dotfiles/vendor/.iterm2_shell_integration.fish
-    source $dotfiles/vendor/.iterm2_shell_integration.fish
-  end
-
-  if test -d ~/.nix-profile/lib
-    set -xp DYLD_FALLBACK_LIBRARY_PATH ~/.nix-profile/lib
-  end
+  set -gx __fish_config_path_set 1
 end
 
 if not set -q __fish_theme_set
@@ -100,6 +88,20 @@ if not set -q __fish_theme_set
   set -U fish_color_cwd yellow
   set -U fish_color_option brgreen
   set -U __fish_theme_set 1
+end
+
+if test "$uname" = "Darwin"
+  set -gx HOMEBREW_NO_AUTO_UPDATE 1
+  set -gx NPM_CONFIG_GLOBALCONFIG "/etc/npmrc"
+  if status is-login
+    # if test "$LC_TERMINAL" = "iTerm2"
+    #   and test -r $dotfiles/vendor/.iterm2_shell_integration.fish
+    #   source $dotfiles/vendor/.iterm2_shell_integration.fish
+    # end
+    if test -d ~/.nix-profile/lib
+      set -xp DYLD_FALLBACK_LIBRARY_PATH ~/.nix-profile/lib
+    end
+  end
 end
 
 test -r ~/.opam/opam-init/init.fish

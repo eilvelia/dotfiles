@@ -1,6 +1,6 @@
-function "0x0-paste" --description "Paste to 0x0.st"
+function "0x0" --description "Paste to 0x0.st"
   # Syntax:
-  # 0x0-paste [-f <filename>] [<file>]
+  # $ 0x0 [-f <filename>] [<file>]
   # <file> is the file to send to 0x0.st; by default reads from stdin.
   # <filename> is the name of the file that is sent to 0x0.st; defaults either
   #            to <file> (if set) or paste.txt.

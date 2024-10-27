@@ -4,22 +4,12 @@
 	email = hi@eilvelia.cat
 	signingkey = F3EEE136F2C4ABAB72B08B9A002173A7C4B259CE
 [core]
-	excludesfile = ~/dotfiles/gitignore-global
 	# pager = "LC_ALL=C diff-so-fancy | less --tabs=4 -RFX"
 	pager = delta
-[diff]
-	algorithm = histogram
 [interactive]
 	diffFilter = delta --color-only
-[delta]
-	features = default
-	syntax-theme = ansi
-	zero-style = dim syntax
-	line-numbers = true
-	hunk-header-decoration-style =
-	hunk-header-style = syntax
-[delta "default"]
-	side-by-side = true
+[diff]
+	algorithm = histogram
 [alias]
 	uncommit = reset HEAD^
 	plog-nograph = log --color --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %s %Cgreen(%cr)%Creset %C(bold blue)(%an)%Creset' --abbrev-commit
@@ -42,3 +32,13 @@
 	ff = only
 [init]
 	defaultBranch = main
+
+[delta]
+	features = default
+	syntax-theme = ansi
+	zero-style = dim syntax
+	line-numbers = true
+	hunk-header-decoration-style =
+	hunk-header-style = syntax
+[delta "default"]
+	side-by-side = true

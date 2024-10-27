@@ -100,11 +100,11 @@ in {
   };
 
   xdg.configFile = {
-    "git/config".source = link "${dotfiles}/gitconfig";
-    "nvim" = { recursive = true; source = link "${dotfiles}/nvim"; };
-    "fish" = { recursive = true; source = link "${dotfiles}/fish"; };
-    "kitty" = { recursive = true; source = link "${dotfiles}/kitty"; };
-    "ranger" = { recursive = true; source = link "${dotfiles}/ranger"; };
+    "git".source = link "${dotfiles}/git";
+    "nvim".source = link "${dotfiles}/nvim";
+    "fish".source = link "${dotfiles}/fish";
+    "kitty".source = link "${dotfiles}/kitty";
+    "ranger".source = link "${dotfiles}/ranger";
     "direnv/direnvrc".source = link "${dotfiles}/direnv/direnvrc";
   };
 

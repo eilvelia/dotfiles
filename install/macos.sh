@@ -2,9 +2,9 @@
 
 source ./install/utils.sh
 
-if confirm "Import the plists?"; then
-  ./manage-plists.sh import
-fi
+# if confirm "Import the plists?"; then
+#   ./manage-plists.sh import
+# fi
 
 if ! chk brew &> /dev/null && confirm "Download and install Homebrew?"; then
   echo "Installing Homebrew..."
