@@ -32,6 +32,7 @@ in {
     eza
     difftastic
     diff-so-fancy
+    delta
     highlight
     hyfetch
     pgpdump
