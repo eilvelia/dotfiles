@@ -6,19 +6,22 @@
 
     home-manager.nixosModules.home-manager {
       home-manager.useGlobalPkgs = true;
-      home-manager.users.lambda = import ../../home;
+      home-manager.users.lambda = import ./home.nix;
     }
   ];
 
+  nix.package = pkgs.lix;
+
   nixpkgs.config.allowUnfree = true;
 
-  services.openssh.enable = lib.mkDefault false;
-
   environment.systemPackages = with pkgs; [
-    rsnapshot
     xdg-utils
     lm_sensors
+    brightnessctl
+    udiskie
     nodejs
+
+    config.boot.kernelPackages.perf
 
     exfatprogs
 
@@ -30,10 +33,11 @@
       runScript = "fish";
     }))
 
-    # GUI apps
+    zbar # qr codes
+
+    # various GUI apps
     kitty
     chromium
-    geeqie
     mpv
     ripdrag
     flameshot
@@ -47,11 +51,9 @@
     electrum
     obs-studio
     imhex
-
     vscode-fhs
-
-    # temporary
-    gnome.gnome-calculator
+    geeqie
+    gnome.gnome-calculator # temporary
   ];
 
   fonts = {
@@ -88,6 +90,13 @@
     };
   };
 
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
   programs.npm.enable = true;
 
   services.keybase.enable = true;
@@ -98,17 +107,24 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
+  security.polkit.enable = true;
+
   boot.kernel.sysctl."vm.swappiness" = 150;
   zramSwap.enable = true;
-  zramSwap.memoryPercent = lib.mkDefault 100;
+  zramSwap.memoryPercent = lib.mkDefault 150;
 
   boot.tmp.useTmpfs = true;
   systemd.services.nix-daemon = {
     environment.TMPDIR = "/var/tmp";
   };
 
+  services.openssh.enable = lib.mkDefault false;
+
   services.fstrim.enable = lib.mkDefault true;
 
+  services.udisks2.enable = true;
+
+  services.dbus.enable = true;
   services.dbus.implementation = "broker";
 
   networking.networkmanager.wifi.backend = "iwd";

@@ -5,8 +5,9 @@ let
   inherit (pkgs.stdenv) isDarwin isLinux;
   homeDir = if isDarwin then "/Users/${username}" else "/home/${username}";
   dotfiles = "${homeDir}/dotfiles";
-  rel-dotfiles = "../..";
 in {
+  _module.args.dotfiles = dotfiles;
+
   home.username = username;
   home.homeDirectory = homeDir;
 
@@ -93,7 +94,7 @@ in {
   ];
 
   home.file = lib.optionalAttrs isDarwin {
-    ".inputrc".source = ./${rel-dotfiles}/inputrc;
+    ".inputrc".source = link "${dotfiles}/inputrc";
     ".vimrc".source = link "${dotfiles}/vimrc";
   };
 
@@ -104,9 +105,6 @@ in {
     "kitty" = { recursive = true; source = link "${dotfiles}/kitty"; };
     "ranger" = { recursive = true; source = link "${dotfiles}/ranger"; };
     "direnv/direnvrc".source = link "${dotfiles}/direnv/direnvrc";
-  } // lib.optionalAttrs isLinux {
-    "sway" = { recursive = true; source = link "${dotfiles}/sway"; };
-    "waybar" = { recursive = true; source = link "${dotfiles}/waybar"; };
   };
 
   # You can also manage environment variables but you will have to manually

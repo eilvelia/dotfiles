@@ -9,8 +9,7 @@
     "modules-left": [
         "sway/workspaces",
         "sway/mode",
-        "sway/scratchpad",
-        "custom/media"
+        "sway/scratchpad"
     ],
     "modules-center": [
         "sway/window"
@@ -19,17 +18,17 @@
         "mpd",
         "tray",
         // "idle_inhibitor",
-        "pulseaudio",
-        "network",
         "power-profiles-daemon",
         // "temperature",
         "cpu",
         "memory",
         "backlight",
-        "keyboard-state",
-        "sway/language",
+        "pulseaudio",
+        "network",
         "battery",
         "battery#bat2",
+        "keyboard-state",
+        "sway/language",
         "clock"
     ],
     // Modules configuration
@@ -117,11 +116,11 @@
         // "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
-        "format": "  {usage:02}%", // padded
+        "format": "  {usage}%",
         "tooltip": true
     },
     "memory": {
-        "format": "  {percentage:02}%"
+        "format": "  {percentage}%"
     },
     // "temperature": {
     //     // "thermal-zone": 2,
@@ -133,7 +132,7 @@
     // },
     "backlight": {
         // "device": "acpi_video1",
-        "format": "{icon} {percent}%",
+        "format": "{icon}  {percent}%",
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "battery": {
@@ -167,12 +166,15 @@
       }
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "  {essid} ({signalStrength}%)",
+        // "interface": "eth0", // (Optional) To force the use of this interface
+        "format-wifi": "   {signalStrength}%",
         "format-ethernet": "",
-        "tooltip-format": "Interface: {ifname}\nIP: {ipaddr}/{cidr}\nGateway: {gwaddr}",
         "format-linked": " {ifname} (No IP)",
-        "format-disconnected": "Disconnected ⚠"
+        "format-disconnected": "Disconnected ⚠",
+        "tooltip-format-ethernet": "Interface: {ifname}\nIP address: {ipaddr}\nMask: {netmask}\nGateway: {gwaddr}",
+        "tooltip-format-wifi": "SSID: {essid} ({frequency} GHz)\nInterface: {ifname}\nIP address: {ipaddr}\nMask: {netmask}\nGateway: {gwaddr}",
+        "tooltip-format-disconnected": "Disconnected",
+        "tooltip-format-disabled": "Disabled"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
