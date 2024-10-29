@@ -78,6 +78,7 @@ if not set -q __fish_config_path_set
   test -d ~/.cargo/bin;   and set -xp PATH ~/.cargo/bin
   test -d ~/.juliaup/bin; and set -xp PATH ~/.juliaup/bin
   test -d ~/.npm/bin;     and set -xp PATH ~/.npm/bin
+  test -d ~/.dune/bin;    and set -xp PATH ~/.dune/bin
   test -d ~/.ghcup/bin;   and set -xp PATH ~/.ghcup/bin
   set -gx __fish_config_path_set 1
 end
