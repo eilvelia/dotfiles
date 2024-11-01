@@ -13,13 +13,12 @@
   services.fstrim.enable = true;
   services.mbpfan.enable = lib.mkForce false;
 
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages = with pkgs; [ vaapiVdpau ];
+  hardware.graphics.enable32Bit = true;
+  hardware.graphics.extraPackages = with pkgs; [ vaapiVdpau ];
 
   environment.variables.LIBVA_DRIVER_NAME = "i915";
 
-  environment.systemPackages = with pkgs; [ gpu-switch ];
+  environment.systemPackages = with pkgs; [ gpu-switch intel-gpu-tools ];
 
   # note: intel gpu will only display graphics if the device
   # is switched to it (using gpu-switch or gfxCardStatus)
@@ -30,14 +29,10 @@
     options nouveau modeset=0
   '';
   # services.udev.extraRules = ''
-  #   # Remove NVIDIA USB xHCI Host Controller devices, if present
-  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
-  #   # Remove NVIDIA USB Type-C UCSI devices, if present
-  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
   #   # Remove NVIDIA Audio devices, if present
   #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
   #   # Remove NVIDIA VGA/3D controller devices
-  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
+  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0300[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
   # '';
   boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
 

@@ -41,7 +41,7 @@ stdenv.mkDerivation {
   postPatch = ''
     echo "target_compile_definitions(katago PRIVATE COMPILE_MAX_BOARD_LEN=${builtins.toString maxBoardSize})" \
       >> cpp/CMakeLists.txt
-  '' + lib.optionalString stdenv.isDarwin ''
+  '' + lib.optionalString stdenv.hostPlatform.isDarwin ''
     substituteInPlace cpp/CMakeLists.txt \
       --replace 'target_link_libraries(katago "atomic")' ""
   '';
@@ -63,12 +63,12 @@ stdenv.mkDerivation {
     runHook postInstall
   '';
 
-  meta = with lib; {
+  meta = {
     description = "Hex engine forked from KataGo";
     mainProgram = binaryName;
     homepage = "https://github.com/hzyhhzy/KataGo/tree/Hex2024";
-    license = licenses.mit;
-    platforms = platforms.unix;
+    license = lib.licenses.mit;
+    platforms = lib.platforms.unix;
     maintainers = [ ];
   };
 }
