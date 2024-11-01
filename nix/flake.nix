@@ -2,9 +2,11 @@
   description = "Nix configuration flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    # currently uses unstable
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    # home-manager.url = "github:nix-community/home-manager/release-24.05";
+    home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -18,49 +20,49 @@
 
   outputs = { nixpkgs, nix-darwin, ... } @ inputs:
     let
-      overlays = import ./overlays;
-      homeForSystem = system:
+      mkUnstableOverlay = pkgs: final: _prev: {
+        unstable = pkgs.legacyPackages.${final.system};
+      };
+      # standalone home for darwin
+      mkDarwinHome = arch:
         let
-          isDarwin = nixpkgs.lib.hasSuffix "darwin" system;
-          nixp = if isDarwin then inputs.darwin-nixpkgs else nixpkgs;
-          # on macos, "unstable" is the same as "nixpkgs"
-          nixp-unstable = if isDarwin then nixp else inputs.nixpkgs-unstable;
-          home-manager = if isDarwin
-            then inputs.darwin-home-manager
-            else inputs.home-manager;
-          unstableOverlay = final: _prev: {
-            unstable = nixp-unstable.legacyPackages.${final.system};
-          };
+          system = arch + "-darwin";
+          inherit (inputs) darwin-nixpkgs darwin-home-manager;
         in
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = nixp.legacyPackages.${system};
+        darwin-home-manager.lib.homeManagerConfiguration {
+          pkgs = darwin-nixpkgs.legacyPackages.${system};
           modules = [
-            {
-              nixpkgs.overlays = [ unstableOverlay overlays.default ];
-            }
-            ./home
+            # on macOS, there's no difference between "nixpkgs" and "unstable"
+            { nixpkgs.overlays = [ (mkUnstableOverlay darwin-nixpkgs) ]; }
+            ./home/darwin.nix
           ];
         };
-      nixosUnstableOverlay = final: _prev: {
-        unstable = inputs.nixpkgs-unstable.legacyPackages.${final.system};
-      };
+      # standalone home for linux
+      mkLinuxHome = arch:
+        let
+          system = arch + "-linux";
+          inherit (inputs) nixpkgs-unstable home-manager;
+        in
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
+          modules = [
+            { nixpkgs.overlays = [ (mkUnstableOverlay nixpkgs-unstable) ]; }
+            ./home/linux.nix
+          ];
+        };
       nixosBaseModule = {
         nix.registry.unstable.flake = inputs.nixpkgs-unstable;
-        nixpkgs.overlays = [ nixosUnstableOverlay overlays.default ];
+        nixpkgs.overlays = [ (mkUnstableOverlay inputs.nixpkgs-unstable) ];
       };
       specialArgs = { inherit (inputs) home-manager nixos-hardware; };
-      darwinUnstableOverlay = final: _prev: {
-        unstable = inputs.darwin-nixpkgs.legacyPackages.${final.system};
-      };
       darwinBaseModule = {
         nix.registry.nixpkgs.flake = inputs.darwin-nixpkgs;
         nix.registry.unstable.flake = inputs.darwin-nixpkgs;
-        nix.settings.experimental-features = [ "nix-command" "flakes" ];
         nix.settings.nix-path = [
           "nixpkgs=${inputs.darwin-nixpkgs}"
           "unstable=${inputs.darwin-nixpkgs}"
         ];
-        nixpkgs.overlays = [ darwinUnstableOverlay overlays.default ];
+        nixpkgs.overlays = [ (mkUnstableOverlay inputs.darwin-nixpkgs) ];
       };
     in {
       # nixos-rebuild switch --use-remote-sudo --flake .
@@ -69,28 +71,14 @@
         inherit specialArgs;
       };
 
-      nixosConfigurations."nixos-vbox" = nixpkgs.lib.nixosSystem {
-        modules = [ nixosBaseModule ./hosts/vbox ];
-        inherit specialArgs;
-      };
-
       nixosConfigurations."nixos-vmware" = nixpkgs.lib.nixosSystem {
-        modules = [ nixosBaseModule ./hosts/vmware ];
-        inherit specialArgs;
-      };
-
-      nixosConfigurations."nixos-parallels" = nixpkgs.lib.nixosSystem {
-        modules = [ nixosBaseModule ./hosts/parallels ];
-        inherit specialArgs;
-      };
-
-      nixosConfigurations."nixos-qemu-aarch64" = nixpkgs.lib.nixosSystem {
-        modules = [ nixosBaseModule ./hosts/qemu-aarch64 ];
+        modules = [ nixosBaseModule ./hosts/nixos-vmware ];
         inherit specialArgs;
       };
 
       nixosConfigurations."nixpi" = nixpkgs.lib.nixosSystem {
         modules = [ nixosBaseModule ./hosts/nixpi ];
+        inherit specialArgs;
       };
 
       images."nixpi" = (nixpkgs.lib.nixosSystem {
@@ -106,9 +94,8 @@
       }).config.system.build.sdImage;
 
       # home-manager switch --flake .
-      homeConfigurations."lambda@nixos-parallels" = homeForSystem "x86_64-linux";
-      homeConfigurations."lambda@nixpi" = homeForSystem "aarch64-linux";
-      homeConfigurations."lambda@MacBook-Pro.local" = homeForSystem "x86_64-darwin";
+      homeConfigurations."lambda@nixpi" = mkLinuxHome "aarch64";
+      homeConfigurations."lambda@MacBook-Pro.local" = mkDarwinHome "x86_64";
 
       # darwin-rebuild switch --flake .
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
@@ -116,6 +103,6 @@
       };
 
       # the custom packages can potentially be used outside
-      overlays.default = overlays.default;
+      overlays.default = (import ./overlays).default;
     };
 }

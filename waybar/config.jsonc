@@ -57,6 +57,13 @@
             "unlocked": ""
         }
     },
+    "sway/window": {
+      "format": "<{shell}> {title}",
+      "rewrite": {
+        "<xwayland> (.*)": "[XWayland] $1",
+        "<xdg_shell> (.*)": "$1"
+      }
+    },
     "sway/language": {
         "format": "  {shortDescription}",
         "tooltip-format": "{short}: {long}",
@@ -197,17 +204,17 @@
         },
         // "on-click": "pwvucontrol"
         "on-click": "pavucontrol"
-    },
-    "custom/media": {
-        "format": "{icon}  {}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     }
+    // "custom/media": {
+    //     "format": "{icon}  {}",
+    //     "return-type": "json",
+    //     "max-length": 40,
+    //     "format-icons": {
+    //         "spotify": "",
+    //         "default": "🎜"
+    //     },
+    //     "escape": true,
+    //     "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+    //     // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    // }
 }

@@ -8,7 +8,7 @@
     swaylock
     swayidle
     glib # gsettings
-    gnome.adwaita-icon-theme  # default gnome cursors
+    adwaita-icon-theme  # default gnome cursors
     wl-clipboard # wl-copy and wl-paste
     waybar
     grim # screenshot functionality
@@ -19,8 +19,8 @@
     wf-recorder
     fuzzel # TODO: try anyrun?
     hyprpicker
-    pavucontrol
-    pwvucontrol
+    wlsunset
+    wl-clip-persist
   ];
 
   services.gnome.gnome-keyring.enable = true;
@@ -34,18 +34,15 @@
   xdg.portal = {
     enable = true;
     wlr.enable = true;
-    # gtk portal needed to make gtk apps happy
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
-    # extraSessionCommands = ''
-    #   source /etc/profile
-    #   test -f $HOME/.profile && source $HOME/.profile
-    #   export MOZ_ENABLE_WAYLAND=1
-    # '';
+    extraSessionCommands = ''
+      export SWAY_DEFAULT_WALLPAPER=/run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png
+    '';
   };
 
   # environment.sessionVariables = {
@@ -54,13 +51,24 @@
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  # TODO: Use uwsm
+  # programs.uwsm.enable = true;
+  # programs.uwsm.waylandCompositors.sway = {
+  #   prettyName = "Sway";
+  #   comment = "Sway compositor managed by UWSM";
+  #   binPath = "/run/current-system/sw/bin/sway";
+  # };
+
+  services.displayManager.enable = true;
 
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time -r --cmd sway";
+        command = builtins.concatStringsSep " " [
+          "${pkgs.greetd.tuigreet}/bin/tuigreet"
+          "--time --remember --remember-session"
+          "--sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions"
+        ];
         user = "greeter";
       };
     };
@@ -69,6 +77,4 @@
   # security.pam.loginLimits = [
   #   { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
   # ];
-
-  hardware.opengl.enable = true;
 }

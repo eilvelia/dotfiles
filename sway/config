@@ -1,3 +1,4 @@
+# vim: shiftwidth=4 tabstop=4 expandtab
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -8,7 +9,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term kitty
+set $term kitty --single-instance
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -25,9 +26,14 @@ set $swaylock 'swaylock -f -c 222222'
 ### Output configuration
 
 # output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-exec_always /bin/sh -c "[ -r "\$HOME/wallpaper" ] && \
-    swaymsg output '*' bg ~/wallpaper fill || \
-    swaymsg output '*' bg /etc/wallpaper.png fill"
+exec_always {
+    if [ -r "$HOME/wallpaper" ]; then
+        swaymsg output '*' bg ~/wallpaper fill
+    elif [ -r "$SWAY_DEFAULT_WALLPAPER" ]; then
+        swaymsg output '*' bg "$SWAY_DEFAULT_WALLPAPER" fill
+    fi
+}
+
 #
 # Example configuration:
 #
@@ -38,6 +44,7 @@ exec_always /bin/sh -c "[ -r "\$HOME/wallpaper" ] && \
 output * scale $scaling_factor
 
 exec_always {
+    gsettings set $gnome_schema gtk-theme $$GTK_THEME
     gsettings set $gnome_schema text-scaling-factor 1
     gsettings set $gnome_schema cursor-theme $cursor_theme
     gsettings set $gnome_schema cursor-size $cursor_size
@@ -45,10 +52,46 @@ exec_always {
 
 seat seat0 xcursor_theme $cursor_theme $cursor_size
 
-default_border pixel 3
-hide_edge_borders --i3 both
+smart_borders on
+default_border pixel 2
+# hide_edge_borders --i3 both
+
+focus_follows_mouse no
+
+titlebar_padding 5 3
+
+# # Default colors         border   bg       text     indicat  child_border
+# client.focused           #4c7899  #285577  #ffffff  #2e9ef4  #285577
+# client.focused_inactive  #333333  #5f676a  #ffffff  #484e50  #5f676a
+# client.focused_tab_title #333333  #5f676a  #ffffff
+# client.unfocused         #333333  #222222  #888888  #292d2e  #222222
+# client.urgent            #2f343a  #900000  #ffffff  #900000  #900000
+# client.placeholder       #000000  #0c0c0c  #ffffff  #000000  #0c0c0c
+
+# Colors                 border   bg       text     indicat  child_border
+# client.focused           #4c7899  #285577  #ffffff  #2e9ef4  #285577
+# client.focused_inactive  #333333  #5f676a  #ffffff  #484e50  #5f676a
+# client.focused_tab_title #333333  #5f676a  #ffffff
+# client.unfocused         #333333  #222222  #888888  #292d2e  #222222
+# client.urgent            #2f343a  #900000  #ffffff  #900000  #900000
+# client.placeholder       #000000  #0c0c0c  #ffffff  #000000  #0c0c0c
 
 for_window [shell="xwayland"] title_format "[XWayland] %title"
+
+for_window [app_id="pavucontrol"] floating enable
+
+# auto-adjust display's color temperature
+exec wlsunset -S 06:30 -s 20:00 -d 120
+
+# persist clipboard
+exec wl-clip-persist --reconnect-tries 0 \
+    --clipboard regular --all-mime-type-regex '^(?!x-kde-passwordManagerHint).+'
+
+# screenshot tool
+exec flameshot
+
+# auto-mount
+exec systemd-cat -t udiskie udiskie
 
 ### Idle configuration
 #
@@ -69,6 +112,7 @@ exec swayidle -w \
     before-sleep $swaylock
 
 bindsym --to-code $mod+Shift+q exec $swaylock
+bindsym --to-code $mod+Ctrl+q exec $swaylock
 
 ### Input configuration
 #
@@ -114,11 +158,20 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 
 bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym Shift+XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 1%+
 bindsym XF86AudioLowerVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-
+bindsym Shift+XF86AudioLowerVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 1%-
 bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 bindsym --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0
 bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
+
+# Take screenshot
+bindsym --to-code $mod+x exec flameshot gui
 
 #
 # Basics:
@@ -143,7 +196,9 @@ bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
     bindsym --to-code $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym --to-code $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym --to-code $mod+Shift+e exec swaynag -t warning \
+        -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
+        -B 'Yes, exit sway' 'swaymsg exit'
 #
 # Moving around:
 #
@@ -198,8 +253,11 @@ bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
 #
 # Layout stuff:
 #
+
+    # Split the container horizontally / vertically / opposite of parent
     bindsym --to-code $mod+v splith
     bindsym --to-code $mod+s splitv
+    bindsym --to-code $mod+t splitt
 
     # Switch the current container between different layout styles
     bindsym --to-code $mod+Alt+w layout stacking
@@ -216,7 +274,7 @@ bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
     bindsym --to-code $mod+f floating toggle
 
     # Swap focus between the tiling area and the floating area
-    # bindsym $mod+space focus mode_toggle
+    bindsym $mod+m focus mode_toggle
 
     # Move focus to the parent container
     bindsym --to-code $mod+a focus parent

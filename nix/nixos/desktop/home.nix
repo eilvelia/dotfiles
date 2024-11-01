@@ -1,20 +1,45 @@
-{ config, pkgs, lib, dotfiles, ... }:
-let
-  link = config.lib.file.mkOutOfStoreSymlink;
-in
+{ config, pkgs, lib, dotfiles, link, ... }:
 {
   imports = [
-    ../../home
+    ../../home/linux.nix
+  ];
+
+  home.packages = with pkgs; [
+    lolcat
+    syncthing
   ];
 
   xdg.configFile = {
-    "sway" = { recursive = true; source = link "${dotfiles}/sway"; };
-    "waybar" = { recursive = true; source = link "${dotfiles}/waybar"; };
+    "sway".source = link "${dotfiles}/sway";
+    "waybar".source = link "${dotfiles}/waybar";
+
+    "fuzzel/fuzzel.ini".text = ''
+      [main]
+      terminal=kitty
+    '';
+
+    "flameshot/flameshot.ini".text = ''
+      [General]
+      disabledGrimWarning=true
+      disabledTrayIcon=true
+      showDesktopNotification=false
+    '';
+
+    "udiskie/config.yml".text = ''
+      program_options:
+        automount: true
+        notify: false
+        tray: true
+    '';
   };
 
-  services.udiskie = {
-    enable = true;
-    notify = false;
-    tray = "never"; # temporary
+  # note: does not actually show tray icons
+  systemd.user.targets.tray = {
+    Unit = {
+      Description = "Home Manager System Tray";
+      Requires = [ "graphical-session-pre.target" ];
+    };
   };
+
+  services.syncthing.enable = true;
 }

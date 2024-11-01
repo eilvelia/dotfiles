@@ -6,8 +6,14 @@ let
   };
 in
 {
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   nix.package = lix;
-  nixpkgs.overlays = [ (_final: _prev: { nix = lix; }) ];
+
+  nixpkgs.overlays = [
+    (import ../overlays).default
+    (_final: _prev: { nix = lix; })
+  ];
 
   services.nix-daemon.enable = true;
 
@@ -38,7 +44,7 @@ in
   system.defaults.finder.ShowPathbar = true;
 
   environment.shells =
-    if pkgs.stdenv.isAarch64
+    if pkgs.stdenv.hostPlatform.isAarch64
     then ["/opt/homebrew/bin/fish"]
     else ["/usr/local/bin/fish"];
 

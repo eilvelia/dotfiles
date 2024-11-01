@@ -18,5 +18,7 @@
       benzene = pkgs.callPackage ../pkgs/benzene.nix { };
 
       hlesspass = pkgs.callPackage ../pkgs/hlesspass.nix { };
+
+      keybase-gui = pkgs.callPackage ../pkgs/keybase-gui-6.4.0.nix { };
     };
 }

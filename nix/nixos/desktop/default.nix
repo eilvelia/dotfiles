@@ -7,6 +7,7 @@
     home-manager.nixosModules.home-manager {
       home-manager.useGlobalPkgs = true;
       home-manager.users.lambda = import ./home.nix;
+      home-manager.backupFileExtension = "hm-backup";
     }
   ];
 
@@ -14,16 +15,54 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  boot.tmp.useTmpfs = true;
+  systemd.services.nix-daemon = {
+    environment.TMPDIR = "/var/tmp";
+  };
+
+  services.openssh.enable = lib.mkDefault false;
+
+  services.fstrim.enable = lib.mkDefault true;
+
+  boot.kernel.sysctl."vm.swappiness" = 150;
+  zramSwap.enable = true;
+  zramSwap.memoryPercent = lib.mkDefault 150;
+
+  security.polkit.enable = true;
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  services.dbus.enable = true;
+  services.dbus.implementation = "broker";
+
+  networking.networkmanager.wifi.backend = "iwd";
+
+  services.udisks2.enable = true;
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  environment.sessionVariables.GTK_THEME = "Adwaita";
+
   environment.systemPackages = with pkgs; [
-    xdg-utils
-    lm_sensors
     brightnessctl
-    udiskie
-    nodejs
-
     config.boot.kernelPackages.perf
-
     exfatprogs
+    glxinfo
+    lm_sensors
+    parted
+    pciutils
+    udiskie
+    xdg-utils
+
+    gitFull
+    nodejs
+    zbar # qr codes
 
     (pkgs.buildFHSUserEnv (pkgs.appimageTools.defaultFhsEnvArgs // {
       name = "fhs";
@@ -33,27 +72,35 @@
       runScript = "fish";
     }))
 
-    zbar # qr codes
-
     # various GUI apps
-    kitty
+    bruno
     chromium
-    mpv
-    ripdrag
+    electrum
     flameshot
+    imhex
+    imv
     keepassxc
-    thunderbird
+    keybase-gui
+    kitty
+    localsend
+    logseq
+    mpv
+    obs-studio # note: the size of it is pretty large
+    pavucontrol
+    playerctl
+    pwvucontrol
     qbittorrent
+    qimgv
+    ripdrag
     signal-desktop
     telegram-desktop
-    keybase-gui
+    thunderbird
     tor-browser
-    electrum
-    obs-studio
-    imhex
     vscode-fhs
-    geeqie
-    gnome.gnome-calculator # temporary
+  ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-27.3.11" # for logseq
   ];
 
   fonts = {
@@ -90,42 +137,32 @@
     };
   };
 
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
+  xdg = {
+    mime.enable = true;
+    mime.defaultApplications = {
+      "inode/directory" = [ "kitty-open.desktop" ];
+      "video/webm" = "qimgv.desktop";
+      "image/jpeg" = "qimgv.desktop";
+      "image/gif" = "qimgv.desktop";
+      "image/png" = "qimgv.desktop";
+      "image/bmp" = "qimgv.desktop";
+      "image/webp" = "qimgv.desktop";
+    };
+    terminal-exec.enable = true;
+    terminal-exec.settings.default = [ "kitty.desktop" ];
   };
+
+  networking.firewall.allowedTCPPorts = [ 22000 ]; # for syncthing
+  networking.firewall.allowedUDPPorts = [ 21027 22000 ]; # for syncthing
+
+  environment.etc."gitconfig".text = ''
+    [credential]
+      helper = libsecret
+  '';
 
   programs.npm.enable = true;
+  programs.localsend.enable = true;
 
   services.keybase.enable = true;
-
-  environment.etc."wallpaper.png".source =
-    "/run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  security.polkit.enable = true;
-
-  boot.kernel.sysctl."vm.swappiness" = 150;
-  zramSwap.enable = true;
-  zramSwap.memoryPercent = lib.mkDefault 150;
-
-  boot.tmp.useTmpfs = true;
-  systemd.services.nix-daemon = {
-    environment.TMPDIR = "/var/tmp";
-  };
-
-  services.openssh.enable = lib.mkDefault false;
-
-  services.fstrim.enable = lib.mkDefault true;
-
-  services.udisks2.enable = true;
-
-  services.dbus.enable = true;
-  services.dbus.implementation = "broker";
-
-  networking.networkmanager.wifi.backend = "iwd";
+  environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";
 }
