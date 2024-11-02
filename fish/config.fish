@@ -16,6 +16,11 @@ alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 
 # light nvim + "private" mode
 alias lvi "nvim --cmd 'let g:min_mode = 1' -i NONE --cmd 'set noswapfile'"
 
+alias ls "ls -FA --color=auto"
+
+test "$uname" = "Darwin"
+  and alias gls "gls -FA --color=auto"
+
 abbr -ag getdate "date \"+%Y-%m-%d\""
 
 abbr -ag gs "git status"
@@ -41,14 +46,6 @@ abbr -ag hi "highlight"
 abbr -ag npmr "npm run"
 
 abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
-
-if test "$uname" = "Darwin"
-  alias ls "ls -FA"
-  alias gls "gls -FA --color=auto"
-  # abbr -ag sha256sum "shasum -a 256"
-else
-  alias ls "ls -FA --color=auto"
-end
 
 if test "$TERM" = "xterm-kitty"
   abbr -ag icat "kitten icat"
@@ -83,14 +80,6 @@ if not set -q __fish_config_path_set
   set -gx __fish_config_path_set 1
 end
 
-if not set -q __fish_theme_set
-  echo 'Setting the fish theme...'
-  yes | fish_config theme save 'fish default'
-  set -U fish_color_cwd yellow
-  set -U fish_color_option brgreen
-  set -U __fish_theme_set 1
-end
-
 if test "$uname" = "Darwin"
   set -gx HOMEBREW_NO_AUTO_UPDATE 1
   set -gx NPM_CONFIG_GLOBALCONFIG "/etc/npmrc"
@@ -103,6 +92,14 @@ if test "$uname" = "Darwin"
       set -xp DYLD_FALLBACK_LIBRARY_PATH ~/.nix-profile/lib
     end
   end
+end
+
+if not set -q __fish_theme_set
+  echo 'Setting the fish theme...'
+  yes | fish_config theme save 'fish default'
+  set -U fish_color_cwd yellow
+  set -U fish_color_option brgreen
+  set -U __fish_theme_set 1
 end
 
 test -r ~/.opam/opam-init/init.fish
