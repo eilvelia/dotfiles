@@ -74,7 +74,7 @@
     };
   };
 
-  # security.pam.loginLimits = [
-  #   { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
-  # ];
+  security.pam.loginLimits = [
+    { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
+  ];
 }

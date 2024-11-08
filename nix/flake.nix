@@ -4,66 +4,46 @@
   inputs = {
     # currently uses unstable
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
+    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    darwin-home-manager.url = "github:nix-community/home-manager/master";
-    darwin-home-manager.inputs.nixpkgs.follows = "darwin-nixpkgs";
+
+    home-manager-unstable.url = "github:nix-community/home-manager/master";
+    home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs";
+
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "darwin-nixpkgs";
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { nixpkgs, nix-darwin, ... } @ inputs:
+  outputs = { nixpkgs, darwin-nixpkgs, nix-darwin, ... } @ inputs:
     let
-      mkUnstableOverlay = pkgs: final: _prev: {
-        unstable = pkgs.legacyPackages.${final.system};
+      nixpkgs-unstable = nixpkgs;
+      home-manager = inputs.home-manager-unstable;
+      mkUnstableOverlay = flake: _final: prev: {
+        unstable = flake.legacyPackages.${prev.system};
       };
-      # standalone home for darwin
-      mkDarwinHome = arch:
-        let
-          system = arch + "-darwin";
-          inherit (inputs) darwin-nixpkgs darwin-home-manager;
-        in
-        darwin-home-manager.lib.homeManagerConfiguration {
-          pkgs = darwin-nixpkgs.legacyPackages.${system};
-          modules = [
-            # on macOS, there's no difference between "nixpkgs" and "unstable"
-            { nixpkgs.overlays = [ (mkUnstableOverlay darwin-nixpkgs) ]; }
-            ./home/darwin.nix
-          ];
-        };
+      nixosBaseModule = {
+        nixpkgs.overlays = [ (mkUnstableOverlay nixpkgs-unstable) ];
+      };
+      specialArgs = { inherit home-manager; inherit (inputs) nixos-hardware; };
+      darwinBaseModule = {
+        nixpkgs.overlays = [ (mkUnstableOverlay darwin-nixpkgs) ];
+      };
       # standalone home for linux
       mkLinuxHome = arch:
-        let
-          system = arch + "-linux";
-          inherit (inputs) nixpkgs-unstable home-manager;
-        in
+        let system = arch + "-linux"; in
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          modules = [
-            { nixpkgs.overlays = [ (mkUnstableOverlay nixpkgs-unstable) ]; }
-            ./home/linux.nix
-          ];
+          modules = [ nixosBaseModule ./home/linux.nix ];
         };
-      nixosBaseModule = {
-        nix.registry.unstable.flake = inputs.nixpkgs-unstable;
-        nixpkgs.overlays = [ (mkUnstableOverlay inputs.nixpkgs-unstable) ];
-      };
-      specialArgs = { inherit (inputs) home-manager nixos-hardware; };
-      darwinBaseModule = {
-        nix.registry.nixpkgs.flake = inputs.darwin-nixpkgs;
-        nix.registry.unstable.flake = inputs.darwin-nixpkgs;
-        nix.settings.nix-path = [
-          "nixpkgs=${inputs.darwin-nixpkgs}"
-          "unstable=${inputs.darwin-nixpkgs}"
-        ];
-        nixpkgs.overlays = [ (mkUnstableOverlay inputs.darwin-nixpkgs) ];
-      };
+      # standalone home for darwin
+      mkDarwinHome = arch:
+        let system = arch + "-darwin"; in
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = darwin-nixpkgs.legacyPackages.${system};
+          modules = [ darwinBaseModule ./home/darwin.nix ];
+        };
     in {
       # nixos-rebuild switch --use-remote-sudo --flake .
       nixosConfigurations."eastretosh" = nixpkgs.lib.nixosSystem {

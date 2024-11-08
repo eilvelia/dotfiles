@@ -20,13 +20,9 @@
     environment.TMPDIR = "/var/tmp";
   };
 
-  services.openssh.enable = lib.mkDefault false;
+  services.openssh.enable = false;
 
   services.fstrim.enable = lib.mkDefault true;
-
-  boot.kernel.sysctl."vm.swappiness" = 150;
-  zramSwap.enable = true;
-  zramSwap.memoryPercent = lib.mkDefault 150;
 
   security.polkit.enable = true;
 
@@ -96,7 +92,7 @@
     telegram-desktop
     thunderbird
     tor-browser
-    vscode-fhs
+    vscode-fhs # unfree
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -152,8 +148,14 @@
     terminal-exec.settings.default = [ "kitty.desktop" ];
   };
 
-  networking.firewall.allowedTCPPorts = [ 22000 ]; # for syncthing
-  networking.firewall.allowedUDPPorts = [ 21027 22000 ]; # for syncthing
+  networking.firewall.enable = false;
+  # networking.firewall.allowedTCPPorts = [
+  #   8080 # local web servers
+  #   22000 # syncthing
+  # ];
+  # networking.firewall.allowedUDPPorts = [
+  #   21027 22000 # syncthing
+  # ];
 
   environment.etc."gitconfig".text = ''
     [credential]

@@ -8,6 +8,15 @@ in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  nix.registry.nixpkgs.to.type = "path";
+  nix.registry.nixpkgs.to.path = builtins.toString pkgs.path;
+  nix.registry.unstable.to.type = "path";
+  nix.registry.unstable.to.path = builtins.toString pkgs.unstable.path;
+  nix.settings.nix-path = [
+    "nixpkgs=${builtins.toString pkgs.path}"
+    "unstable=${builtins.toString pkgs.unstable.path}"
+  ];
+
   nix.package = lix;
 
   nixpkgs.overlays = [

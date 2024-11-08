@@ -5,6 +5,10 @@
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # note: builtins.toString is different from string concatenation here
+  nix.registry.unstable.to.type = "path";
+  nix.registry.unstable.to.path = builtins.toString pkgs.unstable.path;
+
   nixpkgs.overlays = [ (import ../overlays).default ];
 
   networking.hostName = lib.mkDefault "nixos";
@@ -34,6 +38,18 @@
   };
   users.users.root.password = null;
   users.mutableUsers = true;
+
+  services.openssh.enable = lib.mkDefault true;
+  services.openssh.settings.PasswordAuthentication = false;
+  services.openssh.settings.KbdInteractiveAuthentication = false;
+
+  boot.kernel.sysctl."vm.swappiness" = 170;
+  boot.kernel.sysctl."vm.page-cluster" = 0;
+  boot.kernel.sysctl."vm.watermark_boost_factor" = 0;
+  boot.kernel.sysctl."vm.watermark_scale_factor" = 125;
+  zramSwap.enable = true;
+  zramSwap.algorithm = "zstd";
+  zramSwap.memoryPercent = lib.mkDefault 200;
 
   environment.systemPackages = with pkgs; [
     vim
@@ -80,6 +96,13 @@
     #   stdenv.cc.cc
     # ];
   };
+
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+  networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp0s3.useDHCP = lib.mkDefault true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
