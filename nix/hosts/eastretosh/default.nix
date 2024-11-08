@@ -59,7 +59,7 @@
 
   swapDevices = [ ];
 
-  hardware.enableRedistributableFirmware = lib.mkDefault true;
+  hardware.enableRedistributableFirmware = true;
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 

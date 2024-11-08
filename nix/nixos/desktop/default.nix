@@ -45,6 +45,18 @@
 
   environment.sessionVariables.GTK_THEME = "Adwaita";
 
+  systemd.oomd.enable = false;
+  services.earlyoom = {
+    enable = true;
+    freeMemThreshold = 8;
+    freeSwapThreshold = 5;
+    extraArgs = [
+      "--ignore-root-user"
+      "--avoid '(^|/)(sway|waybar)$'"
+    ];
+    enableNotifications = true;
+  };
+
   environment.systemPackages = with pkgs; [
     brightnessctl
     config.boot.kernelPackages.perf
