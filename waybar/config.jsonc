@@ -2,7 +2,7 @@
 {
     // "layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar position (top|bottom|left|right)
-    "height": 28, // Waybar height (to be removed for auto height)
+    "height": 24, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
@@ -179,7 +179,7 @@
         "format-linked": " {ifname} (No IP)",
         "format-disconnected": "Disconnected ⚠",
         "tooltip-format-ethernet": "Interface: {ifname}\nIP address: {ipaddr}\nMask: {netmask}\nGateway: {gwaddr}",
-        "tooltip-format-wifi": "SSID: {essid} ({frequency} GHz)\nInterface: {ifname}\nIP address: {ipaddr}\nMask: {netmask}\nGateway: {gwaddr}",
+        "tooltip-format-wifi": "SSID: {essid} ({frequency} GHz)\nRSSI: {signaldBm} dBm\nInterface: {ifname}\nIP address: {ipaddr}\nMask: {netmask}\nGateway: {gwaddr}",
         "tooltip-format-disconnected": "Disconnected",
         "tooltip-format-disabled": "Disabled"
     },

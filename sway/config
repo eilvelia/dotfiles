@@ -1,4 +1,5 @@
 # vim: shiftwidth=4 tabstop=4 expandtab
+
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -10,16 +11,22 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term kitty --single-instance
+set $term_floating kitty --single-instance --app-id kitty-floating \
+    -o initial_window_width=80c -o initial_window_height=24c
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 # set $menu dmenu_path | smenu swaymsg exec --
-set $menu fuzzel
+set $menu anyrun
 
 set $gnome_schema org.gnome.desktop.interface
-set $scaling_factor 2
 set $cursor_theme 'Adwaita'
-set $cursor_size 22
+
+# default values
+set $scaling_factor 1
+set $cursor_size 24
+
+include /etc/sway/pre-config.d/*
 
 set $swaylock 'swaylock -f -c 222222'
 
@@ -55,6 +62,7 @@ seat seat0 xcursor_theme $cursor_theme $cursor_size
 smart_borders on
 default_border pixel 2
 # hide_edge_borders --i3 both
+default_floating_border pixel 2
 
 focus_follows_mouse no
 
@@ -78,7 +86,9 @@ titlebar_padding 5 3
 
 for_window [shell="xwayland"] title_format "[XWayland] %title"
 
+for_window [title="Select Folder"] floating enable
 for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="kitty-floating"] floating enable
 
 # auto-adjust display's color temperature
 exec wlsunset -S 06:30 -s 20:00 -d 120
@@ -87,8 +97,8 @@ exec wlsunset -S 06:30 -s 20:00 -d 120
 exec wl-clip-persist --reconnect-tries 0 \
     --clipboard regular --all-mime-type-regex '^(?!x-kde-passwordManagerHint).+'
 
-# screenshot tool
-exec flameshot
+# # screenshot tool (switched to satty)
+# exec flameshot
 
 # auto-mount
 exec systemd-cat -t udiskie udiskie
@@ -112,6 +122,7 @@ exec swayidle -w \
     before-sleep $swaylock
 
 bindsym --to-code $mod+Shift+q exec $swaylock
+# macos keybinding
 bindsym --to-code $mod+Ctrl+q exec $swaylock
 
 ### Input configuration
@@ -139,12 +150,9 @@ input "type:keyboard" {
 
 input "type:touchpad" {
     natural_scroll false
+    scroll_factor 0.5
     dwt disabled
     dwtp disabled
-}
-
-input "type:mouse" {
-    dwt disabled
 }
 
 input "type:pointer" {
@@ -171,13 +179,16 @@ bindsym --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0
 bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
 
 # Take screenshot
-bindsym --to-code $mod+x exec flameshot gui
+bindsym --to-code $mod+x exec grim -g "$(slurp)" -t ppm - | \
+    satty --filename - --copy-command wl-copy --disable-notifications --early-exit
+# bindsym --to-code $mod+x exec flameshot gui
 
 #
 # Basics:
 #
     # Start a terminal
     bindsym --to-code $mod+Return exec $term
+    bindsym --to-code $mod+Shift+Return exec $term_floating
 
     # Kill focused window
     bindsym --to-code $mod+q kill

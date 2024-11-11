@@ -15,11 +15,7 @@
   xdg.configFile = {
     "sway".source = link "${dotfiles}/sway";
     "waybar".source = link "${dotfiles}/waybar";
-
-    "fuzzel/fuzzel.ini".text = ''
-      [main]
-      terminal=kitty
-    '';
+    "anyrun".source = link "${dotfiles}/anyrun";
 
     "flameshot/flameshot.ini".text = ''
       [General]

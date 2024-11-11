@@ -33,7 +33,6 @@ in {
     diff-so-fancy
     difftastic
     direnv
-    du-dust
     duf
     elan
     eza

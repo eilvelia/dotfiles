@@ -3,28 +3,6 @@
 # https://nixos.wiki/wiki/Sway
 
 {
-  environment.systemPackages = with pkgs; [
-    wayland
-    swaylock
-    swayidle
-    glib # gsettings
-    adwaita-icon-theme  # default gnome cursors
-    wl-clipboard # wl-copy and wl-paste
-    waybar
-    grim # screenshot functionality
-    slurp # screenshot functionality
-    mako # notifications
-    wdisplays # tool to configure displays
-    glfw-wayland
-    wf-recorder
-    fuzzel # TODO: try anyrun?
-    hyprpicker
-    wlsunset
-    wl-clip-persist
-  ];
-
-  services.gnome.gnome-keyring.enable = true;
-
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
   # (org.freedesktop.portal.Desktop) and object path
@@ -43,13 +21,40 @@
     extraSessionCommands = ''
       export SWAY_DEFAULT_WALLPAPER=/run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png
     '';
+    extraPackages = with pkgs; [
+      # defaults:
+      brightnessctl
+      foot
+      grim
+      pulseaudio
+      swayidle
+      swaylock
+      wmenu
+
+      adwaita-icon-theme # default gnome cursors
+      anyrun # runner
+      glfw-wayland
+      glib # gsettings
+      hyprpicker # color picker from hyprland
+      mako # notifications
+      satty # another screenshot tool
+      slurp # select a region; to be used with grim
+      waybar # swaybar alternative
+      wayland
+      wdisplays # tool to configure displays
+      wev # show wayland events
+      wf-recorder # screen recorder
+      wl-clip-persist # simple clipboard persister for wayland
+      wl-clipboard # wl-copy and wl-paste
+      wlsunset # auto-adjust display's color temperature
+    ];
   };
 
-  # environment.sessionVariables = {
-  #   WLR_NO_HARDWARE_CURSORS = "1";
-  # };
+  # environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  services.gnome.gnome-keyring.enable = true;
 
   # programs.uwsm.enable = true;
   # programs.uwsm.waylandCompositors.sway = {

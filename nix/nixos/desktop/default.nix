@@ -13,6 +13,12 @@
 
   nix.package = pkgs.lix;
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than +5";
+  };
+
   nixpkgs.config.allowUnfree = true;
 
   boot.tmp.useTmpfs = true;
@@ -52,7 +58,7 @@
     freeSwapThreshold = 5;
     extraArgs = [
       "--ignore-root-user"
-      "--avoid '(^|/)(sway|waybar)$'"
+      "--avoid '(^|/)(sway|waybar|swayidle)$'"
     ];
     enableNotifications = true;
   };
@@ -70,6 +76,8 @@
 
     gitFull
     nodejs
+    python3
+    tor
     zbar # qr codes
 
     (pkgs.buildFHSUserEnv (pkgs.appimageTools.defaultFhsEnvArgs // {
@@ -84,16 +92,16 @@
     bruno
     chromium
     electrum
-    flameshot
     imhex
     imv
     keepassxc
     keybase-gui
     kitty
+    krita # large
     localsend
     logseq
     mpv
-    obs-studio # note: the size of it is pretty large
+    obs-studio # large
     pavucontrol
     playerctl
     pwvucontrol
@@ -101,6 +109,7 @@
     qimgv
     ripdrag
     signal-desktop
+    sublime-merge # unfree
     telegram-desktop
     thunderbird
     tor-browser
@@ -112,17 +121,21 @@
   ];
 
   fonts = {
+    enableDefaultPackages = false;
     packages = with pkgs; [
-      fira-code
+      # notes:
+      # helvetica-neue-lt-std seems to have issues with vertical alignment
+      # noto-fonts are disabled because github grabs them instead of
+      #            better-looking ones
       (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+      charis-sil
+      fira-code
       font-awesome
-      # noto-fonts
-      # noto-fonts-cjk
+      freefont_ttf
+      gyre-fonts
       noto-fonts-color-emoji
       roboto
-      # helvetica-neue-lt-std # seems to have issues with vertical alignment
-      charis-sil
-      # corefonts
+      terminus_font_ttf
       unifont
     ];
     # Enabling this seems to build xwayland from source
@@ -130,6 +143,7 @@
     fontconfig = {
       defaultFonts = {
         sansSerif = [ "Roboto" ];
+        serif = [ "Charis SIL" ];
         monospace = [ "Fira Code" ];
       };
       localConf = ''
@@ -179,4 +193,22 @@
 
   services.keybase.enable = true;
   environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";
+
+  systemd.user.timers."tldr-update" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "weekly";
+      Persistent = true;
+    };
+    unitConfig = {
+      After = "network-online.target";
+    };
+  };
+
+  systemd.user.services."tldr-update" = {
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.tldr}/bin/tldr --update";
+    };
+  };
 }

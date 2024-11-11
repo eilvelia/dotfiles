@@ -13,12 +13,20 @@
   services.fstrim.enable = true;
   services.mbpfan.enable = lib.mkForce false;
 
+  environment.etc."sway/pre-config.d/scaling.conf".text = ''
+    set $scaling_factor 2
+  '';
+
   hardware.graphics.enable32Bit = true;
   hardware.graphics.extraPackages = with pkgs; [ vaapiVdpau ];
 
   environment.variables.LIBVA_DRIVER_NAME = "i915";
 
-  environment.systemPackages = with pkgs; [ gpu-switch intel-gpu-tools ];
+  environment.systemPackages = with pkgs; [
+    gpu-switch
+    intel-gpu-tools
+    iw
+  ];
 
   # note: intel gpu will only display graphics if the device is switched to it
   # (using gpu-switch or gfxCardStatus)
