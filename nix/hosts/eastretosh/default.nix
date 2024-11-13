@@ -15,6 +15,7 @@
 
   environment.etc."sway/pre-config.d/scaling.conf".text = ''
     set $scaling_factor 2
+    output eDP-1 scale $scaling_factor
   '';
 
   hardware.graphics.enable32Bit = true;

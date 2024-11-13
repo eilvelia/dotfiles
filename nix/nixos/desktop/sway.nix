@@ -39,6 +39,7 @@
       mako # notifications
       satty # another screenshot tool
       slurp # select a region; to be used with grim
+      sway-overfocus # https://github.com/korreman/sway-overfocus
       waybar # swaybar alternative
       wayland
       wdisplays # tool to configure displays

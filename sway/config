@@ -32,7 +32,6 @@ set $swaylock 'swaylock -f -c 222222'
 
 ### Output configuration
 
-# output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 exec_always {
     if [ -r "$HOME/wallpaper" ]; then
         swaymsg output '*' bg ~/wallpaper fill
@@ -40,15 +39,6 @@ exec_always {
         swaymsg output '*' bg "$SWAY_DEFAULT_WALLPAPER" fill
     fi
 }
-
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
-
-output * scale $scaling_factor
 
 exec_always {
     gsettings set $gnome_schema gtk-theme $$GTK_THEME
@@ -61,12 +51,17 @@ seat seat0 xcursor_theme $cursor_theme $cursor_size
 
 smart_borders on
 default_border pixel 2
-# hide_edge_borders --i3 both
 default_floating_border pixel 2
+hide_edge_borders --i3 smart
 
 focus_follows_mouse no
 
-titlebar_padding 5 3
+focus_wrapping force
+
+# the whole titlebar is ~21px vertically
+titlebar_padding 5 2
+
+font sans-serif 10
 
 # # Default colors         border   bg       text     indicat  child_border
 # client.focused           #4c7899  #285577  #ffffff  #2e9ef4  #285577
@@ -77,7 +72,7 @@ titlebar_padding 5 3
 # client.placeholder       #000000  #0c0c0c  #ffffff  #000000  #0c0c0c
 
 # Colors                 border   bg       text     indicat  child_border
-# client.focused           #4c7899  #285577  #ffffff  #2e9ef4  #285577
+client.focused           #4c7899  #285577  #ffffff  #4382b1 #285577
 # client.focused_inactive  #333333  #5f676a  #ffffff  #484e50  #5f676a
 # client.focused_tab_title #333333  #5f676a  #ffffff
 # client.unfocused         #333333  #222222  #888888  #292d2e  #222222
@@ -88,6 +83,7 @@ for_window [shell="xwayland"] title_format "[XWayland] %title"
 
 for_window [title="Select Folder"] floating enable
 for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="pwvucontrol"] floating enable
 for_window [app_id="kitty-floating"] floating enable
 
 # auto-adjust display's color temperature
@@ -177,11 +173,31 @@ bindsym XF86AudioPrev exec playerctl previous
 
 bindsym --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0
 bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
+mode "language-switch" {
+    bindsym --to-code d input "type:keyboard" xkb_switch_layout 0; mode "default"
+    bindsym --to-code s input "type:keyboard" xkb_switch_layout 1; mode "default"
+    bindsym --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0; mode "default"
+    bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1; mode "default"
+    bindsym --to-code Return mode "default"
+    bindsym --to-code Escape mode "default"
+    bindsym --to-code space mode "default"
+}
+bindsym --release ISO_Level3_Shift mode "language-switch"
 
 # Take screenshot
 bindsym --to-code $mod+x exec grim -g "$(slurp)" -t ppm - | \
     satty --filename - --copy-command wl-copy --disable-notifications --early-exit
 # bindsym --to-code $mod+x exec flameshot gui
+
+# Switching tabs
+set $overfocus_next_tab sway-overfocus group-rw group-dw
+set $overfocus_prev_tab sway-overfocus group-lw group-uw
+bindsym --to-code $mod+Tab exec $overfocus_next_tab
+bindsym --to-code $mod+Shift+Tab exec $overfocus_prev_tab
+bindsym --to-code $mod+Alt+Left exec $overfocus_prev_tab
+bindsym --to-code $mod+Alt+Right exec $overfocus_next_tab
+bindsym --to-code $mod+Alt+$left exec $overfocus_prev_tab
+bindsym --to-code $mod+Alt+$right exec $overfocus_next_tab
 
 #
 # Basics:
@@ -278,14 +294,14 @@ bindsym --to-code $mod+x exec grim -g "$(slurp)" -t ppm - | \
     bindsym --to-code $mod+Shift+s layout splitv
     bindsym --to-code $mod+Shift+v layout splith
 
-    # Make the current focus fullscreen
-    bindsym --to-code $mod+Shift+f fullscreen
+    # Make the current focus fullscreen (m stands for maximize)
+    bindsym --to-code $mod+m fullscreen
 
     # Toggle the current focus between tiling and floating mode
     bindsym --to-code $mod+f floating toggle
 
     # Swap focus between the tiling area and the floating area
-    bindsym $mod+m focus mode_toggle
+    bindsym --to-code $mod+d focus mode_toggle
 
     # Move focus to the parent container
     bindsym --to-code $mod+a focus parent
