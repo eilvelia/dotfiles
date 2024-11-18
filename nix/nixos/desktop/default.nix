@@ -92,6 +92,7 @@
     bruno
     chromium
     electrum
+    gparted
     imhex
     imv
     keepassxc
@@ -188,11 +189,39 @@
       helper = libsecret
   '';
 
-  programs.npm.enable = true;
+  programs.gnome-disks.enable = true;
   programs.localsend.enable = true;
+  programs.npm.enable = true;
 
   services.keybase.enable = true;
   environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";
+
+  programs.nix-ld.libraries = with pkgs; [
+    python3
+
+    dbus
+    fontconfig
+    freetype
+    libGL
+    libxkbcommon
+    xorg.libX11
+    wayland
+  ];
+
+  # polkit authentication agent
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+  };
 
   systemd.user.timers."tldr-update" = {
     wantedBy = [ "timers.target" ];

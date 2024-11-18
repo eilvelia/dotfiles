@@ -97,7 +97,7 @@ exec wl-clip-persist --reconnect-tries 0 \
 # exec flameshot
 
 # auto-mount
-exec systemd-cat -t udiskie udiskie
+exec systemd-cat -t udiskie udiskie --no-menu-update-workaround
 
 ### Idle configuration
 #
@@ -187,7 +187,6 @@ bindsym --release ISO_Level3_Shift mode "language-switch"
 # Take screenshot
 bindsym --to-code $mod+x exec grim -g "$(slurp)" -t ppm - | \
     satty --filename - --copy-command wl-copy --disable-notifications --early-exit
-# bindsym --to-code $mod+x exec flameshot gui
 
 # Switching tabs
 set $overfocus_next_tab sway-overfocus group-rw group-dw
