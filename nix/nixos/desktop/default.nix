@@ -66,11 +66,14 @@
   environment.systemPackages = with pkgs; [
     brightnessctl
     config.boot.kernelPackages.perf
+    dmidecode
     exfatprogs
     glxinfo
     lm_sensors
+    openssl
     parted
     pciutils
+    powertop
     udiskie
     xdg-utils
 
@@ -90,8 +93,9 @@
 
     # various GUI apps
     bruno
-    chromium
+    cheese
     electrum
+    google-chrome # unfree
     gparted
     imhex
     imv
@@ -131,11 +135,15 @@
       (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
       charis-sil
       fira-code
+      fira-sans
       font-awesome
       freefont_ttf
+      gohufont
       gyre-fonts
+      inter
       noto-fonts-color-emoji
       roboto
+      terminus_font
       terminus_font_ttf
       unifont
     ];
@@ -192,6 +200,7 @@
   programs.gnome-disks.enable = true;
   programs.localsend.enable = true;
   programs.npm.enable = true;
+  programs.steam.enable = true; # large; unfree
 
   services.keybase.enable = true;
   environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";

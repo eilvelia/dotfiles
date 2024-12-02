@@ -46,6 +46,11 @@
         };
     in {
       # nixos-rebuild switch --use-remote-sudo --flake .
+      nixosConfigurations."thinkowo" = nixpkgs.lib.nixosSystem {
+        modules = [ nixosBaseModule ./hosts/thinkowo ];
+        inherit specialArgs;
+      };
+
       nixosConfigurations."eastretosh" = nixpkgs.lib.nixosSystem {
         modules = [ nixosBaseModule ./hosts/eastretosh ];
         inherit specialArgs;

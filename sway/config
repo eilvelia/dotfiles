@@ -25,6 +25,7 @@ set $cursor_theme 'Adwaita'
 # default values
 set $scaling_factor 1
 set $cursor_size 24
+set $text_scaling_factor 1
 
 include /etc/sway/pre-config.d/*
 
@@ -32,17 +33,16 @@ set $swaylock 'swaylock -f -c 222222'
 
 ### Output configuration
 
-exec_always {
-    if [ -r "$HOME/wallpaper" ]; then
-        swaymsg output '*' bg ~/wallpaper fill
-    elif [ -r "$SWAY_DEFAULT_WALLPAPER" ]; then
-        swaymsg output '*' bg "$SWAY_DEFAULT_WALLPAPER" fill
-    fi
-}
+exec_always "\
+    if [ -r ~/wallpaper ]; then \
+        swaymsg output '*' bg ~/wallpaper fill; \
+    elif [ -r \"$SWAY_DEFAULT_WALLPAPER\" ]; then \
+        swaymsg output '*' bg \"$SWAY_DEFAULT_WALLPAPER\" fill; \
+    fi"
 
 exec_always {
     gsettings set $gnome_schema gtk-theme $$GTK_THEME
-    gsettings set $gnome_schema text-scaling-factor 1
+    gsettings set $gnome_schema text-scaling-factor $text_scaling_factor
     gsettings set $gnome_schema cursor-theme $cursor_theme
     gsettings set $gnome_schema cursor-size $cursor_size
 }
@@ -121,6 +121,8 @@ bindsym --to-code $mod+Shift+q exec $swaylock
 # macos keybinding
 bindsym --to-code $mod+Ctrl+q exec $swaylock
 
+bindsym --to-code $mod+Ctrl+s exec systemctl suspend
+
 ### Input configuration
 #
 # Example configuration:
@@ -138,7 +140,7 @@ bindsym --to-code $mod+Ctrl+q exec $swaylock
 input "type:keyboard" {
     xkb_layout us,ru
 
-    xkb_options caps:escape,lv3:rwin_switch
+    xkb_options caps:escape,altwin:swap_lalt_lwin,lv3:ralt_switch
 
     repeat_delay 225
     repeat_rate 30
@@ -158,6 +160,9 @@ input "type:pointer" {
 
 ### Key bindings
 
+# disable physical escape
+bindcode 9 nop
+
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 
@@ -167,9 +172,13 @@ bindsym XF86AudioLowerVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5
 bindsym Shift+XF86AudioLowerVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 1%-
 bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
+bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+
+bindsym XF86Messenger exec playerctl previous
+bindsym XF86Go exec playerctl play-pause
+bindsym Cancel exec playerctl next
 
 bindsym --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0
 bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
@@ -184,9 +193,12 @@ mode "language-switch" {
 }
 bindsym --release ISO_Level3_Shift mode "language-switch"
 
-# Take screenshot
-bindsym --to-code $mod+x exec grim -g "$(slurp)" -t ppm - | \
+set $screenshot grim -g "$(slurp)" -t ppm - | \
     satty --filename - --copy-command wl-copy --disable-notifications --early-exit
+
+# Take screenshot
+bindsym --to-code $mod+x exec $screenshot
+bindsym --to-code Print exec $screenshot
 
 # Switching tabs
 set $overfocus_next_tab sway-overfocus group-rw group-dw

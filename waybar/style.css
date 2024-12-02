@@ -1,8 +1,9 @@
 * {
     border: none;
     border-radius: 0;
-    font-family: 'Symbols Nerd Font', Roboto, sans-serif;
-    font-size: 13px;
+    font-family: 'Symbols Nerd Font', 'Terminus', sans-serif;
+    font-size: 16px;
+    /* font-size: 13px; */
     min-height: 0;
     margin: 0;
 }
@@ -62,7 +63,7 @@ label {
 }
 
 #language {
-    min-width: 35px;
+    min-width: 42px;
 }
 
 #window, #workspaces {
