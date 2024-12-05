@@ -2,6 +2,7 @@
 {
   imports = [
     ../generic.nix
+    ./options.nix
     ./sway.nix
 
     home-manager.nixosModules.home-manager {
@@ -77,11 +78,19 @@
     udiskie
     xdg-utils
 
+    bandwhich
     gitFull
+    keyd
     nodejs
-    python3
+    openjdk # somewhat large
+    stress
     tor
     zbar # qr codes
+
+    # packaging-related stuff
+    nix-update
+    nixfmt-rfc-style
+    nixpkgs-review
 
     (pkgs.buildFHSUserEnv (pkgs.appimageTools.defaultFhsEnvArgs // {
       name = "fhs";
@@ -97,6 +106,7 @@
     electrum
     google-chrome # unfree
     gparted
+    hexgui # depends on java
     imhex
     imv
     keepassxc
@@ -119,6 +129,11 @@
     thunderbird
     tor-browser
     vscode-fhs # unfree
+  ] ++ lib.optionals config.custom.enableCustomPackages [
+    benzene
+    hlesspass
+    (katahexCPU.override { enableAVX2 = true; })
+    (katahexCPU19.override { enableAVX2 = true; })
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -151,7 +166,7 @@
     # fontDir.enable = true;
     fontconfig = {
       defaultFonts = {
-        sansSerif = [ "Roboto" ];
+        sansSerif = [ config.custom.defaultFont ];
         serif = [ "Charis SIL" ];
         monospace = [ "Fira Code" ];
       };
@@ -161,7 +176,16 @@
             <string>Helvetica</string>
           </test>
           <edit name="family" mode="assign" binding="same">
+            <string>${config.custom.defaultFont}</string>
+          </edit>
+        </match>
+      '' + lib.optionalString (config.custom.defaultFont != "Roboto") ''
+        <match target="pattern">
+          <test qual="any" name="family">
             <string>Roboto</string>
+          </test>
+          <edit name="family" mode="assign" binding="same">
+            <string>${config.custom.defaultFont}</string>
           </edit>
         </match>
       '';
@@ -205,9 +229,14 @@
   services.keybase.enable = true;
   environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";
 
+  # for java apps
+  environment.sessionVariables."AWT_TOOLKIT" = "MToolkit";
+  environment.sessionVariables."_JAVA_AWT_WM_NONREPARENTING" = "1";
+
   programs.nix-ld.libraries = with pkgs; [
     python3
 
+    # gui-specific
     dbus
     fontconfig
     freetype
@@ -216,6 +245,45 @@
     xorg.libX11
     wayland
   ];
+
+  services.keyd.enable = true;
+  services.keyd.keyboards = {
+    default = {
+      ids = [ "*" ];
+      settings = {
+        global = {
+          oneshot_timeout = "1500";
+        };
+        main = {
+          capslock = "esc";
+          esc = "layer(esc)";
+
+          # swap left alt and left win (left win is used for common WM keybinds)
+          leftalt = "leftmeta";
+          leftmeta = "leftalt";
+
+          # sticky right modifier
+          rightalt = "oneshot(rmod)";
+        };
+        esc = {
+          h = "left";
+          j = "down";
+          k = "up";
+          l = "right";
+          c = "capslock";
+        };
+        rmod = {
+          d = "macro(iso-level3-shift+d)";
+          s = "macro(iso-level3-shift+s)";
+
+          h = "left";
+          j = "down";
+          k = "up";
+          l = "right";
+        };
+      };
+    };
+  };
 
   # polkit authentication agent
   systemd.user.services.polkit-gnome-authentication-agent-1 = {

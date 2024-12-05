@@ -7,9 +7,6 @@
   home.packages = with pkgs; [
     lolcat
     syncthing
-
-    # custom packages
-    hlesspass
   ];
 
   xdg.configFile = {

@@ -3,4 +3,4 @@
 echo -n "Password: "
 read -s _PASS
 
-RESTIC_PASSWORD="$_PASS" resticprofile "$@"
+RESTIC_PASSWORD="$_PASS" exec resticprofile "$@"

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 function confirm {
   local _yellow="\033[1;33m"
   local _reset="\033[0m"

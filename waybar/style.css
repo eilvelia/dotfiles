@@ -63,7 +63,7 @@ label {
 }
 
 #language {
-    min-width: 42px;
+    min-width: 2.75em;
 }
 
 #window, #workspaces {

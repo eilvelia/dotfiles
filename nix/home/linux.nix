@@ -8,6 +8,7 @@
     clifm
     du-dust
     dut
+    inxi
     ncdu
     nh
     unstable.deno

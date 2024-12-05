@@ -1,14 +1,14 @@
 { config, pkgs, lib, ... }:
-
-# https://nixos.wiki/wiki/Sway
-
 {
-  # xdg-desktop-portal works by exposing a series of D-Bus interfaces
-  # known as portals under a well-known name
-  # (org.freedesktop.portal.Desktop) and object path
-  # (/org/freedesktop/portal/desktop).
-  # The portal interfaces include APIs for file access, opening URIs,
-  # printing and others.
+  # https://nixos.wiki/wiki/Sway
+  # https://wiki.nixos.org/wiki/Sway
+
+  # > xdg-desktop-portal works by exposing a series of D-Bus interfaces
+  # > known as portals under a well-known name
+  # > (org.freedesktop.portal.Desktop) and object path
+  # > (/org/freedesktop/portal/desktop).
+  # > The portal interfaces include APIs for file access, opening URIs,
+  # > printing and others.
   xdg.portal = {
     enable = true;
     wlr.enable = true;
@@ -37,7 +37,8 @@
       glib # gsettings
       hyprpicker # color picker from hyprland
       mako # notifications
-      satty # another screenshot tool
+      satty # screenshot tool
+      seahorse # manage keys in the gnome keyring
       slurp # select a region; to be used with grim
       sway-overfocus # https://github.com/korreman/sway-overfocus
       waybar # swaybar alternative

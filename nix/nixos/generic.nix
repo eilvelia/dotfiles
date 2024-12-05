@@ -52,18 +52,21 @@
   zramSwap.memoryPercent = lib.mkDefault 200;
 
   environment.systemPackages = with pkgs; [
-    vim
-    wget
+    bind # dig, nslookup, etc.
+    bubblewrap
+    file
+    fish
     git
     htop
-    fish
-    rsync
-    psmisc # pstree, killall, etc.
-    bind # dig, nslookup, etc.
+    lsof
     neofetch
-    file
-    bubblewrap
+    psmisc # pstree, killall, etc.
+    python3
+    rsync
     stdenv.cc
+    vim
+    wget
+
     kitty.terminfo
     wezterm.terminfo
   ];
@@ -84,6 +87,8 @@
 
   programs.fish.enable = true;
   programs.fish.useBabelfish = true;
+
+  programs.command-not-found.enable = false;
 
   security.sudo.extraConfig = ''
     Defaults env_keep += "TERM SSH_TTY EDITOR VISUAL LS_COLORS"

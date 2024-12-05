@@ -140,8 +140,6 @@ bindsym --to-code $mod+Ctrl+s exec systemctl suspend
 input "type:keyboard" {
     xkb_layout us,ru
 
-    xkb_options caps:escape,altwin:swap_lalt_lwin,lv3:ralt_switch
-
     repeat_delay 225
     repeat_rate 30
 }
@@ -160,9 +158,6 @@ input "type:pointer" {
 
 ### Key bindings
 
-# disable physical escape
-bindcode 9 nop
-
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
 
@@ -180,25 +175,16 @@ bindsym XF86Messenger exec playerctl previous
 bindsym XF86Go exec playerctl play-pause
 bindsym Cancel exec playerctl next
 
+# layout switch using a special key
 bindsym --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0
 bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
-mode "language-switch" {
-    bindsym --to-code d input "type:keyboard" xkb_switch_layout 0; mode "default"
-    bindsym --to-code s input "type:keyboard" xkb_switch_layout 1; mode "default"
-    bindsym --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0; mode "default"
-    bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1; mode "default"
-    bindsym --to-code Return mode "default"
-    bindsym --to-code Escape mode "default"
-    bindsym --to-code space mode "default"
-}
-bindsym --release ISO_Level3_Shift mode "language-switch"
 
 set $screenshot grim -g "$(slurp)" -t ppm - | \
     satty --filename - --copy-command wl-copy --disable-notifications --early-exit
 
 # Take screenshot
 bindsym --to-code $mod+x exec $screenshot
-bindsym --to-code Print exec $screenshot
+# bindsym --to-code Print exec $screenshot
 
 # Switching tabs
 set $overfocus_next_tab sway-overfocus group-rw group-dw

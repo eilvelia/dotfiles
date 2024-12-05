@@ -18,7 +18,7 @@
     input "2:14:ETPS/2_Elantech_Touchpad" {
       click_method clickfinger
     }
-    font sans-serif 13
+    font Inter 12
   '';
 
   fonts.fontconfig.subpixel.rgba = "rgb";
@@ -26,12 +26,20 @@
   environment.sessionVariables.QT_SCALE_FACTOR = "1.25";
 
   environment.systemPackages = with pkgs; [
+    nvtopPackages.amd
     radeontop
   ];
 
   services.fstrim.enable = true;
-  services.fwupd.enable = true;
   services.power-profiles-daemon.enable = true;
+
+  # # enable opencl. note: bloats closure size
+  # hardware.graphics.extraPackages = with pkgs.rocmPackages_5; [
+  #   clr
+  #   clr.icd
+  #   rocm-runtime
+  #   rocminfo
+  # ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
