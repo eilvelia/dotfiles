@@ -20,7 +20,7 @@
         // "idle_inhibitor",
         "power-profiles-daemon",
         // "temperature",
-        "cpu",
+        // "cpu",
         "memory",
         "backlight",
         "pulseaudio",
@@ -122,12 +122,15 @@
         "format": "{:%a %b %d %H:%M}"
         // "format-alt": "{:%Y-%m-%d}"
     },
-    "cpu": {
-        "format": "  {usage}%",
-        "tooltip": true
-    },
+    // "cpu": {
+    //     "interval": 10,
+    //     "format": "  {usage}%",
+    //     "tooltip": true
+    // },
     "memory": {
-        "format": "  {percentage}%"
+        "interval": 10,
+        "format": "  {percentage}%",
+        "tooltip-format": "Avail: {avail} GiB\nSwap:  {swapUsed} GiB ({swapPercentage}%)"
     },
     // "temperature": {
     //     // "thermal-zone": 2,

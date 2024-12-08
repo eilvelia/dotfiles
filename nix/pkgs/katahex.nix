@@ -4,7 +4,7 @@
 , enableAVX2 ? stdenv.hostPlatform.avx2Support
 , backend ? if config.cudaSupport then "cuda" else "opencl"
 , maxBoardSize ? 14
-, binaryName ? "katahex" }:
+, executableName ? "katahex" }:
 
 assert lib.assertOneOf "backend" backend [ "opencl" "cuda" "tensorrt" "eigen" ];
 
@@ -55,9 +55,9 @@ stdenv.mkDerivation {
 
   installPhase = ''
     runHook preInstall
-    mkdir -p $out/bin; cp katago $out/bin/${binaryName};
+    mkdir -p $out/bin; cp katago $out/bin/${executableName};
   '' + lib.optionalString (backend == "cuda" || backend == "tensorrt") ''
-    wrapProgram $out/bin/${binaryName} \
+    wrapProgram $out/bin/${executableName} \
       --prefix LD_LIBRARY_PATH : "/run/opengl-driver/lib"
   '' + ''
     runHook postInstall
@@ -65,7 +65,7 @@ stdenv.mkDerivation {
 
   meta = {
     description = "Hex engine forked from KataGo";
-    mainProgram = binaryName;
+    mainProgram = executableName;
     homepage = "https://github.com/hzyhhzy/KataGo/tree/Hex2024";
     license = lib.licenses.mit;
     platforms = lib.platforms.unix;

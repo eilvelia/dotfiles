@@ -13,7 +13,7 @@
     benzene
     hlesspass
     katahexCPU
-    katahexCPU19
+    katahex19CPU
   ];
 
   home.file = {

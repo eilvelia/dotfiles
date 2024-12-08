@@ -6,16 +6,12 @@
       katahex = pkgs.callPackage ../pkgs/katahex.nix { };
       katahex19 = katahex.override {
         maxBoardSize = 19;
-        binaryName = "katahex-19";
+        executableName = "katahex-19";
       };
       katahexCPU = katahex.override { backend = "eigen"; };
-      katahexCPU19 = katahex.override {
-        backend = "eigen";
-        maxBoardSize = 19;
-        binaryName = "katahex-19";
-      };
-
-      benzene = pkgs.callPackage ../pkgs/benzene.nix { };
+      katahexCPUAVX2 = katahex.override { backend = "eigen"; enableAVX2 = true; };
+      katahex19CPU = katahex19.override { backend = "eigen"; };
+      katahex19CPUAVX2 = katahex19.override { backend = "eigen"; enableAVX2 = true; };
 
       hlesspass = pkgs.callPackage ../pkgs/hlesspass.nix { };
     };
