@@ -3,7 +3,7 @@ if not status is-interactive
 end
 
 set -l dotfiles ~/dotfiles
-set -l uname (uname)
+set -g uname (uname)
 
 set fish_greeting
 
@@ -35,23 +35,31 @@ abbr -ag to-tar-bz2 "tar c --bzip2 -f .tbz2"
 abbr -ag to-tar-any "tar c -a -f"
 abbr -ag from-tar "tar x -f"
 
+abbr -ag cdtmp "cd (mktemp -d)"
 abbr -ag qfind "find . -name"
-
 abbr -ag f "ls | grep -i"
 
 abbr -ag ra "ranger"
-
-abbr -ag hi "highlight"
-
 abbr -ag npmr "npm run"
+abbr -ag youtube-music "yt-dlp --extract-audio"
 
-abbr -ag youtube-music "youtube-dl --extract-audio --audio-format vorbis"
+if test "$uname" = "Linux"
+  abbr -ag t "trash put"
+
+  # basic bwrap command (for nixos), not necessarily the most secure
+  # note: --new-session isn't here because that breaks ctrl+c
+  abbr -ag basic-bwrap bwrap --die-with-parent \
+    --unshare-pid --unshare-ipc --unshare-uts --proc /proc --dev /dev \
+    --tmpfs /tmp --tmpfs /run --tmpfs /var --tmpfs '"$HOME"' \
+    --ro-bind /bin /bin --ro-bind /usr/bin /usr/bin --ro-bind /etc /etc \
+    --ro-bind-try /nix /nix --ro-bind-try /run/current-system/sw /run/current-system/sw \
+    --bind-try "~/sandbox" "~/sandbox" \
+    "(which bash)"
+end
 
 if test "$TERM" = "xterm-kitty"
   abbr -ag icat "kitten icat"
 end
-
-set -gx LANG en_US.UTF-8
 
 set -gx CLICOLOR 1
 set -gx LSCOLORS gxbxhxdxfxhxhxhxhxcxcx
@@ -64,8 +72,6 @@ set -gx LESSHISTFILE "-"
 set -gx LESSCHARSET utf-8
 
 test -r ~/.inputrc; and set -gx INPUTRC ~/.inputrc
-
-set -gx GPG_TTY (tty)
 
 set -gx OPAMNODEPEXTS 1
 
@@ -80,7 +86,13 @@ if not set -q __fish_config_path_set
   set -gx __fish_config_path_set 1
 end
 
+if test "$uname" = "Linux"
+  set -g drive /run/media/$USER
+end
+
 if test "$uname" = "Darwin"
+  set -gx LANG en_US.UTF-8
+  set -gx GPG_TTY (tty)
   set -gx HOMEBREW_NO_AUTO_UPDATE 1
   set -gx NPM_CONFIG_GLOBALCONFIG "/etc/npmrc"
   if status is-login

@@ -29,8 +29,6 @@ set $text_scaling_factor 1
 
 include /etc/sway/pre-config.d/*
 
-set $swaylock 'swaylock -f -c 222222'
-
 ### Output configuration
 
 exec_always "\
@@ -81,10 +79,13 @@ client.focused           #4c7899  #285577  #ffffff  #4382b1 #285577
 
 for_window [shell="xwayland"] title_format "[XWayland] %title"
 
-for_window [title="Select Folder"] floating enable
+for_window [app_id="kitty-floating"] floating enable
+for_window [app_id="org.keepassxc.KeePassXC"] floating enable, move scratchpad, scratchpad show
 for_window [app_id="pavucontrol"] floating enable
 for_window [app_id="pwvucontrol"] floating enable
-for_window [app_id="kitty-floating"] floating enable
+for_window [title="Picture in picture"] floating enable, sticky enable
+for_window [title="Select Folder"] floating enable
+for_window [title="ripdrag"] sticky enable
 
 # auto-adjust display's color temperature
 exec wlsunset -S 06:30 -s 20:00 -d 120
@@ -93,35 +94,25 @@ exec wlsunset -S 06:30 -s 20:00 -d 120
 exec wl-clip-persist --reconnect-tries 0 \
     --clipboard regular --all-mime-type-regex '^(?!x-kde-passwordManagerHint).+'
 
-# # screenshot tool (switched to satty)
-# exec flameshot
-
 # auto-mount
 exec systemd-cat -t udiskie udiskie --no-menu-update-workaround
 
 ### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+
+set $swaylock 'swaylock -f -e -c 222222'
 
 exec swayidle -w \
     timeout 600 $swaylock \
-    timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    timeout 615 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
     before-sleep $swaylock
 
-bindsym --to-code $mod+Shift+q exec $swaylock
-# macos keybinding
-bindsym --to-code $mod+Ctrl+q exec $swaylock
+set $swaylock_manual killall -s SIGUSR1 swayidle
 
-bindsym --to-code $mod+Ctrl+s exec systemctl suspend
+bindsym --to-code --release $mod+Shift+q exec $swaylock_manual
+# macos keybinding
+bindsym --to-code --release $mod+Ctrl+q exec $swaylock_manual
+
+bindsym --to-code --release $mod+Ctrl+s exec systemctl suspend
 
 ### Input configuration
 #
@@ -171,20 +162,19 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 
-bindsym XF86Messenger exec playerctl previous
-bindsym XF86Go exec playerctl play-pause
-bindsym Cancel exec playerctl next
-
 # layout switch using a special key
-bindsym --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0
-bindsym --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
+bindsym --locked --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0
+bindsym --locked --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
 
 set $screenshot grim -g "$(slurp)" -t ppm - | \
+    satty --filename - --copy-command wl-copy --disable-notifications --early-exit
+set $screenshot_full grim -t ppm - | \
     satty --filename - --copy-command wl-copy --disable-notifications --early-exit
 
 # Take screenshot
 bindsym --to-code $mod+x exec $screenshot
 # bindsym --to-code Print exec $screenshot
+bindsym --to-code $mod+Shift+x exec $screenshot_full
 
 # Switching tabs
 set $overfocus_next_tab sway-overfocus group-rw group-dw
@@ -195,6 +185,9 @@ bindsym --to-code $mod+Alt+Left exec $overfocus_prev_tab
 bindsym --to-code $mod+Alt+Right exec $overfocus_next_tab
 bindsym --to-code $mod+Alt+$left exec $overfocus_prev_tab
 bindsym --to-code $mod+Alt+$right exec $overfocus_next_tab
+
+bindsym --to-code $mod+p exec swaymsg [app_id="org.keepassxc.KeePassXC"] \
+    scratchpad show || exec keepassxc
 
 #
 # Basics:
@@ -284,12 +277,9 @@ bindsym --to-code $mod+Alt+$right exec $overfocus_next_tab
     bindsym --to-code $mod+t splitt
 
     # Switch the current container between different layout styles
-    bindsym --to-code $mod+Alt+w layout stacking
     bindsym --to-code $mod+w layout tabbed
-    bindsym --to-code $mod+Shift+w layout tabbed
+    bindsym --to-code $mod+Shift+w layout stacking
     bindsym --to-code $mod+e layout toggle split
-    bindsym --to-code $mod+Shift+s layout splitv
-    bindsym --to-code $mod+Shift+v layout splith
 
     # Make the current focus fullscreen (m stands for maximize)
     bindsym --to-code $mod+m fullscreen
@@ -304,6 +294,8 @@ bindsym --to-code $mod+Alt+$right exec $overfocus_next_tab
     bindsym --to-code $mod+a focus parent
 
     bindsym --to-code $mod+c focus child
+
+    bindsym --to-code $mod+Shift+f sticky toggle
 #
 # Scratchpad:
 #

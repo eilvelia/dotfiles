@@ -17,13 +17,7 @@
 
   time.timeZone = lib.mkDefault "Etc/UTC";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkbOptions in tty.
-  # };
 
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.lambda = {
@@ -57,6 +51,7 @@
     file
     fish
     git
+    gnumake
     htop
     lsof
     neofetch
@@ -87,6 +82,9 @@
 
   programs.fish.enable = true;
   programs.fish.useBabelfish = true;
+
+  # programs.fish enables man caches; this disables it to reduce build times
+  documentation.man.generateCaches = lib.mkForce false;
 
   programs.command-not-found.enable = false;
 
@@ -126,5 +124,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }
