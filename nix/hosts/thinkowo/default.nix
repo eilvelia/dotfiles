@@ -26,12 +26,48 @@
   environment.sessionVariables.QT_SCALE_FACTOR = "1.25";
 
   environment.systemPackages = with pkgs; [
+    nvme-cli
     nvtopPackages.amd
     radeontop
+    sedutil
   ];
+
+  # systemd timer for resticprofile backups
+  home-manager.users.lambda.systemd.user = {
+    services."resticprofile" = {
+      Unit = {};
+      Service = {
+        Type = "oneshot";
+        WorkingDirectory = "%h";
+        ExecStart = "${lib.getExe pkgs.resticprofile} --no-prio --no-ansi backup";
+        Nice = "10";
+      };
+    };
+    timers."resticprofile" = {
+      Unit = {
+        After = "network-online.target";
+      };
+      Timer = {
+        OnCalendar = "daily";
+        Unit = "resticprofile.service";
+        Persistent = "true";
+      };
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
+    };
+  };
 
   services.fstrim.enable = true;
   services.power-profiles-daemon.enable = true;
+
+  # Remap notifications/pickup/hangup to prev/playpause/next media controls
+  services.udev.extraHwdb = ''
+    evdev:name:ThinkPad Extra Buttons:*
+     KEYBOARD_KEY_4b=previoussong
+     KEYBOARD_KEY_4c=playpause
+     KEYBOARD_KEY_4d=nextsong
+  '';
 
   # # enable opencl. note: bloats closure size
   # hardware.graphics.extraPackages = with pkgs.rocmPackages_5; [

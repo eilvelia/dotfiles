@@ -20,13 +20,16 @@
     let
       nixpkgs-unstable = nixpkgs;
       home-manager = inputs.home-manager-unstable;
+      inherit (inputs) nixos-hardware;
       mkUnstableOverlay = flake: _final: prev: {
         unstable = flake.legacyPackages.${prev.system};
       };
       nixosBaseModule = {
         nixpkgs.overlays = [ (mkUnstableOverlay nixpkgs-unstable) ];
+        # Prevent certain flake inputs from getting GC'ed
+        system.extraDependencies = [ home-manager.outPath ];
       };
-      specialArgs = { inherit home-manager; inherit (inputs) nixos-hardware; };
+      specialArgs = { inherit home-manager nixos-hardware; };
       darwinBaseModule = {
         nixpkgs.overlays = [ (mkUnstableOverlay darwin-nixpkgs) ];
       };

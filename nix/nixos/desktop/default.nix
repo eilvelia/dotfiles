@@ -50,6 +50,8 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
+  i18n.defaultLocale = "en_IE.UTF-8";
+
   environment.sessionVariables.GTK_THEME = "Adwaita";
 
   systemd.oomd.enable = false;
@@ -65,26 +67,33 @@
   };
 
   environment.systemPackages = with pkgs; [
-    brightnessctl
     config.boot.kernelPackages.perf
     dmidecode
+    evtest
     exfatprogs
     glxinfo
+    hdparm
     lm_sensors
+    mediainfo
     openssl
     parted
     pciutils
     powertop
+    trashy
     udiskie
     xdg-utils
 
     bandwhich
+    benzene
+    cryptsetup
+    ffmpeg
     gitFull
     keyd
     nodejs
     openjdk # somewhat large
     stress
     tor
+    yt-dlp
     zbar # qr codes
 
     # packaging-related stuff
@@ -130,7 +139,6 @@
     tor-browser
     vscode-fhs # unfree
   ] ++ lib.optionals config.custom.enableCustomPackages [
-    benzene
     hlesspass
     (katahexCPU.override { enableAVX2 = true; })
     (katahexCPU19.override { enableAVX2 = true; })
@@ -147,7 +155,6 @@
       # helvetica-neue-lt-std seems to have issues with vertical alignment
       # noto-fonts are disabled because github grabs them instead of
       #            better-looking ones
-      (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
       charis-sil
       fira-code
       fira-sans
@@ -156,6 +163,7 @@
       gohufont
       gyre-fonts
       inter
+      nerd-fonts.symbols-only
       noto-fonts-color-emoji
       roboto
       terminus_font
