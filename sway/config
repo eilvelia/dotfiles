@@ -99,18 +99,16 @@ exec systemd-cat -t udiskie udiskie --no-menu-update-workaround
 
 ### Idle configuration
 
-set $swaylock 'swaylock -f -e -c 222222'
+# set $lockscreen 'swaylock -f -e -c 222222'
+set $lockscreen "$HOME/.config/sway/lock.sh"
 
 exec swayidle -w \
-    timeout 600 $swaylock \
-    timeout 615 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-    before-sleep $swaylock
+    timeout 600 $lockscreen \
+    before-sleep $lockscreen
 
-set $swaylock_manual killall -s SIGUSR1 swayidle
-
-bindsym --to-code --release $mod+Shift+q exec $swaylock_manual
+bindsym --to-code --release $mod+Shift+q exec $lockscreen
 # macos keybinding
-bindsym --to-code --release $mod+Ctrl+q exec $swaylock_manual
+bindsym --to-code --release $mod+Ctrl+q exec $lockscreen
 
 bindsym --to-code --release $mod+Ctrl+s exec systemctl suspend
 
