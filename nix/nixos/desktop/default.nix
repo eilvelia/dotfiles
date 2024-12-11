@@ -240,6 +240,8 @@
   services.keybase.enable = true;
   environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";
 
+  services.speechd.enable = lib.mkForce false; # save ~690 MiB
+
   # for java apps
   environment.sessionVariables."AWT_TOOLKIT" = "MToolkit";
   environment.sessionVariables."_JAVA_AWT_WM_NONREPARENTING" = "1";
