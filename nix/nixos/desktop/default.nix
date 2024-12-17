@@ -54,6 +54,12 @@
 
   environment.sessionVariables.GTK_THEME = "Adwaita";
 
+  qt.enable = true;
+  qt.style = "kvantum";
+  # qt.style = "breeze";
+  # qt.platformTheme = "qt5ct";
+  environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gtk3";
+
   systemd.oomd.enable = false;
   services.earlyoom = {
     enable = true;
@@ -242,10 +248,6 @@
 
   services.speechd.enable = lib.mkForce false; # save ~690 MiB
 
-  # for java apps
-  environment.sessionVariables."AWT_TOOLKIT" = "MToolkit";
-  environment.sessionVariables."_JAVA_AWT_WM_NONREPARENTING" = "1";
-
   programs.nix-ld.libraries = with pkgs; [
     python3
 
@@ -256,7 +258,6 @@
     libGL
     libxkbcommon
     xorg.libX11
-    wayland
   ];
 
   services.keyd.enable = true;

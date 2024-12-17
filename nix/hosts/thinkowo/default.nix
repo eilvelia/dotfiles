@@ -7,7 +7,12 @@
   networking.hostName = "thinkowo";
 
   environment.etc."sway/pre-config.d/thinkowo.conf".text = ''
-    set $text_scaling_factor 1.25
+    set $text_scaling_factor 1.35
+    exec_always {
+      gsettings set $gnome_schema font-antialiasing 'rgba'
+      gsettings set $gnome_schema font-name 'sans-serif 10'
+      gsettings set $gnome_schema monospace-font-name 'monospace 10'
+    }
   '';
 
   environment.etc."sway/config.d/thinkpad.conf".text = ''
@@ -100,7 +105,10 @@
     options rtw89_core disable_ps_mode=y
   '';
 
-  boot.kernelParams = [ "acpi_backlight=native" "amd_pstate=active" ];
+  boot.kernelParams = [
+    "acpi_backlight=native"
+    "amd_pstate=active"
+  ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];

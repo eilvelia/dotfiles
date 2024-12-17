@@ -33,6 +33,7 @@
 
       adwaita-icon-theme # default gnome cursors
       anyrun # runner
+      dconf-editor # edit gnome settings
       glfw-wayland
       glib # gsettings
       hyprpicker # color picker from hyprland
@@ -55,6 +56,12 @@
   # environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  # for java apps
+  environment.sessionVariables."AWT_TOOLKIT" = "MToolkit";
+  environment.sessionVariables."_JAVA_AWT_WM_NONREPARENTING" = "1";
+
+  programs.nix-ld.libraries = [ pkgs.wayland ];
 
   services.gnome.gnome-keyring.enable = true;
 

@@ -44,6 +44,10 @@
       border-color=#287cbd
       default-timeout=0
   '';
+
+  "Kvantum/kvantum.kvconfig".text = ''
+    theme=KvArc
+  '';
   };
 
   # note: does not actually show tray icons
