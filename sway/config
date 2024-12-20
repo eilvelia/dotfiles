@@ -110,7 +110,7 @@ bindsym --to-code --release $mod+Shift+q exec $lockscreen
 # macos keybinding
 bindsym --to-code --release $mod+Ctrl+q exec $lockscreen
 
-bindsym --to-code --release $mod+Ctrl+s exec systemctl suspend
+bindsym --to-code --release --locked $mod+Ctrl+s exec systemctl suspend
 
 ### Input configuration
 #
@@ -162,8 +162,8 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 
 # layout switch using a special key
-bindsym --locked --to-code Mod5+d input "type:keyboard" xkb_switch_layout 0
-bindsym --locked --to-code Mod5+s input "type:keyboard" xkb_switch_layout 1
+bindsym --to-code --locked Mod5+d input "type:keyboard" xkb_switch_layout 0
+bindsym --to-code --locked Mod5+s input "type:keyboard" xkb_switch_layout 1
 
 set $screenshot grim -g "$(slurp)" -t ppm - | \
     satty --filename - --copy-command wl-copy --disable-notifications --early-exit

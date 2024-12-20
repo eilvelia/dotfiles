@@ -29,6 +29,7 @@ in {
     asciinema
     bat
     btop
+    caligula
     cmake
     cyme
     delta
