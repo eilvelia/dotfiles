@@ -77,6 +77,7 @@
     dmidecode
     evtest
     exfatprogs
+    gdb
     glxinfo
     hdparm
     libinput
@@ -90,8 +91,17 @@
     udiskie
     xdg-utils
 
+    (benzene.overrideAttrs (prev: {
+      postPatch = ''
+        # Fixes for boost v1.85.0+
+        # https://github.com/cgao3/benzene-vanilla-cmake/issues/18
+        substituteInPlace src/util/Misc.cpp \
+          --replace-fail '.branch_path()' '.parent_path()' \
+          --replace-fail '.normalize()' '.lexically_normal()'
+      '' + prev.postPatch;
+    }))
     bandwhich
-    benzene
+    check-sieve
     cryptsetup
     ffmpeg
     gitFull
@@ -110,8 +120,8 @@
     nixpkgs-review
     nurl
 
-    (pkgs.buildFHSUserEnv (pkgs.appimageTools.defaultFhsEnvArgs // {
-      name = "fhs";
+    (pkgs.buildFHSEnv (pkgs.appimageTools.defaultFhsEnvArgs // {
+      name = "enter-fhs";
       profile = ''
         export FHS=1
       '';
@@ -188,23 +198,38 @@
         monospace = [ "Fira Code" ];
       };
       localConf = ''
-        <match target="pattern">
-          <test qual="any" name="family">
-            <string>Helvetica</string>
-          </test>
-          <edit name="family" mode="assign" binding="same">
-            <string>${config.custom.defaultFont}</string>
-          </edit>
-        </match>
+        <?xml version="1.0"?>
+        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+        <fontconfig>
+          <match target="font">
+            <test name="family" compare="eq" ignore-blanks="true">
+              <string>Fira Code</string>
+            </test>
+            <edit name="fontfeatures" mode="append">
+              <string>liga off</string>
+              <string>dlig off</string>
+            </edit>
+          </match>
+
+          <match target="pattern">
+            <test qual="any" name="family">
+              <string>Helvetica</string>
+            </test>
+            <edit name="family" mode="assign" binding="same">
+              <string>${config.custom.defaultFont}</string>
+            </edit>
+          </match>
       '' + lib.optionalString (config.custom.defaultFont != "Roboto") ''
-        <match target="pattern">
-          <test qual="any" name="family">
-            <string>Roboto</string>
-          </test>
-          <edit name="family" mode="assign" binding="same">
-            <string>${config.custom.defaultFont}</string>
-          </edit>
-        </match>
+          <match target="pattern">
+            <test qual="any" name="family">
+              <string>Roboto</string>
+            </test>
+            <edit name="family" mode="assign" binding="same">
+              <string>${config.custom.defaultFont}</string>
+            </edit>
+          </match>
+      '' + ''
+        </fontconfig>
       '';
     };
   };

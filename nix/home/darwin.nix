@@ -10,7 +10,6 @@
     neofetch
     pstree
 
-    benzene
     hlesspass
     katahexCPU
     katahex19CPU

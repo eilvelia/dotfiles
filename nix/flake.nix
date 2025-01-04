@@ -4,11 +4,10 @@
   inputs = {
     # currently uses unstable
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     darwin-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    home-manager-unstable.url = "github:nix-community/home-manager/master";
-    home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "darwin-nixpkgs";
@@ -16,10 +15,9 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { nixpkgs, darwin-nixpkgs, nix-darwin, ... } @ inputs:
+  outputs = { nixpkgs, home-manager, darwin-nixpkgs, nix-darwin, ... } @ inputs:
     let
       nixpkgs-unstable = nixpkgs;
-      home-manager = inputs.home-manager-unstable;
       inherit (inputs) nixos-hardware;
       mkUnstableOverlay = flake: _final: prev: {
         unstable = flake.legacyPackages.${prev.system};
