@@ -3,6 +3,10 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 { config, pkgs, lib, ... }:
 {
+  imports = [
+    ./tldr.nix
+  ];
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # note: builtins.toString is different from string concatenation here
@@ -23,7 +27,8 @@
   users.users.lambda = {
     isNormalUser = true;
     initialPassword = "password";
-    extraGroups = [ "wheel" ]; # Enable 'sudo' for the user.
+    extraGroups = [ "wheel" ] # Enable 'sudo' for the user.
+      ++ lib.optionals config.programs.wireshark.enable [ "wireshark" ];
     packages = [];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
@@ -53,12 +58,15 @@
     git
     gnumake
     htop
+    inxi
     lsof
+    ncdu
     neofetch
+    openssl
     psmisc # pstree, killall, etc.
     python3
     rsync
-    stdenv.cc
+    tree
     vim
     wget
 
@@ -88,6 +96,8 @@
 
   programs.command-not-found.enable = false;
 
+  custom.tldr.enable = true;
+
   security.sudo.extraConfig = ''
     Defaults env_keep += "TERM SSH_TTY EDITOR VISUAL LS_COLORS"
   '';
@@ -106,17 +116,6 @@
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp0s3.useDHCP = lib.mkDefault true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -1,10 +1,4 @@
 { config, pkgs, lib, ... }:
-let
-  lix = pkgs.lix.overrideAttrs {
-    doCheck = false;
-    doInstallCheck = false;
-  };
-in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -17,11 +11,11 @@ in
     "unstable=${builtins.toString pkgs.unstable.path}"
   ];
 
-  nix.package = lix;
+  nix.package = pkgs.lix;
 
   nixpkgs.overlays = [
     (import ../overlays).default
-    (_final: _prev: { nix = lix; })
+    (_final: _prev: { nix = pkgs.lix; })
   ];
 
   services.nix-daemon.enable = true;
@@ -76,7 +70,7 @@ in
   '';
   environment.variables.NPM_CONFIG_GLOBALCONFIG = "/etc/npmrc";
 
-  nixpkgs.hostPlatform = "x86_64-darwin";
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-darwin";
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

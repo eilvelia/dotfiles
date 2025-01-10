@@ -15,10 +15,10 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { nixpkgs, home-manager, darwin-nixpkgs, nix-darwin, ... } @ inputs:
+  outputs = { nixpkgs, home-manager, nixos-hardware,
+              darwin-nixpkgs, nix-darwin, ... } @ inputs:
     let
       nixpkgs-unstable = nixpkgs;
-      inherit (inputs) nixos-hardware;
       mkUnstableOverlay = flake: _final: prev: {
         unstable = flake.legacyPackages.${prev.system};
       };
@@ -36,14 +36,14 @@
         let system = arch + "-linux"; in
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          modules = [ nixosBaseModule ./home/linux.nix ];
+          modules = [ nixosBaseModule ./home/extra.nix ];
         };
       # standalone home for darwin
       mkDarwinHome = arch:
         let system = arch + "-darwin"; in
         home-manager.lib.homeManagerConfiguration {
           pkgs = darwin-nixpkgs.legacyPackages.${system};
-          modules = [ darwinBaseModule ./home/darwin.nix ];
+          modules = [ darwinBaseModule ./darwin/home.nix ];
         };
     in {
       # nixos-rebuild switch --use-remote-sudo --flake .
@@ -80,7 +80,6 @@
       }).config.system.build.sdImage;
 
       # home-manager switch --flake .
-      homeConfigurations."lambda@nixpi" = mkLinuxHome "aarch64";
       homeConfigurations."lambda@MacBook-Pro.local" = mkDarwinHome "x86_64";
 
       # darwin-rebuild switch --flake .

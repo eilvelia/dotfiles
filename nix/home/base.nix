@@ -2,7 +2,7 @@
 let
   username = "lambda";
   link = config.lib.file.mkOutOfStoreSymlink;
-  inherit (pkgs.stdenv.hostPlatform) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
   homeDir = if isDarwin then "/Users/${username}" else "/home/${username}";
   dotfiles = "${homeDir}/dotfiles";
 in {
@@ -29,21 +29,15 @@ in {
     asciinema
     bat
     btop
-    caligula
-    cmake
     cyme
     delta
     diff-so-fancy
-    difftastic
     direnv
     duf
-    elan
     eza
     fd
     fzf
-    gh
     gocryptfs
-    graphviz
     highlight
     httpie
     hyfetch
@@ -54,36 +48,28 @@ in {
     mdcat
     miniserve
     mosh
-    ninja
     nmap
     nq
     nushell
     pgpdump
     pwgen
-    ranger
-    rclone
-    restic
     ripgrep
-    rizin
-    scrypt
     sd
     speedtest-cli
     tig
-    tldr
-    tokei
-    tree
-    typst
-    unstable.helix
-    unstable.neovim
-    unstable.opam
-    unstable.resticprofile
     unzip
-    weechat
+    zellij
+
+    unstable.neovim
 
     nil
     nix-output-monitor
     nix-tree
     nvd
+  ] ++ lib.optionals isLinux [
+    du-dust
+    dut
+    nh
   ];
 
   xdg.configFile = {
@@ -93,6 +79,19 @@ in {
     "kitty".source = link "${dotfiles}/kitty";
     "ranger".source = link "${dotfiles}/ranger";
     "direnv/direnvrc".source = link "${dotfiles}/direnv/direnvrc";
+
+    "tealdeer/config.toml".text = ''
+      [display]
+      compact = true
+
+      [style]
+      example_text.foreground = "green"
+      command_name.foreground = "red"
+      example_code.foreground = "cyan"
+
+      [updates]
+      auto_update = false
+    '';
   };
 
   xdg.mime.enable = lib.mkForce false;

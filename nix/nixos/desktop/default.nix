@@ -67,7 +67,8 @@
     freeSwapThreshold = 5;
     extraArgs = [
       "--ignore-root-user"
-      "--avoid '(^|/)(sway|waybar|swayidle)$'"
+      "--avoid"
+      "(^|/)(sway|waybar|swayidle)$"
     ];
     enableNotifications = true;
   };
@@ -77,35 +78,29 @@
     dmidecode
     evtest
     exfatprogs
-    gdb
     glxinfo
     hdparm
     libinput
     lm_sensors
     mediainfo
-    openssl
     parted
     pciutils
     powertop
+    stdenv.cc
     trashy
     udiskie
     xdg-utils
 
-    (benzene.overrideAttrs (prev: {
-      postPatch = ''
-        # Fixes for boost v1.85.0+
-        # https://github.com/cgao3/benzene-vanilla-cmake/issues/18
-        substituteInPlace src/util/Misc.cpp \
-          --replace-fail '.branch_path()' '.parent_path()' \
-          --replace-fail '.normalize()' '.lexically_normal()'
-      '' + prev.postPatch;
-    }))
     bandwhich
+    benzene
     check-sieve
+    cmake
     cryptsetup
     ffmpeg
+    gdb
     gitFull
     keyd
+    nixos-generators
     nodejs
     openjdk # somewhat large
     stress
@@ -267,11 +262,15 @@
   programs.localsend.enable = true;
   programs.npm.enable = true;
   programs.steam.enable = true; # large; unfree
+  programs.wireshark.enable = true;
+  programs.wireshark.package = pkgs.wireshark; # a bit large
 
   services.keybase.enable = true;
   environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";
 
   services.speechd.enable = lib.mkForce false; # save ~690 MiB
+
+  custom.tldr.autoUpdate = true;
 
   programs.nix-ld.libraries = with pkgs; [
     python3
@@ -337,23 +336,5 @@
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
-  };
-
-  systemd.user.timers."tldr-update" = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "weekly";
-      Persistent = true;
-    };
-    unitConfig = {
-      After = "network-online.target";
-    };
-  };
-
-  systemd.user.services."tldr-update" = {
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.tldr}/bin/tldr --update";
-    };
   };
 }

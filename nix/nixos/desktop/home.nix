@@ -1,12 +1,15 @@
 { config, pkgs, lib, dotfiles, link, ... }:
 {
   imports = [
-    ../../home/linux.nix
+    ../../home/extra.nix
   ];
 
   home.packages = with pkgs; [
+    clifm
+    deno
     lolcat
     syncthing
+    zf
   ];
 
   xdg.configFile = {
@@ -43,11 +46,11 @@
       [urgency=high]
       border-color=#287cbd
       default-timeout=0
-  '';
+    '';
 
-  "Kvantum/kvantum.kvconfig".text = ''
-    theme=KvArc
-  '';
+    "Kvantum/kvantum.kvconfig".text = ''
+      theme=KvArc
+    '';
   };
 
   # note: does not actually show tray icons

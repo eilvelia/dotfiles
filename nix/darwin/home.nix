@@ -1,14 +1,17 @@
 { config, pkgs, lib, link, dotfiles, ... }:
 {
   imports = [
-    ./base.nix
+    ../home/extra.nix
   ];
 
   home.packages = with pkgs; [
-    goku
+    cmake
+    goku # macos-only
     htop
     neofetch
     pstree
+    tldr
+    tree
 
     hlesspass
     katahexCPU

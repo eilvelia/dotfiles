@@ -1,10 +1,20 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, home-manager, nixos-hardware, ... }:
 {
   imports = [
-    ../../nixos/generic.nix
+    ../../nixos/server
+
+    nixos-hardware.nixosModules.raspberry-pi-3
+
+    home-manager.nixosModules.home-manager {
+      home-manager.useGlobalPkgs = true;
+      home-manager.users.lambda = import ../../home/base.nix;
+      home-manager.backupFileExtension = "hm-backup";
+    }
   ];
 
   networking.hostName = "nixpi";
+
+  nix.settings.trusted-users = [ "@wheel" ];
 
   documentation.man.generateCaches = lib.mkForce false;
 
@@ -21,6 +31,9 @@
     script = ''
       echo 'Setting LEDs'
       echo none > /sys/class/leds/ACT/trigger
+      if [ -e /sys/class/leds/PWR/trigger ]; then
+        echo none > /sys/class/leds/PWR/trigger
+      fi
     '';
     wantedBy = ["multi-user.target"];
   };
