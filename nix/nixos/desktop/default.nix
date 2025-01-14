@@ -147,6 +147,7 @@
     qimgv
     ripdrag
     signal-desktop
+    sqlitebrowser
     sublime-merge # unfree
     telegram-desktop
     thunderbird
