@@ -23,8 +23,9 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    lm_sensors
+    libgpiod
     libraspberrypi # vcgencmd, etc.
+    lm_sensors
   ];
 
   systemd.services.setleds = {

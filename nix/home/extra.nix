@@ -10,6 +10,7 @@
     elan
     gh
     graphviz
+    jujutsu
     ninja
     ranger
     rclone

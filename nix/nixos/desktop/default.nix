@@ -4,6 +4,7 @@
     ../generic.nix
     ./options.nix
     ./sway.nix
+    ../containers.nix
 
     home-manager.nixosModules.home-manager {
       home-manager.useGlobalPkgs = true;
@@ -73,6 +74,13 @@
     enableNotifications = true;
   };
 
+  networking.timeServers = [
+    "time.cloudflare.com"
+  ];
+
+  services.timesyncd.enable = false;
+  services.chrony.enable = !config.boot.isContainer;
+
   environment.systemPackages = with pkgs; [
     config.boot.kernelPackages.perf
     dmidecode
@@ -95,12 +103,15 @@
     benzene
     check-sieve
     cmake
+    cntr
     cryptsetup
     ffmpeg
+    filen-cli
     gdb
     gitFull
     keyd
     nixos-generators
+    nixos-rebuild-ng
     nodejs
     openjdk # somewhat large
     stress
@@ -127,6 +138,7 @@
     bruno
     cheese
     electrum
+    feather
     google-chrome # unfree
     gparted
     hexgui # depends on java
@@ -137,7 +149,7 @@
     kitty
     krita # large
     localsend
-    logseq
+    # logseq # TODO: Readd logseq in a newer version of nixpkgs
     mpv
     obs-studio # large
     pavucontrol

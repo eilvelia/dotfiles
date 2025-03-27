@@ -28,7 +28,8 @@
     isNormalUser = true;
     initialPassword = "password";
     extraGroups = [ "wheel" ] # Enable 'sudo' for the user.
-      ++ lib.optionals config.programs.wireshark.enable [ "wireshark" ];
+      ++ lib.optionals config.programs.wireshark.enable [ "wireshark" ]
+      ++ lib.optionals config.virtualisation.podman.enable [ "podman" ];
     packages = [];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
@@ -58,6 +59,7 @@
     git
     gnumake
     htop
+    inetutils
     inxi
     lsof
     ncdu

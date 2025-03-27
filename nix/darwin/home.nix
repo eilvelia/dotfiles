@@ -4,6 +4,8 @@
     ../home/extra.nix
   ];
 
+  nixpkgs.overlays = [ (import ../overlays).default ];
+
   home.packages = with pkgs; [
     cmake
     goku # macos-only
