@@ -171,10 +171,6 @@
     katahexCPUAVX2
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-27.3.11" # for logseq
-  ];
-
   fonts = {
     enableDefaultPackages = false;
     packages = with pkgs; [
@@ -333,6 +329,73 @@
           l = "right";
         };
       };
+    };
+  };
+
+  programs.firefox = {
+    enable = true;
+    preferencesStatus = "user";
+    preferences = {
+      # see also:
+      # https://github.com/arkenfox/user.js/blob/master/user.js
+      # https://github.com/yokoffing/Betterfox
+
+      # Disable autoupdate and a few annoyances
+      "app.update.auto" = false;
+      "browser.aboutConfig.showWarning" = false;
+      "browser.shell.checkDefaultBrowser" = false;
+      "browser.privatebrowsing.vpnpromourl" = "";
+
+      # Disable unused services
+      "browser.ml.chat.enabled" = false;
+      "extensions.pocket.enabled" = false;
+
+      # UI
+      "accessibility.force_disabled" = 1;
+      # "apz.overscroll.enabled" = false; # NOTE: cannot be set via policies
+      "browser.compactmode.show" = true; # show compact mode
+      "browser.startup.page" = 1; # home as the startup page (default)
+      "browser.toolbars.bookmarks.visibility" = "never";
+      "browser.ctrlTab.sortByRecentlyUsed" = true;
+
+      "browser.tabs.unloadOnLowMemory" = true;
+
+      "dom.security.https_only_mode" = true; # HTTPS-everywhere
+      "network.ttr.mode" = 2; # DNS over HTTPS: increased
+
+      "intl.accept_languages" = "en-ie,en";
+      "intl.regional_prefs.use_os_locales" = true;
+
+      # Prefetching-related
+      "network.dns.disablePrefetch" = false; # (default)
+      "network.http.speculative-parallel-limit" = 10;
+      "network.preconnect" = true;
+      "network.predictor.enabled" = false;
+      "network.prefetch-next" = false;
+
+      # Privacy-related
+      "browser.contentblocking.category" = "strict"; # Enhanced Tracking Protection
+      "browser.discovery.enabled" = false;
+      "browser.newtabpage.activity-stream.default.sites" = "";
+      "browser.newtabpage.activity-stream.feeds.topsites" = false;
+      "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
+      "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+      "browser.safebrowsing.downloads.remote.enabled" = false;
+      "extensions.formautofill.addresses.enabled" = false;
+      "extensions.formautofill.creditCards.enabled" = false;
+      "extensions.htmlaboutaddons.recommendations.enabled" = false;
+      "network.http.referer.XOriginTrimmingPolicy" = 2;
+      "signon.formlessCapture.enabled" = false;
+      "signon.management.page.breach-alerts.enabled" = false;
+      "signon.rememberSignons" = false;
+
+      # Telemetry-related
+      "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+      "browser.newtabpage.activity-stream.telemetry" = false;
+    };
+    policies = {
+      DisableFirefoxStudies = true;
+      DisableTelemetry = true;
     };
   };
 

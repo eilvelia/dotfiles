@@ -70,6 +70,8 @@
     };
   };
 
+  programs.firefox.preferences."layout.css.devPixelsPerPx" = "0.95";
+
   services.fstrim.enable = true;
   services.power-profiles-daemon.enable = true;
 
