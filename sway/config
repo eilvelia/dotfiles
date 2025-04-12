@@ -84,6 +84,7 @@ for_window [app_id="org.keepassxc.KeePassXC"] floating enable, move scratchpad, 
 for_window [app_id="pavucontrol"] floating enable
 for_window [app_id="pwvucontrol"] floating enable
 for_window [title="Picture in picture"] floating enable, sticky enable
+for_window [title="Picture-in-Picture"] floating enable, sticky enable
 for_window [title="Select Folder"] floating enable
 for_window [title="ripdrag"] sticky enable
 

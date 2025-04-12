@@ -114,6 +114,7 @@
     nixos-rebuild-ng
     nodejs
     openjdk # somewhat large
+    poppler-utils
     stress
     tor
     yt-dlp
@@ -149,7 +150,7 @@
     kitty
     krita # large
     localsend
-    # logseq # TODO: Readd logseq in a newer version of nixpkgs
+    logseq
     mpv
     obs-studio # large
     pavucontrol
@@ -365,6 +366,23 @@
 
       "intl.accept_languages" = "en-ie,en";
       "intl.regional_prefs.use_os_locales" = true;
+
+      # Location bar
+      "browser.search.suggest.enabled" = false;
+      "browser.urlbar.addons.featureGate" = false;
+      "browser.urlbar.quicksuggest.enabled" = false;
+      "browser.urlbar.quicksuggest.scenario" = "history";
+      "browser.urlbar.showSearchSuggestionsFirst" = false;
+      "browser.urlbar.speculativeConnect.enabled" = true;
+      "browser.urlbar.suggest.calculator" = true;
+      "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+      "browser.urlbar.suggest.quicksuggest.sponsored" = false;
+      "browser.urlbar.suggest.recentsearches" = false;
+      "browser.urlbar.suggest.searches" = false;
+      "browser.urlbar.trending.featureGate" = false;
+      "browser.urlbar.unitConversion.enabled" = true;
+      "browser.urlbar.yelp.featureGate" = false;
+      "browser.formfill.enable" = false; # disable search and form history
 
       # Prefetching-related
       "network.dns.disablePrefetch" = false; # (default)

@@ -39,7 +39,6 @@
       hyprpicker # color picker from hyprland
       mako # notifications
       satty # screenshot tool
-      seahorse # manage keys in the gnome keyring
       slurp # select a region; to be used with grim
       sway-overfocus # https://github.com/korreman/sway-overfocus
       waybar # swaybar alternative
@@ -64,6 +63,8 @@
   programs.nix-ld.libraries = [ pkgs.wayland ];
 
   services.gnome.gnome-keyring.enable = true;
+  programs.seahorse.enable = true; # gui for managing keys in gnome-keyring
+  security.pam.services.swaylock.enableGnomeKeyring = true;
 
   # programs.uwsm.enable = true;
   # programs.uwsm.waylandCompositors.sway = {
@@ -71,8 +72,6 @@
   #   comment = "Sway compositor managed by UWSM";
   #   binPath = "/run/current-system/sw/bin/sway";
   # };
-
-  services.displayManager.enable = true;
 
   services.greetd = {
     enable = true;
@@ -87,6 +86,13 @@
       };
     };
   };
+
+  security.pam.services.greetd.text = lib.mkForce ''
+    auth      substack      login
+    account   include       login
+    password  substack      login
+    session   include       login
+  '';
 
   security.pam.loginLimits = [
     { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
