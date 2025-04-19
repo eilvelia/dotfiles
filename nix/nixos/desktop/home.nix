@@ -32,20 +32,29 @@
 
     "mako/config".text = ''
       default-timeout=7500
-      border-radius=3
+      border-radius=6
       font=sans-serif 11
-      max-icon-size=40
       format=<span size="13pt">%s</span>\n%b
+
+      background-color=#222222
+      border-color=#285577
 
       [grouped]
       format=(%g) %s\n%b
 
       [urgency=low]
-      border-color=#5c7689
+      border-color=#5F676A
 
       [urgency=high]
-      border-color=#287cbd
+      border-color=#287CBD
       default-timeout=0
+
+      [mode=do-not-disturb]
+      invisible=1
+
+      [mode=away]
+      default-timeout=0
+      ignore-timeout=1
     '';
 
     "Kvantum/kvantum.kvconfig".text = ''

@@ -88,9 +88,11 @@
     exfatprogs
     glxinfo
     hdparm
+    impala
     libinput
     lm_sensors
     mediainfo
+    networkmanagerapplet
     parted
     pciutils
     powertop
@@ -110,6 +112,7 @@
     gdb
     gitFull
     keyd
+    magic-wormhole
     nixos-generators
     nixos-rebuild-ng
     nodejs
@@ -150,7 +153,7 @@
     kitty
     krita # large
     localsend
-    logseq
+    logseq # somewhat large
     mpv
     obs-studio # large
     pavucontrol

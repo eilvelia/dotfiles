@@ -19,6 +19,7 @@
         "tray",
         // "idle_inhibitor",
         "power-profiles-daemon",
+        "custom/do-not-disturb",
         // "temperature",
         // "cpu",
         "memory",
@@ -32,22 +33,30 @@
         "clock"
     ],
     // Modules configuration
-    // "sway/workspaces": {
-    //     "disable-scroll": true,
-    //     "all-outputs": true,
-    //     "warp-on-scroll": false,
-    //     "format": "{name}: {icon}",
-    //     "format-icons": {
-    //         "1": "",
-    //         "2": "",
-    //         "3": "",
-    //         "4": "",
-    //         "5": "",
-    //         "urgent": "",
-    //         "focused": "",
-    //         "default": ""
-    //     }
-    // },
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "numeric-first": true
+        // "format": "{icon} {name}",
+        // "format-icons": {
+        //     "urgent": "",
+        //     "focused": "",
+        //     "default": ""
+        // }
+    },
+    "custom/do-not-disturb": {
+      "tooltip": true,
+      "tooltip-format": "Toggle the Do Not Disturb mode",
+      "format": "{icon}",
+      "format-icons": {
+        "normal": "",
+        "dnd": ""
+      },
+      "return-type": "json",
+      "exec": "~/dotfiles/waybar/dnd.sh get",
+      "interval": "once",
+      "on-click": "~/dotfiles/waybar/dnd.sh toggle"
+    },
     "keyboard-state": {
         "numlock": true,
         "capslock": true,

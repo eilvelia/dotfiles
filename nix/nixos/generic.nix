@@ -21,7 +21,7 @@
 
   time.timeZone = lib.mkDefault "Etc/UTC";
 
-  i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
+  i18n.defaultLocale = lib.mkDefault "en_IE.UTF-8";
 
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.lambda = {
