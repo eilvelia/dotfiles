@@ -17,9 +17,9 @@
     "modules-right": [
         "mpd",
         "tray",
-        // "idle_inhibitor",
         "power-profiles-daemon",
         "custom/do-not-disturb",
+        "idle_inhibitor",
         // "temperature",
         // "cpu",
         "memory",
@@ -36,8 +36,8 @@
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
-        "numeric-first": true
-        // "format": "{icon} {name}",
+        "numeric-first": true,
+        "format": "{name}"
         // "format-icons": {
         //     "urgent": "",
         //     "focused": "",
@@ -116,6 +116,8 @@
     },
     "idle_inhibitor": {
         "format": "{icon}",
+        "tooltip-format-activated": "Idle inhibitor activated",
+        "tooltip-format-deactivated": "Idle inhibitor deactivated",
         "format-icons": {
             "activated": "",
             "deactivated": ""

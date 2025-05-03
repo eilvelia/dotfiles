@@ -53,8 +53,11 @@ in {
     pwgen
     ripgrep
     sd
+    shellcheck
+    skim
     speedtest-cli
     tig
+    tree-sitter
     unzip
     zellij
 

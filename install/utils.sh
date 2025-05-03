@@ -13,7 +13,7 @@ function confirm {
 
   while true; do
     echo -en "$_yellow$1 (Y/n):$_reset "
-    read RESP
+    read -r RESP
     if [[ $RESP == "y"* || $RESP == "Y"* || $RESP == "" ]]; then
       return 0
     elif [[ $RESP == "n"* || $RESP == "N"* ]]; then

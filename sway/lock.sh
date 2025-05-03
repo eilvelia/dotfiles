@@ -3,7 +3,7 @@
 # -e is deliberately omitted
 set -uo pipefail
 
-if command -v makoctl 2>&1 > /dev/null; then
+if command -v makoctl > /dev/null 2>&1; then
   makoctl mode -a away
 fi
 
@@ -16,7 +16,7 @@ pid=$!
 (
   swaylock -e -c 222222
   kill $pid
-  if command -v makoctl 2>&1 > /dev/null; then
+  if command -v makoctl > /dev/null 2>&1; then
     makoctl mode -r away
   fi
 ) &

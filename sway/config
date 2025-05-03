@@ -267,6 +267,28 @@ bindsym --to-code $mod+p exec swaymsg [app_id="org.keepassxc.KeePassXC"] \
     bindsym --to-code $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+
+set $ws11 workspace 11:j
+set $ws12 workspace 12:i
+mode "workspace" {
+    bindsym --to-code {
+        j mode "default", $ws11
+        $mod+j mode "default", $ws11
+        Shift+j mode "default", move container to $ws11
+        $mod+Shift+j mode "default", move container to $ws11
+        i mode "default", $ws12
+        $mod+i mode "default", $ws12
+        Shift+i mode "default", move container to $ws12
+        $mod+Shift+i mode "default", move container to $ws12
+
+        Return mode "default"
+        Escape mode "default"
+        $mod+Escape mode "default"
+    }
+}
+bindsym --to-code $mod+w mode "workspace"
+bindsym --to-code $mod+Shift+w mode "workspace"
+
 #
 # Layout stuff:
 #
@@ -274,11 +296,11 @@ bindsym --to-code $mod+p exec swaymsg [app_id="org.keepassxc.KeePassXC"] \
     # Split the container horizontally / vertically / opposite of parent
     bindsym --to-code $mod+v splith
     bindsym --to-code $mod+s splitv
-    bindsym --to-code $mod+t splitt
+    bindsym --to-code $mod+Shift+s splitt
 
     # Switch the current container between different layout styles
-    bindsym --to-code $mod+w layout tabbed
-    bindsym --to-code $mod+Shift+w layout stacking
+    bindsym --to-code $mod+t layout tabbed
+    bindsym --to-code $mod+Shift+t layout stacking
     bindsym --to-code $mod+e layout toggle split
 
     # Make the current focus fullscreen (m stands for maximize)

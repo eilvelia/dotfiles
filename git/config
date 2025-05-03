@@ -10,6 +10,8 @@
 	diffFilter = delta --color-only
 [diff]
 	algorithm = histogram
+[merge]
+	conflictStyle = zdiff3
 [alias]
 	addnw = "!git diff -U0 --ignore-space-at-eol \"$@\" | git apply --cached --unidiff-zero -"
 	assume = update-index --assume-unchanged
@@ -34,6 +36,7 @@
 [init]
 	defaultBranch = main
 
+# delta config
 [delta]
 	features = default
 	syntax-theme = ansi

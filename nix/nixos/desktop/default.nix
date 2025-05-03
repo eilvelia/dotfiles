@@ -14,13 +14,11 @@
   ];
 
   nix.package = pkgs.lix;
-
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 15d";
   };
-
   nixpkgs.config.allowUnfree = true;
 
   boot.tmp.useTmpfs = true;
@@ -28,38 +26,28 @@
     environment.TMPDIR = "/var/tmp";
   };
 
-  services.openssh.enable = false;
-
-  services.fstrim.enable = lib.mkDefault true;
-
   security.polkit.enable = true;
-
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
   services.dbus.enable = true;
   services.dbus.implementation = "broker";
+  services.fstrim.enable = lib.mkDefault true;
+  services.openssh.enable = false;
+  services.pipewire.alsa.enable = true;
+  services.pipewire.enable = true;
+  services.pipewire.pulse.enable = true;
+  services.udisks2.enable = true;
 
   networking.networkmanager.wifi.backend = "iwd";
 
-  services.udisks2.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
+  hardware.bluetooth.settings.General.Experimental = true;
+  # services.blueman.enable = true;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
   i18n.defaultLocale = "en_IE.UTF-8";
-
-  environment.sessionVariables.GTK_THEME = "Adwaita";
-
-  qt.enable = true;
-  qt.style = "kvantum";
-  # qt.style = "breeze";
-  # qt.platformTheme = "qt5ct";
-  environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gtk3";
 
   systemd.oomd.enable = false;
   services.earlyoom = {
@@ -74,14 +62,20 @@
     enableNotifications = true;
   };
 
-  networking.timeServers = [
-    "time.cloudflare.com"
-  ];
-
+  networking.timeServers = [ "time.cloudflare.com" ]; 
   services.timesyncd.enable = false;
   services.chrony.enable = !config.boot.isContainer;
 
+  environment.sessionVariables.GTK_THEME = "Adwaita";
+
+  qt.enable = true;
+  qt.style = "kvantum";
+  # qt.style = "breeze";
+  # qt.platformTheme = "qt5ct";
+  environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gtk3";
+
   environment.systemPackages = with pkgs; [
+    bluetui
     config.boot.kernelPackages.perf
     dmidecode
     evtest
@@ -101,6 +95,7 @@
     udiskie
     xdg-utils
 
+    aria2
     bandwhich
     benzene
     check-sieve
@@ -117,7 +112,7 @@
     nixos-rebuild-ng
     nodejs
     openjdk # somewhat large
-    poppler-utils
+    poppler-utils # pdf converters
     stress
     tor
     yt-dlp
@@ -272,6 +267,7 @@
   '';
 
   programs.gnome-disks.enable = true;
+  programs.kdeconnect.enable = true;
   programs.localsend.enable = true;
   programs.npm.enable = true;
   programs.steam.enable = true; # large; unfree

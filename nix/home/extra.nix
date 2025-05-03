@@ -11,6 +11,7 @@
     gh
     graphviz
     jujutsu
+    lua-language-server
     ninja
     ranger
     rclone

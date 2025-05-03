@@ -27,7 +27,7 @@ case $1 in
       set -x
       cp settings.json "$_settings_dir/settings.json"
       cp keybindings.json "$_settings_dir/keybindings.json"
-      cat extensions.txt | xargs -L 1 code --install-extension
+      xargs -L 1 code --install-extension < extensions.txt
     )
     echo "Disable these extensions:"
     cat disabled-extensions.txt

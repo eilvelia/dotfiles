@@ -18,15 +18,15 @@ _plists=(
 
 case $1 in
   import)
-    for plist in ${_plists[@]}; do
+    for plist in "${_plists[@]}"; do
       echo "Importing $plist"
-      _import_plist $plist
+      _import_plist "$plist"
     done
     ;;
   export)
-    for plist in ${_plists[@]}; do
+    for plist in "${_plists[@]}"; do
       echo "Exporting $plist"
-      _export_plist $plist
+      _export_plist "$plist"
     done
     ;;
   *)

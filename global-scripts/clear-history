@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-read -p "Are you sure? (Ctrl-c to exit)"
+read -rp "Are you sure? (Ctrl-c to exit) "
 
 rm -rf ~/.bash_sessions/*
 
@@ -29,9 +29,9 @@ _files=(
   ~/.slime_paste
 )
 
-for file in ${_files[@]}; do
-  if [ -s $file ]; then
+for file in "${_files[@]}"; do
+  if [ -s "$file" ]; then
     echo "> $file"
-    cp /dev/null $file
+    cp /dev/null "$file"
   fi
 done

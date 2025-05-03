@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 echo -n "Password: "
-read -s _PASS
+read -rs _PASS
 
 RESTIC_PASSWORD="$_PASS" exec resticprofile "$@"
