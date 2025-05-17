@@ -166,10 +166,10 @@ bindsym XF86AudioNext exec playerctl next
 bindsym --to-code --locked Mod5+d input "type:keyboard" xkb_switch_layout 0
 bindsym --to-code --locked Mod5+s input "type:keyboard" xkb_switch_layout 1
 
-set $screenshot grim -g "$(slurp)" -t ppm - | \
-    satty --filename - --copy-command wl-copy --disable-notifications --early-exit
-set $screenshot_full grim -t ppm - | \
-    satty --filename - --copy-command wl-copy --disable-notifications --early-exit
+set $screenshot grim -g "$(slurp)" -t ppm - | satty --filename - \
+    --output-filename "$HOME/playground/Screenshot-%Y-%m-%d-%H-%M-%S.png"
+set $screenshot_full grim -t ppm - | satty --filename - \
+    --output-filename "$HOME/playground/Screenshot-%Y-%m-%d-%H-%M-%S.png"
 
 # Take screenshot
 bindsym --to-code $mod+x exec $screenshot

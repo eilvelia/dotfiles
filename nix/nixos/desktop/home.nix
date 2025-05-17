@@ -57,6 +57,14 @@
       ignore-timeout=1
     '';
 
+    "satty/config.toml".text = ''
+      [general]
+      copy-command = "wl-copy"
+      disable-notifications = true
+      early-exit = true
+      save-after-copy = false
+    '';
+
     "Kvantum/kvantum.kvconfig".text = ''
       theme=KvArc
     '';
