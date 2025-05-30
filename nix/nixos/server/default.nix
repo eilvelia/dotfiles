@@ -10,6 +10,8 @@
 
   networking.networkmanager.plugins = lib.mkForce [];
 
+  security.pam.sshAgentAuth.enable = true;
+
   services.soju = {
     enable = true;
     hostName = "${config.networking.hostName}.lan";

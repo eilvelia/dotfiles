@@ -14,6 +14,21 @@
   ];
 
   nix.package = pkgs.lix;
+  nixpkgs.overlays = [
+    (final: prev: let
+      lixPackageSets = final.lixPackageSets.override
+        { inherit (prev) nix-direnv nix-fast-build; };
+      in {
+        inherit (lixPackageSets.latest)
+          colmena
+          lix
+          nix-direnv
+          nix-eval-jobs
+          nix-fast-build;
+      }
+    )
+  ];
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -69,10 +84,9 @@
   environment.sessionVariables.GTK_THEME = "Adwaita";
 
   qt.enable = true;
-  qt.style = "kvantum";
-  # qt.style = "breeze";
-  # qt.platformTheme = "qt5ct";
-  environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gtk3";
+  # qt.style = "kvantum";
+  qt.style = "breeze";
+  environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gtk3"; # uses gtk file chooser
 
   environment.systemPackages = with pkgs; [
     bluetui
@@ -138,6 +152,7 @@
     cheese
     electrum
     feather
+    gnucash
     google-chrome # unfree
     gparted
     hexgui # depends on java

@@ -10,13 +10,13 @@ assert lib.assertOneOf "backend" backend [ "opencl" "cuda" "tensorrt" "eigen" ];
 
 stdenv.mkDerivation {
   pname = "katahex";
-  version = "2024-08-13";
+  version = "2024-10-26";
 
   src = fetchFromGitHub {
     owner = "hzyhhzy";
-    repo = "KataGo";
-    rev = "eafb7ae7effb959c7419a662bd74a03d60820d71"; # Hex2024
-    hash = "sha256-stzNnCT2fe5aEid4Ry2/7ysjnSw9OhdIEaCFG9UlXTg=";
+    repo = "KataGomo";
+    rev = "2c49d8f159e7400ac80c749781ac1dfd59a35e53"; # Hex2024 branch
+    hash = "sha256-oVGTI2a8xEpednqDESfoVwp3VAuYGBgmMQNNehP/5ho=";
   };
 
   nativeBuildInputs = [ cmake makeWrapper ];
@@ -66,7 +66,7 @@ stdenv.mkDerivation {
   meta = {
     description = "Hex engine forked from KataGo";
     mainProgram = executableName;
-    homepage = "https://github.com/hzyhhzy/KataGo/tree/Hex2024";
+    homepage = "https://github.com/hzyhhzy/KataGomo/tree/Hex2024";
     license = lib.licenses.mit;
     platforms = lib.platforms.unix;
     maintainers = [ ];
