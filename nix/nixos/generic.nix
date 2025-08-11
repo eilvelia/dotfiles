@@ -86,7 +86,7 @@
   # started in user sessions.
   programs.mtr.enable = true;
 
-  programs.gnupg.agent.enable = true;
+  services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
   programs.ssh.startAgent = true;
 
   programs.fish.enable = true;

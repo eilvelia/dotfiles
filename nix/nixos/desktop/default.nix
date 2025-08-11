@@ -148,6 +148,7 @@
     }))
 
     # various GUI apps
+    brogue-ce
     bruno
     cheese
     electrum
@@ -293,6 +294,8 @@
   environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";
 
   services.speechd.enable = lib.mkForce false; # save ~690 MiB
+
+  programs.gnupg.agent.enable = true;
 
   custom.tldr.autoUpdate = true;
 

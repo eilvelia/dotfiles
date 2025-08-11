@@ -7,7 +7,7 @@
   networking.hostName = "thinkowo";
 
   environment.etc."sway/pre-config.d/thinkowo.conf".text = ''
-    set $text_scaling_factor 1.35
+    set $text_scaling_factor 1.25
     exec_always {
       gsettings set $gnome_schema font-antialiasing 'rgba'
       gsettings set $gnome_schema font-name 'sans-serif 10'
@@ -39,7 +39,7 @@
 
   networking.nameservers = [
     "1.1.1.1"
-    "1.0.0.1"
+    "9.9.9.9"
     "2606:4700:4700::1111"
   ];
   networking.networkmanager.dns = "none";
