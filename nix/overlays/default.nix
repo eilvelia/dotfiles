@@ -13,5 +13,7 @@
     katahex19CPUAVX2 = katahex19.override { backend = "eigen"; enableAVX2 = true; };
 
     hlesspass = pkgs.callPackage ../pkgs/hlesspass.nix { };
+
+    anyrun = pkgs.callPackage ../pkgs/anyrun.nix { };
   };
 }

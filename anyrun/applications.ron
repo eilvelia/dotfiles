@@ -4,5 +4,8 @@ Config(
   max_entries: 6,
   // The terminal used for running terminal based desktop entries, if left as `None` a static list of terminals is used
   // to determine what terminal to use.
-  terminal: Some("kitty"), // TODO: it should use --single-instance
+  terminal: Some(Terminal(
+    command: "kitty",
+    args: "--single-instance {}",
+  ))
 )

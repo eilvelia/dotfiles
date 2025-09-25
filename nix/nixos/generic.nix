@@ -106,9 +106,9 @@
 
   programs.nix-ld = {
     enable = true;
-    # libraries = with pkgs; [
-    #   stdenv.cc.cc
-    # ];
+    libraries = with pkgs; [
+      python312
+    ];
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

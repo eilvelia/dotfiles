@@ -89,8 +89,8 @@
   environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gtk3"; # uses gtk file chooser
 
   environment.systemPackages = with pkgs; [
+    # hardware-related
     bluetui
-    config.boot.kernelPackages.perf
     dmidecode
     evtest
     exfatprogs
@@ -99,16 +99,14 @@
     impala
     libinput
     lm_sensors
-    mediainfo
     networkmanagerapplet
     parted
     pciutils
+    perf
     powertop
-    stdenv.cc
-    trashy
     udiskie
-    xdg-utils
 
+    # generic cli apps
     aria2
     bandwhich
     benzene
@@ -122,13 +120,20 @@
     gitFull
     keyd
     magic-wormhole
+    mediainfo
     nixos-generators
     nixos-rebuild-ng
     nodejs
     openjdk # somewhat large
+    p7zip
+    patchelf
     poppler-utils # pdf converters
+    stdenv.cc
     stress
+    tinycc
     tor
+    trashy
+    xdg-utils
     yt-dlp
     zbar # qr codes
 

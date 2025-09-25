@@ -78,7 +78,7 @@
     settings = {
       default_session = {
         command = builtins.concatStringsSep " " [
-          "${pkgs.greetd.tuigreet}/bin/tuigreet"
+          (lib.getExe pkgs.tuigreet)
           "--time --remember --remember-session"
           "--sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions"
         ];

@@ -42,6 +42,7 @@ abbr -ag f "ls | grep -i"
 abbr -ag ra "ranger"
 abbr -ag npmr "npm run"
 abbr -ag youtube-music "yt-dlp --extract-audio"
+abbr -ag d "ripdrag" # drag
 
 if test "$uname" = "Linux"
   abbr -ag t "trash put"
