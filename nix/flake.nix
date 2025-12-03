@@ -20,7 +20,7 @@
     let
       nixpkgs-unstable = nixpkgs;
       mkUnstableOverlay = flake: _final: prev: {
-        unstable = flake.legacyPackages.${prev.system};
+        unstable = flake.legacyPackages.${prev.stdenv.hostPlatform.system};
       };
       nixosBaseModule = {
         nixpkgs.overlays = [ (mkUnstableOverlay nixpkgs-unstable) ];

@@ -94,11 +94,11 @@
     dmidecode
     evtest
     exfatprogs
-    glxinfo
     hdparm
     impala
     libinput
     lm_sensors
+    mesa-demos
     networkmanagerapplet
     parted
     pciutils
@@ -156,7 +156,8 @@
     brogue-ce
     bruno
     cheese
-    electrum
+    deltachat-desktop
+    # electrum # TODO: re-enable
     feather
     gnucash
     google-chrome # unfree
@@ -196,9 +197,10 @@
     packages = with pkgs; [
       # notes:
       # helvetica-neue-lt-std seems to have issues with vertical alignment
-      # noto-fonts are disabled because github grabs them instead of
+      # noto-fonts is not here because github grabs it instead of
       #            better-looking ones
       charis-sil
+      dina-font
       fira-code
       fira-sans
       font-awesome
@@ -206,7 +208,10 @@
       gohufont
       gyre-fonts
       inter
+      mplus-outline-fonts.githubRelease
       nerd-fonts.symbols-only
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
       noto-fonts-color-emoji
       roboto
       terminus_font
@@ -217,9 +222,9 @@
     # fontDir.enable = true;
     fontconfig = {
       defaultFonts = {
-        sansSerif = [ config.custom.defaultFont ];
-        serif = [ "Charis SIL" ];
-        monospace = [ "Fira Code" ];
+        sansSerif = [ config.custom.defaultFont "Noto Sans CJK JP" ];
+        serif = [ "Charis SIL" "Noto Serif CJK JP" ];
+        monospace = [ "Fira Code" "Noto Sans Mono CJK JP" ];
       };
       localConf = ''
         <?xml version="1.0"?>

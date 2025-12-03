@@ -68,7 +68,7 @@ in {
     nix-tree
     nvd
   ] ++ lib.optionals isLinux [
-    du-dust
+    dust
     dut
     nh
   ];

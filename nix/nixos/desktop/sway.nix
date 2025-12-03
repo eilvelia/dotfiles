@@ -34,7 +34,7 @@
       adwaita-icon-theme # default gnome cursors
       anyrun # runner
       dconf-editor # edit gnome settings
-      glfw-wayland
+      glfw
       glib # gsettings
       hyprpicker # color picker from hyprland
       mako # notifications
