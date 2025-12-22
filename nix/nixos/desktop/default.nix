@@ -114,6 +114,7 @@
     cmake
     cntr
     cryptsetup
+    exiftool
     ffmpeg
     filen-cli
     gdb
@@ -157,7 +158,7 @@
     bruno
     cheese
     deltachat-desktop
-    # electrum # TODO: re-enable
+    electrum
     feather
     gnucash
     google-chrome # unfree

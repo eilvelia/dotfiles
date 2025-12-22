@@ -33,6 +33,7 @@ in {
     direnv
     duf
     eza
+    fastfetch
     fd
     fzf
     gocryptfs
