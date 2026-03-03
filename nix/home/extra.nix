@@ -8,22 +8,24 @@
     caligula
     difftastic
     elan
+    ffsend
     gh
+    glow
     graphviz
+    helix
     jujutsu
     lua-language-server
     ninja
+    # opam
     ranger
     rclone
     restic
+    resticprofile
     rizin
     scrypt
     tokei
     typst
     weechat
-
-    unstable.helix
-    unstable.opam
-    unstable.resticprofile
+    yazi
   ];
 }

@@ -49,3 +49,6 @@ function replay --description "Run Bash commands replaying changes in Fish"
             ) | source
     end
 end
+
+complete --command replay --exclusive --long version --description "Print version"
+complete --command replay --exclusive --long help --description "Print help"

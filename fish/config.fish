@@ -16,33 +16,33 @@ alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 
 # light nvim + "private" mode
 alias lvi "nvim --cmd 'let g:min_mode = 1' -i NONE --cmd 'set noswapfile'"
 
-alias ls "ls -FA --color=auto"
+alias ls "ls -FAhv --color=auto"
 
 test "$uname" = "Darwin"
   and alias gls "gls -FA --color=auto"
 
 abbr -ag getdate "date \"+%Y-%m-%d\""
+abbr -ag tree "tree -a"
 
 abbr -ag gs "git status"
 abbr -ag go "git switch"
 
 abbr -ag ez "eza --all -l --git"
-abbr -ag eza-tree "eza --tree --git-ignore"
+abbr -ag eza-tree "eza --tree -l --all --git -I '.git' --color=always --icons=auto"
 
 abbr -ag to-tar-zstd "tar c --zstd -f .tar.zst"
 abbr -ag to-tar-gz "tar c --gzip -f .tgz"
 abbr -ag to-tar-bz2 "tar c --bzip2 -f .tbz2"
-abbr -ag to-tar-any "tar c -a -f"
+abbr -ag to-tar "tar c -af"
 abbr -ag from-tar "tar x -f"
 
 abbr -ag cdtmp "cd (mktemp -d)"
 abbr -ag qfind "find . -name"
 abbr -ag f "ls | grep -i"
 
-abbr -ag ra "ranger"
 abbr -ag npmr "npm run"
 abbr -ag youtube-music "yt-dlp --extract-audio"
-abbr -ag d "ripdrag" # drag
+abbr -ag dr "ripdrag -Axn"
 
 if test "$uname" = "Linux"
   abbr -ag t "trash put"
@@ -74,6 +74,8 @@ set -gx LESSCHARSET utf-8
 
 test -r ~/.inputrc; and set -gx INPUTRC ~/.inputrc
 
+set -gx NIXPKGS_ALLOW_UNFREE 1
+
 set -gx OPAMNODEPEXTS 1
 
 if not set -q __fish_config_path_set
@@ -89,9 +91,7 @@ end
 
 if test "$uname" = "Linux"
   set -g drive /run/media/$USER
-end
-
-if test "$uname" = "Darwin"
+else if test "$uname" = "Darwin"
   set -gx LANG en_US.UTF-8
   set -gx GPG_TTY (tty)
   set -gx HOMEBREW_NO_AUTO_UPDATE 1

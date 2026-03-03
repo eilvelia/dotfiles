@@ -55,7 +55,7 @@
   launchd.agents.opam-update = {
     enable = true;
     config.ProgramArguments = [
-      "${pkgs.unstable.opam}/bin/opam"
+      "${pkgs.opam}/bin/opam"
       "update"
     ];
     config.StartCalendarInterval = [{ Minute = 0; Hour = 14; Weekday = 0; }];

@@ -60,7 +60,12 @@
   # services.blueman.enable = true;
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = true;
+  services.printing.drivers = with pkgs; [
+    cups-filters
+    canon-capt
+    # canon-cups-ufr2 # unfree
+  ];
 
   i18n.defaultLocale = "en_IE.UTF-8";
 
@@ -80,6 +85,8 @@
   networking.timeServers = [ "time.cloudflare.com" ]; 
   services.timesyncd.enable = false;
   services.chrony.enable = !config.boot.isContainer;
+
+  services.flatpak.enable = true;
 
   environment.sessionVariables.GTK_THEME = "Adwaita";
 
@@ -105,12 +112,11 @@
     perf
     powertop
     udiskie
+    usbutils
 
     # generic cli apps
-    aria2
     bandwhich
     benzene
-    check-sieve
     cmake
     cntr
     cryptsetup
@@ -120,10 +126,11 @@
     gdb
     gitFull
     keyd
+    libqalculate
+    libsecret
     magic-wormhole
     mediainfo
     nixos-generators
-    nixos-rebuild-ng
     nodejs
     openjdk # somewhat large
     p7zip
@@ -134,6 +141,7 @@
     tinycc
     tor
     trashy
+    tun2proxy
     xdg-utils
     yt-dlp
     zbar # qr codes
@@ -160,6 +168,7 @@
     deltachat-desktop
     electrum
     feather
+    gimp
     gnucash
     google-chrome # unfree
     gparted
@@ -169,11 +178,10 @@
     keepassxc
     keybase-gui
     kitty
-    krita # large
+    krita
     localsend
     logseq # somewhat large
     mpv
-    obs-studio # large
     pavucontrol
     playerctl
     pwvucontrol
@@ -183,10 +191,13 @@
     signal-desktop
     sqlitebrowser
     sublime-merge # unfree
+    system-config-printer # cups gui
     telegram-desktop
     thunderbird
     tor-browser
+    video-trimmer
     vscode-fhs # unfree
+    xonotic # large; may be slow to download
   ] ++ lib.optionals config.custom.enableCustomPackages [
     hlesspass
     katahex19CPUAVX2
@@ -300,6 +311,16 @@
   programs.steam.enable = true; # large; unfree
   programs.wireshark.enable = true;
   programs.wireshark.package = pkgs.wireshark; # a bit large
+
+  programs.obs-studio = { # large
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      obs-gstreamer
+      obs-pipewire-audio-capture
+      obs-vaapi
+      obs-vkcapture
+    ];
+  };
 
   services.keybase.enable = true;
   environment.sessionVariables.NIX_SKIP_KEYBASE_CHECKS = "1";

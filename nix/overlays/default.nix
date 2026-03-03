@@ -15,5 +15,6 @@
     hlesspass = pkgs.callPackage ../pkgs/hlesspass.nix { };
 
     anyrun = pkgs.callPackage ../pkgs/anyrun.nix { };
+    rclone = pkgs.callPackage ../pkgs/rclone.nix { };
   };
 }

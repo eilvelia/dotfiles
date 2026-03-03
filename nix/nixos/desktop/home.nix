@@ -4,13 +4,19 @@
     ../../home/extra.nix
   ];
 
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     clifm
     deno
     lolcat
     syncthing
     zf
-  ];
+  ]) ++ (with pkgs.ocamlPackages; [
+    ocaml
+    dune_3
+    ocaml-lsp
+    odoc
+    utop
+  ]);
 
   xdg.configFile = {
     "sway".source = link "${dotfiles}/sway";

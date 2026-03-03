@@ -44,7 +44,7 @@
   ];
   networking.networkmanager.dns = "none";
 
-  # systemd timer for resticprofile backups
+  # systemd timer for regular resticprofile backups
   home-manager.users.lambda.systemd.user = {
     services."resticprofile" = {
       Unit = {};
@@ -53,6 +53,8 @@
         WorkingDirectory = "%h";
         ExecStart = "${lib.getExe pkgs.resticprofile} --no-prio --no-ansi backup";
         Nice = "10";
+        IOSchedulingClass = "best-effort";
+        IOSchedulingPriority = 6;
       };
     };
     timers."resticprofile" = {

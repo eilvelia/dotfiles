@@ -43,6 +43,10 @@
   services.openssh.settings.PasswordAuthentication = false;
   services.openssh.settings.KbdInteractiveAuthentication = false;
 
+  services.journald.extraConfig = ''
+    MaxRetentionSec=12month
+  '';
+
   boot.kernel.sysctl."vm.swappiness" = 170;
   boot.kernel.sysctl."vm.page-cluster" = 0;
   boot.kernel.sysctl."vm.watermark_boost_factor" = 0;
@@ -52,6 +56,7 @@
   zramSwap.memoryPercent = lib.mkDefault 200;
 
   environment.systemPackages = with pkgs; [
+    appimage-run
     bind # dig, nslookup, etc.
     bubblewrap
     file
@@ -124,5 +129,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 }
