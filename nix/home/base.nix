@@ -47,6 +47,7 @@ in {
     hyperfine
     iperf
     jq
+    just
     luajit
     mdcat
     miniserve

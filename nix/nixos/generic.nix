@@ -56,7 +56,6 @@
   zramSwap.memoryPercent = lib.mkDefault 200;
 
   environment.systemPackages = with pkgs; [
-    appimage-run
     bind # dig, nslookup, etc.
     bubblewrap
     file
@@ -93,6 +92,8 @@
 
   services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
   programs.ssh.startAgent = true;
+
+  programs.appimage.enable = true;
 
   programs.fish.enable = true;
   programs.fish.useBabelfish = true;

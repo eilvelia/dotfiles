@@ -1,5 +1,5 @@
 function "0x0" --description "Paste to 0x0.st"
-  set -f 0x0_version "0.1.0"
+  set -f 0x0_version "0.1.1"
   argparse \
     --exclusive e,d \
     'T/show-token' \
@@ -38,9 +38,8 @@ function "0x0" --description "Paste to 0x0.st"
     echo "                          Unix epoch *milliseconds* or in the format parsed"
     echo "                          by GNU date. Cannot be used if --expires-in is set."
     echo "                          On macOS, install gdate for this option to work."
-    echo "  -T, --show-token        Also display the management token that can be used"
-    echo "                          to delete or edit pasted files."
-    echo "                          Requires curl >= 7.84.0."
+    echo "  -T, --show-token        Also display the management token that can be used to"
+    echo "                          delete or edit pasted files. Requires curl >= 7.84.0."
     echo "      --no-secret         Do not make the file URL secret."
     echo "  -c, --copy              Automatically copy the resulting link to the"
     echo "                          clipboard. Supports xclip, wl-copy, pbcopy."
@@ -72,7 +71,9 @@ function "0x0" --description "Paste to 0x0.st"
   if set -q argv[1]; and test "$argv[1]" != '-'
     set -f file $argv[1]
     if string match -qr '^https?://' "$argv[1]"
-      if string match -q "$instance*" "$argv[1]"
+      set -l instance_no_slash (string replace -r '/?$' '' -- "$instance")
+      if string match -q "$instance_no_slash/*" "$argv[1]"
+         or test "$instance_no_slash" = "$argv[1]"
         set -f is_instance_url true
       else
         set -f is_remote_url true
@@ -80,6 +81,10 @@ function "0x0" --description "Paste to 0x0.st"
     else
       set -f name (basename -- "$argv[1]")
     end
+  end
+  if set -q argv[2]; and not set -q _flag_curl_args
+    echo "0x0: too many arguments" >&2
+    return 1
   end
   set -q _flag_copy; and set -f copy $_flag_copy
   set -q _flag_curl_args; and set -f allow_additional_curl_args $_flag_curl_args
@@ -100,7 +105,8 @@ function "0x0" --description "Paste to 0x0.st"
         | string replace -ra '(\d+)[mM]' '+($1*24*30)' \
         | string replace -ra '(\d+)[wW]' '+($1*24*7)' \
         | string replace -ra '(\d+)[dD]' '+($1*24)' \
-        | string replace -ra '(\d+)[hH]' '+($1)'))
+        | string replace -ra '(\d+)[hH]' '+($1)' \
+        | string replace -ra '(\d+)$' '+($1)'))
     # All values below 1650460320000 ms are treated as durations:
     # https://git.0x0.st/mia/0x0/src/commit/0cd289d9812675f60a9d81b0b9ce0a3d08cc4d35/fhost.py#L292
     if test "$expires" -ge 1650460320000
@@ -189,18 +195,3 @@ function "0x0" --description "Paste to 0x0.st"
     curl $curl_args
   end
 end
-
-complete -c 0x0 -l curl-args -d 'Pass remaining arguments to curl'
-complete -c 0x0 -l delete -d 'Remove the pasted file; requires --token'
-complete -c 0x0 -l dry-run -d 'Output the curl command without doing any requests'
-complete -c 0x0 -l no-secret -d 'Do not make the file URL secret'
-complete -c 0x0 -l version -d 'Display version and exit'
-complete -c 0x0 -s T -l show-token -d 'Also display the management token'
-complete -c 0x0 -s c -l copy -d 'Automatically copy the file URL'
-complete -c 0x0 -s d -l expire-date -r -d 'Set the expiration date of the file'
-complete -c 0x0 -s e -l expires-in -r -d 'Set the lifetime of the file'
-complete -c 0x0 -s h -l help -d 'Display help and exit'
-complete -c 0x0 -s i -l instance -r -d 'Set a custom server instead of https://0x0.st'
-complete -c 0x0 -s n -l name -r -d 'Set the name of the file sent to 0x0.st'
-complete -c 0x0 -s t -l token -r -d 'Set the management token'
-complete -c 0x0 -s v -l verbose -d 'Verbose output'

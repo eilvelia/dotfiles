@@ -136,6 +136,7 @@
     p7zip
     patchelf
     poppler-utils # pdf converters
+    python3Packages.cram
     stdenv.cc
     stress
     tinycc
@@ -306,6 +307,8 @@
 
   programs.gnome-disks.enable = true;
   programs.kdeconnect.enable = true;
+  programs.less.enable = true;
+  programs.less.envVariables.LESS = "-Ri --use-color";
   programs.localsend.enable = true;
   programs.npm.enable = true;
   programs.steam.enable = true; # large; unfree

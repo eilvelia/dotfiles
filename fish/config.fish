@@ -16,11 +16,9 @@ alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 
 # light nvim + "private" mode
 alias lvi "nvim --cmd 'let g:min_mode = 1' -i NONE --cmd 'set noswapfile'"
 
-alias ls "ls -FAhv --color=auto"
+alias ls "ls -FAhv --color=auto --group-directories-first"
 
-test "$uname" = "Darwin"
-  and alias gls "gls -FA --color=auto"
-
+abbr -ag delta-unified "DELTA_FEATURES='' delta"
 abbr -ag getdate "date \"+%Y-%m-%d\""
 abbr -ag tree "tree -a"
 
