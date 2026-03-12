@@ -2,6 +2,9 @@ function fish_prompt
   set -q __fish_prompt_normal
     or set -g __fish_prompt_normal (set_color normal)
 
+  set -q __fish_color_branch
+    or set -g __fish_color_branch $__fish_color_escape
+
   set -l cwd_color (set_color $fish_color_cwd)
   set -l prompt_sign '$'
 
@@ -12,18 +15,18 @@ function fish_prompt
   end
 
   set -q SSH_TTY || set -q SSH_CLIENT
-    and set -l host (set_color brgreen)(prompt_hostname)$__fish_prompt_normal
+    and set -l host (set_color $fish_color_host_remote)(prompt_hostname)$__fish_prompt_normal
 
   set -l cwd $cwd_color(prompt_pwd)$__fish_prompt_normal
 
   set -l git_branch \
-    (fish_git_prompt (set_color cyan)"(%s)"$__fish_prompt_normal)
+    (fish_git_prompt (set_color $__fish_color_branch)"(%s)"$__fish_prompt_normal)
 
   set -q IN_NIX_SHELL
-    and set -l nix_indicator (set_color brcyan)"[nix]"$__fish_prompt_normal
+    and set -l nix_indicator (set_color $fish_color_escape)"[nix]"$__fish_prompt_normal
 
   set -q RANGER_LEVEL
-    and set -l ranger_indicator (set_color cyan)"[ranger]"$__fish_prompt_normal
+    and set -l ranger_indicator (set_color $fish_color_escape)"[ranger]"$__fish_prompt_normal
 
   echo -n $host $cwd $git_branch \
     $nix_indicator $ranger_indicator $prompt_sign ''

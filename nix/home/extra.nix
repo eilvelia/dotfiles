@@ -15,8 +15,9 @@
     helix
     jujutsu
     lua-language-server
+    most
     ninja
-    # opam
+    rakudo
     ranger
     rclone
     restic

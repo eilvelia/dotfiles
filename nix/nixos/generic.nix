@@ -59,7 +59,6 @@
     bind # dig, nslookup, etc.
     bubblewrap
     file
-    fish
     git
     gnumake
     htop
@@ -67,7 +66,6 @@
     inxi
     lsof
     ncdu
-    neofetch
     openssl
     psmisc # pstree, killall, etc.
     python3
@@ -99,7 +97,7 @@
   programs.fish.useBabelfish = true;
 
   # programs.fish enables man caches; this disables it to reduce build times
-  documentation.man.generateCaches = lib.mkForce false;
+  documentation.man.cache.enable = lib.mkForce false;
 
   programs.command-not-found.enable = false;
 

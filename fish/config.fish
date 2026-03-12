@@ -1,9 +1,8 @@
-if not status is-interactive
-  exit
-end
+status is-interactive || exit
 
 set -l dotfiles ~/dotfiles
-set -g uname (uname)
+set -g __uname (uname)
+set -l uname $__uname
 
 set fish_greeting
 
@@ -17,10 +16,11 @@ alias gpgenc "gpg -c --s2k-mode 3 --s2k-digest-algo sha512 --s2k-count 65011712 
 alias lvi "nvim --cmd 'let g:min_mode = 1' -i NONE --cmd 'set noswapfile'"
 
 alias ls "ls -FAhv --color=auto --group-directories-first"
+alias tree "tree -a"
+alias fd "fd --hidden --no-ignore-vcs"
 
 abbr -ag delta-unified "DELTA_FEATURES='' delta"
 abbr -ag getdate "date \"+%Y-%m-%d\""
-abbr -ag tree "tree -a"
 
 abbr -ag gs "git status"
 abbr -ag go "git switch"
@@ -40,7 +40,7 @@ abbr -ag f "ls | grep -i"
 
 abbr -ag npmr "npm run"
 abbr -ag youtube-music "yt-dlp --extract-audio"
-abbr -ag dr "ripdrag -Axn"
+abbr -ag d "ripdrag -Axn"
 
 if test "$uname" = "Linux"
   abbr -ag t "trash put"
@@ -54,6 +54,8 @@ if test "$uname" = "Linux"
     --ro-bind-try /nix /nix --ro-bind-try /run/current-system/sw /run/current-system/sw \
     --bind-try "~/sandbox" "~/sandbox" \
     "(which bash)"
+
+  abbr -ag readall-shell 'sudo capsh --keep=1 --user=$USER --inh=cap_dac_read_search --addamb=cap_dac_read_search -- -c $SHELL'
 end
 
 if test "$TERM" = "xterm-kitty"
@@ -69,8 +71,11 @@ set -gx EDITOR nvim
 
 set -gx LESSHISTFILE "-"
 set -gx LESSCHARSET utf-8
+set -gx LESSKEYIN $LESSKEYIN_SYSTEM
 
 test -r ~/.inputrc; and set -gx INPUTRC ~/.inputrc
+
+set -gx RIPGREP_CONFIG_PATH $dotfiles/ripgreprc
 
 set -gx NIXPKGS_ALLOW_UNFREE 1
 
@@ -105,12 +110,51 @@ else if test "$uname" = "Darwin"
   end
 end
 
+# Theme setup
 if not set -q __fish_theme_set
-  echo 'Setting the fish theme...'
-  yes | fish_config theme save 'fish default'
-  set -U fish_color_cwd yellow
-  set -U fish_color_option brgreen
-  set -U __fish_theme_set 1
+  # Based on Monokai Pro
+  set -g fish_color_autosuggestion 727072
+  set -g fish_color_cancel -r
+  set -g fish_color_command a9dc76
+  set -g fish_color_comment 727072
+  set -g fish_color_cwd ffd866
+  set -g fish_color_cwd_root ff6188
+  set -g fish_color_end 939293
+  set -g fish_color_error 7a9c56
+  set -g fish_color_escape ab9df2
+  set -g fish_color_history_current --bold
+  set -g fish_color_host normal
+  set -g fish_color_host_remote fc9867
+  set -g fish_color_keyword ff6188
+  set -g fish_color_match --background=403e41
+  set -g fish_color_normal fcfcfa
+  set -g fish_color_operator ab9df2
+  set -g fish_color_option fc9867
+  set -g fish_color_param 78dce8
+  set -g fish_color_quote ffd866
+  set -g fish_color_redirection ab9df2 --bold
+  set -g fish_color_search_match fcfcfa --background=403e41
+  set -g fish_color_selection fcfcfa --bold --background=403e41
+  set -g fish_color_status ff6188
+  set -g fish_color_user a9dc76
+  set -g fish_color_valid_path --underline
+  set -g fish_pager_color_background
+  set -g fish_pager_color_completion fcfcfa
+  set -g fish_pager_color_description ffd866 -i
+  set -g fish_pager_color_prefix fcfcfa --bold --underline
+  set -g fish_pager_color_progress fcfcfa --background=403e41
+  set -g fish_pager_color_secondary_background
+  set -g fish_pager_color_secondary_completion
+  set -g fish_pager_color_secondary_description
+  set -g fish_pager_color_secondary_prefix
+  set -g fish_pager_color_selected_background -r
+  set -g fish_pager_color_selected_completion
+  set -g fish_pager_color_selected_description
+  set -g fish_pager_color_selected_prefix
+
+  set -g __fish_color_branch ab9df2
+
+  set -g __fish_theme_set 1
 end
 
 test -r ~/.opam/opam-init/init.fish

@@ -1,4 +1,4 @@
-test "$uname" != "Darwin" || exit
+test "$__uname" != "Darwin" || exit
 
 # Custom man completion
 # From https://codeberg.org/novenary/nicks/src/commit/65d01656d316470a885499869c10b557b0646f9c/home/shell/man.fish

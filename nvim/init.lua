@@ -49,6 +49,7 @@ vim.o.concealcursor = 'nc'
 vim.o.conceallevel = 0
 vim.o.foldlevelstart = 99
 vim.o.list = true
+vim.o.mousescroll = 'ver:5,hor:6'
 vim.o.scrolloff = 1
 vim.o.showmode = false
 vim.o.signcolumn = 'yes'
@@ -111,7 +112,7 @@ require('lazy').setup {
         'nvim-lua/plenary.nvim',
         'natecraddock/telescope-zf-native.nvim'
       },
-      tag = '0.1.8',
+      tag = 'v0.2.1',
       cond = not min_mode,
       config = function ()
         local actions = require('telescope.actions')
@@ -153,7 +154,11 @@ require('lazy').setup {
       cond = not min_mode,
       opts = {},
     },
+    { 'nvim-treesitter/nvim-treesitter-textobjects',
+      branch = 'master'
+    },
     { 'nvim-treesitter/nvim-treesitter',
+      branch = 'master',
       build = ':TSUpdate',
       dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
       config = function ()
@@ -222,7 +227,7 @@ require('lazy').setup {
         local cmp = require('cmp')
         cmp.setup {
           enabled = function ()
-            local in_prompt = vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt'
+            local in_prompt = vim.bo[0].buftype == 'prompt'
             if in_prompt then return false end
             if vim.api.nvim_get_mode().mode == 'c' then return true end
             local context = require('cmp.config.context')
@@ -261,7 +266,7 @@ require('lazy').setup {
         }
       end
     },
-    { 'ggandor/leap.nvim',
+    { 'https://codeberg.org/andyg/leap.nvim',
       dependencies = { 'tpope/vim-repeat' },
       config = function ()
         -- TODO: Resolve leap/surround conflicts?
@@ -364,27 +369,29 @@ require('lazy').setup {
     { 'mbbill/undotree', cmd = 'UndotreeToggle' },
     -- Languages
     { 'tjdevries/ocaml.nvim',
+      cond = not min_mode,
       build = ':lua require(\'ocaml\').update()',
       config = function ()
         -- vim.api.nvim_set_hl(0, '@rapper_argument', { link = '@parameter', default = true })
         -- vim.api.nvim_set_hl(0, '@rapper_return', { link = '@type', default = true })
       end
     },
-    -- Theme
-    { 'projekt0n/github-nvim-theme',
+    -- Themes
+    { 'loctvl842/monokai-pro.nvim',
       lazy = false,
       priority = 1000,
-      config = function ()
-        require('github-theme').setup {
-          options = {
-            transparent = false
-          }
+      config = function()
+        require('monokai-pro').setup {
+          override = function (c)
+            return {
+              ["@punctuation.bracket"] = { fg = c.base.dimmed2 }
+            }
+          end
         }
-        vim.cmd.colorscheme 'github_dark_dimmed'
+        vim.cmd.colorscheme 'monokai-pro'
       end
-    },
+    }
   },
-  -- install = { colorscheme = { 'github_dark_dimmed' } },
   checker = { enabled = false },
   rocks = { enabled = false },
 }
@@ -478,6 +485,8 @@ if is_mac then
   vim.keymap.set({ 'n', 'v', 'o' }, '§', '`', { remap = true })
 end
 
+vim.keymap.set({ 'n', 'v' }, '<C-s>', '<Cmd>update<CR>', { silent = true })
+
 vim.keymap.set('n', '<BS>', '"_X')
 vim.keymap.set('n', '<S-BS>', '"_x')
 
@@ -487,9 +496,6 @@ vim.keymap.set({ 'n', 'v' }, '<Space>Y', '"+Y')
 vim.keymap.set({ 'n', 'v' }, '<Space>p', '"+p')
 vim.keymap.set({ 'n', 'v' }, '<Space>P', '"+P')
 
--- Alias for the system register
-vim.keymap.set({ 'n', 'v', 'o' }, '<Space>=', '=+')
-
 -- Delete words on ctrl-backspace
 vim.keymap.set({ 'i', 'c' }, '<C-BS>', '<C-w>')
 
@@ -497,7 +503,6 @@ vim.keymap.set({ 'i', 'c' }, '<C-BS>', '<C-w>')
 vim.keymap.set({ 'n', 'v', 'o' }, '0', '^')
 vim.keymap.set({ 'n', 'v', 'o' }, '^', '0')
 
--- Space as an alias for Shift in the case of symbol keymappings
 vim.keymap.set({ 'n', 'v', 'o' }, '<Space>1', '!')
 vim.keymap.set({ 'n', 'v', 'o' }, '<Space>2', '@')
 vim.keymap.set({ 'n', 'v', 'o' }, '<Space>3', '#')
@@ -582,7 +587,6 @@ vim.keymap.set('t', '<C-.>', '<C-\\><C-n')
 -- }}}
 
 vim.keymap.set('n', '<Space><Space>e', ':EditReg<CR>')
-vim.keymap.set('n', '<Space><Space>a', ':SyntaxAttr<CR>')
 
 -- Change file wrapping
 vim.keymap.set('n', '<Space><Space>w',     ':setlocal wrap!<CR>:setlocal wrap?<CR>')
@@ -625,7 +629,7 @@ end
 
 -- Some gui Mac-specific mappings
 if is_mac and is_gui then
-  vim.keymap.set({ 'n', 'i' }, '<D-S-d', '<Cmd>t.<CR>') -- dup line
+  vim.keymap.set({ 'n', 'i' }, '<D-S-d>', '<Cmd>t.<CR>') -- dup line
   vim.keymap.set({ 'n', 'v' }, '<D-f>', '/')
   vim.keymap.set({ 'n', 'v' }, '<D-S-f>', '?')
 end

@@ -10,7 +10,6 @@
     cmake
     goku # macos-only
     htop
-    neofetch
     pstree
     tldr
     tree

@@ -87,6 +87,7 @@ for_window [title="Picture in picture"] floating enable, sticky enable
 for_window [title="Picture-in-Picture"] floating enable, sticky enable
 for_window [title="Select Folder"] floating enable
 for_window [title="ripdrag"] sticky enable
+for_window [title="satty"] floating enable
 
 # auto-adjust display's color temperature
 exec wlsunset -S 06:30 -s 20:00 -d 120

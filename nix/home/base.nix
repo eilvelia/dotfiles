@@ -81,12 +81,13 @@ in {
   ];
 
   xdg.configFile = {
-    "git".source = link "${dotfiles}/git";
-    "nvim".source = link "${dotfiles}/nvim";
-    "fish".source = link "${dotfiles}/fish";
-    "kitty".source = link "${dotfiles}/kitty";
-    "ranger".source = link "${dotfiles}/ranger";
     "direnv/direnvrc".source = link "${dotfiles}/direnv/direnvrc";
+    "fish".source = link "${dotfiles}/fish";
+    "git".source = link "${dotfiles}/git";
+    "helix".source = link "${dotfiles}/helix";
+    "kitty".source = link "${dotfiles}/kitty";
+    "nvim".source = link "${dotfiles}/nvim";
+    "ranger".source = link "${dotfiles}/ranger";
 
     "tealdeer/config.toml".text = ''
       [display]
@@ -114,7 +115,6 @@ in {
 
   programs.direnv = {
     enable = true;
-    # TODO: try also lorri?
     nix-direnv.enable = true;
   };
 

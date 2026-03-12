@@ -16,7 +16,7 @@
 
   nix.settings.trusted-users = [ "@wheel" ];
 
-  documentation.man.generateCaches = lib.mkForce false;
+  documentation.man.cache.enable = lib.mkForce false;
 
   hardware.firmware = with pkgs; [
     raspberrypiWirelessFirmware

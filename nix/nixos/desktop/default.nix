@@ -1,10 +1,11 @@
 { config, pkgs, lib, home-manager, ... }:
 {
   imports = [
+    ../containers.nix
     ../generic.nix
+    ./ccache.nix
     ./options.nix
     ./sway.nix
-    ../containers.nix
 
     home-manager.nixosModules.home-manager {
       home-manager.useGlobalPkgs = true;
@@ -150,7 +151,7 @@
     # packaging-related stuff
     nix-init
     nix-update
-    nixfmt-rfc-style
+    nixfmt
     nixpkgs-review
     nurl
 
@@ -212,7 +213,7 @@
       # helvetica-neue-lt-std seems to have issues with vertical alignment
       # noto-fonts is not here because github grabs it instead of
       #            better-looking ones
-      charis-sil
+      charis
       dina-font
       fira-code
       fira-sans
@@ -236,7 +237,7 @@
     fontconfig = {
       defaultFonts = {
         sansSerif = [ config.custom.defaultFont "Noto Sans CJK JP" ];
-        serif = [ "Charis SIL" "Noto Serif CJK JP" ];
+        serif = [ "Charis" "Noto Serif CJK JP" ];
         monospace = [ "Fira Code" "Noto Sans Mono CJK JP" ];
       };
       localConf = ''
@@ -308,7 +309,9 @@
   programs.gnome-disks.enable = true;
   programs.kdeconnect.enable = true;
   programs.less.enable = true;
-  programs.less.envVariables.LESS = "-Ri --use-color";
+  programs.less.envVariables.LESS = "-R -i -j.5";
+  # Temporary fix for https://github.com/gwsw/less/issues/722:
+  programs.less.envVariables.TERM = "xterm-256color";
   programs.localsend.enable = true;
   programs.npm.enable = true;
   programs.steam.enable = true; # large; unfree
@@ -342,8 +345,8 @@
     fontconfig
     freetype
     libGL
+    libx11
     libxkbcommon
-    xorg.libX11
   ];
 
   services.keyd.enable = true;
@@ -414,7 +417,7 @@
       "browser.tabs.unloadOnLowMemory" = true;
 
       "dom.security.https_only_mode" = true; # HTTPS-everywhere
-      "network.ttr.mode" = 2; # DNS over HTTPS: increased
+      "network.trr.mode" = 2; # DNS over HTTPS: increased
 
       "intl.accept_languages" = "en-ie,en";
       "intl.regional_prefs.use_os_locales" = true;

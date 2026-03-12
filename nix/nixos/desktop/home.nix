@@ -23,6 +23,10 @@
     "waybar".source = link "${dotfiles}/waybar";
     "anyrun".source = link "${dotfiles}/anyrun";
 
+    "fd/ignore".text = ''
+      .git/
+    '';
+
     "udiskie/config.yml".text = ''
       program_options:
         automount: true
