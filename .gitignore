@@ -1,6 +1,7 @@
 *.bak
+*.private.*
 *.s.vim
 .netrwhist
-text-replacements.plist
 /*-ignored.txt
 Brewfile.lock.json
+text-replacements.plist

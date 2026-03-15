@@ -59,6 +59,7 @@ in {
     pgpdump
     pwgen
     ripgrep
+    sad
     sd
     shellcheck
     skim

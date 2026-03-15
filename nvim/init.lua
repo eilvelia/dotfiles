@@ -2,22 +2,20 @@
 
 vim.env.VIMDIR = vim.fn.expand('~/.config/nvim')
 
-local is_gui = vim.fn.has('gui_running')
-local is_mac = vim.fn.has('macunix') or vim.fn.has('mac')
+vim.g.is_gui = vim.fn.has('gui_running')
+vim.g.is_mac = vim.fn.has('macunix') or vim.fn.has('mac')
 
-vim.g.is_gui = is_gui
-vim.g.is_mac = is_mac
+local is_gui = vim.g.is_gui == 1
+local is_mac = vim.g.is_mac == 1
 
 -- Minimal mode
 local min_mode = vim.g.min_mode == 1
 
 if not min_mode then vim.g.min_mode = 0 end
 
-if vim.fn.has('vim_starting') then
-  vim.keymap.set('n', '<Space>', '')
-  vim.g.mapleader = ' '
-  vim.g.maplocalleader = ' '
-end
+vim.keymap.set('n', '<Space>', '')
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- Install lazy.nvim if not present {{{
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -37,6 +35,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 -- }}}
 
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function() vim.hl.on_yank() end,
+})
+
 -- Disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -53,6 +55,7 @@ vim.o.mousescroll = 'ver:5,hor:6'
 vim.o.scrolloff = 1
 vim.o.showmode = false
 vim.o.signcolumn = 'yes'
+vim.o.smoothscroll = true
 vim.o.splitright = true
 vim.o.tagcase = 'smart'
 vim.o.visualbell = true
@@ -101,8 +104,7 @@ end
 -- }}}
 
 -- Plugins {{{
--- TODO: try nvim-spider?
--- TODO: try blink.cmp instead of nvim-cmp?
+-- TODO: Explore https://github.com/stevearc/conform.nvim?
 require('lazy').setup {
   spec = {
     { 'nvim-tree/nvim-web-devicons', lazy = true },
@@ -114,11 +116,17 @@ require('lazy').setup {
       },
       tag = 'v0.2.1',
       cond = not min_mode,
+      event = 'VeryLazy',
       config = function ()
         local actions = require('telescope.actions')
         local telescope = require('telescope')
         telescope.setup {
           defaults = {
+            layout_config = {
+              width = 0.90,
+              height = 0.90,
+              preview_width = 0.5,
+            },
             mappings = {
               i = {
                 ['<Esc>'] = actions.close
@@ -133,21 +141,25 @@ require('lazy').setup {
           vim.keymap.set({ 'n', 'v' }, '<D-S-p>', builtin.buffers, {})
         end
         vim.keymap.set('n', '<Space>f', builtin.find_files, {})
-        -- TODO: F to include hidden files?
+        vim.keymap.set('n', '<Space>F', function()
+          builtin.find_files { cwd = vim.fn.expand('%:p:h') }
+        end, {})
         vim.keymap.set('n', '<Space>b', builtin.buffers, {})
         vim.keymap.set('n', '<Space>/', builtin.live_grep, {})
         vim.keymap.set('n', '<Space>s', builtin.lsp_document_symbols, {})
         vim.keymap.set('n', '<Space>S', builtin.lsp_workspace_symbols, {})
-        vim.keymap.set('n', '<Space>gr', builtin.lsp_references, {})
+        vim.keymap.set('n', 'gr', builtin.lsp_references, { nowait = true })
+        vim.keymap.set('n', '<Space>gs', builtin.git_status, {})
         vim.keymap.set('n', '<Space>d', builtin.diagnostics, {})
         vim.keymap.set('n', '<Space>j', builtin.jumplist, {})
         vim.keymap.set('n', '<Space>\'', builtin.resume, {})
-        vim.keymap.set('n', '<Space>uf', builtin.builtin, {})
-        vim.keymap.set('n', '<Space>uh', builtin.help_tags, {})
-        vim.keymap.set('n', '<Space>um', builtin.marks, {})
-        vim.keymap.set('n', '<Space>ur', builtin.registers, {})
-        vim.keymap.set('n', '<Space>ut', builtin.treesitter, {})
-        vim.keymap.set('n', '<Space>ug', builtin.current_buffer_fuzzy_find, {})
+        vim.keymap.set('n', '<Space>*', builtin.builtin, {})
+        vim.keymap.set('n', '<Space>H', builtin.help_tags, {})
+        vim.keymap.set('n', '<Space>M', builtin.marks, {})
+        vim.keymap.set('n', '<Space><Space>r', builtin.registers, {})
+        vim.keymap.set('n', '<Space>T', builtin.treesitter, {})
+        vim.keymap.set('n', '<Space>L', builtin.current_buffer_fuzzy_find, {})
+        vim.keymap.set('n', '<Space>?', builtin.commands, {})
       end
     },
     { 'nvim-lualine/lualine.nvim',
@@ -217,123 +229,116 @@ require('lazy').setup {
       end
     },
     { 'neovim/nvim-lspconfig' },
-    { 'hrsh7th/nvim-cmp',
-      cond = not min_mode,
-      dependencies = {
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-buffer',
+    { 'saghen/blink.cmp',
+      version = '1.*',
+      lazy = false,
+      opts = {
+        keymap = {
+          preset = 'none',
+          ['<C-e>'] = { 'hide' },
+          ['<Tab>'] = { 'accept', 'fallback' },
+          ['<C-n>'] = { 'select_next', 'fallback' },
+          ['<C-p>'] = { 'select_prev', 'fallback' },
+          ['<C-b>'] = { 'scroll_documentation_up' },
+          ['<C-f>'] = { 'scroll_documentation_down' },
+        },
+        sources = {
+          default = { 'lsp', 'buffer' },
+        },
+        completion = { documentation = { auto_show = true } },
       },
-      config = function ()
-        local cmp = require('cmp')
-        cmp.setup {
-          enabled = function ()
-            local in_prompt = vim.bo[0].buftype == 'prompt'
-            if in_prompt then return false end
-            if vim.api.nvim_get_mode().mode == 'c' then return true end
-            local context = require('cmp.config.context')
-            return not context.in_treesitter_capture('comment')
-              and not context.in_syntax_group('Comment')
-              and not context.in_treesitter_capture('string')
-              and not context.in_syntax_group('String')
-          end,
-          mapping = {
-            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-e>'] = cmp.mapping.abort(),
-            ['<Tab>'] = cmp.mapping(function (fallback)
-              if cmp.visible() then
-                cmp.select_next_item()
-              -- elseif luasnip.expand_or_jumpable() then
-              --   luasnip.expand_or_jump()
-              else
-                fallback()
-              end
-            end, { 'i', 's' }),
-            ['<S-Tab>'] = cmp.mapping(function (fallback)
-              if cmp.visible() then
-                cmp.select_prev_item()
-              -- elseif luasnip.jumpable(-1) then
-              --   luasnip.jump(-1)
-              else
-                fallback()
-              end
-            end, { 'i', 's' }),
-          },
-          sources = {
-            { name = 'nvim_lsp' },
-            { name = 'buffer' },
-          }
-        }
-      end
     },
     { 'https://codeberg.org/andyg/leap.nvim',
       dependencies = { 'tpope/vim-repeat' },
       config = function ()
-        -- TODO: Resolve leap/surround conflicts?
-        require('leap').add_default_mappings()
+        vim.keymap.set({'n', 'x', 'o'}, 's', '<Plug>(leap-forward)')
+        vim.keymap.set({'n', 'x', 'o'}, 'S', '<Plug>(leap-backward)')
       end
     },
-    { 'numToStr/Comment.nvim',
-      opts = {},
+    { 'nvim-mini/mini.operators',
+      config = function()
+        local ops = require('mini.operators')
+        ops.setup {
+          evaluate = { prefix = '' },
+          exchange = { prefix = '', reindent_linewise = true },
+          multiply = { prefix = '' },
+          replace  = { prefix = '', reindent_linewise = true },
+          sort     = { prefix = '' },
+        }
+        ops.make_mappings('exchange', { textobject = 'cx', line = 'cxx', selection = 'X' })
+        ops.make_mappings('replace', { textobject = 'cp', line = 'cpp', selection = '' })
+      end,
     },
+    { 'numToStr/Comment.nvim', opts = {} }, -- TODO: remove?
     { 'lewis6991/gitsigns.nvim',
       cond = not min_mode,
-      config = function ()
-        require('gitsigns').setup {
-          on_attach = function (bufnr)
-            local gs = package.loaded.gitsigns
+      opts = {
+        on_attach = function (bufnr)
+          local gitsigns = require('gitsigns')
 
-            local function map (mode, l, r, opts)
-              opts = opts or {}
-              opts.buffer = bufnr
-              vim.keymap.set(mode, l, r, opts)
-            end
-
-            -- Navigation
-            map('n', ']h', function ()
-              if vim.wo.diff then return ']h' end
-              vim.schedule(function() gs.next_hunk() end)
-              return '<Ignore>'
-            end, { expr = true })
-
-            map('n', '[h', function ()
-              if vim.wo.diff then return '[h' end
-              vim.schedule(function() gs.prev_hunk() end)
-              return '<Ignore>'
-            end, { expr = true })
-
-            -- Actions
-            map('n', '<Space>hs', gs.stage_hunk)
-            map('n', '<Space>hr', gs.reset_hunk)
-            map('v', '<Space>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-            map('v', '<Space>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
-            map('n', '<Space>hS', gs.stage_buffer)
-            map('n', '<Space>hu', gs.undo_stage_hunk)
-            map('n', '<Space>hR', gs.reset_buffer)
-            map('n', '<Space>hp', gs.preview_hunk)
-            map('n', '<Space>hb', function() gs.blame_line { full = true } end)
-            map('n', '<Space>htb', gs.toggle_current_line_blame)
-            map('n', '<Space>hd', gs.diffthis)
-            map('n', '<Space>hD', function() gs.diffthis('~') end)
-            map('n', '<Space>htd', gs.toggle_deleted)
-
-            -- Text object
-            map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+          local function map (mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
           end
-        }
-      end },
+
+          -- Navigation
+          map('n', ']h', function()
+            if vim.wo.diff then
+              vim.cmd.normal({ ']h', bang = true })
+            else
+              gitsigns.nav_hunk('next')
+            end
+          end)
+
+          map('n', '[h', function()
+            if vim.wo.diff then
+              vim.cmd.normal({ '[h', bang = true })
+            else
+              gitsigns.nav_hunk('prev')
+            end
+          end)
+
+          -- Actions
+          map('n', '<Space>hs', gitsigns.stage_hunk)
+          map('n', '<Space>hr', gitsigns.reset_hunk)
+          map('v', '<Space>hs', function() gitsigns.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+          map('v', '<Space>hr', function() gitsigns.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end)
+          map('n', '<Space>hS', gitsigns.stage_buffer)
+          map('n', '<Space>hu', gitsigns.undo_stage_hunk)
+          map('n', '<Space>hR', gitsigns.reset_buffer)
+          map('n', '<Space>hp', gitsigns.preview_hunk)
+          map('n', '<Space>hi', gitsigns.preview_hunk_inline)
+          map('n', '<Space>hb', function() gitsigns.blame_line { full = true } end)
+          map('n', '<Space>hd', gitsigns.diffthis)
+          map('n', '<Space>hD', function() gitsigns.diffthis('~') end)
+          map('n', '<Space>hQ', function() gitsigns.setqflist('all') end)
+          map('n', '<Space>hq', gitsigns.setqflist)
+          map('n', '<Space>htb', gitsigns.toggle_current_line_blame)
+          map('n', '<Space>htd', gitsigns.toggle_deleted)
+          map('n', '<Space>htw', gitsigns.toggle_word_diff)
+
+          -- Text object
+          map({'o', 'x'}, 'ih', gitsigns.select_hunk)
+        end
+      }
+    },
     { 'kylechui/nvim-surround',
-      version = '^3.0.0',
+      version = '^4.0.0',
       event = 'VeryLazy',
-      config = function ()
-        require('nvim-surround').setup {}
-      end
+      init = function()
+        vim.g.nvim_surround_no_visual_mappings = true
+      end,
+      config = function()
+        require('nvim-surround').setup()
+        vim.keymap.set('x', 'gs', '<Plug>(nvim-surround-visual)')
+        vim.keymap.set('x', 'gS', '<Plug>(nvim-surround-visual-line)')
+      end,
     },
     { 'RRethy/vim-illuminate',
       cond = not min_mode,
     },
-    { 'lukas-reineke/indent-blankline.nvim',
-      main = 'ibl',
+    { 'saghen/blink.indent',
       opts = {
         scope = { enabled = false },
       },
@@ -347,7 +352,7 @@ require('lazy').setup {
       },
       cmd = 'Registers',
     },
-    { 'NvChad/nvim-colorizer.lua',
+    { 'catgoose/nvim-colorizer.lua',
       cmd = { 'ColorizerToggle', 'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer' },
       opts = {},
     },
@@ -356,25 +361,32 @@ require('lazy').setup {
         vim.g.targets_seekRanges = 'cc cr cb cB lc ac Ac lr lb ar ab lB Ar aB Ab AB rr ll rb al rB Al bb aa bB Aa BB AA'
       end
     },
+    { 'stevearc/quicker.nvim',
+      ft = 'qf',
+      opts = {},
+    },
     { 'nvim-tree/nvim-tree.lua',
       cmd = { 'NvimTreeToggle' },
+      opts = {},
       init = function ()
         vim.keymap.set('n', '<Space>t', ':NvimTreeToggle<CR>')
       end,
-      config = function ()
-        require('nvim-tree').setup()
-      end
     },
-    { 'junegunn/goyo.vim', cmd = 'Goyo' },
+    { 'stevearc/oil.nvim',
+      cond = not min_mode,
+      opts = {},
+      lazy = false,
+    },
+    { 'folke/zen-mode.nvim',
+      cmd = 'ZenMode',
+      opts = {},
+    },
     { 'mbbill/undotree', cmd = 'UndotreeToggle' },
     -- Languages
     { 'tjdevries/ocaml.nvim',
       cond = not min_mode,
-      build = ':lua require(\'ocaml\').update()',
-      config = function ()
-        -- vim.api.nvim_set_hl(0, '@rapper_argument', { link = '@parameter', default = true })
-        -- vim.api.nvim_set_hl(0, '@rapper_return', { link = '@type', default = true })
-      end
+      build = 'make',
+      -- opts = {},
     },
     -- Themes
     { 'loctvl842/monokai-pro.nvim',
@@ -384,7 +396,13 @@ require('lazy').setup {
         require('monokai-pro').setup {
           override = function (c)
             return {
-              ["@punctuation.bracket"] = { fg = c.base.dimmed2 }
+              ["@punctuation.bracket"] = { fg = c.base.dimmed2 },
+              LspCodeLens = { fg = c.base.dimmed3 },
+              BlinkIndent = { fg = c.editorIndentGuide.background },
+              BlinkIndentOrange = { fg = c.editorIndentGuide.activeBackground },
+              BlinkIndentViolet = { fg = c.editorIndentGuide.activeBackground },
+              BlinkIndentBlue = { fg = c.editorIndentGuide.activeBackground },
+              MiniOperatorsExchangeFrom = { bg = c.base.dimmed4 },
             }
           end
         }
@@ -402,6 +420,11 @@ vim.keymap.set('n', '<LocalLeader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<LocalLeader>ls', vim.diagnostic.setloclist)
+vim.diagnostic.config {
+  virtual_text = { severity = { min = vim.diagnostic.severity.ERROR } },
+  signs = true,
+  underline = true
+}
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),
   callback = function (ev)
@@ -409,11 +432,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local opts = { buffer = ev.buf }
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, nowait = true })
+    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = ev.buf, nowait = true })
     vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<LocalLeader>k', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<LocalLeader>k', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<LocalLeader>la', vim.lsp.buf.add_workspace_folder, opts)
     vim.keymap.set('n', '<LocalLeader>lr', vim.lsp.buf.remove_workspace_folder, opts)
     vim.keymap.set('n', '<LocalLeader>ll', function ()
@@ -424,16 +448,32 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<LocalLeader>qf', function ()
       vim.lsp.buf.code_action { only = { 'quickfix' } }
     end, opts)
-    vim.keymap.set('n', '<LocalLeader><LocalLeader>f', function ()
+    vim.keymap.set('n', '<LocalLeader>=', function ()
       vim.lsp.buf.format { async = true }
     end, opts)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client and client.supports_method('textDocument/inlayHint') then
+      vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+    end
+    if client and client.supports_method('textDocument/codeLens') then
+      vim.lsp.codelens.refresh({ bufnr = ev.buf })
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave' }, {
+        buffer = ev.buf,
+        callback = function() vim.lsp.codelens.refresh({ bufnr = ev.buf }) end,
+      })
+    end
   end
+})
+
+vim.lsp.config('*', {
+  capabilities = require('blink.cmp').get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities()),
 })
 
 vim.lsp.config('ocamllsp', {
   -- TODO: Add keybinding for ocamllsp/switchImplIntf
   settings = {
-    codelens = { enable = true }
+    inlayHints = { enable = true },
+    -- codelens = { enable = true }
   },
 })
 
@@ -503,6 +543,7 @@ vim.keymap.set({ 'i', 'c' }, '<C-BS>', '<C-w>')
 vim.keymap.set({ 'n', 'v', 'o' }, '0', '^')
 vim.keymap.set({ 'n', 'v', 'o' }, '^', '0')
 
+-- optional <Space><digit> for symbols instead of shift-<digit>
 vim.keymap.set({ 'n', 'v', 'o' }, '<Space>1', '!')
 vim.keymap.set({ 'n', 'v', 'o' }, '<Space>2', '@')
 vim.keymap.set({ 'n', 'v', 'o' }, '<Space>3', '#')
@@ -513,11 +554,6 @@ vim.keymap.set({ 'n', 'v', 'o' }, '<Space>7', '&')
 vim.keymap.set({ 'n', 'v', 'o' }, '<Space>8', '*')
 
 vim.keymap.set('n', 'c<Tab>', ':let @/=expand(\'<cword>\')<CR>cgn', { silent = true })
-
--- Helix-style line movement
-vim.keymap.set({ 'n', 'v', 'o' }, 'gl', '$')
-vim.keymap.set({ 'n', 'v', 'o' }, 'gh', '0')
-vim.keymap.set({ 'n', 'v', 'o' }, 'gs', '^')
 
 vim.keymap.set({ 'n', 'v' }, '<Space>n', ':normal ')
 
@@ -537,7 +573,7 @@ vim.keymap.set('n', 'ga', '<Cmd>b#<CR>', { silent = true })
 
 -- Remove trailing newlines from a register
 vim.keymap.set('n', '<Space><Space>n', function ()
-  local reg = vim.fn.getreg()
+  local reg = vim.v.register
   vim.fn.setreg(reg, vim.fn.substitute(reg, '\n+$', '', 'g'))
 end)
 
@@ -583,7 +619,7 @@ vim.keymap.set('n', '<A-,>', '<C-w><')
 -- }}}
 
 -- Terminal mappings {{{
-vim.keymap.set('t', '<C-.>', '<C-\\><C-n')
+vim.keymap.set('t', '<C-.>', '<C-\\><C-n>')
 -- }}}
 
 vim.keymap.set('n', '<Space><Space>e', ':EditReg<CR>')
@@ -602,16 +638,12 @@ vim.keymap.set('n', '<Space><Space><A-t>', ':set noexpandtab tabstop=8 shiftwidt
 vim.keymap.set('n', '<A-[>', ':-tabmove<CR>', { silent = true })
 vim.keymap.set('n', '<A-]>', ':+tabmove<CR>', { silent = true })
 
--- Select tab via g1..g2
-vim.keymap.set('n', 'g1', ':tabn 1<CR>', { silent = true })
-vim.keymap.set('n', 'g2', ':tabn 2<CR>', { silent = true })
-vim.keymap.set('n', 'g3', ':tabn 3<CR>', { silent = true })
-vim.keymap.set('n', 'g4', ':tabn 4<CR>', { silent = true })
-vim.keymap.set('n', 'g5', ':tabn 5<CR>', { silent = true })
-vim.keymap.set('n', 'g6', ':tabn 6<CR>', { silent = true })
-vim.keymap.set('n', 'g7', ':tabn 7<CR>', { silent = true })
-vim.keymap.set('n', 'g8', ':tabn 8<CR>', { silent = true })
-vim.keymap.set('n', 'g9', ':tabn 9<CR>', { silent = true })
+-- Select tab via g1..g9 or alt-1..alt-9
+for i = 1, 9 do
+  local cmd = '<Cmd>tabn ' .. i .. '<CR>'
+  vim.keymap.set('n', 'g' .. i, cmd, { silent = true })
+  vim.keymap.set('n', '<A-' .. i .. '>', cmd, { silent = true })
+end
 
 if is_gui then
   vim.keymap.set({ 'n', 'v' }, '<C-Tab>',   '<Cmd>tabn<CR>', { silent = true })
@@ -619,7 +651,7 @@ if is_gui then
   if is_mac then
     vim.keymap.set({ 'n', 'v' }, '<D-A-Right>', '<Cmd>tabn<CR>', { silent = true })
     vim.keymap.set({ 'n', 'v' }, '<D-A-Left>',  '<Cmd>tabp<CR>', { silent = true })
-    -- Select tab using cmd+1..cmd+9
+    -- Select tab via cmd+1..cmd+9
     for i = 1, 9 do
       vim.keymap.set('n', '<D-' .. i .. '>', '<Cmd>tabn ' .. i .. '<CR>', { silent = true })
     end

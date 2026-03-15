@@ -11,9 +11,10 @@
     syncthing
     zf
   ]) ++ (with pkgs.ocamlPackages; [
-    ocaml
     dune_3
+    ocaml
     ocaml-lsp
+    ocamlformat
     odoc
     utop
   ]);
