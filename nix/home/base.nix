@@ -86,6 +86,7 @@ in {
     "fish".source = link "${dotfiles}/fish";
     "git".source = link "${dotfiles}/git";
     "helix".source = link "${dotfiles}/helix";
+    "jj".source = link "${dotfiles}/jj";
     "kitty".source = link "${dotfiles}/kitty";
     "nvim".source = link "${dotfiles}/nvim";
     "ranger".source = link "${dotfiles}/ranger";

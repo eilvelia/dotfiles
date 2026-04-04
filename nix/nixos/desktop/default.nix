@@ -116,12 +116,14 @@
     usbutils
 
     # generic cli apps
+    android-tools
     bandwhich
     benzene
     cmake
     cntr
     cryptsetup
     exiftool
+    fastmod
     ffmpeg
     filen-cli
     gdb
@@ -138,6 +140,7 @@
     patchelf
     poppler-utils # pdf converters
     python3Packages.cram
+    ratarmount
     stdenv.cc
     stress
     tinycc

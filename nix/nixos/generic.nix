@@ -13,6 +13,11 @@
   nix.registry.unstable.to.type = "path";
   nix.registry.unstable.to.path = builtins.toString pkgs.unstable.path;
 
+  nix.settings.nix-path = [
+    "nixpkgs=${builtins.toString pkgs.path}"
+    "unstable=${builtins.toString pkgs.unstable.path}"
+  ];
+
   nixpkgs.overlays = [ (import ../overlays).default ];
 
   networking.hostName = lib.mkDefault "nixos";

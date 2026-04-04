@@ -26,7 +26,7 @@
       nixosBaseModule = {
         nixpkgs.overlays = [ (mkUnstableOverlay nixpkgs-unstable) ];
         # Prevent certain flake inputs from getting GC'ed
-        system.extraDependencies = [ home-manager.outPath ];
+        system.extraDependencies = [ home-manager.outPath nixos-hardware.outPath ];
       };
       specialArgs = { inherit home-manager nixos-hardware; };
       darwinBaseModule = {

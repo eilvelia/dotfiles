@@ -1,0 +1,22 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = "eilvelia"
+email = "hi@eilvelia.cat"
+
+[signing]
+behavior = "own"
+backend = "gpg"
+key = "F3EEE136F2C4ABAB72B08B9A002173A7C4B259CE"
+
+[git]
+sign-on-push = true
+
+[ui]
+default-command = "log"
+pager = "delta"
+diff-formatter = ":git"
+
+[aliases]
+e = ["edit"]
+n = ["new"]
