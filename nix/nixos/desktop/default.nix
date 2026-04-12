@@ -186,6 +186,7 @@
     krita
     localsend
     logseq # somewhat large
+    meld
     mpv
     pavucontrol
     playerctl
@@ -313,8 +314,6 @@
   programs.kdeconnect.enable = true;
   programs.less.enable = true;
   programs.less.envVariables.LESS = "-R -i -j.5";
-  # Temporary fix for https://github.com/gwsw/less/issues/722:
-  programs.less.envVariables.TERM = "xterm-256color";
   programs.localsend.enable = true;
   programs.npm.enable = true;
   programs.steam.enable = true; # large; unfree

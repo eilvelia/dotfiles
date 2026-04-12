@@ -17,6 +17,12 @@
     "nixpkgs=${builtins.toString pkgs.path}"
     "unstable=${builtins.toString pkgs.unstable.path}"
   ];
+  nix.nixPath = [
+    "nixpkgs=${builtins.toString pkgs.path}"
+    "unstable=${builtins.toString pkgs.unstable.path}"
+  ];
+
+  nix.channel.enable = false;
 
   nixpkgs.overlays = [ (import ../overlays).default ];
 
