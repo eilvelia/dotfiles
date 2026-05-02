@@ -45,6 +45,18 @@ vim.g.loaded_netrwPlugin = 1
 
 vim.g.editorconfig = true
 
+vim.filetype.add {
+  extension = {
+    mli = 'ocamlinterface',
+    mll = 'ocamllex',
+    mly = 'menhir',
+    re = 'reason',
+    rei = 'reason',
+
+    gyp = 'python',
+  },
+}
+
 -- Options {{{
 vim.o.colorcolumn = '80'
 vim.o.concealcursor = 'nc'
@@ -167,66 +179,42 @@ require('lazy').setup {
       opts = {},
     },
     { 'nvim-treesitter/nvim-treesitter-textobjects',
-      branch = 'master'
+      branch = 'main',
+      config = function()
+        local ts_select = require('nvim-treesitter-textobjects.select')
+        local ts_move = require('nvim-treesitter-textobjects.move')
+        require('nvim-treesitter-textobjects').setup {
+          select = { lookahead = true },
+          move = { set_jumps = true },
+        }
+        -- Select
+        vim.keymap.set({ 'x', 'o' }, 'af', function() ts_select.select_textobject('@function.outer', 'textobjects') end)
+        vim.keymap.set({ 'x', 'o' }, 'if', function() ts_select.select_textobject('@function.inner', 'textobjects') end)
+        vim.keymap.set({ 'x', 'o' }, 'aa', function() ts_select.select_textobject('@parameter.outer', 'textobjects') end)
+        vim.keymap.set({ 'x', 'o' }, 'ia', function() ts_select.select_textobject('@parameter.inner', 'textobjects') end)
+        vim.keymap.set({ 'x', 'o' }, 'ac', function() ts_select.select_textobject('@comment.outer', 'textobjects') end)
+        vim.keymap.set({ 'x', 'o' }, 'ic', function() ts_select.select_textobject('@comment.inner', 'textobjects') end)
+        -- Move
+        vim.keymap.set({ 'n', 'x', 'o' }, ']f', function() ts_move.goto_next_start('@function.outer', 'textobjects') end)
+        vim.keymap.set({ 'n', 'x', 'o' }, ']F', function() ts_move.goto_next_end('@function.outer', 'textobjects') end)
+        vim.keymap.set({ 'n', 'x', 'o' }, '[f', function() ts_move.goto_previous_start('@function.outer', 'textobjects') end)
+        vim.keymap.set({ 'n', 'x', 'o' }, '[F', function() ts_move.goto_previous_end('@function.outer', 'textobjects') end)
+      end,
     },
     { 'nvim-treesitter/nvim-treesitter',
-      branch = 'master',
+      branch = 'main',
+      lazy = false,
       build = ':TSUpdate',
-      dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
-      config = function ()
-        local configs = require('nvim-treesitter.configs')
-        configs.setup {
-          -- `:TSInstall all` manually
-          -- ensure_installed = {
-          --   'lua', 'vim', 'vimdoc', 'query', 'comment', 'c', 'cpp', 'nix',
-          --   'html', 'css', 'markdown', 'markdown_inline', 'rst',
-          --   'json', 'yaml', 'toml', 'kdl', 'xml',
-          --   'javascript', 'typescript', 'jsdoc', 'python', 'ruby',
-          --   'ocaml', 'ocaml_interface', 'menhir', 'haskell', 'agda',
-          --   'clojure', 'racket', 'scheme', 'elixir', 'erlang',
-          --   'rust', 'scala', 'java',
-          --   'make', 'ninja', 'cmake', 'dockerfile',
-          --   'gpg', 'diff', 'gitcommit', 'git_rebase', 'gitignore', 'git_config',
-          -- },
-          sync_install = false,
-          auto_install = true,
-          highlight = {
-            enable = true,
-            additional_vim_regex_highlighting = false,
-          },
-          indent = { enable = true },
-          textobjects = {
-            select = {
-              enable = true,
-              lookahead = true,
-              keymaps = {
-                ['af'] = '@function.outer',
-                ['if'] = '@function.inner',
-                ['aa'] = '@parameter.outer',
-                ['ia'] = '@parameter.inner',
-                ['ac'] = '@comment.outer',
-                ['ic'] = '@comment.inner',
-              }
-            },
-            move = {
-              enable = true,
-              set_jumps = true,
-              goto_next_start = {
-                [']f'] = '@function.outer',
-              },
-              goto_next_end = {
-                [']F'] = '@function.outer',
-              },
-              goto_previous_start = {
-                ['[f'] = '@function.outer',
-              },
-              goto_previous_end = {
-                ['[F'] = '@function.outer',
-              },
-            }
-          }
-        }
-      end
+      config = function()
+        require('nvim-treesitter').setup()
+        vim.api.nvim_create_autocmd('FileType', {
+          callback = function()
+            if pcall(vim.treesitter.start) then
+              vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end
+          end,
+        })
+      end,
     },
     { 'neovim/nvim-lspconfig' },
     { 'saghen/blink.cmp',
@@ -452,15 +440,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.buf.format { async = true }
     end, opts)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client.supports_method('textDocument/inlayHint') then
+    if client and client:supports_method('textDocument/inlayHint', ev.buf) then
       vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
     end
-    if client and client.supports_method('textDocument/codeLens') then
-      vim.lsp.codelens.refresh({ bufnr = ev.buf })
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave' }, {
-        buffer = ev.buf,
-        callback = function() vim.lsp.codelens.refresh({ bufnr = ev.buf }) end,
-      })
+    if client and client:supports_method('textDocument/codeLens', ev.buf) then
+      vim.lsp.codelens.enable(true, { bufnr = ev.buf })
     end
   end
 })

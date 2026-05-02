@@ -83,7 +83,7 @@
     enableNotifications = true;
   };
 
-  networking.timeServers = [ "time.cloudflare.com" ]; 
+  networking.timeServers = [ "time.cloudflare.com" ];
   services.timesyncd.enable = false;
   services.chrony.enable = !config.boot.isContainer;
 
@@ -119,6 +119,7 @@
     android-tools
     bandwhich
     benzene
+    bun
     cmake
     cntr
     cryptsetup
@@ -304,6 +305,34 @@
   # networking.firewall.allowedUDPPorts = [
   #   21027 22000 # syncthing
   # ];
+
+  # network manager dispatch script to disable wifi when ethernet is on
+  networking.networkmanager.dispatcherScripts = [
+    {
+      type = "basic";
+      source = pkgs.writeShellScript "wifi-disable-when-wired" ''
+        IFACE=$1
+        ACTION=$2
+        nmcli=${pkgs.networkmanager}/bin/nmcli
+        tag="wifi-disable-when-wired"
+
+        case "$IFACE" in
+          eth*|en*)
+            case "$ACTION" in
+              up)
+                logger -t $tag "disabling wifi radio (ethernet up on $IFACE)"
+                exec $nmcli radio wifi off
+                ;;
+              down)
+                logger -t $tag "enabling wifi radio (ethernet down on $IFACE)"
+                exec $nmcli radio wifi on
+                ;;
+            esac
+            ;;
+        esac
+      '';
+    }
+  ];
 
   environment.etc."gitconfig".text = ''
     [credential]

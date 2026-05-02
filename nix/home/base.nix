@@ -36,6 +36,7 @@ in {
     diff-so-fancy
     direnv
     duf
+    ent
     eza
     fastfetch
     fd

@@ -106,11 +106,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.extraModprobeConfig = ''
-    options rtw89_pci disable_clkreq=y disable_aspm_l1=y disable_aspm_l1ss=y
-    options rtw89_core disable_ps_mode=y
-  '';
-
   boot.kernelParams = [
     "acpi_backlight=native"
     "amd_pstate=active"
