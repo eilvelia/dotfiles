@@ -36,6 +36,9 @@
     options = "--delete-older-than 15d";
   };
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10" # for logseq
+  ];
 
   boot.tmp.useTmpfs = true;
   systemd.services.nix-daemon = {
@@ -104,6 +107,7 @@
     exfatprogs
     hdparm
     impala
+    iw
     libinput
     lm_sensors
     mesa-demos

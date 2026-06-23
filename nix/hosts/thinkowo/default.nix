@@ -6,6 +6,8 @@
 
   networking.hostName = "thinkowo";
 
+  services.cloudflare-warp.enable = true;
+
   environment.etc."sway/pre-config.d/thinkowo.conf".text = ''
     set $text_scaling_factor 1.25
     exec_always {
@@ -36,6 +38,10 @@
     radeontop
     sedutil
   ];
+
+  boot.extraModprobeConfig = ''
+    options iwlmvm power_scheme=1
+  '';
 
   networking.nameservers = [
     "1.1.1.1"

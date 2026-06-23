@@ -83,6 +83,7 @@ for_window [app_id="kitty-floating"] floating enable
 for_window [app_id="org.keepassxc.KeePassXC"] floating enable, move scratchpad, scratchpad show
 for_window [app_id="pavucontrol"] floating enable
 for_window [app_id="pwvucontrol"] floating enable
+for_window [title="Live Caption"] floating enable, sticky enable
 for_window [title="Picture in picture"] floating enable, sticky enable
 for_window [title="Picture-in-picture"] floating enable, sticky enable
 for_window [title="Select Folder"] floating enable
